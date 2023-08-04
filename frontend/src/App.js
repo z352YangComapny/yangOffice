@@ -1,7 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import { useState } from 'react';
 
 function App() {
+  const [ping, setPing] = useState('');
+
+  axios.get('/ping')
+  .then((resp)=> {
+    console.log(resp)
+    setPing(resp.data)
+  })
+  .catch((err)=>{console.log(err)})
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +28,7 @@ function App() {
         >
           Learn React
         </a>
+        <span>{ping}</span>
       </header>
     </div>
   );
