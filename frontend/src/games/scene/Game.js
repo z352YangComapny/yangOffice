@@ -39,18 +39,18 @@ export default class Game extends Scene{
 
         // 레이어 생성
         const groundLayer = this.map.createLayer('ground',tileset);
-        groundLayer.setCollisionByProperty({ collides: true})
+        groundLayer.setCollisionByProperty({ collides: true});
 
-        this.addGroupFromTiled('wall', 'floorAndGround', 'FloorAndGround', true)
-        this.addGroupFromTiled('carpet', 'generic', 'Generic', false)
-        this.addGroupFromTiled('office', 'modern_office_black_shadow', 'Modern_Office_Black_Shadow', false)
-        this.addGroupFromTiled('officeOnCollides', 'modern_office_black_shadow', 'Modern_Office_Black_Shadow', true)
-        this.addGroupFromTiled('generic', 'generic', 'Generic', false)
-        this.addGroupFromTiled('genericOnCollides', 'generic', 'Generic', true)
-        this.addGroupFromTiled('classRoom', 'classroom', 'Classroom_and_library', false)
-        this.addGroupFromTiled('classRoomOnCollides', 'classroom', 'Classroom_and_library', true)
-        this.addGroupFromTiled('basement', 'basement', 'Basement', false)
-        this.addGroupFromTiled('basementOnCollides', 'basement', 'Basement', true)
+        this.addGroupFromTiled('wall', 'floorAndGround', 'FloorAndGround', true);
+        this.addGroupFromTiled('carpet', 'generic', 'Generic', false);
+        this.addGroupFromTiled('office', 'modern_office_black_shadow', 'Modern_Office_Black_Shadow', false);
+        this.addGroupFromTiled('officeOnCollides', 'modern_office_black_shadow', 'Modern_Office_Black_Shadow', true);
+        this.addGroupFromTiled('generic', 'generic', 'Generic', false);
+        this.addGroupFromTiled('genericOnCollides', 'generic', 'Generic', true);
+        this.addGroupFromTiled('classRoom', 'classroom', 'Classroom_and_library', false);
+        this.addGroupFromTiled('classRoomOnCollides', 'classroom', 'Classroom_and_library', true);
+        this.addGroupFromTiled('basement', 'basement', 'Basement', false);
+        this.addGroupFromTiled('basementOnCollides', 'basement', 'Basement', true);
         
     }
     update(){
