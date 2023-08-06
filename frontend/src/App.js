@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import { useState } from 'react';
+import GameComponent from './component/game/GameComponent';
 
 function App() {
   const [ping, setPing] = useState('');
@@ -30,6 +31,7 @@ function App() {
         </a>
         <span>{ping}</span>
       </header>
+      <GameComponent/>
     </div>
   );
 }
