@@ -51,7 +51,7 @@ public class SecurityConfig {
 				.and()
 				.authorizeHttpRequests((auth)->{
 					auth.antMatchers("/user").hasAnyRole("USER","ADMIN")
-							.antMatchers("/admin").hasAnyRole("USER")
+							.antMatchers("/admin").hasAnyRole("ADMIN")
 							.anyRequest().permitAll();
 				});
 
