@@ -34,7 +34,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 640,
-                "y": 398
+                "y": 479.5
             }
         },
         "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#Basement": {
@@ -150,19 +150,19 @@
         },
         "untitled.tmx": {
             "expandedObjectLayers": [
-                5,
-                8,
-                10,
-                6,
-                12,
                 7,
-                11
+                10,
+                8,
+                5,
+                11,
+                6,
+                12
             ],
             "scale": 0.5,
             "selectedLayer": 11,
             "viewCenter": {
-                "x": 758,
-                "y": 436
+                "x": 640,
+                "y": 481
             }
         },
         "untitled.tmx#Basement": {
@@ -196,11 +196,11 @@
     "project": "final.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "maps/fianl.json",
         "maps/yang.json",
         "maps/yangCompany.json",
         "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx",
-        "untitled.tmx"
+        "untitled.tmx",
+        "maps/fianl.json"
     ],
     "tileset.embedInMap": true
 }

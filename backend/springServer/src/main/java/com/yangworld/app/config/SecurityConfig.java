@@ -1,11 +1,23 @@
 package com.yangworld.app.config;
 
+import com.yangworld.app.common.jwt.JwtAuthenticationFilter;
+import com.yangworld.app.common.jwt.JwtAuthorizationFilter;
+import com.yangworld.app.common.redis.service.RedisService;
+import com.yangworld.app.common.redis.service.RefreshTokenService;
+import com.yangworld.app.domain.member.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -17,18 +29,36 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+	@Autowired
+	private MemberRepository memberRepository;
+	@Autowired
+	@Qualifier("refreshTokenService")
+	private RedisService redisService;
 
 	@Bean
-	public BCryptPasswordEncoder PwEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable());
         http.cors().configurationSource(corsConfigurationSource());
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.formLogin().disable()
+				.httpBasic().disable()
+				.apply(new MyHttpConfigure())
+				.and()
+				.authorizeHttpRequests((auth)->{
+					auth.antMatchers("/user").hasAnyRole("USER","ADMIN")
+							.antMatchers("/admin").hasAnyRole("USER")
+							.anyRequest().permitAll();
+				});
+
         return http.build();
     }
+
+
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
@@ -43,4 +73,15 @@ public class SecurityConfig {
 		return source;
 	}
 
+	public class MyHttpConfigure extends AbstractHttpConfigurer<MyHttpConfigure , HttpSecurity> {
+		@Override
+		public void configure(HttpSecurity builder) throws Exception {
+			AuthenticationManager authenticationManager =
+					builder.getSharedObject(AuthenticationManager.class);
+			builder
+					.addFilter(new JwtAuthenticationFilter(authenticationManager, redisService))
+					.addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, redisService));
+			super.configure(builder);
+		}
+	}
 }
