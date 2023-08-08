@@ -6,7 +6,7 @@ create table member (
     gender char(1),
     email varchar2(200),
     phone varchar2(20) not null,
-    member_role varchar2(60) default 'USER' not null,
+    auth varchar2(60) default 'USER' not null,
     provider varchar2(50),
     reg_date date default sysdate,
     constraints pk_member_id primary key(id),
