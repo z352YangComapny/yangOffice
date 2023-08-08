@@ -1,0 +1,29 @@
+#1.FrontEnd 속 노드 모듈 없음
+## 1.node . js 설치
+https://nodejs.org/ko
+19.17.0 LTS 설치
+
+## 2. 1을 확실히 완료 후
+cmd 창을 실행
+npm install -g create-react-app
+입력
+
+## 3. cmd 실행
+cd c:\ 
+입력
+npx create-react-app app
+입력
+C드라이브 하위에 app 하위에 node_modules 폴더를
+본인 깃으로 땡겨놓은 폴더에 frontend 에 복붙
+(frontend 폴더안에 node_modules , src , public 이렇게 3개가 있고 기타등등이있음됨)
+
+## 4. vs code 로 폴더 열기 >> frontend 열기
+vs code 터미널창에
+npm install phaser@3.60.0 입력
+다운로드 완료됬으면
+npm install axios 이거도 입력
+
+
+## 5. front단 실행하기
+npm start 입력
+
