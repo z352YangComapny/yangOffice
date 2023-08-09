@@ -3,8 +3,8 @@ import Player from "./Player";
 
 export default class MyPlayer extends Player{
   // , frame
-    constructor(scene, x, y, texture, id) {
-        super(scene, x, y, texture, id);
+    constructor(scene, x, y, texture) {
+        super(scene, x, y, texture);
         this.playContainerBody = this.playerContainer.body;
         this.chairOnSit = undefined;
         this.phaserEvents = new Phaser.Events.EventEmitter();
@@ -68,7 +68,7 @@ export default class MyPlayer extends Player{
               if (this.anims.currentAnim.key !== newAnim) {
                 this.play(parts.join('_'), true)
                 // send new location and anim to server
-                network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
+                // network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
               }
             }
 
