@@ -3,11 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "untitled.tmx",
+    "activeFile": "maps/fianl.json",
     "expandedProjectPaths": [
         "character",
-        ".",
-        "maps"
+        "maps",
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -62,24 +62,24 @@
             "scaleInDock": 1
         },
         "maps/fianl.json": {
-            "scale": 1.5,
-            "selectedLayer": 4,
+            "scale": 2,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 6.666666666666686,
-                "y": 267.99999999999994
+                "x": 770.5,
+                "y": 328
             }
         },
         "maps/fianl.json#Basement": {
-            "scaleInDock": 0.33
+            "scaleInDock": 1
         },
         "maps/fianl.json#Classroom_and_library": {
-            "scaleInDock": 0.5
+            "scaleInDock": 0.75
         },
         "maps/fianl.json#FloorAndGround": {
             "scaleInDock": 1
         },
         "maps/fianl.json#Generic": {
-            "scaleInDock": 0.5
+            "scaleInDock": 1
         },
         "maps/fianl.json#Modern_Office_Black_Shadow": {
             "scaleInDock": 1
@@ -150,19 +150,19 @@
         },
         "untitled.tmx": {
             "expandedObjectLayers": [
-                7,
-                10,
+                12,
+                6,
+                11,
                 8,
                 5,
-                11,
-                6,
-                12
+                7,
+                10
             ],
             "scale": 0.5,
             "selectedLayer": 11,
             "viewCenter": {
-                "x": 640,
-                "y": 481
+                "x": 1414,
+                "y": 720
             }
         },
         "untitled.tmx#Basement": {
@@ -191,15 +191,16 @@
         "maps/yang.json",
         "maps/yangCompany.json",
         "untitled.tmx",
-        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx"
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx",
+        "maps/fianl.json"
     ],
     "project": "final.tiled-project",
     "property.type": "bool",
     "recentFiles": [
         "maps/yang.json",
         "maps/yangCompany.json",
-        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx",
         "untitled.tmx",
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx",
         "maps/fianl.json"
     ],
     "tileset.embedInMap": true
