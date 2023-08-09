@@ -84,10 +84,16 @@ export default class Game extends Scene {
         this.controller = new PlayerController(this,0,0,16,16)
 
         this.cameras.main.zoom = 1.3
-        this.cameras.main.startFollow(this.myPlayer, true)
+        this.cameras.main.startFollow(this.myPlayer, true);
 
+        this.registerKeys()
     }
+
     update() {
+        if (this.myPlayer) {
+            this.controller.update(this.myPlayer, this.cursors);
+            this.myPlayer.update(this.controller, this.cursors, this.keyA, this.keyS);
+          }
 
     }
 
