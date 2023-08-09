@@ -6,8 +6,8 @@
     "activeFile": "maps/fianl.json",
     "expandedProjectPaths": [
         "character",
-        "maps",
-        "."
+        ".",
+        "maps"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -62,11 +62,11 @@
             "scaleInDock": 1
         },
         "maps/fianl.json": {
-            "scale": 2,
+            "scale": 0.75,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 770.5,
-                "y": 328
+                "x": 575.9999999999999,
+                "y": 426.6666666666667
             }
         },
         "maps/fianl.json#Basement": {
@@ -150,19 +150,19 @@
         },
         "untitled.tmx": {
             "expandedObjectLayers": [
-                12,
-                6,
-                11,
+                10,
                 8,
                 5,
                 7,
-                10
+                11,
+                12,
+                6
             ],
             "scale": 0.5,
             "selectedLayer": 11,
             "viewCenter": {
-                "x": 1414,
-                "y": 720
+                "x": 640,
+                "y": 481
             }
         },
         "untitled.tmx#Basement": {

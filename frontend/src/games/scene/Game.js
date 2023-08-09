@@ -100,6 +100,7 @@ export default class Game extends Scene {
             const speed = 200;
             let vx=0;
             let vy=0;
+            
             if(this.cursors.left.isDown){
               vx-=speed
             }
