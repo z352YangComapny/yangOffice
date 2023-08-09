@@ -8,8 +8,9 @@ const sittingShiftData = {
   };
 
   class Player extends Phaser.Physics.Arcade.Sprite{
-    constructor(scene, x, y, texture, id, frame) {
-        super(scene, x, y, texture, frame);
+    // , frame
+    constructor(scene, x, y, texture, id) {
+        super(scene, x, y, texture);
     
         //plyaer info
         this.playerId = id;

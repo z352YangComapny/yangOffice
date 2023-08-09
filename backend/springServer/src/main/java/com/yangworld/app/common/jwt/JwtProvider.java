@@ -15,6 +15,7 @@ public class JwtProvider {
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .withClaim("id", principalDetails.getMember().getId())
                 .withClaim("username", principalDetails.getMember().getUsername())
+                .withClaim("authority", principalDetails.getMember().getAuth().name())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
         return accessToken;
     }
@@ -24,7 +25,6 @@ public class JwtProvider {
                 .withSubject(principalDetails.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.REF_EXPIRATION_TIME))
                 .withClaim("id", principalDetails.getMember().getId())
-                .withClaim("username", principalDetails.getMember().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
         return refreshToken;
     }
