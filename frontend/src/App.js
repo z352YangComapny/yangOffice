@@ -1,18 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GameComponent from './component/game/GameComponent';
 
 function App() {
   const [ping, setPing] = useState('');
 
-  axios.get('/ping')
-  .then((resp)=> {
-    console.log(resp)
-    setPing(resp.data)
-  })
-  .catch((err)=>{console.log(err)})
+  useEffect(() => {
+    console.log("build!")
+    axios.get('/ping')
+      .then((resp) => {
+        console.log(resp)
+        setPing(resp.data)
+      })
+      .catch((err) => { console.log(err) })
+
+    const handleKeyDown = (event) => {
+      if (event.keyCode === 38 || event.keyCode === 40)
+        event.preventDefault();
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [])
+
 
   return (
     <div className="App">
@@ -31,7 +45,7 @@ function App() {
         </a>
         <span>{ping}</span>
       </header>
-      <GameComponent/>
+      <GameComponent />
     </div>
   );
 }

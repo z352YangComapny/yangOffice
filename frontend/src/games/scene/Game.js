@@ -68,6 +68,13 @@ export default class Game extends Scene {
         // Tile Layer
         const groundLayer = this.map.createLayer('ground', tileset);
         groundLayer.setCollisionByProperty({ collides: true });
+
+        createCharacterAnims(this.anims)
+        this.registerKeys()
+
+        // , this.network.mySessionId
+        this.myPlayer = this.physics.add.sprite(800, 500, 'adam')
+        this.controller = new PlayerController(this, 0, 0, 16, 16)
         // Object Layer
         this.addGroupFromTiled('carpet', 'generic', 'Generic', false);
         this.addGroupFromTiled('wall', 'floorAndGround', 'FloorAndGround', true);
@@ -80,16 +87,11 @@ export default class Game extends Scene {
         this.addGroupFromTiled('basement', 'basement', 'Basement', false);
         this.addGroupFromTiled('basementOnCollides', 'basement', 'Basement', true);
         // Loader Player
-        createCharacterAnims(this.anims)
         
-        // , this.network.mySessionId
-        this.myPlayer = this.physics.add.sprite(800, 500, 'adam')
-        this.controller = new PlayerController(this, 0, 0, 16, 16)
-
         this.cameras.main.zoom = 1.3
         this.cameras.main.startFollow(this.myPlayer, true);
 
-        this.registerKeys()
+        
         
 
         
