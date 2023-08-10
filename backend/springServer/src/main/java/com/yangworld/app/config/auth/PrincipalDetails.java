@@ -9,35 +9,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 @Data
 @Slf4j
-public class PrincipalDetails implements UserDetails {
-    private Member member;
-
-    public PrincipalDetails(Member member) {
-        this.member = member;
-    }
+public class PrincipalDetails extends Member implements UserDetails {
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        String role="ROLE_"+member.getAuth();
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
-        authorities.add(grantedAuthority);
-        log.info("authorities={}",authorities);
-        return authorities;
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return super.getAuthorities();
     }
-
-    @Override
-    public String getPassword() {
-        return member.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return member.getUsername();
-    }
-
 
     @Override
     public boolean isAccountNonExpired() {

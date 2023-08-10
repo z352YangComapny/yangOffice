@@ -17,10 +17,10 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("init loadUserByUsername username={}",username);
-        Member member = memberRepository.findMemberByUsername(username);
-        log.info("member = {}", member);
-        if(member != null){
-            return new PrincipalDetails(member);
+        PrincipalDetails principalDetails = memberRepository.loadUserByUsername(username);
+        log.info("member = {}", principalDetails);
+        if(principalDetails != null){
+            return principalDetails;
         }
         return null;
     }

@@ -25,10 +25,9 @@ create sequence seq_member_id;
 create table authorities
 (
     member_id   number,
-    authority   varchar2(30),
+    authority varchar2(1000),
     constraints pk_authorities_id primary key(member_id, authority),
-    constraints fk_authorities_member_id foreign key (member_id) references member (id) on delete cascade,
-    constraints ck_authorities_authority check (authority in ('USER', 'ADMIN'))
+    constraints fk_authorities_member_id foreign key (member_id) references member (id) on delete cascade
 );
 
 create table attachment
@@ -224,24 +223,24 @@ create table report_guestbook
     constraints  fk_report_guestbook_id foreign key (guestbook_id) references guestbook(id) on delete cascade
 );
 
-create table answer
+create table question
 (
     id          number,
     writer_id   number         not null,
     content     varchar2(4000) not null,
     reg_date    date default sysdate,
-    constraints pk_answer_id primary key( id),
-    constraints fk_answer_writer_id foreign key (writer_id) references member (id) on delete cascade
+    constraints pk_question_id primary key( id),
+    constraints fk_question_writer_id foreign key (writer_id) references member (id) on delete cascade
 );
-create sequence seq_answer_id;
+create sequence seq_question_id;
 
-create table comments_answer
+create table comments_question
 (
     comments_id  number,
-    answer_id   number,
-    constraints pk_comments_answer_id primary key(comments_id),
-    constraints fk_comments_answer_answer_id foreign key (answer_id) references answer(id) on delete cascade,
-    constraints fk_comments_answer_comments_id foreign key (comments_id) references comments (id) on delete cascade
+    question_id   number,
+    constraints pk_comments_question_id primary key(comments_id),
+    constraints fk_comments_question_question_id foreign key (question_id) references question(id) on delete cascade,
+    constraints fk_comments_question_comments_id foreign key (comments_id) references comments (id) on delete cascade
 );
 
 create table deleted_member
@@ -292,7 +291,7 @@ BEGIN
 END;
 /
 
-
+--
 --
 -- -- 계정에 속한 모든 테이블를 삭제합니다.
 -- BEGIN
@@ -315,3 +314,6 @@ END;
 --    END LOOP;
 -- END;
 -- /
+
+select * from member;
+select * from authorities;

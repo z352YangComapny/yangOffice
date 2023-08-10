@@ -44,8 +44,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String jwtHeader = request.getHeader("Authorization");
         log.info("jwtHeader={}",jwtHeader);
-        if( jwtHeader == null || !jwtHeader.startsWith("Bearer ") ){
-            log.warn("불명확한 인가요청 토큰");
+        if( jwtHeader == null || !jwtHeader.startsWith("Bearer ")){
+            log.warn("접속 토큰을 찾지 못했습니다.");
             chain.doFilter(request,response);
             return;
         }
@@ -57,8 +57,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             Claim usernameClaim = decodedJWT.getClaim("username");
             String username = usernameClaim.asString();
             Claim idClaim = decodedJWT.getClaim("id");
-            Member member = memberRepository.findMemberByUsername(username);
-            log.info("member={}",member);
+            PrincipalDetails principalDetails = memberRepository.loadUserByUsername(username);
+            log.info("member={}",principalDetails);
             Object _refreshToken = redisService.getData(String.valueOf(idClaim));
             if(_refreshToken == null){
                 chain.doFilter(request, response);
@@ -72,7 +72,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 logger.warn("접속 토큰이 만료되었습니다.");
                 if(verifier.verify(refreshToken.getTokenVal()).getExpiresAt().before(new Date())){
                     JwtProvider jwtProvider = new JwtProvider();
-                    String newAccessToken =jwtProvider.createAccessToken(new PrincipalDetails(member));
+                    String newAccessToken =jwtProvider.createAccessToken(principalDetails);
                     logger.info("refreshToken 남아있음 : new AccessToken");
                     response.addHeader(JwtProperties.ACC_HEADER_STRING, JwtProperties.TOKEN_PREFIX+newAccessToken);
                 }else {
@@ -80,7 +80,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     return;
                 }
             }
-            PrincipalDetails principalDetails = new PrincipalDetails(member);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
             log.info("principalDetails.getAuthorities()={}",principalDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
