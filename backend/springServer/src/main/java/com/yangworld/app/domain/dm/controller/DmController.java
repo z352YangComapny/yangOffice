@@ -22,6 +22,9 @@ public class DmController {
 	
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@RequestBody DmDto dmDto) {
-		return null;
+		log.info("sendDm info = {}", dmDto);
+		dmService.insertDm(dmDto);
+		
+		return ResponseEntity.ok().build();
 	}
 }
