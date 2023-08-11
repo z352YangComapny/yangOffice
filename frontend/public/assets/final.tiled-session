@@ -5,9 +5,9 @@
     },
     "activeFile": "maps/fianl.json",
     "expandedProjectPaths": [
+        "maps",
         "character",
-        ".",
-        "maps"
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -62,11 +62,11 @@
             "scaleInDock": 1
         },
         "maps/fianl.json": {
-            "scale": 0.75,
-            "selectedLayer": 8,
+            "scale": 0.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 575.9999999999999,
-                "y": 426.6666666666667
+                "x": 1134,
+                "y": 502
             }
         },
         "maps/fianl.json#Basement": {
@@ -76,7 +76,7 @@
             "scaleInDock": 0.75
         },
         "maps/fianl.json#FloorAndGround": {
-            "scaleInDock": 1
+            "scaleInDock": 0.75
         },
         "maps/fianl.json#Generic": {
             "scaleInDock": 1
@@ -150,13 +150,13 @@
         },
         "untitled.tmx": {
             "expandedObjectLayers": [
-                10,
-                8,
-                5,
                 7,
-                11,
+                5,
+                10,
                 12,
-                6
+                6,
+                11,
+                8
             ],
             "scale": 0.5,
             "selectedLayer": 11,

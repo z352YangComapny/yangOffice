@@ -5,7 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Date;
 
@@ -18,7 +17,7 @@ public class JwtProvider {
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .withClaim("id", principalDetails.getId())
                 .withClaim("username", principalDetails.getUsername())
-                .withClaim("authority", principalDetails.getAuthorities().toString())
+                .withClaim("authorities", principalDetails.getAuthorities().toString())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
         return accessToken;
     }

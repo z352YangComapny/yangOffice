@@ -57,6 +57,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             Claim usernameClaim = decodedJWT.getClaim("username");
             String username = usernameClaim.asString();
             Claim idClaim = decodedJWT.getClaim("id");
+            Claim authoritiesClaim = decodedJWT.getClaim("authorities");
+            log.info("Claims={},{},{}",idClaim,usernameClaim,authoritiesClaim);
             PrincipalDetails principalDetails = memberRepository.loadUserByUsername(username);
             log.info("member={}",principalDetails);
             Object _refreshToken = redisService.getData(String.valueOf(idClaim));
