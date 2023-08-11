@@ -228,6 +228,7 @@ create table question
     id          number,
     writer_id   number         not null,
     content     varchar2(4000) not null,
+    type char(1) not null,
     reg_date    date default sysdate,
     constraints pk_question_id primary key( id),
     constraints fk_question_writer_id foreign key (writer_id) references member (id) on delete cascade
