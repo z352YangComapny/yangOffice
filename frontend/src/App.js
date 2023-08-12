@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import GameComponent from './components/game/GameComponent';
+import Footer from './components/common/Footer';
 
 function App() {
   const [ping, setPing] = useState('');
@@ -46,6 +47,7 @@ function App() {
         <span>{ping}</span>
       </header>
       <GameComponent />
+      <Footer/>
     </div>
   );
 }

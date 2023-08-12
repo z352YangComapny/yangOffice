@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 import GameConfig from '../../games/config';
-import "../../assets/css/game.css"
+import "../../assets/css/Game.css"
 
 const GameComponent = () => {
     const gameContainerRef = useRef(null);
