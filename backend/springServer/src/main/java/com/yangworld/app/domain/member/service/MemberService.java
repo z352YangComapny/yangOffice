@@ -4,4 +4,5 @@ import com.yangworld.app.domain.member.dto.SignUpDto;
 
 public interface MemberService {
     int insertMember(SignUpDto signUpDto);
+
 }
