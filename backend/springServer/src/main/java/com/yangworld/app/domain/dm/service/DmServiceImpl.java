@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yangworld.app.domain.dm.dto.DmDto;
+import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.repository.DmRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ public class DmServiceImpl implements DmService {
 	private DmRepository dmRepository;
 	
 	@Override
-	public int insertDm(DmDto dmDto) {
-		int result = dmRepository.insertDm(dmDto);
+	public int insertDm(Dm dm) {
+		int result = dmRepository.insertDm(dm);
 		return result;
 	}
 }

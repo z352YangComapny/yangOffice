@@ -87,7 +87,7 @@ create table dm
     id          number,
     receiver_id number not null,
     sender_id   number not null,
-    content     number not null,
+    content     varchar2(2000) not null,
     reg_date    date default sysdate,
     constraints p_dm_id primary key( id),
     constraints f_dm_sender_id foreign key (sender_id) references member (id) on delete cascade,
