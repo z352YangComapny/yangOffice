@@ -32,8 +32,8 @@ public class SecurityConfig {
 	@Autowired
 	private MemberRepository memberRepository;
 	@Autowired
-	@Qualifier("refreshTokenService")
 	private RedisService redisService;
+
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -76,7 +76,7 @@ public class SecurityConfig {
 			AuthenticationManager authenticationManager =
 					builder.getSharedObject(AuthenticationManager.class);
 			builder
-					.addFilter(new JwtAuthenticationFilter(authenticationManager, redisService))
+					.addFilter(new JwtAuthenticationFilter(authenticationManager, redisService , memberRepository , passwordEncoder()))
 					.addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, redisService));
 			super.configure(builder);
 		}
