@@ -8,6 +8,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -33,13 +35,16 @@ public class PhotoFeedController {
 	
 	
 	@PostMapping("peedCreate.do")
-	public String peedCreate(
+	public ResponseEntity<?> peedCreate(
 			@Valid PeedCreateDto _peed,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member,
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 					throws IllegalStateException, IOException {
 		
+		log.debug("_peed = {}",_peed);
+		log.debug("member = {}",member);
+		log.debug("upFiles = {}",upFiles);
 		
 		List<Attachment> attachments = new ArrayList<>();
 		for(MultipartFile upFile : upFiles){
@@ -67,6 +72,12 @@ public class PhotoFeedController {
 		
 		int result = photoPeedService.insertPeed(peed);
 		
-		return null;
+		if (result > 0) {
+	        // 성공적으로 생성되었을 경우
+	        return ResponseEntity.ok("redirect:/PhotoPeed.do");
+	    } else {
+	        // 생성 중 오류가 발생한 경우
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create peed");
+	    }
 	}
 }
