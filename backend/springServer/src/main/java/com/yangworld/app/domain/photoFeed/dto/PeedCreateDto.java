@@ -1,4 +1,4 @@
-package com.yangworld.app.domain.attachment.entity;
+package com.yangworld.app.domain.photoFeed.dto;
 
 import java.time.LocalDateTime;
 
@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Attachment {
+public class PeedCreateDto {
 	
 	private int id;
-	private String originalFilename;
-	private String renamedFilename;
+	private int writerId;
+	private String content;
 	private LocalDateTime regDate;
+	
+
 }
