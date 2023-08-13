@@ -23,6 +23,13 @@ public class DmController {
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@RequestBody DmDto dmDto) {
 		log.info("sendDm info = {}", dmDto);
+		// receiverId 가져오기
+		
+		// senderId 가져오기
+		
+		// set
+		
+		// insert
 		dmService.insertDm(dmDto);
 		
 		return ResponseEntity.ok().build();
