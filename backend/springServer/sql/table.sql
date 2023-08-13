@@ -393,3 +393,4 @@ INSERT ALL
 SELECT 1 FROM DUAL;
 
 commit;
+rollback;
