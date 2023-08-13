@@ -1,14 +1,18 @@
 package com.yangworld.app.domain.photoFeed.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.yangworld.app.domain.attachment.entity.Attachment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PeedCreateDto {
@@ -16,6 +20,7 @@ public class PeedCreateDto {
 	private int id;
 	private int writerId;
 	private String content;
+	private List<Attachment> attachment;
 	private LocalDateTime regDate;
 	
 
