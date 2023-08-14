@@ -40,6 +40,18 @@ public class DmController {
 		Dm(id=3, receiverId=4, senderId=2, content=안녕 나는 학언이야야, regDate=2023-08-14T09:02:42)] */
 		
 		return ResponseEntity.ok(dms);
+	}
+
+	@GetMapping("/findDmDetails")
+	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal) {
+		int senderId = principal.getId();
+		List<Dm> dms = dmService.findDmById(senderId);
+//		int receiverId = 
+//		List<Dm> dmDetails = dmService.findDmDtailsById()
+		
+		
+		
+		return null;
 		
 	}
 	
