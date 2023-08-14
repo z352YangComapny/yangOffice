@@ -1,5 +1,7 @@
 package com.yangworld.app.domain.dm.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,4 +24,11 @@ public class DmServiceImpl implements DmService {
 		int result = dmRepository.insertDm(dm);
 		return result;
 	}
+	
+	@Override
+	public List<Dm> findDmById(int senderId) {
+		List<Dm> dms = dmRepository.findDmById(senderId);
+		return dms;
+	}
+	
 }
