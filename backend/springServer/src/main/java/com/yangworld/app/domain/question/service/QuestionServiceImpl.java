@@ -1,5 +1,7 @@
 package com.yangworld.app.domain.question.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public int updateQna(Question updateQna) {
 		int result = questionRepository.updateQna(updateQna);
 		return result;
+	}
+	
+	@Override
+	public List<Question> findAllQuestion() {
+		List<Question> questions = questionRepository.findAllQuestion();
+		return questions;
 	}
 	
 }

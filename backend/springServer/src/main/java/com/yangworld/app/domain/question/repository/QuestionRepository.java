@@ -1,7 +1,10 @@
 package com.yangworld.app.domain.question.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
@@ -22,5 +25,8 @@ public interface QuestionRepository {
 
 	@Update("update question set title=#{title}, content=#{content} where id =#{id}")
 	int updateQna(Question updateQna);
+
+	@Select("select * from question order by type")
+	List<Question> findAllQuestion();
 
 }
