@@ -6,4 +6,8 @@ public interface GuestBookService {
 
 	int insertGuestBook(GuestBook guestBook);
 
+	int deleteGuestBook(GuestBook guestBook);
+
+	int updateGuestBook(GuestBook guestBook);
+
 }

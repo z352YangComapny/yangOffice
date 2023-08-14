@@ -7,21 +7,18 @@ import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import lombok.Data;
 
 @Data
-public class GuestBookDto {
+public class GuestBookUpdateDto {
 	
-	private int memberId;
-	@NotBlank(message = "내용을 입력해주세요.")
+	private int id;
+	@NotBlank(message = "수정할 내용을 입력해주세요.")
 	private String content;
-	
-
 	
 	public GuestBook guestBook() {
 		return GuestBook.builder()
-				.memberId(memberId)
+				.id(id)
 				.content(content)
 				.build();
-		
 	}
 	
-
+	
 }

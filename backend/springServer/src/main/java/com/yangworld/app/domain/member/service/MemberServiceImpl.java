@@ -4,6 +4,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Authority;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
