@@ -24,7 +24,7 @@ export default class MyPlayer extends Player{
       update(controller, cursors , keyA , keyS){
         if(!cursors) return
         if(Phaser.Input.Keyboard.JustDown(keyA)){
-          /* 상호작용 모드 */
+          /* 상호작용 모드 로직 작성 예정*/
         }
 
         switch(this.playerBehavior){
@@ -73,8 +73,6 @@ export default class MyPlayer extends Player{
             }
 
         }
-
-        
 
       }
 }
