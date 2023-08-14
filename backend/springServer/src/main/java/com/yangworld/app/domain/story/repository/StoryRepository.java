@@ -19,4 +19,18 @@ public interface StoryRepository {
 	@Delete("delete from Story where id = #{id}")
 	int deleteStory(StoryDto storyDto);
 
+	
+//	SELECT *
+//	FROM (
+//	    SELECT *
+//	    FROM Story
+//	    WHERE writer_id = 1
+//	      AND reg_date >= (SYSDATE - 1)
+//	    UNION
+//	    SELECT s.*
+//	    FROM Story s
+//	    JOIN follow f ON s.writer_id = f.followee
+//	    WHERE f.follower = 1
+//	      AND s.reg_date >= (SYSDATE - 1)
+//	); 메인에 띄울 스토리를 찾아내는 쿼리
 }
