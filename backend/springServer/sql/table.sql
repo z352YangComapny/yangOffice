@@ -227,6 +227,7 @@ create table question
 (
     id          number,
     writer_id   number         not null,
+    title varchar2(100) not null,
     content     varchar2(4000) not null,
     type char(1) not null,
     reg_date    date default sysdate,
@@ -234,7 +235,7 @@ create table question
     constraints f_question_writer_id foreign key (writer_id) references member (id) on delete cascade
 );
 create sequence seq_question_id;
-
+select * from question;
 create table comments_question
 (
     comments_id  number,
@@ -396,5 +397,6 @@ INSERT ALL
 SELECT 1 FROM DUAL;
 
 select * from member;
+select * from dm;
 commit;
 

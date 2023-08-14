@@ -17,6 +17,7 @@ public class Question {
 	
 	private int id;
 	private int writerId;
+	private String title;
 	private String content;
 	private QuestionType type; // 문의 Q , 공지사항 N
 	private LocalDateTime regDate;

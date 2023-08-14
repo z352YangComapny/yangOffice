@@ -25,5 +25,14 @@ public interface DmRepository {
 	@Select("select * from dm where sender_id = #{senderId}")
 	List<Dm> findDmById(int senderId);
 
+	@Select("select * from dm where receiver_id = #{receiverId}")
+	List<Dm> findMyDm(int receiverId);
+	
+	@Select("select * from dm")
+	List<Dm> findAllDm();
+
+	@Select("select receiver_id, sender_id, content, reg_date from dm where (receiver_id=#{receiverId} and sender_id=#{senderId})")
+	List<Dm> findDmDetails(int senderId, int receiverId);
+
 
 }
