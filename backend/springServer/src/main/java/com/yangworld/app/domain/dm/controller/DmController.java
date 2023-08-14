@@ -31,15 +31,15 @@ public class DmController {
 	public ResponseEntity<?> findDm(@AuthenticationPrincipal PrincipalDetails principal, Model model){
 		int senderId = principal.getId();
 		
-		// 내가 보낸 Dm 조회하기
+		// 내가 보낸 Dm 조회하기 --> dm 들어가면 모든 대화 뜨게 조회하는 메소드임. view에서 작업 예정.. 아마...
 		List<Dm> dms = dmService.findDmById(senderId);
 		
 		log.info("dms={}", dms);
-		// dms=[Dm(id=1, receiverId=4, senderId=2, content=안녕녕dydhdhd, regDate=2023-08-14T00:08:09),
-//		Dm(id=2, receiverId=4, senderId=2, content=안녕 모해해, regDate=2023-08-14T09:02:25),
-//		Dm(id=3, receiverId=4, senderId=2, content=안녕 나는 학언이야야, regDate=2023-08-14T09:02:42)]
+		/*dms=[Dm(id=1, receiverId=4, senderId=2, content=안녕녕dydhdhd, regDate=2023-08-14T00:08:09),
+		Dm(id=2, receiverId=4, senderId=2, content=안녕 모해해, regDate=2023-08-14T09:02:25),
+		Dm(id=3, receiverId=4, senderId=2, content=안녕 나는 학언이야야, regDate=2023-08-14T09:02:42)] */
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(dms);
 		
 	}
 	
