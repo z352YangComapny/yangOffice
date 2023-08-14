@@ -17,10 +17,9 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class PeedCreateDto {
 	
-	private int id;
 	private int writerId;
 	private String content;
-	private List<Attachment> attachment;
+	private List<Attachment> attachments;
 	private LocalDateTime regDate;
 	
 

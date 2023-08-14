@@ -14,7 +14,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yangworld.app.commons.HelloSpringUtils;
@@ -34,16 +36,16 @@ public class PhotoFeedController {
 	private PhotoPeedService photoPeedService;
 	
 	
-	@PostMapping("peedCreate.do")
+	@PostMapping("/feedCreate")
 	public ResponseEntity<?> peedCreate(
-			@Valid PeedCreateDto _peed,
+			@RequestPart @Valid PeedCreateDto _peed,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member,
-			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) // required = false 파일을 첨부하지 않아도 요청이 성공할텐데..
+			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) // required = false 파일을 첨부하지 않아도 요청이 성공
 					throws IllegalStateException, IOException {
 		
-		log.debug("_peed = {}",_peed);// 넌 왜 안 찍히냐 
-		log.debug("member = {}",member); // 혼날래?
+		log.debug("_peed = {}",_peed);
+		log.debug("member = {}",member); 
 		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
 		// Form:data
 		//  Key : writerId   
@@ -52,9 +54,9 @@ public class PhotoFeedController {
 		// value : hello
 		// why?
 		
-		List<Attachment> attachments = new ArrayList<>(); // 너가 문제야 너가
-		for(MultipartFile upFile : upFiles){ // 너도 문제야 그냥
-			if(!upFile.isEmpty()) { // 왜그러는거야 도대체 이유가 뭐야 ㅋㅋ
+		List<Attachment> attachments = new ArrayList<>(); 
+		for(MultipartFile upFile : upFiles){
+			if(!upFile.isEmpty()) { 
 				String originalFilename = upFile.getOriginalFilename(); // 작성자랑 내용만 보냈는데 넌 왜 NullpointException이 나는거냐구
 				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); // 왜 안돼 
 				File destFile = new File(renamedFilename); // postman 요청방식이 틀렸나
@@ -72,7 +74,7 @@ public class PhotoFeedController {
 		}
 		
 		PeedDetails peed = PeedDetails.builder()
-				.writerId(_peed.getWriterId())
+				.writerId(member.getId())
 				.content(_peed.getContent())
 				.attachments(attachments)
 				.build();
