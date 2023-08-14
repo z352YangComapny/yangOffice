@@ -19,12 +19,12 @@ public class PrincipalDetails extends Member implements UserDetails {
     public List<SimpleGrantedAuthority> getAuthorities() {
         return super.getAuthorities();
     }
-
+    
     @Override
     public boolean isAccountNonExpired() {
         return true;
-    }
-
+    } 
+    
     @Override
     public boolean isAccountNonLocked() {
         return true;
