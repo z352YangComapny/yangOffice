@@ -8,4 +8,6 @@ public interface GuestBookService {
 
 	int deleteGuestBook(GuestBook guestBook);
 
+	int updateGuestBook(GuestBook guestBook);
+
 }

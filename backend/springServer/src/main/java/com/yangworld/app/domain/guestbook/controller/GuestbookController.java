@@ -12,10 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.yangworld.app.domain.guestbook.dto.GuestBookDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import com.yangworld.app.domain.guestbook.service.GuestBookService;
 import com.yangworld.app.domain.member.entity.Member;
@@ -32,7 +31,7 @@ public class GuestbookController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> guestBookCreate(
-			@Valid @RequestBody GuestBookDto _guestBook,
+			@Valid @RequestBody GuestBookCreateDto _guestBook,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member
 			) {
@@ -62,4 +61,18 @@ public class GuestbookController {
 		return ResponseEntity.ok(null);
 	}
 	
+	@PostMapping("/update")
+	public ResponseEntity<?> guestBookUpdate(
+			@Valid @RequestBody GuestBookUpdateDto _guestBook,
+			BindingResult bindingResult,
+			@AuthenticationPrincipal Member member
+			){
+		
+		GuestBook guestBook = _guestBook.guestBook();
+		log.info("guestBook={}",guestBook);
+		guestBook.setWriterId(member.getId());
+		int result = guestBookService.updateGuestBook(guestBook);
+		
+		return ResponseEntity.ok(null);
+	}
 }
