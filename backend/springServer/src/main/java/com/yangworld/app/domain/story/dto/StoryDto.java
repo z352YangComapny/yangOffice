@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class StoryDto {
-	private String wirterId;
+	private String writerId;
 	private String content;
 	
-	
+
 }
