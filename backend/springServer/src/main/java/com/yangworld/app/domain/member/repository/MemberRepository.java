@@ -24,10 +24,12 @@ public interface MemberRepository {
     @Update("update member set password=#{password} where username = #{username}")
     void updatePassword(@Param("username") String username, @Param("password") String password);
 
+
     @Update("update member set password = #{updateDto.password}, nickname = #{updateDto.nickname}, phone = #{updateDto.phone}, email=#{updateDto.email}, birthday = #{updateDto.birthday} where username = #{username}")
     int updateMember(@Param("updateDto") UpdateDto updateDto, @Param("username") String username);
 
     @Delete("delete from member where username = #{username}")
     int deleteMember(String username);
+
 
 }
