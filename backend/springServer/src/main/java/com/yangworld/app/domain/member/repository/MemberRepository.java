@@ -21,6 +21,7 @@ public interface MemberRepository {
     int insertAuthorities(int id, List<String> authorityList);
 
     PrincipalDetails loadUserByUsername(String username);
+
     @Update("update member set password=#{password} where username = #{username}")
     void updatePassword(@Param("username") String username, @Param("password") String password);
 
@@ -30,6 +31,6 @@ public interface MemberRepository {
 
     @Delete("delete from member where username = #{username}")
     int deleteMember(String username);
-
-
+    
 }
+
