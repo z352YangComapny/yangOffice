@@ -122,7 +122,6 @@ export default class Game extends Scene {
             this.myPlayer.body.velocity.setLength(speed);
             // this.myPlayer.playContainerBody.setVelocity(vx , vy)
             // this.myPlayer.playContainerBody.setLength(speed)
-            console.log(vx,vy)
 
             if (vx > 0) {
                 this.myPlayer.anims.play(`${this.playerTexture}_run_right`, true)

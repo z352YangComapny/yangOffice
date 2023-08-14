@@ -1,11 +1,13 @@
 package com.yangworld.app.domain.member.service;
 
+import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.member.dto.SignUpDto;
+import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Authority;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +31,24 @@ public class MemberServiceImpl implements MemberService{
         int result = memberRepository.insertAuthorities(signUpDto.getId(), authorityList);
         return result;
     }
+
+    @Override
+    public int updateMember(UpdateDto updateDto, String username) {
+        return memberRepository.updateMember(updateDto, username);
+    }
+
+    @Override
+    public PrincipalDetails loadUserByUsername(String username) {
+        PrincipalDetails principalDetails = new PrincipalDetails();
+        if(principalDetails == null)
+            throw new UsernameNotFoundException(username);
+        return principalDetails;
+    }
+
+    @Override
+    public int deleteMember(String username) {
+        return memberRepository.deleteMember(username);
+    }
+
 
 }
