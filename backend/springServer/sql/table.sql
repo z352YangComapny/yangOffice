@@ -88,6 +88,7 @@ create table dm
     receiver_id number not null,
     sender_id   number not null,
     content     varchar2(2000) not null,
+    dm_room_id  number not null,
     reg_date    date default sysdate,
     constraints p_dm_id primary key( id),
     constraints f_dm_sender_id foreign key (sender_id) references member (id) on delete cascade,
@@ -260,6 +261,15 @@ create table deleted_member
     deleted_date date default sysdate
 );
 
+create table dm_room(
+    id number not null,
+    participants varchar2(20) not null,
+    reg_date date default sysdate,
+    constraints p_dm_room_id primary key(id),
+    constraints u_dm_room_participants unique (participants)
+);
+create sequence seq_dm_room_id;
+
 
 CREATE OR REPLACE TRIGGER trg_member_deleted
 BEFORE DELETE ON member
@@ -292,7 +302,7 @@ BEGIN
     );
 END;
 /
-
+--
 --
 --
 -- -- 계정에 속한 모든 테이블를 삭제합니다.
@@ -397,6 +407,6 @@ INSERT ALL
 SELECT 1 FROM DUAL;
 
 select * from member;
-select * from dm;
-commit;
 
+
+commit;
