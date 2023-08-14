@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhotoPeed {
+public class PhotoFeed {
 	
 	private int id;
 	private int writerId;

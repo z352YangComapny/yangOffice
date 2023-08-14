@@ -6,7 +6,7 @@ import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
 
 @Mapper
-public interface PhotoPeedRepository {
+public interface PhotoFeedRepository {
 
 	@Insert("insert into photo_feed (id, writer_id, content) values (seq_attachment_id.nextval, #{writerId}, #{content})")
 	int insertPeed(PeedDetails peed);

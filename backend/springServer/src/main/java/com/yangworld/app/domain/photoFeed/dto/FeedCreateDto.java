@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PeedCreateDto {
+public class FeedCreateDto {
 	
 	private int writerId;
 	private String content;

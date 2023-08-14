@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yangworld.app.commons.HelloSpringUtils;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
-import com.yangworld.app.domain.photoFeed.dto.PeedCreateDto;
+import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
 import com.yangworld.app.domain.photoFeed.service.PhotoPeedService;
 
@@ -38,15 +38,17 @@ public class PhotoFeedController {
 	
 	@PostMapping("/feedCreate")
 	public ResponseEntity<?> peedCreate(
-			@RequestPart @Valid PeedCreateDto _peed,
+			@RequestPart @Valid FeedCreateDto _peed,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) // required = false 파일을 첨부하지 않아도 요청이 성공
 					throws IllegalStateException, IOException {
 		
+		
 		log.debug("_peed = {}",_peed);
 		log.debug("member = {}",member); 
 		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
+		
 		// Form:data
 		//  Key : writerId   
 		// Value : admin
@@ -54,7 +56,8 @@ public class PhotoFeedController {
 		// value : hello
 		// why?
 		
-		List<Attachment> attachments = new ArrayList<>(); 
+		List<Attachment> attachments = new ArrayList<>();
+		
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) { 
 				String originalFilename = upFile.getOriginalFilename(); // 작성자랑 내용만 보냈는데 넌 왜 NullpointException이 나는거냐구
@@ -90,6 +93,13 @@ public class PhotoFeedController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create peed");
 	    }
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
