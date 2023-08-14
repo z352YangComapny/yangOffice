@@ -24,8 +24,8 @@ public class MemberServiceImpl implements MemberService{
         List<String> authorityList = new ArrayList<>();
         int id = memberRepository.insertMember(signUpDto);
         authorityList.add(Authority.ROLE_USER.name());
-        authorityList.add(Authority.ROLE_ADMIN.name());
-        authorityList.add(Authority.ROLE_MANAGER.name());
+//        authorityList.add(Authority.ROLE_ADMIN.name());
+//        authorityList.add(Authority.ROLE_MANAGER.name());
         int result = memberRepository.insertAuthorities(signUpDto.getId(), authorityList);
         return result;
     }
