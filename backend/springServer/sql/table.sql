@@ -318,7 +318,7 @@ END;
 
 select * from member;
 select * from authorities;
-
+select * from guestbook;
 
 -- member 테이블에 예시 데이터 삽입
 -- admin 유저 삽입
