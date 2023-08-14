@@ -21,5 +21,6 @@ public interface MemberRepository {
 
     PrincipalDetails loadUserByUsername(String username);
     @Update("update member set password=#{password} where username = #{username}")
-    void updatePassword(@Param("username") String username,@Param("password") String password);
+    void updatePassword(@Param("username") String username, @Param("password") String password);
+
 }

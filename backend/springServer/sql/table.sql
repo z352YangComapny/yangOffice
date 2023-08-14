@@ -87,7 +87,7 @@ create table dm
     id          number,
     receiver_id number not null,
     sender_id   number not null,
-    content     varchar2(1000) not null,
+    content     varchar2(2000) not null,
     reg_date    date default sysdate,
     constraints p_dm_id primary key( id),
     constraints f_dm_sender_id foreign key (sender_id) references member (id) on delete cascade,
@@ -107,7 +107,7 @@ create table report_dm
 create table photo_feed
 (
     id          number,
-    writer_id   number         not null,
+    writer_id   number   not null,
     content     varchar2(1000) not null,
     reg_date    date default sysdate,
     constraints p_pho_feed_id primary key( id),
@@ -166,9 +166,9 @@ create table report_comments_feed
 (
     report_id   number,
     comments_id  number,
-    constraints p_rep_comments_feed_id primary key(report_id),
-    constraints f_rep_comments_feed_reprot_id foreign key (report_id) references report(id) on delete cascade,
-    constraints f_rep_comments_feed_comments_id foreign key (comments_id) references comments (id) on delete cascade
+    constraints p_rep_cmt_feed_id primary key(report_id),
+    constraints f_rep_cmt_feed_reprot_id foreign key (report_id) references report(id) on delete cascade,
+    constraints f_rep_cmt_feed_comments_id foreign key (comments_id) references comments (id) on delete cascade
 );
 
 create table follow
@@ -318,7 +318,7 @@ END;
 
 select * from member;
 select * from authorities;
-
+select * from guestbook;
 
 -- member 테이블에 예시 데이터 삽입
 -- admin 유저 삽입
@@ -394,3 +394,4 @@ INSERT ALL
     INTO authorities (member_id, authority)
     VALUES (11, 'ROLE_USER')
 SELECT 1 FROM DUAL;
+select * from member;
