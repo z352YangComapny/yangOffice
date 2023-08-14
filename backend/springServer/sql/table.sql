@@ -394,4 +394,7 @@ INSERT ALL
     INTO authorities (member_id, authority)
     VALUES (11, 'ROLE_USER')
 SELECT 1 FROM DUAL;
+
 select * from member;
+commit;
+
