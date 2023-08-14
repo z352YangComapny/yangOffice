@@ -13,10 +13,10 @@ public interface StoryRepository {
 	@Insert("insert into Story values (seq_story_id.nextval, #{writerId}, #{content}, default)")
 	int createStory(StoryDto storyDto);
 
-	@Update("update Story set content = #{content} where writer_id = #{writerId}")
+	@Update("update Story set content = #{content} where id = #{id}")
 	int updateStory(StoryDto storyDto);
 	
-	@Delete("delete from Story where writer_id = #{writerId}")
+	@Delete("delete from Story where id = #{id}")
 	int deleteStory(StoryDto storyDto);
 
 }
