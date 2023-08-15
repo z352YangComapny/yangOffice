@@ -25,7 +25,7 @@ create sequence seq_member_id;
 create table authorities
 (
     member_id   number,
-    authority varchar2(1000),
+    authority   varchar2(1000),
     constraints p_authorities_id primary key(member_id, authority),
     constraints f_authorities_member_id foreign key (member_id) references member (id) on delete cascade
 );
@@ -40,15 +40,16 @@ create table attachment
 );
 create sequence seq_attachment_id;
 
-create table report (
-    id number,
-    reporter_id number not null,
-    reported_id number not null,
-    content varchar2(1000) not null,
-    reg_date date default sysdate,
+create table report
+(
+    id          number,
+    reporter_id number         not null,
+    reported_id number         not null,
+    content     varchar2(1000) not null,
+    reg_date    date default sysdate,
     constraints p_report_id primary key( id),
-    constraints f_report_reporter_id foreign key(reporter_id) references member(id) on delete cascade,
-    constraints f_report_reported_id foreign key(reported_id) references member(id) on delete cascade
+    constraints f_report_reporter_id foreign key (reporter_id) references member (id) on delete cascade,
+    constraints f_report_reported_id foreign key (reported_id) references member (id) on delete cascade
 );
 create sequence seq_report_id;
 
@@ -82,17 +83,31 @@ create table attachment_profile
     constraints   f_att_profile_profile_id foreign key (profile_id) references profile (id) on delete cascade
 );
 
+create table dm_room
+(
+    id           number not null,
+    participant1 number not null,
+    participant2 number not null,
+    reg_date     date default sysdate,
+    constraints  p_dm_room_id primary key( id),
+    constraints  f_dm_room_p1 foreign key (participant1) references member (id) on delete cascade,
+    constraints  f_dm_room_p2 foreign key (participant2) references member (id) on delete cascade,
+    constraints  u_dm_room_participants UNIQUE (participant1, participant2)
+);
+create sequence seq_dm_room_id;
+
 create table dm
 (
     id          number,
-    receiver_id number not null,
-    sender_id   number not null,
+    receiver_id number         not null,
+    sender_id   number         not null,
     content     varchar2(2000) not null,
-    dm_room_id  number not null,
+    dm_room_id  number         not null,
     reg_date    date default sysdate,
     constraints p_dm_id primary key( id),
     constraints f_dm_sender_id foreign key (sender_id) references member (id) on delete cascade,
-    constraints f_dm_receiver_id foreign key (receiver_id) references member (id) on delete cascade
+    constraints f_dm_receiver_id foreign key (receiver_id) references member (id) on delete cascade,
+    constraints f_dm_room_id foreign key (dm_room_id) references dm_room (id) on delete cascade
 );
 create sequence seq_dm_id;
 
@@ -108,7 +123,7 @@ create table report_dm
 create table photo_feed
 (
     id          number,
-    writer_id   number   not null,
+    writer_id   number         not null,
     content     varchar2(1000) not null,
     reg_date    date default sysdate,
     constraints p_pho_feed_id primary key( id),
@@ -156,7 +171,7 @@ create sequence seq_comments_id;
 
 create table comments_feed
 (
-    comments_id    number,
+    comments_id   number,
     photo_feed_id number,
     constraints   p_com_feed_id primary key(comments_id),
     constraints   f_com_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade,
@@ -166,7 +181,7 @@ create table comments_feed
 create table report_comments_feed
 (
     report_id   number,
-    comments_id  number,
+    comments_id number,
     constraints p_rep_cmt_feed_id primary key(report_id),
     constraints f_rep_cmt_feed_reprot_id foreign key (report_id) references report(id) on delete cascade,
     constraints f_rep_cmt_feed_comments_id foreign key (comments_id) references comments (id) on delete cascade
@@ -228,19 +243,20 @@ create table question
 (
     id          number,
     writer_id   number         not null,
-    title varchar2(100) not null,
+    title       varchar2(100)  not null,
     content     varchar2(4000) not null,
-    type char(1) not null,
+    type        char(1)        not null,
     reg_date    date default sysdate,
     constraints p_question_id primary key( id),
     constraints f_question_writer_id foreign key (writer_id) references member (id) on delete cascade
 );
 create sequence seq_question_id;
-select * from question;
+select *
+from question;
 create table comments_question
 (
-    comments_id  number,
-    question_id   number,
+    comments_id number,
+    question_id number,
     constraints p_com_question_id primary key(comments_id),
     constraints f_com_question_question_id foreign key (question_id) references question(id) on delete cascade,
     constraints f_com_question_comments_id foreign key (comments_id) references comments (id) on delete cascade
@@ -261,48 +277,35 @@ create table deleted_member
     deleted_date date default sysdate
 );
 
-create table dm_room(
-    id number not null,
-    participant1 number not null,
-    participant2 number not null,
-    reg_date date default sysdate,
-    constraints p_dm_room_id primary key(id),
-    constraints f_dm_room_p1 foreign key(participant1) references member(id) on delete cascade,
-    constraints f_dm_room_p2 foreign key(participant2) references member(id) on delete cascade,
-    constraints u_dm_room_participants UNIQUE (participant1, participant2)
-);
-create sequence seq_dm_room_id;
 
 
 CREATE OR REPLACE TRIGGER trg_member_deleted
-BEFORE DELETE ON member
-FOR EACH ROW
+    BEFORE DELETE
+    ON member
+    FOR EACH ROW
 BEGIN
-    INSERT INTO deleted_member (
-        username,
-        name,
-        password,
-        nickname,
-        birthday,
-        gender,
-        phone,
-        email,
-        provider,
-        reg_date,
-        deleted_date
-    ) VALUES (
-        :OLD.username,
-        :OLD.name,
-        :OLD.password,
-        :OLD.nickname,
-        :OLD.birthday,
-        :OLD.gender,
-        :OLD.phone,
-        :OLD.email,
-        :OLD.provider,
-        :OLD.reg_date,
-        SYSDATE
-    );
+    INSERT INTO deleted_member (username,
+                                name,
+                                password,
+                                nickname,
+                                birthday,
+                                gender,
+                                phone,
+                                email,
+                                provider,
+                                reg_date,
+                                deleted_date)
+    VALUES (:OLD.username,
+            :OLD.name,
+            :OLD.password,
+            :OLD.nickname,
+            :OLD.birthday,
+            :OLD.gender,
+            :OLD.phone,
+            :OLD.email,
+            :OLD.provider,
+            :OLD.reg_date,
+            SYSDATE);
 END;
 /
 --
