@@ -36,9 +36,12 @@ const sittingShiftData = {
 
         //Collides & add to World
         this.scene.physics.world.enable(this.playerContainer);
+        // const temp = new Phaser.Physics.Arcade.Body();
         const playContainerBody = this.playerContainer.body;
         const collisionScale = [0.5, 0.2];
         playContainerBody.setSize(this.width * collisionScale[0], this.height * collisionScale[1]).setOffset(-8, this.height * (1 - collisionScale[1]) + 6);
+
+        console.log("부모생성자 호출됨")
       }
 
       updateDialogBubble(content) {
