@@ -13,14 +13,14 @@ const GameSocketComponent = () => {
         if (!ws && t) {
             const _ws = new WebSocket('ws://localhost:7070/ws');
             _ws.onopen = () => {
-                console.log("onOpen")
-                setSocketConnected(true)
                 setWs(_ws)
                 const token=localStorage.getItem("nktsca")
                 _ws.send(JSON.stringify({
                     msgType : "authorization",
                     token : token,
                 }))
+                console.log("onOpen")
+                setSocketConnected(true)
             }
             _ws.onclose = (error) => {
                 console.log("disconnect from " + socketUrl);
