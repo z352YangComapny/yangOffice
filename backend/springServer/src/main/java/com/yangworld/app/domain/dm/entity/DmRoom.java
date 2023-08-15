@@ -1,19 +1,19 @@
 package com.yangworld.app.domain.dm.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class DmRoom {
-	private int id;
-	private List<Integer> participants;
-	private LocalDateTime regDate;
+    private int id;
+    private int participant1;
+    private int participant2;
+    private LocalDateTime regDate;
 }

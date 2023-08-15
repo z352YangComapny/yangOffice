@@ -2,9 +2,11 @@ package com.yangworld.app.domain.dm.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -86,17 +88,52 @@ public class DmController {
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
 		log.info("sendDm info = {}", _dmDto);
-		
-		// senderId 가져오기
 		 int senderId = principal.getId();
 		 Dm dm = _dmDto.toDm();
-		 log.info("senderId={}", senderId); 
+		 log.info("senderId={}", senderId);
 		 dm.setSenderId(senderId);
-		 
+
 		// insert
 		dmService.insertDm(dm);
 		
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/createDmRoom")
+	public ResponseEntity<?> insertDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody Map<String, Integer> participants) {
+		log.debug("DmRoomDto info = {}", participants);
+
+		int participant1 = principal.getId();
+		int participant2 = participants.get("partner");
+
+		if (participant1 > participant2) {
+			int temp = participant1;
+			participant1 = participant2;
+			participant2 = temp;
+		}
+		log.debug("participants={},{}", participant1, participant2);
+		// insert
+		dmService.insertDmRoom(participant1, participant2);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/deleteDmRoom")
+	public ResponseEntity<?> deleteDmRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Map<String, Integer> map){
+		int participant1 = principalDetails.getId();
+		int participant2 = map.get("partner");
+
+		if (participant1 > participant2) {
+			int temp = participant1;
+			participant1 = participant2;
+			participant2 = temp;
+		}
+
+		int result = dmService.deleteDmRoom(participant1, participant2);
+		if(result>0){
+			return ResponseEntity.ok().build();
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 	

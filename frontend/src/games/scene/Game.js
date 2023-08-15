@@ -64,6 +64,10 @@ export default class Game extends Scene {
     }
 
     create() {
+        if(!this.network){
+            console.log(this.network)
+            return
+        }
         // Load Map
         this.map = this.make.tilemap({ key: 'map' });
         const tileset = this.map.addTilesetImage('FloorAndGround', 'floorAndGround')
