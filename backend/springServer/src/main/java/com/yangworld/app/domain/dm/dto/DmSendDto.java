@@ -15,11 +15,13 @@ public class DmSendDto {
 	
 	@NotBlank(message = "dm내용입력")
 	private String content;
+	private int dmRoomId;
 
 	public Dm toDm() {
 		return Dm.builder()
 				.receiverId(receiverId)
 				.content(content)
+				.dmRoomId(dmRoomId)
 				.build();
 	}
 }

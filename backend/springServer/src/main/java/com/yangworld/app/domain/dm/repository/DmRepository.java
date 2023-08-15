@@ -12,7 +12,7 @@ import com.yangworld.app.domain.dm.entity.Dm;
 @Mapper
 public interface DmRepository {
 
-	@Insert("insert into dm values(seq_dm_id.nextval, #{receiverId}, #{senderId}, #{content}, default)")
+	@Insert("insert into dm values(seq_dm_id.nextval, #{receiverId}, #{senderId}, #{content}, #{dmRoomId}, default)")
 	@SelectKey(
 	    statement = "select seq_dm_id.currval from dual",
 	    keyColumn = "id",

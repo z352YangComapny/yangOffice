@@ -95,7 +95,7 @@ create table dm
     constraints f_dm_receiver_id foreign key (receiver_id) references member (id) on delete cascade
 );
 create sequence seq_dm_id;
-
+select * from dm;
 create table report_dm
 (
     report_id   number,
@@ -269,7 +269,9 @@ create table dm_room(
     constraints u_dm_room_participants unique (participants)
 );
 create sequence seq_dm_room_id;
-
+select * from member;
+select * from dm;
+select * from  dm_room;
 
 CREATE OR REPLACE TRIGGER trg_member_deleted
 BEFORE DELETE ON member

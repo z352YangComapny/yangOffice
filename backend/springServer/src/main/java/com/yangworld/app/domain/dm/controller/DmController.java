@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.dm.dto.DmRoomDto;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.service.DmService;
@@ -71,11 +72,22 @@ public class DmController {
 		
 	}
 	
+	@PostMapping("/createDmRoom")
+	public ResponseEntity<?> createDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmRoomDto _dmRoomDto) {
+		log.info("createDmRoom = {}", _dmRoomDto);
+		
+		// 여기서 어떻게 해야ㅗ대지ㅣ..? 
+		// find all해서 senderId랑 receiverId를 가져와야하는건가.?..
+		// 그래서 가져와서 그 아이디로 List로 넣어서 DmRoom insert함 된ㄴ는건가..?
+		return ResponseEntity.ok().build();
+		
+	}
+	
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
 		log.info("sendDm info = {}", _dmDto);
-		// senderId 가져오기
 		
+		// senderId 가져오기
 		 int senderId = principal.getId();
 		 Dm dm = _dmDto.toDm();
 		 log.info("senderId={}", senderId); 
