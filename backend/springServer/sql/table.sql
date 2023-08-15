@@ -263,10 +263,13 @@ create table deleted_member
 
 create table dm_room(
     id number not null,
-    participants varchar2(20) not null,
+    participant1 number not null,
+    participant2 number not null,
     reg_date date default sysdate,
     constraints p_dm_room_id primary key(id),
-    constraints u_dm_room_participants unique (participants)
+    constraints f_dm_room_p1 foreign key(participant1) references member(id) on delete cascade,
+    constraints f_dm_room_p2 foreign key(participant2) references member(id) on delete cascade,
+    constraints u_dm_room_participants UNIQUE (participant1, participant2)
 );
 create sequence seq_dm_room_id;
 
