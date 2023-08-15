@@ -60,4 +60,9 @@ public class DmServiceImpl implements DmService {
 		dmRepository.insertDmRoom(participant1, participant2);
 	}
 
+	@Override
+	public int deleteDmRoom(int participant1, int participant2) {
+		return dmRepository.deleteDmRoom(participant1,participant2);
+	}
+
 }

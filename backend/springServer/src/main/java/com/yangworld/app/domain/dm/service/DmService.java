@@ -20,4 +20,6 @@ public interface DmService {
 
 
     void insertDmRoom(int participant1, int participant2);
+
+	int deleteDmRoom(int participant1, int participant2);
 }
