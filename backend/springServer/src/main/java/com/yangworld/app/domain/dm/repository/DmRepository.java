@@ -2,10 +2,7 @@ package com.yangworld.app.domain.dm.repository;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.dm.entity.Dm;
 
@@ -34,5 +31,6 @@ public interface DmRepository {
 	@Select("select receiver_id, sender_id, content, reg_date from dm where (receiver_id=#{receiverId} and sender_id=#{senderId})")
 	List<Dm> findDmDetails(int senderId, int receiverId);
 
-
+	@Insert("insert into dm_room values (seq_dm_room_id.nextval , #{participant1},#{participant2}, default)")
+    void insertDmRoom(@Param("participant1") int participant1, @Param("participant2") int participant2);
 }

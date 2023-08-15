@@ -54,5 +54,10 @@ public class DmServiceImpl implements DmService {
 		List<Dm> dmDetails = dmRepository.findDmDetails(senderId, receiverId);
 		return dmDetails;
 	}
-	
+
+	@Override
+	public void insertDmRoom(int participant1, int participant2) {
+		dmRepository.insertDmRoom(participant1, participant2);
+	}
+
 }

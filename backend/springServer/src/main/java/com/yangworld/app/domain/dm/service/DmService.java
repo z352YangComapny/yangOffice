@@ -19,4 +19,5 @@ public interface DmService {
 	List<Dm> findDmDetails(int senderId, int receiverId);
 
 
+    void insertDmRoom(int participant1, int participant2);
 }
