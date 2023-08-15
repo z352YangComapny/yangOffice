@@ -2,6 +2,7 @@ package com.yangworld.app.domain.member.controller;
 
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.service.MemberService;
@@ -71,6 +72,27 @@ public class MemberController {
 
         return ResponseEntity.ok().build();
 
+    }
+
+    @PostMapping("/follow")
+    public ResponseEntity<?> follow(@AuthenticationPrincipal PrincipalDetails principal,
+                                    @RequestBody FollowDto followDto){
+        log.info("followDto = {}", followDto);
+        followDto.setFollower(principal.getId());
+        log.info("followDto={}", followDto);
+
+        memberService.insertFollowee(followDto);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/unfollow")
+    public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
+                                      @RequestBody FollowDto unfollow){
+        unfollow.setFollower(principal.getId());
+        memberService.deleteFollowee(unfollow);
+
+        return ResponseEntity.ok().build();
     }
 
 
