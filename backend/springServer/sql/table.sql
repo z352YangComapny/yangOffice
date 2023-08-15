@@ -110,7 +110,7 @@ create table dm
     constraints f_dm_room_id foreign key (dm_room_id) references dm_room (id) on delete cascade
 );
 create sequence seq_dm_id;
-
+select * from dm;
 create table report_dm
 (
     report_id   number,
@@ -276,8 +276,6 @@ create table deleted_member
     reg_date     date default sysdate,
     deleted_date date default sysdate
 );
-
-
 
 CREATE OR REPLACE TRIGGER trg_member_deleted
     BEFORE DELETE
