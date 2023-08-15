@@ -1,6 +1,8 @@
 package com.yangworld.app.domain.dm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,19 +29,45 @@ public class DmController {
 	@Autowired
 	private DmService dmService;
 	
-	@GetMapping("/findDm")
-	public ResponseEntity<?> findDm(@AuthenticationPrincipal PrincipalDetails principal, Model model){
+	@GetMapping("/findMyDm")
+	public ResponseEntity<?> findDm(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		// 받는사람이 나임.
+	    int receiverId = principal.getId(); 
+	    
+	    // 내가 받은 DM 조회 -> dm 창 들어가면 나한테 온 dm 리스트 보이도록, 
+	    // 그 DM 리스트에서 나한테 보낸 사람 아이디 조회
+	    Set<Integer> idList = dmService.findMyDm(receiverId);
+
+	    log.info("myDms={}", idList);
+	    // user1:myDms=[4, 9]
+
+	    return ResponseEntity.ok(idList);
+	 }
+
+
+	@GetMapping("/findDmDetails")
+	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal) {
 		int senderId = principal.getId();
 		
-		// 내가 보낸 Dm 조회하기 --> dm 들어가면 모든 대화 뜨게 조회하는 메소드임. view에서 작업 예정.. 아마...
+		// 내가 보낸 DM 조회 
+//		List<Dm> dms = dmService.findDmById(senderId);
+		
+		// Dm 전체조회
 		List<Dm> dms = dmService.findDmById(senderId);
+		List<Dm> myDms = new ArrayList<>();
 		
-		log.info("dms={}", dms);
-		/*dms=[Dm(id=1, receiverId=4, senderId=2, content=안녕녕dydhdhd, regDate=2023-08-14T00:08:09),
-		Dm(id=2, receiverId=4, senderId=2, content=안녕 모해해, regDate=2023-08-14T09:02:25),
-		Dm(id=3, receiverId=4, senderId=2, content=안녕 나는 학언이야야, regDate=2023-08-14T09:02:42)] */
+		for(Dm dm : dms) {
+			int receiverId = dm.getReceiverId();
+			List<Dm> receiverDm = dmService.findDmDetails(senderId, receiverId);
+			myDms.add(dm);
+		}
 		
-		return ResponseEntity.ok(dms);
+		log.info("DmDetails = {}", myDms);
+		
+		// select receiver_id, sender_id, content, reg_date from dm where
+		// (receiver_id=#{receiverId} and sender_id=#{senderId} ) or (receiver_id=#{senderId} and sender_id=#{receiverId});
+		
+		return ResponseEntity.ok(myDms);
 		
 	}
 	

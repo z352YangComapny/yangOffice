@@ -20,4 +20,14 @@ public class GuestBookServiceImpl implements GuestBookService{
 		return guestBookRepository.insertGuestBook(guestBook);
 	}
 
+	@Override
+	public int deleteGuestBook(GuestBook guestBook) {
+		return guestBookRepository.deleteGuestBook(guestBook);
+	}
+
+	@Override
+	public int updateGuestBook(GuestBook guestBook) {
+		return guestBookRepository.updateGuestBook(guestBook);
+	}
+
 }
