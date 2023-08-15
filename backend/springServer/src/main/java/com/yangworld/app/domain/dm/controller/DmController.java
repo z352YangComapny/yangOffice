@@ -34,56 +34,20 @@ public class DmController {
 	
 	@GetMapping("/findMyDm")
 	public ResponseEntity<?> findDm(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		// 받는사람이 나임.
-	    int receiverId = principal.getId(); 
+		
+	    int userId = principal.getId(); 
 	    
-	    // 내가 받은 DM 조회 -> dm 창 들어가면 나한테 온 dm 리스트 보이도록, 
-	    // 그 DM 리스트에서 나한테 보낸 사람 아이디 조회
-	    Set<Integer> idList = dmService.findMyDm(receiverId);
+	    // 내 dm목록 조회
+	    // 잘 뜨는데 id 값이 0 이 나옴..왜지 근데 id 값 필요없음 . dmroomId 쓰면되니까..?
+	   	 List<Dm> myDms = dmService.findMyDm(userId);
 
-	    log.info("myDms={}", idList);
+	    log.info("myDms={}", myDms);
 	    // user1:myDms=[4, 9]
 
-	    return ResponseEntity.ok(idList);
+	    return ResponseEntity.ok(myDms);
 	 }
 
 
-	@GetMapping("/findDmDetails")
-	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal) {
-		int senderId = principal.getId();
-		
-		// 내가 보낸 DM 조회 
-//		List<Dm> dms = dmService.findDmById(senderId);
-		
-		// Dm 전체조회
-		List<Dm> dms = dmService.findDmById(senderId);
-		List<Dm> myDms = new ArrayList<>();
-		
-		for(Dm dm : dms) {
-			int receiverId = dm.getReceiverId();
-			List<Dm> receiverDm = dmService.findDmDetails(senderId, receiverId);
-			myDms.add(dm);
-		}
-		
-		log.info("DmDetails = {}", myDms);
-		
-		// select receiver_id, sender_id, content, reg_date from dm where
-		// (receiver_id=#{receiverId} and sender_id=#{senderId} ) or (receiver_id=#{senderId} and sender_id=#{receiverId});
-		
-		return ResponseEntity.ok(myDms);
-		
-	}
-	
-	@PostMapping("/createDmRoom")
-	public ResponseEntity<?> createDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmRoomDto _dmRoomDto) {
-		log.info("createDmRoom = {}", _dmRoomDto);
-		
-		// 여기서 어떻게 해야ㅗ대지ㅣ..? 
-		// find all해서 senderId랑 receiverId를 가져와야하는건가.?..
-		// 그래서 가져와서 그 아이디로 List로 넣어서 DmRoom insert함 된ㄴ는건가..?
-		return ResponseEntity.ok().build();
-		
-	}
 	
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {

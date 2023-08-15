@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class DmSendDto {
+	private int id;
 	@NotBlank(message = "받는사람 입력")
 	private int receiverId;
 	
