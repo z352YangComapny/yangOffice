@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
+import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.repository.PhotoFeedRepository;
 
 @Service
-public class PhotoPeedServiceImpl implements PhotoPeedService{
+public class PhotofeedServiceImpl implements PhotofeedService{
 	
 	@Autowired
 	private PhotoFeedRepository photoFeedRepository;
@@ -30,5 +31,6 @@ public class PhotoPeedServiceImpl implements PhotoPeedService{
 		}
 		return result;
 	}
+
 
 }

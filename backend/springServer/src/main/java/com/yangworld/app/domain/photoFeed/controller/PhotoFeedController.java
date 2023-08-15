@@ -24,7 +24,7 @@ import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
-import com.yangworld.app.domain.photoFeed.service.PhotoPeedService;
+import com.yangworld.app.domain.photoFeed.service.PhotofeedService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PhotoFeedController {
 	
 	@Autowired
-	private PhotoPeedService photoPeedService;
+	private PhotofeedService photofeedService;
 	
 	
 	@PostMapping("/feedCreate")
@@ -83,7 +83,7 @@ public class PhotoFeedController {
 				.build();
 		
 		
-		int result = photoPeedService.insertPeed(peed);
+		int result = photofeedService.insertPeed(peed);
 		
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
@@ -93,6 +93,8 @@ public class PhotoFeedController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create peed");
 	    }
 	}
+	
+	
 	
 	
 	
