@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.member.repository;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import org.apache.ibatis.annotations.*;
@@ -31,6 +32,11 @@ public interface MemberRepository {
 
     @Delete("delete from member where username = #{username}")
     int deleteMember(String username);
-    
+
+    @Insert("insert into follow values (#{follower}, #{followee}, default)")
+    int insertFollowee(FollowDto followDto);
+
+    @Delete("delete from follow where follower = #{follower} and followee = #{followee}")
+    int deleteFollowee(FollowDto unfollow);
 }
 
