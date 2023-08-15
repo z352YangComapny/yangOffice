@@ -32,5 +32,10 @@ public class PhotofeedServiceImpl implements PhotofeedService{
 		return result;
 	}
 
+	@Override
+	public PhotoFeed selectFeed(String name) {
+		return photoFeedRepository.selectFeed(name);
+	}
+
 
 }

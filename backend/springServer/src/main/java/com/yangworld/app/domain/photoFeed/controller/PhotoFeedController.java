@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +27,7 @@ import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
+import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.service.PhotofeedService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -94,8 +98,20 @@ public class PhotoFeedController {
 	    }
 	}
 	
-	
-	
+	@GetMapping("/{name}")
+	public ResponseEntity<?> selectFeed(
+			@PathVariable String name,
+			Model model
+			) {
+		
+		log.debug("nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee = {}",name);
+		
+		PhotoFeed photoFeed = photofeedService.selectFeed(name); 
+		
+		
+	    return ResponseEntity.ok("Hello, " + name + "!");
+	}
+
 	
 	
 	
