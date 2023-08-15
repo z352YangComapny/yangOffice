@@ -98,18 +98,18 @@ public class PhotoFeedController {
 	    }
 	}
 	
-	@GetMapping("/{name}")
+	@GetMapping("/{nickName}")
 	public ResponseEntity<?> selectFeed(
-			@PathVariable String name,
+			@PathVariable String nickName,
 			Model model
 			) {
 		
-		log.debug("nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee = {}",name);
+		log.debug("nickName = {}",nickName);
 		
-		PhotoFeed photoFeed = photofeedService.selectFeed(name); 
+		PhotoFeed photoFeed = photofeedService.selectFeed(nickName); 
 		
 		
-	    return ResponseEntity.ok("Hello, " + name + "!");
+	    return ResponseEntity.ok(nickName);
 	}
 
 	

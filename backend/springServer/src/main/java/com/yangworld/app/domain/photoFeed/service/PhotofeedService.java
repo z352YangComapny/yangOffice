@@ -7,6 +7,6 @@ public interface PhotofeedService {
 
 	int insertPeed(PeedDetails peed);
 
-	PhotoFeed selectFeed(String name);
+	PhotoFeed selectFeed(String nickName);
 
 }

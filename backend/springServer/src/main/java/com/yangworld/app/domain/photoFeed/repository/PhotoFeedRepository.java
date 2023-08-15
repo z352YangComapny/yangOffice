@@ -19,7 +19,7 @@ public interface PhotoFeedRepository {
     int insertAttachment(Attachment attach);
 
 
-    @Select("select * from photo_feed where id = #{name}")
-	PhotoFeed selectFeed(String name);
+    @Select("select * from photo_feed where id = #{nickName}")
+	PhotoFeed selectFeed(String nickName);
 
 }
