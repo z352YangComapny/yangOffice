@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,8 +26,8 @@ import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedDeleteDto;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
-import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -94,20 +95,17 @@ public class PhotoFeedController {
 	/**
 	 * 회원 조회
 	 */
-	@GetMapping("/{nickName}")
+	@GetMapping("/feed/list")
 	public ResponseEntity<?> selectFeed(
-			@PathVariable String nickName, // 바꾸기
+			@RequestParam int writerId, // 바꾸기
 			Model model
 			) {
 		
 		// GET = http://localhost:8080/JS
 		
-		log.debug(nickName);
-		log.debug("nickName = {}",nickName);
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
 		
-		PhotoFeed photoFeed = photoFeedService.selectFeed(nickName); 
-		
-		return ResponseEntity.ok(photoFeed);
+		return ResponseEntity.ok(photoList);
 	}
 	
 	
@@ -130,7 +128,7 @@ public class PhotoFeedController {
 			Model model
 			){
 		
-		 int result = photoFeedService.deleteFeed(feed);
+//		 int result = photoFeedService.deleteFeed(feed);
 		
 		return ResponseEntity.ok().build();
 	}
@@ -140,9 +138,9 @@ public class PhotoFeedController {
 	public ResponseEntity<?> updateFeed(
 			@RequestPart @Valid FeedCreateDto _feed,
 			BindingResult bindingResult,
-			@AuthenticationPrincipal Member member,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles
+			@AuthenticationPrincipal Member member
 			){
+			
 		return null;
 	}
 	

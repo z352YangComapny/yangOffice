@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.repository.PhotoFeedRepository;
@@ -58,8 +60,32 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	}
 
 	@Override
-	public PhotoFeed selectFeed(String nickName) {
-		return photoFeedRepository.selectFeed(nickName);
+	public List<PhotoAttachmentFeedDto> selectFeed(int writerId) {
+		
+		if (writerId < 0) {
+			log.error("username is null");
+			throw new NullPointerException("유저이름이 없습니다.");
+		} else {
+			List<PhotoAttachmentFeedDto> photoFeedList = photoFeedRepository.selectFeed(writerId);
+			
+			log.info("List size : [{}]", photoFeedList.size());
+			//회원 아이디 받아와서 피드가 몇 개인지 조회.
+			for(PhotoAttachmentFeedDto photoFeed : photoFeedList) {
+				AttachmentPhotoDto attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());
+				
+				log.info("photo feed one : {}", photoFeed);
+				photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
+				log.info("photo feed check : {}", photoFeed);
+				
+				int id = attachmentPhotoDto.getAttachmentId();
+				List<Attachment> attachment = photoFeedRepository.selectAttachment(id);
+				photoFeed.setAttachments(attachment);
+				
+				
+			}
+			
+			return photoFeedList;
+		}
 	}
 
 
