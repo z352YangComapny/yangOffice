@@ -330,7 +330,16 @@ END;
 --    END LOOP;
 -- END;
 -- /
+
+delete from  photo_feed where id = '56';
+
 select * from photo_feed;
 select * from attachment;
-
+select seq_photo_feed_id.nextval from photo_feed;
 -- truncate table photo_feed;
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES ((SELECT id FROM attachment WHERE original_filename = '스크린샷 2023-08-14 오전 4.04.56.png'),
+        (SELECT id FROM photo_feed WHERE content = 'Photo 1 content'));
+delete from photo_feed;
+delete from attachment;
+

@@ -22,17 +22,26 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	public int insertFeed(FeedDetails feed) {
 		int result = 0;
 		
+		//TODO 1번 attachment DB Insert
+		// 2번 포토 피드 DB Insert
+		// 3번 Link Table DB Inserts
 		
-		result = photoFeedRepository.insertFeed(feed);
 		
-		result = photoFeedRepository.insertLink();
-		List<Attachment> attachments = ((FeedDetails) feed).getAttachments();
-		if(attachments != null && !attachments.isEmpty()) {
+		// 1번 파일들을 리스트로 받아
+		List<Attachment> attachments = feed.getAttachments();
+		
+		if(attachments == null || attachments.isEmpty()) {
+			throw new NullPointerException("파일 값이 없습니다");
+		} else {
 			for(Attachment attach : attachments) {
 				attach.setId(feed.getId());
 				result = photoFeedRepository.insertAttachment(attach);
 			}
+			result = photoFeedRepository.insertFeed(feed);
+			result = photoFeedRepository.insertLink();
 		}
+
+		
 		return result;
 	}
 

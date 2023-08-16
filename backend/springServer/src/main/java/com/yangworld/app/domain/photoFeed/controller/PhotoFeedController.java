@@ -80,7 +80,6 @@ public class PhotoFeedController {
 				.build();
 		
 		 
-		
 		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
