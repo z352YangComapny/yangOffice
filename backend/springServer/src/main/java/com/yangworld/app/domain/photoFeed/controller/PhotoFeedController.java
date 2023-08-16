@@ -100,7 +100,7 @@ public class PhotoFeedController {
 			Model model
 			) {
 		
-		// GET http://localhost:8080/JS
+		// GET = http://localhost:8080/JS
 		
 		log.debug(nickName);
 		log.debug("nickName = {}",nickName);
@@ -130,16 +130,23 @@ public class PhotoFeedController {
 			Model model
 			){
 		
-//		 int result = photoFeedService.deleteFeed(feed);
+		 int result = photoFeedService.deleteFeed(feed);
 		
 		return ResponseEntity.ok().build();
 	}
 
 	
 	@PostMapping("/feedUpdate")
-	public ResponseEntity<?> updateFeed(){
+	public ResponseEntity<?> updateFeed(
+			@RequestPart @Valid FeedCreateDto _feed,
+			BindingResult bindingResult,
+			@AuthenticationPrincipal Member member,
+			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles
+			){
 		return null;
 	}
+	
+	
 	
 	
 	

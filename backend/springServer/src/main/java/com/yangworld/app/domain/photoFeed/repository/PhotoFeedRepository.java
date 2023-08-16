@@ -20,7 +20,7 @@ public interface PhotoFeedRepository {
     @Insert("insert into attachment (id, original_filename, renamed_filename) values (seq_attachment_id.nextval, #{originalFilename}, #{renamedFilename})")
     int insertAttachment(Attachment attach);
 
-    @Insert("insert into attachment_photo_feed values(seq_attachment_id.nextval, seq_photo_feed_id.nextval)")
+    @Insert("insert into attachment_photo_feed (attachment_id, photo_feed_id) values (seq_attachment_id.currval, seq_photo_feed_id.currval)")
     int insertLink();
 
     @Select("select * from member where nickname = #{nickName}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
