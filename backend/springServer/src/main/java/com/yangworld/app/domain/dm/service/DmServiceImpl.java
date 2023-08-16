@@ -28,31 +28,15 @@ public class DmServiceImpl implements DmService {
 	}
 	
 	@Override
-	public List<Dm> findAllDm() {
-		List<Dm> dms = dmRepository.findAllDm();
-		return dms;
-	}
-	
-	@Override
-	public Set<Integer> findMyDm(int receiverId) {
-		List<Dm> myDms = dmRepository.findMyDm(receiverId);
-		Set<Integer> idSet = new HashSet<>();
-		for(Dm dm : myDms) {
-			idSet.add(dm.getSenderId());
-		}
-		return idSet;
-	}
-	
-	@Override
-	public List<Dm> findDmById(int senderId) {
-		List<Dm> dmDetails = dmRepository.findDmById(senderId);
+	public List<Dm> findDmDetails(int dmRoomId) {
+		List<Dm> dmDetails = dmRepository.findDmDetails(dmRoomId);
 		return dmDetails;
 	}
 	
 	@Override
-	public List<Dm> findDmDetails(int senderId, int receiverId) {
-		List<Dm> dmDetails = dmRepository.findDmDetails(senderId, receiverId);
-		return dmDetails;
+	public List<Dm> findMyDmList(int userId) {
+		List<Dm> myDms = dmRepository.findMyDmList(userId);
+		return myDms;
 	}
 
 	@Override
