@@ -4,25 +4,25 @@ import java.util.List;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
-import com.yangworld.app.domain.photoFeed.entity.PhotoPeed;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Profile {
-
-	private int id;
-	private int memberId;
-	private State state;
-	private String introduction;
+public class ProfileDetails extends Profile{
+	
+	private Member member;
+	private int attachCount;
+	private List<Attachment> attachments;
+	
+	public int getProfileId() {
+		return this.getId();
+	}
 }
-
