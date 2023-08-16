@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.member.repository;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
@@ -38,5 +39,8 @@ public interface MemberRepository {
 
     @Delete("delete from follow where follower = #{follower} and followee = #{followee}")
     int deleteFollowee(FollowDto unfollow);
+
+    @Select("select username from member where email = #{email}")
+    String findMemberByEmail(FindIdDto findIdDto);
 }
 
