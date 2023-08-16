@@ -26,9 +26,9 @@ import com.yangworld.app.commons.HelloSpringUtils;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
+import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
-import com.yangworld.app.domain.photoFeed.service.PhotofeedService;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,39 +37,33 @@ import lombok.extern.slf4j.Slf4j;
 public class PhotoFeedController {
 	
 	@Autowired
-	private PhotofeedService photofeedService;
+	private PhotoFeedService photoFeedService;
 	
 	
 	@PostMapping("/feedCreate")
 	public ResponseEntity<?> peedCreate(
-			@RequestPart @Valid FeedCreateDto _peed,
+			@RequestPart @Valid FeedCreateDto _feed,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) // required = false 파일을 첨부하지 않아도 요청이 성공
 					throws IllegalStateException, IOException {
 		
 		
-		log.debug("_peed = {}",_peed);
+		log.debug("_feed = {}",_feed);
 		log.debug("member = {}",member); 
 		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
 		
-		// Form:data
-		//  Key : writerId   
-		// Value : admin
-		//  key : content
-		// value : hello
-		// why?
+		
 		
 		List<Attachment> attachments = new ArrayList<>();
 		
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) { 
-				String originalFilename = upFile.getOriginalFilename(); // 작성자랑 내용만 보냈는데 넌 왜 NullpointException이 나는거냐구
-				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); // 왜 안돼 
-				File destFile = new File(renamedFilename); // postman 요청방식이 틀렸나
+				String originalFilename = upFile.getOriginalFilename(); 
+				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); 
+				File destFile = new File(renamedFilename); 
 				upFile.transferTo(destFile);
 				
-				// gpt형한테 물어보니 깔끔하대
 				
 				Attachment attach =  
 						Attachment.builder()
@@ -80,36 +74,54 @@ public class PhotoFeedController {
 			}
 		}
 		
-		PeedDetails peed = PeedDetails.builder()
+		FeedDetails feed = FeedDetails.builder()
 				.writerId(member.getId())
-				.content(_peed.getContent())
+				.content(_feed.getContent())
 				.attachments(attachments)
 				.build();
 		
 		
-		int result = photofeedService.insertPeed(peed);
+		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
 			return ResponseEntity.ok().build();
 	    } else {
 	        // 생성 중 오류가 발생한 경우
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create peed");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create Feed");
 	    }
 	}
 	
+	/**
+	 * 회원 조회
+	 */
 	@GetMapping("/{nickName}")
 	public ResponseEntity<?> selectFeed(
-			@PathVariable String nickName,
+			@PathVariable String nickName, // 바꾸기
 			Model model
 			) {
 		
+		// GET http://localhost:8080/JS
+		
+		log.debug(nickName);
 		log.debug("nickName = {}",nickName);
 		
-		PhotoFeed photoFeed = photofeedService.selectFeed(nickName); 
+		PhotoFeed photoFeed = photoFeedService.selectFeed(nickName); 
 		
+		return ResponseEntity.ok(photoFeed);
+	}
+	
+	
+	
+	@PostMapping("/feedDelete")
+	public ResponseEntity<?> deleteFeed(
+			@AuthenticationPrincipal Member mebmer,
+			Model model
+			){
 		
-	    return ResponseEntity.ok(nickName);
+		 int result = photoFeedService.deleteFeed(mebmer);
+		
+		return ResponseEntity.ok().build();
 	}
 
 	

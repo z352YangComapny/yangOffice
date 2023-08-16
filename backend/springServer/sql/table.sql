@@ -332,4 +332,7 @@ END;
 --    END LOOP;
 -- END;
 -- /
+select * from photo_feed;
+select * from attachment;
 
+-- truncate table photo_feed;

@@ -6,26 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
+import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.repository.PhotoFeedRepository;
 
 @Service
-public class PhotofeedServiceImpl implements PhotofeedService{
+public class PhotoFeedServiceImpl implements PhotoFeedService{
 	
 	@Autowired
 	private PhotoFeedRepository photoFeedRepository;
 
 	@Override
-	public int insertPeed(PeedDetails peed) {
+	public int insertFeed(FeedDetails feed) {
 		int result = 0;
 		
-		result = photoFeedRepository.insertPeed(peed);
+		result = photoFeedRepository.insertFeed(feed);
 		
-		List<Attachment> attachments = ((PeedDetails) peed).getAttachments();
+		List<Attachment> attachments = ((FeedDetails) feed).getAttachments();
 		if(attachments != null && !attachments.isEmpty()) {
 			for(Attachment attach : attachments) {
-				attach.setId(peed.getId());
+				attach.setId(feed.getId());
 				result = photoFeedRepository.insertAttachment(attach);
 			}
 		}
@@ -35,6 +37,12 @@ public class PhotofeedServiceImpl implements PhotofeedService{
 	@Override
 	public PhotoFeed selectFeed(String nickName) {
 		return photoFeedRepository.selectFeed(nickName);
+	}
+
+
+	@Override
+	public int deleteFeed(Member member) {
+		return photoFeedRepository.deleteFeed(member);
 	}
 
 
