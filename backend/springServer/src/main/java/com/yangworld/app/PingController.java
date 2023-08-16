@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @Slf4j
 public class PingController {
+	@GetMapping("")
+	public String index(){
+		return "forward:/index.jsp";
+	}
+
 	@GetMapping("/ping")
 	public ResponseEntity<String> pingcontroller() {
 		return ResponseEntity.ok("pong");
@@ -21,6 +26,7 @@ public class PingController {
 		log.info("memberId={}",((PrincipalDetails)authentication.getPrincipal()).getId());
 		return ResponseEntity.ok(authentication.getPrincipal());
 	}
+
 	@GetMapping("/admin")
 	public ResponseEntity<Object> adminAuthTestController(Authentication authentication) {
 		return ResponseEntity.ok(authentication.getPrincipal());
