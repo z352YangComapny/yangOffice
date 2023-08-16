@@ -5,8 +5,8 @@ import com.yangworld.app.domain.report.entity.ReportDm;
 
 public interface ReportService {
 
-	int insertReport(Report report);
+	int insertReportDm(Report report, int dmId);
 
-	int insertReportDm(ReportDm reportDm);
+//	int insertReportDm(ReportDm reportDm);
 
 }
