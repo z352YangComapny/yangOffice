@@ -21,12 +21,16 @@ public interface PhotoFeedRepository {
     @Insert("insert into attachment (id, original_filename, renamed_filename) values (seq_attachment_id.nextval, #{originalFilename}, #{renamedFilename})")
     int insertAttachment(Attachment attach);
 
+    @Insert("insert into attahment_photo_feed values()")
+    int insertLink();
 
     @Select("select * from member where nickname = #{nickName}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
 	PhotoFeed selectFeed(String nickName);
 
+    
     @Delete("delete from photo_feed where id = #{id}")
-	int deleteFeed(Member member);
+	int deleteFeed(FeedCreateDto feed);
+
 
     
     

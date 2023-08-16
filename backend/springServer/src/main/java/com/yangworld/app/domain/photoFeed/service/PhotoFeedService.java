@@ -13,8 +13,9 @@ public interface PhotoFeedService {
 
 	PhotoFeed selectFeed(String nickName);
 
+	
 
-	int deleteFeed(Member mebmer);
+	int deleteFeed(FeedCreateDto feed);
 
 	
 

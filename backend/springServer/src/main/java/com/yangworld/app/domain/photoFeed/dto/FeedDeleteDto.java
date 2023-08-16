@@ -9,19 +9,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeedCreateDto {
+public class FeedDeleteDto {
 	
-	
+	private int id;
 	private int writerId;
 	private String content;
 	private List<Attachment> attachments;
 	private LocalDateTime regDate;
-	
 
 }

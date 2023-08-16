@@ -22,8 +22,10 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	public int insertFeed(FeedDetails feed) {
 		int result = 0;
 		
+		
 		result = photoFeedRepository.insertFeed(feed);
 		
+		result = photoFeedRepository.insertLink();
 		List<Attachment> attachments = ((FeedDetails) feed).getAttachments();
 		if(attachments != null && !attachments.isEmpty()) {
 			for(Attachment attach : attachments) {
@@ -40,9 +42,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	}
 
 
+
 	@Override
-	public int deleteFeed(Member member) {
-		return photoFeedRepository.deleteFeed(member);
+	public int deleteFeed(FeedCreateDto feed) {
+		// TODO Auto-generated method stub
+		return photoFeedRepository.deleteFeed(feed);
 	}
 
 

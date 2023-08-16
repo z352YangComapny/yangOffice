@@ -17,8 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +24,7 @@ import com.yangworld.app.commons.HelloSpringUtils;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
+import com.yangworld.app.domain.photoFeed.dto.FeedDeleteDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
@@ -80,12 +79,13 @@ public class PhotoFeedController {
 				.attachments(attachments)
 				.build();
 		
+		 
 		
 		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(feed);
 	    } else {
 	        // 생성 중 오류가 발생한 경우
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create Feed");
@@ -112,18 +112,35 @@ public class PhotoFeedController {
 	}
 	
 	
+	// 피드안 댓글 + 사진 + 글내용 + 제목 + 작성자정보;
+	@GetMapping("/feedDetail/{nickName}")
+	public ResponseEntity<?> detailFeed(
+			@RequestPart @Valid Member member,
+			@PathVariable String nickName,
+			BindingResult bindingResult
+			){
+		
+		return null;
+	}
+	
+	
 	
 	@PostMapping("/feedDelete")
 	public ResponseEntity<?> deleteFeed(
-			@AuthenticationPrincipal Member mebmer,
+			@AuthenticationPrincipal FeedDeleteDto feed,
 			Model model
 			){
 		
-		 int result = photoFeedService.deleteFeed(mebmer);
+//		 int result = photoFeedService.deleteFeed(feed);
 		
 		return ResponseEntity.ok().build();
 	}
 
+	
+	@PostMapping("/feedUpdate")
+	public ResponseEntity<?> updateFeed(){
+		return null;
+	}
 	
 	
 	
