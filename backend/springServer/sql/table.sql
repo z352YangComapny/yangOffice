@@ -353,10 +353,22 @@ select * from photo_feed where writer_id = 1;
 
 select * from attachment;
 
--- delete from attachment;
+delete from attachment_photo_feed;
+
 commit;
     select* from member;
+    
 select * from attachment_photo_feed;
 -- truncate table photo_feed;
 
+select * from attachment where id = 18;
 
+
+
+select
+    *
+from 
+    attachment_photo_feed A join attachment B
+    on A.attachment_id = B.id
+where
+    attachment_id = 26;

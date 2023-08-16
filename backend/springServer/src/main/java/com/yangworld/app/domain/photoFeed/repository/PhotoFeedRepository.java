@@ -31,7 +31,7 @@ public interface PhotoFeedRepository {
     List<PhotoAttachmentFeedDto> selectFeed(int writerId);
 
     @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
-    AttachmentPhotoDto selectAttachmentPhoto(int photoFeedId);
+    List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
     
     @Delete("delete from photo_feed where id = #{id}")
 	int deleteFeed(FeedCreateDto feed);
@@ -39,7 +39,7 @@ public interface PhotoFeedRepository {
     
 
 	@Select("select * from attachment where id = #{id}")
-	List<Attachment> selectAttachment(int id);
+	Attachment selectAttachment(int id);
 
 
     

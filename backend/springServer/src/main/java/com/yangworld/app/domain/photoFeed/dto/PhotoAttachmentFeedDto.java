@@ -13,7 +13,7 @@ public class PhotoAttachmentFeedDto {
 	private int id;
 	private int writerId;
 	private String content;
-	private AttachmentPhotoDto attachmentPhotoDto;
+	private List<AttachmentPhotoDto> attachmentPhotoDto;
 	private List<Attachment> attachments;
 	private LocalDateTime regDate;
 	
