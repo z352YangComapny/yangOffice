@@ -16,6 +16,7 @@ public class Dm {
 	private int receiverId;
 	private int senderId;
 	private String content;
+	private int dmRoomId;
 	private LocalDateTime regDate;
 
 }

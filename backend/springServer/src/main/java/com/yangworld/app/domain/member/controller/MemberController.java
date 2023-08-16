@@ -2,11 +2,14 @@ package com.yangworld.app.domain.member.controller;
 
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.dto.FindIdDto;
+import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,9 +18,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import redis.clients.jedis.Response;
+
+import java.util.Map;
 
 @Validated
 @Controller
@@ -73,6 +80,40 @@ public class MemberController {
 
     }
 
+    @PostMapping("/follow")
+    public ResponseEntity<?> follow(@AuthenticationPrincipal PrincipalDetails principal,
+                                    @RequestBody FollowDto followDto){
+        log.info("followDto = {}", followDto);
+        followDto.setFollower(principal.getId());
+        log.info("followDto={}", followDto);
+
+        memberService.insertFollowee(followDto);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/unfollow")
+    public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
+                                      @RequestBody FollowDto unfollow){
+        unfollow.setFollower(principal.getId());
+        memberService.deleteFollowee(unfollow);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/findId")
+    public ResponseEntity<?> findId(@RequestBody FindIdDto findIdDto){
+
+        String username = memberService.findMemberByEmail(findIdDto);
+        if(username == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("msg", "일치하는 이메일 주소가 없습니다. 확인 바랍니다."));
+        } else{
+            log.info("username = {}", username);
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("username", username));
+        }
+
+    }
 
  }
 

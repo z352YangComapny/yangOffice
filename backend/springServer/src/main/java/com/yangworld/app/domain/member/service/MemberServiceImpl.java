@@ -1,6 +1,8 @@
 package com.yangworld.app.domain.member.service;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.dto.FindIdDto;
+import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Authority;
@@ -49,6 +51,21 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int deleteMember(String username) {
         return memberRepository.deleteMember(username);
+    }
+
+    @Override
+    public int insertFollowee(FollowDto followDto) {
+        return memberRepository.insertFollowee(followDto);
+    }
+
+    @Override
+    public int deleteFollowee(FollowDto unfollow) {
+        return memberRepository.deleteFollowee(unfollow);
+    }
+
+    @Override
+    public String findMemberByEmail(FindIdDto findIdDto) {
+        return memberRepository.findMemberByEmail(findIdDto);
     }
 
 

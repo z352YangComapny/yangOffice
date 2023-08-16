@@ -10,16 +10,11 @@ public interface DmService {
 
 	int insertDm(Dm dm);
 
-	List<Dm> findDmById(int senderId);
-
-	Set<Integer> findMyDm(int receiverId);
-
-	List<Dm> findAllDm();
-
-	List<Dm> findDmDetails(int senderId, int receiverId);
-
+	List<Dm> findMyDmList(int userId);
 
     void insertDmRoom(int participant1, int participant2);
 
 	int deleteDmRoom(int participant1, int participant2);
+
+	List<Dm> findDmDetails(int dmRoomId);
 }

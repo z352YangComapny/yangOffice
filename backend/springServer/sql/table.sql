@@ -277,8 +277,6 @@ create table deleted_member
     deleted_date date default sysdate
 );
 
-
-
 CREATE OR REPLACE TRIGGER trg_member_deleted
     BEFORE DELETE
     ON member
@@ -332,3 +330,4 @@ END;
 --    END LOOP;
 -- END;
 -- /
+
