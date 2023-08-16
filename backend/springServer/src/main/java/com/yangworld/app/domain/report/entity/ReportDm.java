@@ -1,16 +1,21 @@
 package com.yangworld.app.domain.report.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReportDm {
-    private int reportId;
+@ToString
+public class ReportDm extends Report{
     private int dmId;
+    
+    public int getReportId() {
+        return this.getId();
+    }
 }
 

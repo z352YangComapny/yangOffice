@@ -32,9 +32,8 @@ public class ReportController {
 	 * 윤아
 	 * dm report 인서트 
 	 */
-	@PostMapping("/insertReport")
-	@Transactional
-	private ResponseEntity<?> insertReport(@AuthenticationPrincipal PrincipalDetails principal	, @RequestBody ReportCreateDto _reportDto, @RequestParam int dmId) {
+	@PostMapping("/insertReportDm")
+	private ResponseEntity<?> insertReportDm(@AuthenticationPrincipal PrincipalDetails principal	, @RequestBody ReportCreateDto _reportDto, @RequestParam int dmId) {
 		
 		int reporterId = principal.getId();
 		
@@ -43,18 +42,7 @@ public class ReportController {
 		report.setReporterId(reporterId);
 		
 		// 1. report 테이블에 insert
-		reportService.insertReport(report); // reportId = report 시퀀스값
-		
-		int reportId = report.getId(); // report 테이블의 id값 가져오기
-		
-		// 2. report Dm 테이블에 insert
-		ReportDm reportDm = ReportDm.builder()
-											.reportId(reportId)
-											.dmId(dmId).build();
-				
-		log.info("reportDm={}", reportDm);
-		
-		reportService.insertReportDm(reportDm);
+		reportService.insertReportDm(report, dmId); // reportId = report 시퀀스값
 		
 		return ResponseEntity.ok().build();
 	}
