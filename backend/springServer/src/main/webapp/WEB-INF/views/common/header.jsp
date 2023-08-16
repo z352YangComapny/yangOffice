@@ -36,8 +36,22 @@
 		alert('${msg}');
 	</script>
 </c:if>
+<c:if test="${not empty accessToken}">
+	<script>
+		localStorage.setItem("accessToken", '${accessToken}')
+	</script>
+</c:if>
 </head>
 <body>
+<script>
+	const accessToken = '<%= request.getAttribute("accessToken") %>';
+	const username = '<%= request.getAttribute("username")%>';
+	console.log(accessToken, username)
+	if (accessToken !== "null" && username !== "null" ) {
+		localStorage.setItem("accessToken", accessToken);
+		alert(`\${username}님 환영합니다.!`)
+	}
+</script>
 <!-- 인증되었을 때에만 해당 폼이 나오도록! -->
 <sec:authorize access = "isAuthenticated()">
  <!-- Modal -->
