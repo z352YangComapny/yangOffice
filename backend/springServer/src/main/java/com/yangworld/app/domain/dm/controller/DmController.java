@@ -1,9 +1,10 @@
 package com.yangworld.app.domain.dm.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.dm.dto.DmRoomDto;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.service.DmService;
@@ -31,20 +32,44 @@ public class DmController {
 	
 	@Autowired
 	private DmService dmService;
+
+	/**
+	 * DM 선택한 후 대화창 조회
+	 */
+	@GetMapping("/findDmDetails")
+	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId) {
+		
+		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
+		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
+		
+		return ResponseEntity.ok(dmDetails);
+	}
 	
-	@GetMapping("/findMyDm")
-	public ResponseEntity<?> findDm(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+	/**
+	 * 가장 최신 dm List 가져오기 
+	 */
+	@GetMapping("/findMyDmList")
+	public ResponseEntity<?> findMyDmList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		
 	    int userId = principal.getId(); 
 	    
-	    // 내 dm목록 조회
-	    // 잘 뜨는데 id 값이 0 이 나옴..왜지 근데 id 값 필요없음 . dmroomId 쓰면되니까..?
-	   	 List<Dm> myDms = dmService.findMyDm(userId);
+	    List<Dm> myDms = dmService.findMyDmList(userId);
+	    Map<Integer, Dm> latestMessagesMap = new HashMap<>();
 
 	    log.info("myDms={}", myDms);
-	    // user1:myDms=[4, 9]
+	    
+	    for (Dm dm : myDms) {
+	        int dmRoomId = dm.getDmRoomId();
+	        if (!latestMessagesMap.containsKey(dmRoomId) || dm.getRegDate().isAfter(latestMessagesMap.get(dmRoomId).getRegDate())) {
+	            latestMessagesMap.put(dmRoomId, dm);
+	        }
+	    }
 
-	    return ResponseEntity.ok(myDms);
+	    // 가장 최신 메시지로 정렬 ( regDate )
+	    List<Dm> sortedMessages = new ArrayList<>(latestMessagesMap.values());
+	    sortedMessages.sort(Comparator.comparing(Dm::getRegDate).reversed());
+
+	    return ResponseEntity.ok(sortedMessages);
 	 }
 
 

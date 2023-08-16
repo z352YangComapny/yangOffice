@@ -28,8 +28,14 @@ public class DmServiceImpl implements DmService {
 	}
 	
 	@Override
-	public List<Dm> findMyDm(int userId) {
-		List<Dm> myDms = dmRepository.findMyDm(userId);
+	public List<Dm> findDmDetails(int dmRoomId) {
+		List<Dm> dmDetails = dmRepository.findDmDetails(dmRoomId);
+		return dmDetails;
+	}
+	
+	@Override
+	public List<Dm> findMyDmList(int userId) {
+		List<Dm> myDms = dmRepository.findMyDmList(userId);
 		return myDms;
 	}
 

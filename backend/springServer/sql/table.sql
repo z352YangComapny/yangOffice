@@ -110,7 +110,7 @@ create table dm
     constraints f_dm_room_id foreign key (dm_room_id) references dm_room (id) on delete cascade
 );
 create sequence seq_dm_id;
-select * from dm;
+
 create table report_dm
 (
     report_id   number,
@@ -330,4 +330,7 @@ END;
 --    END LOOP;
 -- END;
 -- /
+select * from photo_feed;
+select * from attachment;
 
+-- truncate table photo_feed;
