@@ -1,5 +1,8 @@
 package com.yangworld.app.domain.guestbook.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 public interface GuestBookService {
@@ -9,5 +12,7 @@ public interface GuestBookService {
 	int deleteGuestBook(GuestBook guestBook);
 
 	int updateGuestBook(GuestBook guestBook);
+
+	List<GuestBook> findAll(Map<String, Object> params);
 
 }
