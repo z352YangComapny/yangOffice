@@ -15,8 +15,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -39,21 +42,25 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        Gson gson = new Gson();
-        LoginDto loginDto = null;
+//        Gson gson = new Gson();
+//        LoginDto loginDto = null;
+        String username =(String) request.getParameter("memberId");
+        String password =(String) request.getParameter("password");
+        
+        System.out.println(username);
+        System.out.println(password);
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
+//            loginDto = gson.fromJson(reader, LoginDto.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
-            loginDto = gson.fromJson(reader, LoginDto.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        log.info("loginDto = {} ",loginDto);
-        if((loginDto.getUsername().startsWith("user")||loginDto.getUsername().startsWith("admin")) && loginDto.getPassword().equals("1234"))
-            memberRepository.updatePassword(loginDto.getUsername(), passwordEncoder.encode("1234"));
+//        log.info("loginDto = {} ",loginDto);
+        if((username.startsWith("user")||username.equals("admin")) && password.equals("1234"))
+            memberRepository.updatePassword(username, passwordEncoder.encode("1234"));
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(username, password);
         
         log.info("authenticationToken = {} ",authenticationToken);
 
@@ -75,5 +82,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         redisService.setData(refreshTokenObj);
         response.addHeader(JwtProperties.ACC_HEADER_STRING,JwtProperties.TOKEN_PREFIX+accessToken);
+     
+        request.setAttribute("accessToken", accessToken);
+        request.setAttribute("username", principalDetails.getUsername());
+        
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+        log.info("principalDetails.getAuthorities()={}",principalDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        
     }
 }
