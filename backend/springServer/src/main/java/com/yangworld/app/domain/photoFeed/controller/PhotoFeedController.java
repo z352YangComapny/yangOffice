@@ -136,6 +136,12 @@ public class PhotoFeedController {
 		
 		return null;
 	}
+	
+//	@GetMapping("/feedDetails")
+//	public ResponseEntity<?> // details를 하려면 comment 댓글 먼저 해야함
+	
+	
+	
 
 	
 

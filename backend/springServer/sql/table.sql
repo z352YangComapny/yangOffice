@@ -353,17 +353,17 @@ select * from photo_feed where writer_id = 1;
 
 select * from attachment;
 
-delete from attachment_photo_feed;
+-- delete from attachment_photo_feed;
 
 commit;
     select* from member;
-    
+select * from photo_feed;
 select * from attachment_photo_feed;
--- truncate table photo_feed;
+select * from attachment;
+select * from comments_feed;
+select * from comments;
 
-select * from attachment where id = 18;
-
-
+insert into comments_feed (comments_id, photo_feed_id) values(seq_comments_id.currval, seq_photo_feed_id.currval);
 
 select
     *
@@ -372,3 +372,6 @@ from
     on A.attachment_id = B.id
 where
     attachment_id = 26;
+    
+select * from member;
+
