@@ -1,4 +1,4 @@
-package com.yangworld.app.chat.dto;
+package com.yangworld.app.domain.chat.dto;
 
 public enum PayloadType {
 	NOTICE, CHAT;
