@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,10 +35,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+@RequestMapping("/feed")
 public class PhotoFeedController {
 	
 	@Autowired
 	private PhotoFeedService photoFeedService;
+	
+	@GetMapping
+	public void feedJoin() {}
 	
 	
 	@PostMapping("/feedCreate")
@@ -124,7 +129,7 @@ public class PhotoFeedController {
 	
 	@PostMapping("/feedDelete")
 	public ResponseEntity<?> deleteFeed(
-			@AuthenticationPrincipal FeedDeleteDto feed,
+			
 			Model model
 			){
 		
