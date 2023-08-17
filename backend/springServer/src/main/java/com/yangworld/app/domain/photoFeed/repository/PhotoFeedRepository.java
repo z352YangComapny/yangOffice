@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
@@ -55,6 +57,11 @@ public interface PhotoFeedRepository {
 	// attachment delete
 	@Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")
 	int deleteLink(int feedId);
+
+
+	@Update("update photo_feed set content = #{content} where id = #{feedId}")
+	int updateFeed(@Param("feedId") int feedId, @Param("content") String content);
+
 	
 
 

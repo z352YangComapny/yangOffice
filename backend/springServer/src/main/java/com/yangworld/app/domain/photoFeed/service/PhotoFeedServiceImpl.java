@@ -101,7 +101,8 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 
 
 	@Override
-	public int deleteFeed(int feedId) {
+	public int deleteFeed(int feedId) { 
+		
 		int result = 0;
 		
 		try {
@@ -112,6 +113,15 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 		catch(Exception e) {
 			throw e;
 		}
+		return result;
+	}
+
+	@Override
+	public int updateFeed(int feedId, String content) {
+		int result = 0;
+		
+		result = photoFeedRepository.updateFeed(feedId, content);
+		
 		return result;
 	}
 

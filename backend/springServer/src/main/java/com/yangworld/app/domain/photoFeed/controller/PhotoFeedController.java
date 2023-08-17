@@ -114,18 +114,6 @@ public class PhotoFeedController {
 	}
 	
 	
-	// 피드안 댓글 + 사진 + 글내용 + 제목 + 작성자정보;
-	@GetMapping("/feedDetail/{nickName}")
-	public ResponseEntity<?> detailFeed(
-			@PathVariable String nickName,
-			BindingResult bindingResult
-			){
-		
-		return null;
-	}
-	
-	
-	
 	@PostMapping("/feedDelete")
 	public ResponseEntity<?> deleteFeed(@RequestParam int feedId){
 //		DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
@@ -136,6 +124,17 @@ public class PhotoFeedController {
 		 int result = photoFeedService.deleteFeed(feedId);
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("/feedUpdate")
+	public ResponseEntity<?> updateFeed(
+			@RequestParam int feedId,
+			@RequestParam String content
+			){
+		
+		int result = photoFeedService.updateFeed(feedId, content);
+		
+		return null;
 	}
 
 	
