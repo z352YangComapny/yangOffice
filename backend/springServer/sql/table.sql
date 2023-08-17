@@ -343,10 +343,14 @@ select * from attachment;
 commit;
     select* from member;
 select * from photo_feed;
-select * from attachment_photo_feed;
+
 select * from attachment;
+select * from attachment_photo_feed;
 select * from comments_feed;
 select * from comments;
+
+
+
 
 insert into comments_feed (comments_id, photo_feed_id) values(seq_comments_id.currval, seq_photo_feed_id.currval);
 
