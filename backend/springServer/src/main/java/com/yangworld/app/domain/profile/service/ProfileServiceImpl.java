@@ -36,6 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
 //	}
 	
 	@Override
+	@Transactional
 	public int insertProfile(ProfileDetails profile) {
 		int result = 0;
 		
@@ -46,6 +47,8 @@ public class ProfileServiceImpl implements ProfileService {
 			for(Attachment attach : attachments) {
 				attach.setId(profile.getId());
 				result = profileRepository.insertAttachment(attach);
+				log.info("profileId={}", profile.getId());
+	            log.info("attach = {}", attach);
 				
 				// attachment_profile 테이블에 관련 정보 추가
 				AttachmentProfile attachmentProfile = new AttachmentProfile();
@@ -58,10 +61,11 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
+	@Transactional
 	public int updateProfile(ProfileDetails profile) {
 	    int result = 0;
 
-	    // 프로파일 업데이트
+	    log.info("profileId={}", profile.getId());
 	    result = profileRepository.updateProfile(profile);
 
 	    List<Attachment> attachments = ((ProfileDetails) profile).getAttachments();
@@ -71,7 +75,7 @@ public class ProfileServiceImpl implements ProfileService {
 	            result = profileRepository.updateAttachment(attach);
 	            log.info("profileId={}", profile.getId());
 	            log.info("attach = {}", attach);
-	            // 첨부파일 프로파일 업데이트
+	            
 	            AttachmentProfile attachmentProfile = new AttachmentProfile();
 	            attachmentProfile.setAttachmentId(attach.getId());
 	            attachmentProfile.setProfileId(profile.getId());
@@ -80,7 +84,6 @@ public class ProfileServiceImpl implements ProfileService {
 	    }
 	    return result;
 	}
-	
 	
 	
 	@Override

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.report.dto.ReportCreateDto;
@@ -47,6 +48,43 @@ public class ReportController {
 		return ResponseEntity.ok().build();
 	}
 
+	@PostMapping("/insertReportGuestBook")
+	public ResponseEntity<?> insertReportGuestBook(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody ReportCreateDto _reportDto,
+			@RequestParam int guestBookId
+		){
+		
+		int reporterId = principalDetails.getId();
+		
+		Report report = _reportDto.toReport();
+		log.info("report = {}",report);
+		report.setReporterId(reporterId);
+		
+		
+		reportService.insertReportGuestBook(report,guestBookId);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("/insertReportProfile")
+	public ResponseEntity<?> insertReportProfile(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody ReportCreateDto _reportDto,
+			@RequestParam int profileId
+		){
+		
+		int reporterId = principalDetails.getId();
+		
+		Report report = _reportDto.toReport();
+		log.info("report = {}",report);
+		report.setReporterId(reporterId);
+		
+		
+		reportService.insertReportProfile(report,profileId);
+		
+		return ResponseEntity.ok().build();
+	}
 	
 	
 	

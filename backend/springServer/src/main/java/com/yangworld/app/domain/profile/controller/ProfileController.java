@@ -77,9 +77,9 @@ public class ProfileController {
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
 		
-		log.debug("_profile = {}", _profile);
-		log.debug("principal = {}",principal); 
-		log.debug("upFiles = {}", upFiles); 
+		log.info("_profile = {}", _profile);
+		log.info("principal = {}",principal); 
+		log.info("upFiles = {}", upFiles); 
 		
 		
 		List<Attachment> attachments = new ArrayList<>(); 
@@ -126,9 +126,7 @@ public class ProfileController {
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
 		
-		log.debug("_profile = {}", _profile);
-		log.debug("principal = {}",principal); 
-		log.debug("upFiles = {}", upFiles); 
+	
 		
 		
 		List<Attachment> attachments = new ArrayList<>(); 
@@ -146,15 +144,20 @@ public class ProfileController {
 						.build();
 				attachments.add(attach);
 			}
+			
 		}
 		
 		ProfileDetails profile = ProfileDetails.builder()
+				.id(_profile.getId())
 				.memberId(principal.getId())
 				.state(_profile.getState())
 				.introduction(_profile.getIntroduction())
 				.attachments(attachments)
 				.build();
 		
+		log.info("_profile = {}", _profile);
+		log.info("principal = {}",principal); 
+		log.info("upFiles = {}", upFiles); 
 		
 		int result = profileService.updateProfile(profile);
 		log.debug("profile ={}", profile);

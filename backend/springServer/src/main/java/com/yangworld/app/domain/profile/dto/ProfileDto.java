@@ -19,6 +19,7 @@ public class ProfileDto {
 	
 	public Profile toProfile() {
 		return Profile.builder()
+				.memberId(memberId)
 				.state(state)
 				.introduction(introduction)
 				.build();

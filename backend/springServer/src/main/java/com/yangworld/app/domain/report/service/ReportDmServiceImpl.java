@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.entity.ReportDm;
+import com.yangworld.app.domain.report.entity.ReportGuestBook;
+import com.yangworld.app.domain.report.entity.ReportProfile;
 import com.yangworld.app.domain.report.repository.ReportRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,33 @@ public class ReportDmServiceImpl implements ReportService {
 	        
 	        return resultReportDm; // insertReportDm 메서드의 결과 반환
 	    }
+
+	@Override
+	public int insertReportGuestBook(Report report, int guestBookId) {
+		int reportId = report.getId();
+		
+		ReportGuestBook reportGuestBook = ReportGuestBook.builder()
+											.id(reportId)
+											.guestBookId(guestBookId)
+											.build();
+		return reportRepository.insertReportGuestBook(reportGuestBook);
+	}
+
+	@Override
+	public int insertReportProfile(Report report, int profileId) {
+		
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		ReportProfile reportProfile = ReportProfile.builder()
+												.id(reportId)
+												.profileId(profileId)
+												.build();
+		int resultReportProfile = reportRepository.insertReportProfile(reportProfile);
+		
+		return resultReportProfile;
+		
+		
+	}
 	
 //	@Override
 //	public int insertReportDm(ReportDm reportDm) {
