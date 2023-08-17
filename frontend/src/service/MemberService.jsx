@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 class AppService {
-   singIn({username, password}){
+   async singIn({username, password}){
       const axiosConfig = {
          headers:{
            "Content-Type" : "application/json",
@@ -13,7 +13,7 @@ class AppService {
          username:username,
          password:password
        }
-      return axios.post("/login",axiosBody,axiosConfig)
+      return await axios.post("/login",axiosBody,axiosConfig)
    }
 }
 
