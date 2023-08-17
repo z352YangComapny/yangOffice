@@ -32,8 +32,6 @@ public interface MemberRepository {
 
     @Delete("delete from member where username = #{username}")
     int deleteMember(String username);
-<<<<<<< HEAD
-=======
 
     @Insert("insert into follow values (#{follower}, #{followee}, default)")
     int insertFollowee(FollowDto followDto);
@@ -43,6 +41,5 @@ public interface MemberRepository {
 
     @Select("select username from member where email = #{email}")
     String findMemberByEmail(FindIdDto findIdDto);
->>>>>>> dev
 }
 
