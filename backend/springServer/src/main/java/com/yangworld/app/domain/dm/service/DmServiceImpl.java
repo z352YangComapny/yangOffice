@@ -1,6 +1,8 @@
 package com.yangworld.app.domain.dm.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +28,25 @@ public class DmServiceImpl implements DmService {
 	}
 	
 	@Override
-	public List<Dm> findDmById(int senderId) {
-		List<Dm> dms = dmRepository.findDmById(senderId);
-		return dms;
+	public List<Dm> findDmDetails(int dmRoomId) {
+		List<Dm> dmDetails = dmRepository.findDmDetails(dmRoomId);
+		return dmDetails;
 	}
 	
+	@Override
+	public List<Dm> findMyDmList(int userId) {
+		List<Dm> myDms = dmRepository.findMyDmList(userId);
+		return myDms;
+	}
+
+	@Override
+	public void insertDmRoom(int participant1, int participant2) {
+		dmRepository.insertDmRoom(participant1, participant2);
+	}
+
+	@Override
+	public int deleteDmRoom(int participant1, int participant2) {
+		return dmRepository.deleteDmRoom(participant1,participant2);
+	}
+
 }

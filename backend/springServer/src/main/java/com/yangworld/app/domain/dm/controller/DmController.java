@@ -1,8 +1,13 @@
 package com.yangworld.app.domain.dm.controller;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
@@ -26,37 +32,97 @@ public class DmController {
 	
 	@Autowired
 	private DmService dmService;
-	
-	@GetMapping("/findDm")
-	public ResponseEntity<?> findDm(@AuthenticationPrincipal PrincipalDetails principal, Model model){
-		int senderId = principal.getId();
+
+	/**
+	 * DM 선택한 후 대화창 조회
+	 */
+	@GetMapping("/findDmDetails")
+	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId) {
 		
-		// 내가 보낸 Dm 조회하기 --> dm 들어가면 모든 대화 뜨게 조회하는 메소드임. view에서 작업 예정.. 아마...
-		List<Dm> dms = dmService.findDmById(senderId);
+		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
+		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
 		
-		log.info("dms={}", dms);
-		/*dms=[Dm(id=1, receiverId=4, senderId=2, content=안녕녕dydhdhd, regDate=2023-08-14T00:08:09),
-		Dm(id=2, receiverId=4, senderId=2, content=안녕 모해해, regDate=2023-08-14T09:02:25),
-		Dm(id=3, receiverId=4, senderId=2, content=안녕 나는 학언이야야, regDate=2023-08-14T09:02:42)] */
-		
-		return ResponseEntity.ok(dms);
-		
+		return ResponseEntity.ok(dmDetails);
 	}
+	
+	/**
+	 * 가장 최신 dm List 가져오기 
+	 */
+	@GetMapping("/findMyDmList")
+	public ResponseEntity<?> findMyDmList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		
+	    int userId = principal.getId(); 
+	    
+	    List<Dm> myDms = dmService.findMyDmList(userId);
+	    Map<Integer, Dm> latestMessagesMap = new HashMap<>();
+
+	    log.info("myDms={}", myDms);
+	    
+	    for (Dm dm : myDms) {
+	        int dmRoomId = dm.getDmRoomId();
+	        if (!latestMessagesMap.containsKey(dmRoomId) || dm.getRegDate().isAfter(latestMessagesMap.get(dmRoomId).getRegDate())) {
+	            latestMessagesMap.put(dmRoomId, dm);
+	        }
+	    }
+
+	    // 가장 최신 메시지로 정렬 ( regDate )
+	    List<Dm> sortedMessages = new ArrayList<>(latestMessagesMap.values());
+	    sortedMessages.sort(Comparator.comparing(Dm::getRegDate).reversed());
+
+	    return ResponseEntity.ok(sortedMessages);
+	 }
+
+
 	
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
 		log.info("sendDm info = {}", _dmDto);
-		// senderId 가져오기
-		
 		 int senderId = principal.getId();
 		 Dm dm = _dmDto.toDm();
-		 log.info("senderId={}", senderId); 
+		 log.info("senderId={}", senderId);
 		 dm.setSenderId(senderId);
-		 
+
 		// insert
 		dmService.insertDm(dm);
 		
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/createDmRoom")
+	public ResponseEntity<?> insertDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody Map<String, Integer> participants) {
+		log.debug("DmRoomDto info = {}", participants);
+
+		int participant1 = principal.getId();
+		int participant2 = participants.get("partner");
+
+		if (participant1 > participant2) {
+			int temp = participant1;
+			participant1 = participant2;
+			participant2 = temp;
+		}
+		log.debug("participants={},{}", participant1, participant2);
+		// insert
+		dmService.insertDmRoom(participant1, participant2);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/deleteDmRoom")
+	public ResponseEntity<?> deleteDmRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Map<String, Integer> map){
+		int participant1 = principalDetails.getId();
+		int participant2 = map.get("partner");
+
+		if (participant1 > participant2) {
+			int temp = participant1;
+			participant1 = participant2;
+			participant2 = temp;
+		}
+
+		int result = dmService.deleteDmRoom(participant1, participant2);
+		if(result>0){
+			return ResponseEntity.ok().build();
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 	

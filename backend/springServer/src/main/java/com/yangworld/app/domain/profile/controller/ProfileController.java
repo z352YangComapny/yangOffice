@@ -28,8 +28,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Member;
-import com.yangworld.app.domain.photoFeed.dto.PeedCreateDto;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
+
 import com.yangworld.app.domain.profile.dto.ProfileDto;
 import com.yangworld.app.domain.profile.entity.Profile;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
@@ -167,9 +166,8 @@ public class ProfileController {
 			return ResponseEntity.ok().build();
 	    } else {
 	        // 생성 중 오류가 발생한 경우
-	    	
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update profile");
-	    }
+			return ResponseEntity.ok().build();
+	    } 
 	}
 
 	
@@ -183,5 +181,4 @@ public class ProfileController {
 		return ResponseEntity.ok().build();
 	}
 }
-
 

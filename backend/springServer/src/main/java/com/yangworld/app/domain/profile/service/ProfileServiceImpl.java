@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
 import com.yangworld.app.domain.profile.dto.ProfileDto;
 import com.yangworld.app.domain.profile.entity.AttachmentProfile;
 import com.yangworld.app.domain.profile.entity.Profile;

@@ -1,5 +1,8 @@
 package com.yangworld.app.domain.guestbook.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,21 @@ public class GuestBookServiceImpl implements GuestBookService{
 	@Override
 	public int insertGuestBook(GuestBook guestBook) {
 		return guestBookRepository.insertGuestBook(guestBook);
+	}
+
+	@Override
+	public int deleteGuestBook(GuestBook guestBook) {
+		return guestBookRepository.deleteGuestBook(guestBook);
+	}
+
+	@Override
+	public int updateGuestBook(GuestBook guestBook) {
+		return guestBookRepository.updateGuestBook(guestBook);
+	}
+
+	@Override
+	public List<GuestBook> findAll(Map<String, Object> params) {
+		return guestBookRepository.findAll(params);
 	}
 
 }

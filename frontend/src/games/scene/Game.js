@@ -2,6 +2,7 @@ import Phaser, { Scene } from "phaser";
 import { createCharacterAnims } from "../anims/CharacterAnims";
 import PlayerController from "../characters/PlayerController";
 import MyPlayer from "../characters/Myplayer";
+import Network from "../network/NetWork";
 
 export default class Game extends Scene {
     constructor() {
@@ -18,6 +19,7 @@ export default class Game extends Scene {
         this.computerMap = new Map();
         this.whiteboardMap = new Map();
         this.playerTexture = 'adam'
+        this.network = new Network();
     }
 
 
@@ -62,6 +64,10 @@ export default class Game extends Scene {
     }
 
     create() {
+        if(!this.network){
+            console.log(this.network)
+            return
+        }
         // Load Map
         this.map = this.make.tilemap({ key: 'map' });
         const tileset = this.map.addTilesetImage('FloorAndGround', 'floorAndGround')

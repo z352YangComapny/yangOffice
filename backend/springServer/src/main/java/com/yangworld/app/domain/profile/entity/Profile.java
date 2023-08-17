@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
-import com.yangworld.app.domain.photoFeed.entity.PhotoPeed;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

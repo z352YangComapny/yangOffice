@@ -1,25 +1,27 @@
-package com.yangworld.app.domain.photoFeed.entity;
+package com.yangworld.app.domain.photoFeed.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
-import com.yangworld.app.domain.member.entity.Member;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@ToString(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class PeedDetails extends PhotoPeed{
-
-	private Member member;
-	private int attachCount;
-	private List<Attachment> attachments;
+public class FeedCreateDto {
 	
+	
+	private int writerId;
+	private String content;
+	private List<Attachment> attachments;
+	private LocalDateTime regDate;
+	
+
 }
