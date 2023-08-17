@@ -29,4 +29,7 @@ public interface QuestionRepository {
 	@Select("select * from question order by type")
 	List<Question> findAllQuestion();
 
+	@Select("select * from question where id = #{id}")
+	Question findQuestionById(int id);
+
 }
