@@ -2,6 +2,7 @@ package com.yangworld.app.domain.member.controller;
 
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +35,11 @@ import java.util.Map;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private PrincipalDetailsService principalDetailsService;
+
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -58,7 +65,7 @@ public class MemberController {
         memberService.updateMember(updateDto, principal.getUsername());
 
         // 업데이트 한 회원의 새 정보를 authentication에 새롭게 담아주기
-        PrincipalDetails principalDetails = memberService.loadUserByUsername(principal.getUsername());
+        PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(principal.getUsername());
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
                                         principalDetails,
                                         principalDetails.getPassword(),
