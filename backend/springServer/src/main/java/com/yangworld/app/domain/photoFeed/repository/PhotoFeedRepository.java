@@ -27,19 +27,35 @@ public interface PhotoFeedRepository {
     @Insert("insert into attachment_photo_feed (attachment_id, photo_feed_id) values (seq_attachment_id.currval, seq_photo_feed_id.currval)")
     int insertLink();
 
-    @Select("select * from photo_feed where writer_id = #{writerId}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
+    @Select("select * from photo_feed where writer_id = #{writerId}") 
     List<PhotoAttachmentFeedDto> selectFeed(int writerId);
 
-    @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
+    @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") 
     List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
-    
-    @Delete("delete from photo_feed where id = #{id}")
-	int deleteFeed(FeedCreateDto feed);
-
     
 
 	@Select("select * from attachment where id = #{id}")
 	Attachment selectAttachment(int id);
+	
+//	DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
+//	DELETE FROM photo_feed WHERE id = [피드의 ID];
+//	DELETE FROM attachment
+//	WHERE id NOT IN (SELECT attachment_id FROM attachment_photo_feed);
+	
+	// photo_feed delete
+	@Delete("delete from photo_feed where id = #{feedId}")
+	int deleteFeed(int feedId);
+
+	// attachment_photo_feed delete (link table)
+	@Delete("delete from attachment where id not in (select attachment_id from attachment_photo_feed)")
+	int deleteAttachment(int feedId);
+//delete from attachment where id not in (select attachment_id from attachment_photo_feed)
+
+
+	// attachment delete
+	@Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")
+	int deleteLink(int feedId);
+	
 
 
     

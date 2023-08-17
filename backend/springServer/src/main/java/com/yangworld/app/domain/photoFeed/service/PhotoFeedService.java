@@ -18,7 +18,7 @@ public interface PhotoFeedService {
 
 	
 
-	int deleteFeed(FeedCreateDto feed);
+	int deleteFeed(int feedId);
 
 	
 

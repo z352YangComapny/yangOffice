@@ -35,14 +35,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/feed")
+//@RequestMapping("/feed")
 public class PhotoFeedController {
 	
 	@Autowired
 	private PhotoFeedService photoFeedService;
 	
-	@GetMapping
-	public void feedJoin() {}
+//	@GetMapping
+//	public void feedJoin() {}
 	
 	
 	@PostMapping("/feedCreate")
@@ -117,7 +117,6 @@ public class PhotoFeedController {
 	// 피드안 댓글 + 사진 + 글내용 + 제목 + 작성자정보;
 	@GetMapping("/feedDetail/{nickName}")
 	public ResponseEntity<?> detailFeed(
-			@RequestPart @Valid Member member,
 			@PathVariable String nickName,
 			BindingResult bindingResult
 			){
@@ -128,26 +127,19 @@ public class PhotoFeedController {
 	
 	
 	@PostMapping("/feedDelete")
-	public ResponseEntity<?> deleteFeed(
-			
-			Model model
-			){
+	public ResponseEntity<?> deleteFeed(@RequestParam int feedId){
+//		DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
+//		DELETE FROM photo_feed WHERE id = [피드의 ID];
+//		DELETE FROM attachment
+//		WHERE id NOT IN (SELECT attachment_id FROM attachment_photo_feed);
 		
-//		 int result = photoFeedService.deleteFeed(feed);
+		 int result = photoFeedService.deleteFeed(feedId);
 		
 		return ResponseEntity.ok().build();
 	}
 
 	
-	@PostMapping("/feedUpdate")
-	public ResponseEntity<?> updateFeed(
-			@RequestPart @Valid FeedCreateDto _feed,
-			BindingResult bindingResult,
-			@AuthenticationPrincipal Member member
-			){
-			
-		return null;
-	}
+
 	
 	
 	

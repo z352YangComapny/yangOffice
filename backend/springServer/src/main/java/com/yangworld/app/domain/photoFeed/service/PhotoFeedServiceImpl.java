@@ -99,10 +99,20 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 
 
 
+
 	@Override
-	public int deleteFeed(FeedCreateDto feed) {
-		// TODO Auto-generated method stub
-		return photoFeedRepository.deleteFeed(feed);
+	public int deleteFeed(int feedId) {
+		int result = 0;
+		
+		try {
+		result = photoFeedRepository.deleteFeed(feedId);
+		result = photoFeedRepository.deleteAttachment(feedId);
+		result = photoFeedRepository.deleteLink(feedId);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		return result;
 	}
 
 
