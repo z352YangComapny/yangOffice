@@ -49,7 +49,7 @@ window.onload = () => {
 				
 				<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
 				<form:form
-					action="${pageContext.request.contextPath}/login"
+					action="${pageContext.request.contextPath}/member/memberLogin.do"
 					method="post">
 					<div class="modal-body">
 						<c:if test="${param.error ne null}">
@@ -58,23 +58,23 @@ window.onload = () => {
 							</div>
 						</c:if>
 						<input 
-							type="text" class="form-control" name="memberId"
-							placeholder="아이디" value="honggd" required> 
+							type="text" class="form-control" name="username"
+							placeholder="아이디" value="user1" required>
 						<br /> 
 						<input
 							type="password" class="form-control" name="password"
 							placeholder="비밀번호" value="1234" required>
 					</div>
 					<div class="modal-footer d-flex flex-column" style="align-items: unset;">
-						<div>
-							<%-- <a href="${pageContext.request.contextPath}/oauth/kakao/login.do">카카오 로그인</a> --%>
+						<%--<div>
+							&lt;%&ndash; <a href="${pageContext.request.contextPath}/oauth/kakao/login.do">카카오 로그인</a> &ndash;%&gt;
 							<a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">카카오 로그인</a>
-						</div>
+						</div>--%>
 						<div class="d-flex justify-content-between">
-							<div>
+							<%--<div>
 								<input type="checkbox" class="form-check-input" name="remember-me" id="remember-me"/>
 								<label for="remember-me" class="form-check-label">Remember me</label>
-							</div>
+							</div>--%>
 							<div>
 								<button type="submit" class="btn btn-outline-success">로그인</button>
 								<button type="button" class="btn btn-outline-success" data-dismiss="modal">취소</button>
@@ -86,5 +86,8 @@ window.onload = () => {
 		</div>
 	</div>
 	<!-- Modal 끝-->
+
+
+
 </body>
 </html>
