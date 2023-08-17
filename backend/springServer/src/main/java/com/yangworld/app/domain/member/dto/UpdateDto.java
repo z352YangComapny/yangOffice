@@ -23,6 +23,6 @@ public class UpdateDto {
     private String email;
     @NotBlank(message ="생일")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String birthday;
+    private Date birthday;
 
 }
