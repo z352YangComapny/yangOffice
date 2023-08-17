@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.guestbook.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -82,14 +83,14 @@ public class GuestbookController {
 	@GetMapping("/list")
 	public ResponseEntity<?> guestBookList(
 			@RequestParam(defaultValue = "1") int page,
-			@AuthenticationPrincipal GuestBook guestBook
+			@AuthenticationPrincipal Member member
 			){
 		int limit = 5;
 		Map<String, Object> params = Map.of(
 				"page",page,
 				"limit",limit
 			);
-		log.info("guestBook ={} ",guestBook);
+		log.info("member ={} ",member);
 		List<GuestBook> guestBooks = guestBookService.findAll(params);
 		return ResponseEntity.ok(guestBooks);
 	}
