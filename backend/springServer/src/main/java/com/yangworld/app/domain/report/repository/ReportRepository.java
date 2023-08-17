@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.entity.ReportDm;
+import com.yangworld.app.domain.report.entity.ReportGuestBook;
 
 @Mapper
 public interface ReportRepository {
@@ -24,4 +25,7 @@ public interface ReportRepository {
 	// Report_DM 테이블에 신고와 DM 관계 추가
 	@Insert("insert into report_dm(report_id, dm_id) values(#{reportId}, #{dmId})")
 	int insertReportDm(ReportDm reportDm);
+
+	@Insert("insert into report_guestbook(report_id, guestbook_id) values(#{reportId}, #{guestBookId})")
+	int insertReportGuestBook(ReportGuestBook reportGuestBook);
 }
