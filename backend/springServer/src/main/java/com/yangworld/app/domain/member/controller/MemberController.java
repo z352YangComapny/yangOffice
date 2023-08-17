@@ -6,6 +6,7 @@ import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import redis.clients.jedis.Response;
 
+import java.util.List;
 import java.util.Map;
 
 @Validated
@@ -106,7 +108,6 @@ public class MemberController {
 
     @PostMapping("/findId")
     public ResponseEntity<?> findId(@RequestBody FindIdDto findIdDto){
-
         String username = memberService.findMemberByEmail(findIdDto);
         if(username == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -115,7 +116,12 @@ public class MemberController {
             log.info("username = {}", username);
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("username", username));
         }
+    }
 
+    @GetMapping("/admin/findAll")
+    public ResponseEntity<List<Member>> findAll(){
+//        List<Member> memberList = memberService.findMember();
+        return null;
     }
 
  }

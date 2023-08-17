@@ -81,14 +81,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .tokenVal(refreshToken).build();
 
         redisService.setData(refreshTokenObj);
-        response.addHeader(JwtProperties.ACC_HEADER_STRING,JwtProperties.TOKEN_PREFIX+accessToken);
+//        response.addHeader(JwtProperties.ACC_HEADER_STRING,JwtProperties.TOKEN_PREFIX+accessToken);
      
         request.setAttribute("accessToken", accessToken);
         request.setAttribute("username", principalDetails.getUsername());
-        
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
-        log.info("principalDetails.getAuthorities()={}",principalDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         request.getRequestDispatcher("/index.jsp").forward(request, response);
         
     }
