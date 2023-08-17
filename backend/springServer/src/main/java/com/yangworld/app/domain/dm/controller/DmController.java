@@ -37,19 +37,19 @@ public class DmController {
 	 * DM 선택한 후 대화창 조회
 	 */
 	@GetMapping("/findDmDetails")
-	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId) {
+	public void findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId, Model model) {
 		
 		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
 		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
 		
-		return ResponseEntity.ok(dmDetails);
+		model.addAttribute("dmDetails", dmDetails);
 	}
 	
 	/**
 	 * 가장 최신 dm List 가져오기 
 	 */
 	@GetMapping("/findMyDmList")
-	public ResponseEntity<?> findMyDmList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+	public void findMyDmList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		
 	    int userId = principal.getId(); 
 	    
@@ -69,13 +69,13 @@ public class DmController {
 	    List<Dm> sortedMessages = new ArrayList<>(latestMessagesMap.values());
 	    sortedMessages.sort(Comparator.comparing(Dm::getRegDate).reversed());
 
-	    return ResponseEntity.ok(sortedMessages);
+	    model.addAttribute("myDmList", sortedMessages);
 	 }
 
 
 	
 	@PostMapping("/sendDm")
-	public ResponseEntity<?> sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
+	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
 		log.info("sendDm info = {}", _dmDto);
 		 int senderId = principal.getId();
 		 Dm dm = _dmDto.toDm();
@@ -85,7 +85,7 @@ public class DmController {
 		// insert
 		dmService.insertDm(dm);
 		
-		return ResponseEntity.ok().build();
+		return "redirect:/dm/dmDetail.do?id=" + dm.getSenderId();
 	}
 
 	@PostMapping("/createDmRoom")

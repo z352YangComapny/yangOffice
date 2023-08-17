@@ -330,7 +330,12 @@ END;
 --    END LOOP;
 -- END;
 -- /
+
+
 select * from photo_feed;
+select * from photo_feed where writer_id = 1;
+select* from member;
 select * from attachment;
 
--- truncate table photo_feed;
+commit;
+
