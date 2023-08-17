@@ -42,6 +42,9 @@ public class MemberController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    
+    @GetMapping("/memberLogin.do")
+	public void memberLogin() {}
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignUpDto signUpDto){
