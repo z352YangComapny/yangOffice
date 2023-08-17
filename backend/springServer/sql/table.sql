@@ -331,28 +331,13 @@ END;
 -- END;
 -- /
 
--- member 테이블에 데이터 삽입
-INSERT INTO member (id, username, name, password, nickname, birthday, gender, phone, email, provider)
-VALUES (1, 'user1', 'User One', '1234', 'u1', TO_DATE('1990-01-01', 'YYYY-MM-DD'), 'M', '1234567890', 'user1@example.com', 'YANG');
-
-INSERT INTO member (id, username, name, password, nickname, birthday, gender, phone, email, provider)
-VALUES (2, 'user2', 'User Two', '1234', 'u2', TO_DATE('1995-02-15', 'YYYY-MM-DD'), 'F', '2345678901', 'user2@example.com', 'NAVER');
-
-INSERT INTO member (id, username, name, password, nickname, birthday, gender, phone, email, provider)
-VALUES (3, 'user3', 'User Three', '1234', 'u3', TO_DATE('1988-07-10', 'YYYY-MM-DD'), 'M', '3456789012', 'user3@example.com', 'GIT');
-
--- 나머지 7개의 INSERT 문도 유사한 방식으로 삽입하면 됩니다.
-
--- admin 계정도 추가
-INSERT INTO member (id, username, name, password, nickname, birthday, gender, phone, email, provider)
-VALUES (11, 'admin', 'Admin User', '1234', 'admin', TO_DATE('1985-05-20', 'YYYY-MM-DD'), 'M', '9876543210', 'admin@example.com', 'YANG');
 
 select * from photo_feed;
-
 select * from photo_feed where writer_id = 1;
-
+select* from member;
 select * from attachment;
 
+ 
 -- delete from attachment_photo_feed;
 
 commit;
@@ -374,4 +359,6 @@ where
     attachment_id = 26;
     
 select * from member;
+
+commit;
 
