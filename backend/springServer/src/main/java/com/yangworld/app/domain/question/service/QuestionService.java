@@ -12,4 +12,6 @@ public interface QuestionService {
 
 	List<Question> findAllQuestion();
 
+	Question findQuestionById(int id);
+
 }
