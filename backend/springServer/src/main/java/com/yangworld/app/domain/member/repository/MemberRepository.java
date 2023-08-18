@@ -42,5 +42,8 @@ public interface MemberRepository {
 
     @Select("select username from member where email = #{email}")
     String findMemberByEmail(FindIdDto findIdDto);
+    
+    @Select("select * from member where id = #{writer}")
+	Member findById(int writer);
 }
 
