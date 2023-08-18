@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.question.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
 import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
 import com.yangworld.app.domain.question.entity.Question;
+import com.yangworld.app.domain.question.repository.QuestionRepository;
 import com.yangworld.app.domain.question.service.QuestionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,9 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionService questionService;
+	
+	@Autowired
+	private QuestionRepository questionRepository;
 	
 	/**
 	 * 윤아
@@ -46,9 +51,21 @@ public class QuestionController {
 	 * 공지사항 orderby로 상단에뜨게 하는 findAllQuestionList 
 	 */
 	@GetMapping("/questionList")
-	public void questionList(Model model){
-		List<Question> questions = questionService.findAllQuestion();	
-		model.addAttribute("questions", questions);
+	public void questionList(@RequestParam(defaultValue = "1") int page,
+						Model model
+						){
+		int limit = 10;
+		Map<String, Object> params = Map.of(
+				"page",page,
+				"limit",limit
+			);
+		List<Question> questions = questionService.findAllQuestion(params);	
+		// 페이징 정보를 계산하고 전달
+	    int totalCount = questionRepository.countAllQuestion(); // 전체 데이터 개수 조회
+	    int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
+	    model.addAttribute("questions", questions);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
 	}
 	
 	@GetMapping("/questionCreate")
@@ -72,7 +89,8 @@ public class QuestionController {
 		questionService.insertQna(qna);
 		model.addAttribute("writerId", writerId);
 		
-		return "redirect://question/questionList";
+		
+		return "redirect:/question/questionList";
 	}
 	
 	@PostMapping("/updateQna")

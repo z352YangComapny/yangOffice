@@ -74,7 +74,7 @@
       </div>
    </div>
 </div>
-   <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>"
+   <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>
 </sec:authorize>
 <div id="container">
    <header>
@@ -89,7 +89,7 @@
                <ul class="navbar-nav me-auto">
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">월드에 놀러가기</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">QNA</a></li>
+                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/guestbook/guestbook.do">방명록</a></li>
                </ul>
                <form class="d-flex">
@@ -120,5 +120,6 @@
 
 
 
-   </header>
+</header>
    <section id="content">
+

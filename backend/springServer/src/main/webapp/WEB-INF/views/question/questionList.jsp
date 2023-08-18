@@ -1,17 +1,23 @@
+<%@page import="com.yangworld.app.domain.question.entity.Question"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	List<Question> questions = (List<Question>) request.getAttribute("questions");
+%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시판" name="title"/>
 </jsp:include>
 <style>
 /*글쓰기버튼*/
-input#btn-add{float:right; margin: 0 0 15px;}
+input#btn-add{float: left;
+   						 margin: 40px;}
 </style>
 <section id="board-container" class="container">
-	<input type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success"/>
+	<input type="button" value="글쓰기" id="btn-add" class="btn btn-success btn-lg"/>
 	<table id="tbl-board" class="table table-striped table-hover">
 		<thead>
 			<tr>
@@ -60,6 +66,31 @@ input#btn-add{float:right; margin: 0 0 15px;}
 			</c:if>
 		</tbody>
 	</table>
+	<div style="display: flex; justify-content: center; margin:80px">
+    <ul class="pagination">
+        <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+        </li>
+        <c:forEach begin="1" end="${totalPages}" varStatus="pageStatus">
+            <c:choose>
+                <c:when test="${page eq pageStatus.index}">
+                    <li class="page-item active">
+                        <a class="page-link" href="#">${pageStatus.index}</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a class="page-link" href="${pageContext.request.contextPath}/question/questionList?page=${pageStatus.index}">${pageStatus.index}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <li class="page-item">
+            <a class="page-link" href="#">&raquo;</a>
+        </li>
+    </ul>
+</div>
+	
 </section> 
 <script>
 document.querySelector("#btn-add").onclick = () => {

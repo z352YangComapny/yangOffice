@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper
 public interface MemberRepository {
-    @Insert("insert into member values(seq_member_id.nextval, #{username},  #{name}, #{password}, #{nickname}, #{birthday}, #{gender}, #{phone}, #{email, jdbcType=VARCHAR}, 'YANG', default)")
+    @Insert("insert into member values(seq_member_id.nextval, #{username},  #{name}, #{password}, #{nickname}, #{birthday, jdbcType = DATE}, #{gender}, #{phone}, #{email, jdbcType=VARCHAR}, 'YANG', default)")
     @SelectKey(
             before = false,
             keyProperty = "id",
@@ -42,8 +42,10 @@ public interface MemberRepository {
 
     @Select("select username from member where email = #{email}")
     String findMemberByEmail(FindIdDto findIdDto);
+
     
     @Select("select * from member where id = #{writer}")
 	Member findById(int writer);
+    
 }
 
