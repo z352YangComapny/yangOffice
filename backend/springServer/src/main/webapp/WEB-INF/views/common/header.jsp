@@ -120,9 +120,5 @@
 
 
 
-
-
-
-
 	</header>
 	<section id="content">
