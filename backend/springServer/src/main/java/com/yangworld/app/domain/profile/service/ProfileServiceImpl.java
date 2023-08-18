@@ -51,10 +51,14 @@ public class ProfileServiceImpl implements ProfileService {
 	            log.info("attach = {}", attach);
 				
 				// attachment_profile 테이블에 관련 정보 추가
-				AttachmentProfile attachmentProfile = new AttachmentProfile();
-				attachmentProfile.setAttachmentId(attach.getId());
-				attachmentProfile.setProfileId(profile.getId());
-				result = profileRepository.insertAttachmentProfile(attachmentProfile);
+				//AttachmentProfile attachmentProfile = new AttachmentProfile();
+	           int attachId = attach.getId();
+	           int profileId = profile.getId();
+	           log.info("attachId222 ={}", attachId);
+	           log.info("prfile222={}", profileId);
+				//attachmentProfile.setAttachmentId(attach.getId());
+				//attachmentProfile.setProfileId(profile.getId())
+				result = profileRepository.insertAttachmentProfile(attachId, profileId);
 			}
 		}
 		return result;
@@ -65,8 +69,8 @@ public class ProfileServiceImpl implements ProfileService {
 	public int updateProfile(ProfileDetails profile) {
 	    int result = 0;
 
-	    log.info("profileId={}", profile.getId());
 	    result = profileRepository.updateProfile(profile);
+	    log.info("profileId={}", profile.getId());
 
 	    List<Attachment> attachments = ((ProfileDetails) profile).getAttachments();
 	    if (attachments != null && !attachments.isEmpty()) {
@@ -80,6 +84,7 @@ public class ProfileServiceImpl implements ProfileService {
 	            attachmentProfile.setAttachmentId(attach.getId());
 	            attachmentProfile.setProfileId(profile.getId());
 	            result = profileRepository.updateAttachmentProfile(attachmentProfile);
+	            log.info("attachmentProfile = {}",attachmentProfile);
 	        }
 	    }
 	    return result;

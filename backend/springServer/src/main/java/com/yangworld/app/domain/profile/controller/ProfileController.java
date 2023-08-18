@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,16 +78,16 @@ public class ProfileController {
 
 	@PostMapping("/create.do")
 	public ResponseEntity<?> create(
-			@RequestPart @Valid ProfileDto _profile,
+			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
+			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
 		
 		log.info("_profile = {}", _profile);
 		log.info("principal = {}",principal); 
 		log.info("upFiles = {}", upFiles); 
-		
+		log.info("principal = {}", principal.getId());
 		
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
