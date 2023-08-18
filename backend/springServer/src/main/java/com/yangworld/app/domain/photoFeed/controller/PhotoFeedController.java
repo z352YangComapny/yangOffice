@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,10 +35,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+//@RequestMapping("/feed")
 public class PhotoFeedController {
 	
 	@Autowired
 	private PhotoFeedService photoFeedService;
+	
+//	@GetMapping
+//	public void feedJoin() {}
 	
 	
 	@PostMapping("/feedCreate")
@@ -109,40 +114,37 @@ public class PhotoFeedController {
 	}
 	
 	
-	// 피드안 댓글 + 사진 + 글내용 + 제목 + 작성자정보;
-	@GetMapping("/feedDetail/{nickName}")
-	public ResponseEntity<?> detailFeed(
-			@RequestPart @Valid Member member,
-			@PathVariable String nickName,
-			BindingResult bindingResult
-			){
-		
-		return null;
-	}
-	
-	
-	
 	@PostMapping("/feedDelete")
-	public ResponseEntity<?> deleteFeed(
-			@AuthenticationPrincipal FeedDeleteDto feed,
-			Model model
-			){
+	public ResponseEntity<?> deleteFeed(@RequestParam int feedId){
+//		DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
+//		DELETE FROM photo_feed WHERE id = [피드의 ID];
+//		DELETE FROM attachment
+//		WHERE id NOT IN (SELECT attachment_id FROM attachment_photo_feed);
 		
-//		 int result = photoFeedService.deleteFeed(feed);
+		 int result = photoFeedService.deleteFeed(feedId);
 		
 		return ResponseEntity.ok().build();
 	}
-
 	
 	@PostMapping("/feedUpdate")
 	public ResponseEntity<?> updateFeed(
-			@RequestPart @Valid FeedCreateDto _feed,
-			BindingResult bindingResult,
-			@AuthenticationPrincipal Member member
+			@RequestParam int feedId,
+			@RequestParam String content
 			){
-			
+		
+		int result = photoFeedService.updateFeed(feedId, content);
+		
 		return null;
 	}
+	
+//	@GetMapping("/feedDetails")
+//	public ResponseEntity<?> // details를 하려면 comment 댓글 먼저 해야함
+	
+	
+	
+
+	
+
 	
 	
 	
