@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
@@ -16,30 +18,48 @@ import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 
 @Mapper
 public interface PhotoFeedRepository {
-
+    // 피드 create
 	@Insert("insert into photo_feed (id, writer_id, content) values (seq_photo_feed_id.nextval, #{writerId}, #{content})")
 	int insertFeed(FeedDetails peed);
 
-
+    // 피드 create
     @Insert("insert into attachment (id, original_filename, renamed_filename) values (seq_attachment_id.nextval, #{originalFilename}, #{renamedFilename})")
     int insertAttachment(Attachment attach);
-    
+    // 피드 create    
     @Insert("insert into attachment_photo_feed (attachment_id, photo_feed_id) values (seq_attachment_id.currval, seq_photo_feed_id.currval)")
     int insertLink();
-
-    @Select("select * from photo_feed where writer_id = #{writerId}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
-    List<PhotoAttachmentFeedDto> selectFeed(int writerId);
-
-    @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") // query문 다시 짜야됨 nickname을 photo_feed랑 join하기
-    List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
     
-    @Delete("delete from photo_feed where id = #{id}")
-	int deleteFeed(FeedCreateDto feed);
-
+    // 피드 조회
+    @Select("select * from photo_feed where writer_id = #{writerId}") 
+    List<PhotoAttachmentFeedDto> selectFeed(int writerId);
+    // 피드 조회
+    @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") 
+    List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
     
 
 	@Select("select * from attachment where id = #{id}")
 	Attachment selectAttachment(int id);
+	
+	
+	// photo_feed delete
+	@Delete("delete from photo_feed where id = #{feedId}")
+	int deleteFeed(int feedId);
+
+	// attachment_photo_feed delete (link table)
+	@Delete("delete from attachment where id not in (select attachment_id from attachment_photo_feed)")
+	int deleteAttachment(int feedId);
+//delete from attachment where id not in (select attachment_id from attachment_photo_feed)
+
+
+	// attachment delete
+	@Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")
+	int deleteLink(int feedId);
+
+    // 피드 글 수정
+	@Update("update photo_feed set content = #{content} where id = #{feedId}")
+	int updateFeed(@Param("feedId") int feedId, @Param("content") String content);
+
+	
 
 
     
