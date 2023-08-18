@@ -37,7 +37,7 @@ import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
+//import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @Slf4j
