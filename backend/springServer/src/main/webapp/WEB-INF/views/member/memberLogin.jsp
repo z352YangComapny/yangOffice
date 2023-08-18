@@ -95,7 +95,6 @@
 
 </script>
 
-
 <%--	<!-- Modal시작 -->--%>
 <%--	<!-- https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->--%>
 <%--	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"--%>
