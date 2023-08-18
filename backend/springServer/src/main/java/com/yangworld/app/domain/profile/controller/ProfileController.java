@@ -43,6 +43,11 @@ public class ProfileController {
 	@Autowired
 	private ProfileService profileService;
 	
+	@GetMapping("/create")
+    public String createProfilePage() {
+        return "redirect:/profile/create"; 
+    }
+	
 	
 //	@PostMapping("/create")
 //	public ResponseEntity<?> create(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody ProfileDto profileDto){
