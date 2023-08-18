@@ -59,7 +59,7 @@ window.onload = () => {
 						</c:if>
 						<input 
 							type="text" class="form-control" name="memberId"
-							placeholder="아이디" value="honggd" required> 
+							placeholder="아이디" value="user1" required> 
 						<br /> 
 						<input
 							type="password" class="form-control" name="password"
