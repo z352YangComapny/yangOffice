@@ -31,7 +31,7 @@ public class StoryStompController {
 	
 	@MessageMapping("/main")
 	@SendTo("/story/main")
-	public List<Payload> story(Payload payload, @AuthenticationPrincipal PrincipalDetails principal) {
+	public List<Payload> story(Payload payload, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.debug("payload = {}", payload);
 		log.debug("id = {}", principal.getId());
 		List<StoryMainDto> stories = storyService.findStoryById(principal.getId());
@@ -45,6 +45,7 @@ public class StoryStompController {
 				    .build();
 			payloads.add(tmp);
 		}
+		model.addAttribute("payloads", payloads);
 		return payloads;
 	}
 	
