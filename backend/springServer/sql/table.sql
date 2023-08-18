@@ -228,6 +228,7 @@ create table guestbook
     constraints f_gue_writer_id foreign key (writer_id) references member (id) on delete cascade,
     constraints f_gue_member_id foreign key (member_id) references member (id) on delete cascade
 );
+
 create sequence seq_guestbook_id;
 
 create table report_guestbook
@@ -331,13 +332,12 @@ END;
 -- END;
 -- /
 
-
+select * from guestbook;
 select * from photo_feed;
 select * from photo_feed where writer_id = 1;
 select* from member;
 select * from attachment;
 
- 
 -- delete from attachment_photo_feed;
 
 commit;

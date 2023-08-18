@@ -13,6 +13,7 @@ import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
+import com.yangworld.app.domain.photoFeed.entity.Like;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.repository.PhotoFeedRepository;
 
@@ -123,6 +124,27 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 		result = photoFeedRepository.updateFeed(feedId, content);
 		
 		return result;
+	}
+
+	@Override
+	public PhotoFeed findById(int photoFeedId) {
+		return photoFeedRepository.findById(photoFeedId);
+	}
+
+	@Override
+	public List<Like> getLikesCountByPhotoFeedId(int photoFeedId) {
+		return photoFeedRepository.findLikeById(photoFeedId);
+	}
+
+	@Override
+	public int insertLike(int photoFeedId, int memberId) {
+		return photoFeedRepository.insertLike(photoFeedId, memberId);
+	}
+
+	@Override
+	public int deleteLike(int photoFeedId, int memberId) {
+		// TODO Auto-generated method stub
+		return photoFeedRepository.deleteLike(photoFeedId, memberId);
 	}
 
 

@@ -14,6 +14,7 @@ import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
+import com.yangworld.app.domain.photoFeed.entity.Like;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 
 @Mapper
@@ -32,6 +33,7 @@ public interface PhotoFeedRepository {
     // 피드 조회
     @Select("select * from photo_feed where writer_id = #{writerId}") 
     List<PhotoAttachmentFeedDto> selectFeed(int writerId);
+    
     // 피드 조회
     @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") 
     List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
@@ -58,6 +60,18 @@ public interface PhotoFeedRepository {
     // 피드 글 수정
 	@Update("update photo_feed set content = #{content} where id = #{feedId}")
 	int updateFeed(@Param("feedId") int feedId, @Param("content") String content);
+
+	@Select("select * from photo_feed where id = #{photoFeedId}")
+	PhotoFeed findById(int photoFeedId);
+
+	@Select("select * from likes where photo_feed_id = #{photoFeedId}")
+	List<Like> findLikeById(int photoFeedId);
+
+	@Insert("insert into likes (photo_feed_id, member_id) values(#{photoFeedId}, #{memberId})")
+	int insertLike(@Param(value = "photoFeedId") int photoFeedId, @Param(value = "memberId") int memberId);
+
+	@Delete("delete from likes where photo_feed_id = #{photoFeedId} and member_id = #{memberId}")
+	int deleteLike(@Param(value = "photoFeedId")int photoFeedId,  @Param(value = "memberId")int memberId);
 
 	
 

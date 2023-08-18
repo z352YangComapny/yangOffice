@@ -37,27 +37,39 @@
 				</td>
 			</tr>
 			<tr>
-				<th>패스워드확인</th>
-				<td>	
-					<input type="password" class="form-control" id="passwordConfirmation" value="1234" required>
-				</td>
-			</tr>  
-			<tr>
 				<th>이름</th>
-				<td>	
+				<td>
 					<input type="text" class="form-control" name="name" id="name" value="홍길동" required>
 				</td>
 			</tr>
 			<tr>
-				<th>생년월일</th>
+				<th>별명</th>
+				<td>
+					<input type="text" class="form-control" name="nickname" id="nickname" value="홍길동" required>
+				</td>
+			</tr>
+			<tr>
+				<th>성별</th>
+				<td>
+					<input type="text" class="form-control" name="gender" id="gender" value="F" required>
+				</td>
+			</tr>
+			<tr>
+				<th>연락처</th>
 				<td>	
-					<input type="date" class="form-control" name="birthday" id="birthday" value="1999-09-09"/>
+					<input type="text" class="form-control" name="phone" id="phone" value="01033333333"/>
 				</td>
 			</tr> 
 			<tr>
 				<th>이메일</th>
 				<td>	
 					<input type="email" class="form-control" placeholder="abc@xyz.com" name="email" id="email" value="honggd@naver.com">
+				</td>
+			</tr>
+			<tr>
+				<th>생일</th>
+				<td>
+					<input type="date" class="form-control" placeholder="abc@xyz.com" name="birthday" id="birthday" value="1990-09-09">
 				</td>
 			</tr>
 		</table>
