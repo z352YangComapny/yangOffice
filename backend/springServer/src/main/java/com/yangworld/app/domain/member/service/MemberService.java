@@ -22,5 +22,5 @@ public interface MemberService {
 
     String findMemberByEmail(FindIdDto findIdDto);
 
-	Member findByUsername(int writerId);
+	Member findById(int writerId);
 }

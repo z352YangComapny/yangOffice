@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
 	@Override
-	public Member findByUsername(int writerId) {
+	public Member findById(int writerId) {
 		return memberRepository.findById(writerId);
 	}
 

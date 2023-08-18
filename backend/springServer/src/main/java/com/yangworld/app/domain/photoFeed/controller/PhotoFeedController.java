@@ -87,7 +87,7 @@ public class PhotoFeedController {
 	public ResponseEntity<?> findById(@PathVariable int writerId, @PathVariable int photoFeedId) {
 	    try {
 	        // 단계 2: 데이터베이스에서 필요한 정보 조회
-	        Member member = memberService.findByUsername(writerId);
+	        Member member = memberService.findById(writerId);
 	        PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
 	        List<Comments> comments = commentsService.getCommentsByPhotoFeedId(photoFeedId);
 	        List<Like> likesCount = photoFeedService.getLikesCountByPhotoFeedId(photoFeedId);
