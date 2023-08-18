@@ -32,7 +32,6 @@
                <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
                <span style = "font-size : 30px; font-weight: bold; color: white;">SSOY STORY<span>
             </a>
-
          </div>
       </nav>
 </header>

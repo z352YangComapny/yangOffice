@@ -93,23 +93,12 @@
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/guestbook/guestbook.do">방명록</a></li>
                </ul>
                <form class="d-flex">
-                  <sec:authorize access="isAnonymous()">
-                     <button
-                           class="btn btn-secondary my-2 my-sm-0"
-                           type="button"
-                           onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">로그인</button>
-                     &nbsp;
-                     <button
-                           class="btn btn-secondary my-2 my-sm-0"
-                           type="button"
-                           onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">회원가입</button>
-                  </sec:authorize>
                   <sec:authorize access="isAuthenticated()">
-                            <span><a href="${pageContext.request.contextPath}/member/memberDetail.do"
-                     title=" <sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하세요🎃</span>
+                            <span class="align-middle" style="font-weight: bold; color : white;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
+                     title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
                      &nbsp;
                      <button
-                           class="btn btn-secondary my-2 my-sm-0"
+                           class="btn btn-secondary my-2 my-sm-0 ml-10"
                            type="button"
                            onclick="document.memberLogoutFrm.submit();">로그아웃</button>
                   </sec:authorize>

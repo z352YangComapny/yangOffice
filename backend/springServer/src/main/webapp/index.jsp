@@ -10,11 +10,20 @@
 <jsp:include page ="/WEB-INF/views/common/header2.jsp">
     <jsp:param name = "title" value = "안녕 스프링"/>
 </jsp:include>
-<div class="container" style ="">
+    <div class="index-container d-flex flex-column justify-content-center align-items-center" style="background-image: url('${pageContext.request.contextPath}/resources/images/index_bgc.jpg');">
+     <img src="${pageContext.request.contextPath}/resources/images/main.png" id="main-image" alt="main-img"/>
+        <div class=" d-flex justify-content-center align-items-center row">
+            <span style="font-weight : bold; font-size : 100px; text-align: center; color : black;">SSOY STORY</span>
+            <span style="font-size : 30px; text-align: center; color: black">Yang Company</span>
+            <button type="button" class="index-button btn btn-primary mt-4" onclick="location.href='${pageContext.request.contextPath}/member/memberLogin.do';">
+                <span class="btn-index">로그인</span></button>
+            &nbsp;&nbsp;
+            <button type="button" class="index-button btn btn-primary mt-4" onclick="location.href='${pageContext.request.contextPath}/member/memberCreate.do';">
+                <span class="btn-index">회원가입</span></button>
+        </div>
 
-<img src="${pageContext.request.contextPath}/resources/images/index_bgc.jpg" id="center-image" alt="스프링로고" class="d-block mx-auto mt-5"/>
 
-</div>
+    </div>
 </sec:authorize>
 <sec:authorize access = "isAuthenticated()">
 
