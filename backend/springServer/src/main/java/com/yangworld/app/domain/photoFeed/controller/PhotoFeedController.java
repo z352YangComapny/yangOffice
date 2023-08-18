@@ -53,6 +53,19 @@ public class PhotoFeedController {
 	@Autowired
 	private CommentsService commentsService;
 	
+	@GetMapping("/somePage")
+	public String somePage(Model model) {
+	    // 실제 값을 설정하여 모델에 추가
+	    String writer = "some_writer_value";
+	    int photoFeedId = 123; // 실제 값으로 변경
+
+	    model.addAttribute("writer", writer);
+	    model.addAttribute("photoFeedId", photoFeedId);
+
+	    return "your_html_page"; // 실제 페이지의 이름으로 변경
+	}
+
+	
 	/**
 	 * 회원 조회
 	 */

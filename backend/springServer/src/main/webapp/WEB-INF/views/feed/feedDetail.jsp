@@ -4,8 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="회원등록" name="title"/>
-</jsp:include>
-<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/member.css" />
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member.css" />
 	<h1>피드</h1>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

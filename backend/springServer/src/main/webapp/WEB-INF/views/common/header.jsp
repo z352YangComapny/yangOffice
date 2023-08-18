@@ -91,7 +91,6 @@
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">월드에 놀러가기</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">QNA</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/guestbook/guestbook.do">방명록</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>
                </ul>
                <form class="d-flex">
                   <sec:authorize access="isAnonymous()">
