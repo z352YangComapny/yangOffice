@@ -134,6 +134,9 @@ public class MemberController {
 
     }
 
+    @GetMapping("/memberHome.do")
+    public String memberHome(){ return "redirect:/member/memberHome.do";}
+
  }
 
 
