@@ -344,23 +344,36 @@ commit;
     select* from member;
 select * from photo_feed;
 
+
+
+SELECT seq_comments_id.nextval FROM dual;
+
+select * from comments;
+
+DELETE FROM comment_feed
+WHERE comment_id = :commentId AND photo_feed_id = :photoFeedId;
+
+
+update comments set content = 'zzzzz' where id = 1;
+
+INSERT INTO comments_feed (comments_id) VALUES (seq_comments_id.currval);
+
+insert into comments_feed (comments_id) values(seq_comments_id.currval);
+
+insert into comments_feed (comments_id) values(seq_comments_id.currval);
+
+SELECT comments_id, photo_feed_id
+FROM comments_feed
+WHERE photo_feed_id = 2 AND comments_id = 2;
+
 select * from attachment;
 select * from attachment_photo_feed;
 select * from comments_feed;
 select * from comments;
+select * from photo_feed;
 
+select * from photo_feed e join comments c on e.id = c.id;
 
-
-
-insert into comments_feed (comments_id, photo_feed_id) values(seq_comments_id.currval, seq_photo_feed_id.currval);
-
-select
-    *
-from 
-    attachment_photo_feed A join attachment B
-    on A.attachment_id = B.id
-where
-    attachment_id = 26;
     
 select * from member;
 

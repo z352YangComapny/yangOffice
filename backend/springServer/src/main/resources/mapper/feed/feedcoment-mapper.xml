@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangworld.app.domain.comments.repository.CommentsRepository">
+
+  <select id="getCommentsWithFeedByPhotoFeedId" resultMap="commentsWithFeedResultMap">
+    SELECT pf.id AS photo_feed_id, pf.writer_id AS feed_writer_id, pf.content AS feed_content,
+           c.id AS comment_id, c.writer_id AS comment_writer_id, c.content AS comment_content
+    FROM photo_feed pf
+    JOIN comment_feed cf ON pf.id = cf.photo_feed_id
+    JOIN comment c ON cf.comment_id = c.id
+    WHERE pf.id = #{photoFeedId}
+  </select>
+
+  <resultMap id="commentsWithFeedResultMap" type="com.yangworld.app.domain.comments.entity.CommentsWithFeed">
+    <id property="commentId" column="comment_id"/>
+    <result property="photoFeedId" column="photo_feed_id"/>
+    <result property="feedWriterId" column="feed_writer_id"/>
+    <result property="feedContent" column="feed_content"/>
+    <result property="commentWriterId" column="comment_writer_id"/>
+    <result property="commentContent" column="comment_content"/>
+  </resultMap>
+
+</mapper>

@@ -18,20 +18,21 @@ import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 
 @Mapper
 public interface PhotoFeedRepository {
-
+    // 피드 create
 	@Insert("insert into photo_feed (id, writer_id, content) values (seq_photo_feed_id.nextval, #{writerId}, #{content})")
 	int insertFeed(FeedDetails peed);
 
-
+    // 피드 create
     @Insert("insert into attachment (id, original_filename, renamed_filename) values (seq_attachment_id.nextval, #{originalFilename}, #{renamedFilename})")
     int insertAttachment(Attachment attach);
-    
+    // 피드 create    
     @Insert("insert into attachment_photo_feed (attachment_id, photo_feed_id) values (seq_attachment_id.currval, seq_photo_feed_id.currval)")
     int insertLink();
-
+    
+    // 피드 조회
     @Select("select * from photo_feed where writer_id = #{writerId}") 
     List<PhotoAttachmentFeedDto> selectFeed(int writerId);
-
+    // 피드 조회
     @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") 
     List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
     
@@ -39,10 +40,6 @@ public interface PhotoFeedRepository {
 	@Select("select * from attachment where id = #{id}")
 	Attachment selectAttachment(int id);
 	
-//	DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
-//	DELETE FROM photo_feed WHERE id = [피드의 ID];
-//	DELETE FROM attachment
-//	WHERE id NOT IN (SELECT attachment_id FROM attachment_photo_feed);
 	
 	// photo_feed delete
 	@Delete("delete from photo_feed where id = #{feedId}")
@@ -58,7 +55,7 @@ public interface PhotoFeedRepository {
 	@Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")
 	int deleteLink(int feedId);
 
-
+    // 피드 글 수정
 	@Update("update photo_feed set content = #{content} where id = #{feedId}")
 	int updateFeed(@Param("feedId") int feedId, @Param("content") String content);
 
