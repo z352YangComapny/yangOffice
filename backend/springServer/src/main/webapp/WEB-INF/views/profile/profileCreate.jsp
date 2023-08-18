@@ -3,6 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="프로필 생성" name="title"/>
+</jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +19,7 @@
         name="profileForm"
         method="post"
         enctype="multipart/form-data"
-        action="${pageContext.request.contextPath}/profile/create">
+        action="${pageContext.request.contextPath}/profile/create.do">
         
         <label for="state">상태</label>
         <input type="text" id="state" name="state" required>

@@ -42,11 +42,12 @@ public class ProfileController {
 	
 	@Autowired
 	private ProfileService profileService;
+	@GetMapping("/create.do")
+	public String showCreateProfileForm(Model model) {
+	    return "/profile/profileCreate";
+	}
 	
-	@GetMapping("/create")
-    public String createProfilePage() {
-        return "redirect:/profile/create"; 
-    }
+	
 	
 	
 //	@PostMapping("/create")
@@ -74,7 +75,7 @@ public class ProfileController {
 	
 	
 
-	@PostMapping("/create")
+	@PostMapping("/create.do")
 	public ResponseEntity<?> create(
 			@RequestPart @Valid ProfileDto _profile,
 			BindingResult bindingResult,
