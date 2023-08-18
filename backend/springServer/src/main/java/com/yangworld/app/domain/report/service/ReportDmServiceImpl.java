@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.entity.ReportDm;
 import com.yangworld.app.domain.report.entity.ReportGuestBook;
+
 import com.yangworld.app.domain.report.entity.ReportProfile;
+
 import com.yangworld.app.domain.report.repository.ReportRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +52,7 @@ public class ReportDmServiceImpl implements ReportService {
 		return reportRepository.insertReportGuestBook(reportGuestBook);
 	}
 
+
 	@Override
 	public int insertReportProfile(Report report, int profileId) {
 		
@@ -65,6 +68,7 @@ public class ReportDmServiceImpl implements ReportService {
 		
 		
 	}
+
 	
 //	@Override
 //	public int insertReportDm(ReportDm reportDm) {

@@ -249,4 +249,184 @@ INSERT INTO guestbook (id, writer_id, member_id, content, reg_date) VALUES (seq_
 INSERT INTO guestbook (id, writer_id, member_id, content, reg_date) VALUES (seq_guestbook_id.nextval, 8, 9, 'Test Content 19', SYSDATE - 68400);
 INSERT INTO guestbook (id, writer_id, member_id, content, reg_date) VALUES (seq_guestbook_id.nextval, 9, 10, 'Test Content 20', SYSDATE - 72000);
 
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @photo_feed table 테이블 테스트 데이터
+
+-- 1
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 1, 'Content 1', SYSDATE - INTERVAL '1' DAY);
+
+-- 2
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 2, 'Content 2', SYSDATE - INTERVAL '2' DAY);
+
+-- 3
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 3, 'Content 3', SYSDATE - INTERVAL '3' DAY);
+
+-- 4
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 4, 'Content 4', SYSDATE - INTERVAL '4' DAY);
+
+-- 5
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 5, 'Content 5', SYSDATE - INTERVAL '5' DAY);
+
+-- 6
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 6, 'Content 6', SYSDATE - INTERVAL '6' DAY);
+
+-- 7
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 7, 'Content 7', SYSDATE - INTERVAL '7' DAY);
+
+-- 8
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 8, 'Content 8', SYSDATE - INTERVAL '8' DAY);
+
+-- 9
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 9, 'Content 9', SYSDATE - INTERVAL '9' DAY);
+
+-- 10
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 10, 'Content 10', SYSDATE - INTERVAL '10' DAY);
+
+-- 11
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 11, 'Content 11', SYSDATE - INTERVAL '11' DAY);
+
+-- 12
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 1, 'Content 12', SYSDATE - INTERVAL '12' DAY);
+
+-- 13
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 2, 'Content 13', SYSDATE - INTERVAL '13' DAY);
+
+-- 14
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 3, 'Content 14', SYSDATE - INTERVAL '14' DAY);
+
+-- 15
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 4, 'Content 15', SYSDATE - INTERVAL '15' DAY);
+
+-- 16
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 5, 'Content 16', SYSDATE - INTERVAL '16' DAY);
+
+-- 17
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 6, 'Content 17', SYSDATE - INTERVAL '17' DAY);
+
+-- 18
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 7, 'Content 18', SYSDATE - INTERVAL '18' DAY);
+
+-- 19
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 8, 'Content 19', SYSDATE - INTERVAL '19' DAY);
+
+-- 20
+INSERT INTO photo_feed (id, writer_id, content, reg_date)
+VALUES (seq_photo_feed_id.NEXTVAL, 9, 'Content 20', SYSDATE - INTERVAL '20' DAY);
+
+
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+
+-- @attachment table 테이블 테스트 데이터
+
+BEGIN
+    FOR i IN 1..10 LOOP
+            -- 첫 번째 테스트 케이스
+            INSERT INTO attachment (id, original_filename, renamed_filename, reg_date)
+            VALUES (seq_attachment_id.NEXTVAL, 'original_file1.png', '20230814_040508555_255.png', SYSDATE);
+
+            -- 두 번째 테스트 케이스
+            INSERT INTO attachment (id, original_filename, renamed_filename, reg_date)
+            VALUES (seq_attachment_id.NEXTVAL, 'original_file2.png', '20239816_210836445_486.png', SYSDATE);
+        END LOOP;
+END;
+/
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @attachment_photo_feed table 테이블 테스트 데이터
+
+-- 어태치먼트 아이디 1-20, 포토 피드 아이디 1-20 모두 매칭
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (1, 1);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (2, 2);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (3, 3);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (4, 4);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (5, 5);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (6, 6);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (7, 7);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (8, 8);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (9, 9);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (10, 10);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (11, 11);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (12, 12);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (13, 13);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (14, 14);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (15, 15);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (16, 16);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (17, 17);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (18, 18);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (19, 19);
+
+INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
+VALUES (20, 20);
+
+
+
+
+
 commit;

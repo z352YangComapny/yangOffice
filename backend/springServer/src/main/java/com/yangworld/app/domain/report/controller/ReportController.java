@@ -66,6 +66,7 @@ public class ReportController {
 		
 		return ResponseEntity.ok().build();
 	}
+
 	
 	@PostMapping("/insertReportProfile")
 	public ResponseEntity<?> insertReportProfile(
@@ -85,6 +86,7 @@ public class ReportController {
 		
 		return ResponseEntity.ok().build();
 	}
+
 	
 	
 	

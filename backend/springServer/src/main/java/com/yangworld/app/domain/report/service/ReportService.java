@@ -9,7 +9,9 @@ public interface ReportService {
 
 	int insertReportGuestBook(Report report, int guestBookId);
 
+
 	int insertReportProfile(Report report, int profileId);
+
 
 //	int insertReportDm(ReportDm reportDm);
 

@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
@@ -29,20 +31,34 @@ public class QuestionController {
 	
 	/**
 	 * 윤아
+	 * 공지사항 & 이용문의 디테일 
+	 */
+	@GetMapping("/questionDetail")
+	public void questionDetail(@RequestParam int id, Model model) {
+		Question question = questionService.findQuestionById(id);
+		log.info("question = {}", question);
+		model.addAttribute("question", question);
+	}
+	
+	/**
+	 * 윤아
 	 * 공지사항 orderby로 상단에뜨게 하는 findAllQuestionList 
 	 */
 	@GetMapping("/questionList")
-	public ResponseEntity<?> questionList(){
+	public void questionList(Model model){
 		List<Question> questions = questionService.findAllQuestion();	
-		return ResponseEntity.ok(questions);
+		model.addAttribute("questions", questions);
 	}
+	
+	@GetMapping("/questionCreate")
+	public void createQna(){}
 	
 	/**
 	 * 윤아
 	 * - 이용문의작성 
 	 */
 	@PostMapping("/createQna")
-	public ResponseEntity<?> createQna(@AuthenticationPrincipal PrincipalDetails principal , @RequestBody QuestionCreateQnaDto _qnaDto) {
+	public String createQna(@AuthenticationPrincipal PrincipalDetails principal , @RequestBody QuestionCreateQnaDto _qnaDto) {
 		log.info("createQna info = {}", _qnaDto);
 		
 		// writerId 가져오기
@@ -54,7 +70,7 @@ public class QuestionController {
 		// question 테이블 insert
 		questionService.insertQna(qna);
 		
-		return ResponseEntity.ok().build();
+		return "redirect://question/questionList";
 	}
 	
 	@PostMapping("/updateQna")
