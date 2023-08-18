@@ -121,9 +121,5 @@
 
 
 
-
-
-
-
 	</header>
 	<section id="content">
