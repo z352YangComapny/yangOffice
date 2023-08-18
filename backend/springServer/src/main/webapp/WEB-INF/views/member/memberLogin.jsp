@@ -113,7 +113,7 @@ window.onload = () => {
 								아이디 또는 비밀번호가 일치하지 않습니다.
 							</div>
 						</c:if>
-						<input 
+						<input
 							type="text" class="form-control" name="username"
 							placeholder="아이디" value="user1" required>
 						<br /> 
