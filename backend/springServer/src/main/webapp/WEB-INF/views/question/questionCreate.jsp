@@ -20,6 +20,7 @@ div#board-container label.custom-file-label{text-align:left;}
 		action="${pageContext.request.contextPath}/question/createQna"
 		method="post">
 		<input type="text" class="form-control" placeholder="제목" name="title" id="title" required>
+		<input type="text" class="form-control" name="writerId" id="writerId" value="${writerId}" >
 		<div class="input-group mb-3" style="padding:0px;">
 			<select name="questionType">
 			    <option value="Q">이용문의</option>

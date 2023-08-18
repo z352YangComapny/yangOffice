@@ -14,6 +14,9 @@ header div#header-container h2 	{margin:30px 10px 0px 10px;}
 /********** content **********/
 section#content		{min-height:600px;}
 
+/*로그인 관련*/
+.sns-icon img{height: 50px; width: 50px;}
+
 
 /********** footer **********/
 footer	{background-color:#f8f9fa; background-clip:content-box; clear:both; height:95px; text-align:center;}

@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,7 +59,7 @@ public class QuestionController {
 	 * - 이용문의작성 
 	 */
 	@PostMapping("/createQna")
-	public String createQna(@AuthenticationPrincipal PrincipalDetails principal , @RequestBody QuestionCreateQnaDto _qnaDto) {
+	public String createQna(@AuthenticationPrincipal PrincipalDetails principal , @ModelAttribute QuestionCreateQnaDto _qnaDto, Model model) {
 		log.info("createQna info = {}", _qnaDto);
 		
 		// writerId 가져오기
@@ -69,6 +70,7 @@ public class QuestionController {
 		
 		// question 테이블 insert
 		questionService.insertQna(qna);
+		model.addAttribute("writerId", writerId);
 		
 		return "redirect://question/questionList";
 	}
