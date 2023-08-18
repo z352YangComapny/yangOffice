@@ -36,7 +36,7 @@ public class DmController {
 	/**
 	 * DM 선택한 후 대화창 조회
 	 */
-	@GetMapping("/findDmDetails")
+	@GetMapping("/dmDetail")
 	public void findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId, Model model) {
 		
 		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
@@ -48,7 +48,7 @@ public class DmController {
 	/**
 	 * 가장 최신 dm List 가져오기 
 	 */
-	@GetMapping("/findMyDmList")
+	@GetMapping("/dmList")
 	public void findMyDmList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		
 	    int userId = principal.getId(); 
