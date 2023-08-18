@@ -1,7 +1,9 @@
 package com.yangworld.app.domain.question.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +32,12 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 	
 	@Override
-	public List<Question> findAllQuestion() {
-		List<Question> questions = questionRepository.findAllQuestion();
-		return questions;
+	public List<Question> findAllQuestion(Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return questionRepository.findAllQuestion(rowBounds);
 	}
 	
 	@Override

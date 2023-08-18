@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.question.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
 import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
 import com.yangworld.app.domain.question.entity.Question;
@@ -46,8 +48,15 @@ public class QuestionController {
 	 * 공지사항 orderby로 상단에뜨게 하는 findAllQuestionList 
 	 */
 	@GetMapping("/questionList")
-	public void questionList(Model model){
-		List<Question> questions = questionService.findAllQuestion();	
+	public void questionList(@RequestParam(defaultValue = "1") int page,
+						Model model
+						){
+		int limit = 10;
+		Map<String, Object> params = Map.of(
+				"page",page,
+				"limit",limit
+			);
+		List<Question> questions = questionService.findAllQuestion(params);	
 		model.addAttribute("questions", questions);
 	}
 	

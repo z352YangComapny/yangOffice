@@ -1,12 +1,14 @@
 package com.yangworld.app.domain.question.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import com.yangworld.app.domain.question.entity.Question;
 
@@ -26,8 +28,8 @@ public interface QuestionRepository {
 	@Update("update question set title=#{title}, content=#{content} where id =#{id}")
 	int updateQna(Question updateQna);
 
-	@Select("select * from question order by type")
-	List<Question> findAllQuestion();
+	@Select("SELECT * FROM question ORDER BY CASE WHEN type = 'N' THEN 0 ELSE 1 END, id")
+	List<Question> findAllQuestion(RowBounds rowBounds);
 
 	@Select("select * from question where id = #{id}")
 	Question findQuestionById(int id);
