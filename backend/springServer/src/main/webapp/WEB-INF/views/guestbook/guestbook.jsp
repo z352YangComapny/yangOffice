@@ -42,7 +42,9 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						<td>${guestbook.content}</td>
 						<td>${guestbook.regDate}</td>
 						<td>
-							<button type="button" class="btn btn-outline-danger">수정</button>
+							<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
+							<button type="button" class="btn btn-outline-danger" onclick="showInput()">수정</button>
+							<<!--  button class="btn-update btn btn-outline-primary" value="${dev.id}">-->
 						</td>
 						<td>
 							<button type="button" class="btn btn-outline-danger">삭제</button>
@@ -53,3 +55,12 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 		</tbody>
 	</table>
 </div>
+<form:form action="${pageContext.request.contextPath}/guestbook/update.do" class="form-inline" name="guestbookUpdateFrm" method="post">
+	<input type="hidden" name="content" />
+</form:form>
+<script>
+function showInput() {
+    var inputField = document.querySelector('input[name="content"]');
+    inputField.style.display = 'block';
+}
+</script>
