@@ -11,7 +11,7 @@ public interface MemberService {
 
     int updateMember(UpdateDto updateDto, String username);
 
-    PrincipalDetails loadUserByUsername(String username);
+//    PrincipalDetails loadUserByUsername(String username);
 
     int deleteMember(String username);
 

@@ -1,6 +1,4 @@
-package com.yangworld.app.domain.comments.entity;
-
-import java.time.LocalDateTime;
+package com.yangworld.app.domain.chat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comments {
-	
-	private int id;
-	private int writerId;
+public class Payload {
+	private PayloadType type;
+	private String from;
 	private String content;
-	private LocalDateTime regDate;
-	
+	private long createdAt;
 }

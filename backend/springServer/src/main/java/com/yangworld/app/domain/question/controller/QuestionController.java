@@ -59,7 +59,7 @@ public class QuestionController {
 	 * - 이용문의작성 
 	 */
 	@PostMapping("/createQna")
-	public String createQna(@AuthenticationPrincipal PrincipalDetails principal , @ModelAttribute QuestionCreateQnaDto _qnaDto) {
+	public String createQna(@AuthenticationPrincipal PrincipalDetails principal , @ModelAttribute QuestionCreateQnaDto _qnaDto, Model model) {
 		log.info("createQna info = {}", _qnaDto);
 		
 		// writerId 가져오기
@@ -70,6 +70,7 @@ public class QuestionController {
 		
 		// question 테이블 insert
 		questionService.insertQna(qna);
+		model.addAttribute("writerId", writerId);
 		
 		return "redirect://question/questionList";
 	}

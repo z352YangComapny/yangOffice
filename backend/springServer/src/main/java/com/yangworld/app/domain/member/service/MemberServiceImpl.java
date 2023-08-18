@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.member.service;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
@@ -24,6 +25,7 @@ public class MemberServiceImpl implements MemberService{
     @Autowired
     private MemberRepository memberRepository;
 
+
     @Override
     public int insertMember(SignUpDto signUpDto) {
         List<String> authorityList = new ArrayList<>();
@@ -40,13 +42,13 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.updateMember(updateDto, username);
     }
 
-    @Override
-    public PrincipalDetails loadUserByUsername(String username) {
-        PrincipalDetails principalDetails = new PrincipalDetails();
-        if(principalDetails == null)
-            throw new UsernameNotFoundException(username);
-        return principalDetails;
-    }
+//    @Override
+//    public PrincipalDetails loadUserByUsername(String username) {
+//        PrincipalDetails principalDetails = new PrincipalDetails();
+//        if(principalDetails == null)
+//            throw new UsernameNotFoundException(username);
+//        return principalDetails;
+//    }
 
     @Override
     public int deleteMember(String username) {
