@@ -29,6 +29,9 @@ public class StoryController {
 //		model.addAttribute("story", story); 로그인멤버 id 받아서 처리
 	}
 	
+	@GetMapping("/storyMain")
+	public void storyMain() {}
+	
 	@PostMapping("/create")
 	public ResponseEntity<?> create(@RequestBody StoryDto storyDto){
 		int result = storyService.createStory(storyDto);

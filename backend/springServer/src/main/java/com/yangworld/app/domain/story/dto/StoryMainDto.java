@@ -5,9 +5,9 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class StoryDto {
+public class StoryMainDto {
 	private int id;
 	private String writerId;
 	private String content;
-
+	private Date regDate;
 }

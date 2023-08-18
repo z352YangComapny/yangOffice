@@ -1,4 +1,6 @@
-package com.yangworld.app.domain.chat.dto;
+package com.yangworld.app.domain.story.dto;
+
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,5 +15,5 @@ public class Payload {
 	private PayloadType type;
 	private String from;
 	private String content;
-	private long createdAt;
+	private Date createdAt;
 }
