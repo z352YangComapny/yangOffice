@@ -372,7 +372,31 @@ select * from comments_feed;
 select * from comments;
 select * from photo_feed;
 
+
+SELECT pf.id AS photo_feed_id, pf.writer_id AS feed_writer_id, pf.content AS feed_content,
+       c.id AS comments_id, c.writer_id AS comments_writer_id, c.content AS comments_content
+FROM photo_feed pf
+LEFT JOIN comments_feed cf ON pf.id = cf.photo_feed_id
+LEFT JOIN comments c ON cf.comments_id = 1;
+
+SELECT c.id, c.writer_id, c.content, c.reg_date 
+            FROM comments_feed cf 
+            JOIN comments c ON cf.comments_id = c.id 
+            WHERE cf.photo_feed_id = 3;
+
+
+select * from photo_feed
+
+select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 1;
+
+delete from comments_feed WHERE comments_id = 1;
+
+insert into comments_feed values();
+select * from ;
+
 select * from photo_feed e join comments c on e.id = c.id;
+
+update comments set content = 'zzz' where id = 2;
 
     
 select * from member;

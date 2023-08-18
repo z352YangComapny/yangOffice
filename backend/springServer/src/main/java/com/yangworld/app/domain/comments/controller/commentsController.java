@@ -35,7 +35,7 @@ public class commentsController {
 	private CommentsService commentService;
 	
 	@GetMapping("/getComments")
-	public ResponseEntity<?> getComments(@RequestBody int photoFeedId) {
+	public ResponseEntity<?> getComments(@RequestParam int photoFeedId) {
 	    List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
 	    
 	    if (comments != null && !comments.isEmpty()) {
