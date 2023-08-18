@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
 import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
 import com.yangworld.app.domain.question.entity.Question;
+import com.yangworld.app.domain.question.repository.QuestionRepository;
 import com.yangworld.app.domain.question.service.QuestionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +31,9 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionService questionService;
+	
+	@Autowired
+	private QuestionRepository questionRepository;
 	
 	/**
 	 * 윤아
@@ -57,7 +60,12 @@ public class QuestionController {
 				"limit",limit
 			);
 		List<Question> questions = questionService.findAllQuestion(params);	
-		model.addAttribute("questions", questions);
+		// 페이징 정보를 계산하고 전달
+	    int totalCount = questionRepository.countAllQuestion(); // 전체 데이터 개수 조회
+	    int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
+	    model.addAttribute("questions", questions);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
 	}
 	
 	@GetMapping("/questionCreate")
@@ -81,7 +89,8 @@ public class QuestionController {
 		questionService.insertQna(qna);
 		model.addAttribute("writerId", writerId);
 		
-		return "redirect://question/questionList";
+		
+		return "redirect:/question/questionList";
 	}
 	
 	@PostMapping("/updateQna")

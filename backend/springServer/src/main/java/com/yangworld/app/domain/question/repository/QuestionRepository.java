@@ -34,4 +34,7 @@ public interface QuestionRepository {
 	@Select("select * from question where id = #{id}")
 	Question findQuestionById(int id);
 
+	@Select("select count(*) from question")
+	int countAllQuestion();
+
 }
