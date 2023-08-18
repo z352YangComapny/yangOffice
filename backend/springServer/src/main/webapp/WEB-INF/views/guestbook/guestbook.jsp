@@ -13,8 +13,9 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 </style>
 <div id="guestbook-container">
 	<form:form action="${pageContext.request.contextPath}/guestbook/create.do" class="form-inline" method="post">
-		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="작성자" required/>&nbsp;
-		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="방명록" required/>&nbsp;
+		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;
+		<input type="text" class="form-control col-sm-10 ml-1" name="writerId" placeholder="writerId" required/>&nbsp;
+		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
 	
