@@ -23,26 +23,26 @@ public class StoryController {
 	@Autowired
 	private StoryService storyService;
 	
-	@GetMapping("/story")
-	public void story(Model model) {
+	@GetMapping("/storyTap")
+	public void storyTap(Model model) {
 //		Story story = storyService.findStoryById();
 //		model.addAttribute("story", story); 로그인멤버 id 받아서 처리
 	}
 	
-	@PostMapping("/storyCreate")
-	public ResponseEntity<?> storyCreate(@RequestBody StoryDto storyDto){
+	@PostMapping("/create")
+	public ResponseEntity<?> create(@RequestBody StoryDto storyDto){
 		int result = storyService.createStory(storyDto);
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/storyUpdate")
-	public ResponseEntity<?> storyUpdate(@RequestBody StoryDto storyDto){
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody StoryDto storyDto){
 		int result = storyService.updateStory(storyDto);
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/storyDelete")
-	public ResponseEntity<?> storyDelete(@RequestBody StoryDto storyDto){
+	@PostMapping("/delete")
+	public ResponseEntity<?> delete(@RequestBody StoryDto storyDto){
 		int result = storyService.deleteStory(storyDto);
 		return ResponseEntity.ok().build();
 	}
