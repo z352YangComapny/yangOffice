@@ -35,5 +35,8 @@ public interface DmRepository {
 	@Delete("delete from dm_room where participant1=#{participant1} and participant2=#{participant2}")
 	int deleteDmRoom(int participant1, int participant2);
 
+    @Select("SELECT m.username FROM dm d JOIN member m ON d.receiver_id = m.id WHERE d.id = #{id}")
+	String getUsernameById(int id);
+
 	
 }

@@ -399,7 +399,10 @@ select * from photo_feed e join comments c on e.id = c.id;
 update comments set content = 'zzz' where id = 2;
 
     
-select * from member;
+select * from dm;
+insert into dm values(seq_dm_id.nextval, 2, 1, '반가슴니다', 1, default);
+
+
 
 commit;
 

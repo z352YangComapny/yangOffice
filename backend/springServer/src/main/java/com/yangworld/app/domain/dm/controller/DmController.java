@@ -39,9 +39,12 @@ public class DmController {
 	@GetMapping("/dmDetail")
 	public void findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId, Model model) {
 		
+		// int userId = principal.getId(); 
+		
 		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
 		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
 		
+		log.info("dmDetails={}" , dmDetails);
 		model.addAttribute("dmDetails", dmDetails);
 	}
 	
@@ -68,7 +71,9 @@ public class DmController {
 	    // 가장 최신 메시지로 정렬 ( regDate )
 	    List<Dm> sortedMessages = new ArrayList<>(latestMessagesMap.values());
 	    sortedMessages.sort(Comparator.comparing(Dm::getRegDate).reversed());
-
+	    
+	    log.info("sortedMessages={}", sortedMessages);
+	    model.addAttribute("myDms",myDms);
 	    model.addAttribute("myDmList", sortedMessages);
 	 }
 

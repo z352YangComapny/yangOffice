@@ -48,5 +48,10 @@ public class DmServiceImpl implements DmService {
 	public int deleteDmRoom(int participant1, int participant2) {
 		return dmRepository.deleteDmRoom(participant1,participant2);
 	}
+	
+	@Override
+	public String getUsernameById(int Id) {
+		return dmRepository.getUsernameById(Id);
+	}
 
 }
