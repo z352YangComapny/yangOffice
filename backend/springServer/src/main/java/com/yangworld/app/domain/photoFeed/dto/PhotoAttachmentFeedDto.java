@@ -25,4 +25,6 @@ public class PhotoAttachmentFeedDto {
 	private List<Attachment> attachments;
 	private LocalDateTime regDate;
 	
+	
+	
 }

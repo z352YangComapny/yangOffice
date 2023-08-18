@@ -8,9 +8,10 @@
  <div class="container">
  
         <h1>피드</h1>
-     <c:forEach items="${photoList}" var="photo">
-        <h1>${photo}</h1> <!-- 여기서 name은 PhotoAttachmentFeedDto 클래스의 속성 이름 -->
-    </c:forEach>
+	    <c:forEach items="${photoList}" var="photo">
+	    	<h1>${photo}</h1> <!-- 테스트코드 -->
+		</c:forEach>
+
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card">
@@ -26,7 +27,7 @@
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="your_image_url_2.jpg" class="card-img-top" alt="Image 2">
+                    <!-- <img src="your_image_url_2.jpg" class="card-img-top" alt="Image 2"> -->
                     <div class="card-body">
                         <h5 class="card-title">이미지 2 설명</h5>
                         <p class="card-text">이미지 2에 대한 추가 정보</p>

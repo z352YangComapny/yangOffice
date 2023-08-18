@@ -70,7 +70,7 @@ public class PhotoFeedController {
 	/**
 	 * 회원 조회
 	 */
-	@GetMapping("/feed/list")
+	@GetMapping("/feed/feedList.do") // 페이지 요청 받을때 어떻게처리할건지 내일 그것만 하기 그것만 하면 탄탄대로야 그냥 자자 이제
 	public ResponseEntity<?> selectFeed(
 			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
 			Model model
@@ -82,6 +82,10 @@ public class PhotoFeedController {
 		
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
 
+		PhotoAttachmentFeedDto photoInfo = PhotoAttachmentFeedDto.builder()
+				.id(writerId)
+				.build();
+		
 	    model.addAttribute("photoList", photoList);
 	    
 		return ResponseEntity.ok(photoList);
