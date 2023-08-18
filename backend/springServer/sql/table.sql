@@ -333,12 +333,9 @@ END;
 
 
 select * from photo_feed;
-
 select * from photo_feed where writer_id = 1;
-
+select* from member;
 select * from attachment;
 
-delete from attachment_photo_feed;
-
 commit;
-    select* from member;
+

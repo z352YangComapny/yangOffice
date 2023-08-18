@@ -19,8 +19,8 @@
 						<input type="text" 
 							   class="form-control" 
 							   placeholder="4글자이상"
-							   name="memberId" 
-							   id="memberId"
+							   name="username"
+							   id="username"
 							   value="honggd"
 							   pattern="\w{4,}"
 							   required>
@@ -66,7 +66,7 @@
 	</form:form>
 </div>
 <script>
-document.querySelector("#memberId").onkeyup = (e) => {
+document.querySelector("#username").onkeyup = (e) => {
 	const value = e.target.value;
 	console.log(value);
 	
