@@ -6,9 +6,15 @@ import java.util.List;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.photoFeed.entity.Like;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PhotoAttachmentFeedDto {
 	
 	private int id;

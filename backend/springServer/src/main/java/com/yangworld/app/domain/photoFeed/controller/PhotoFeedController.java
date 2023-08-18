@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yangworld.app.commons.HelloSpringUtils;
+import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
@@ -71,14 +72,18 @@ public class PhotoFeedController {
 	 */
 	@GetMapping("/feed/list")
 	public ResponseEntity<?> selectFeed(
-			@RequestParam int writerId,
+			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
 			Model model
 			) {
 		
 		// GET = http://localhost:8080/JS
 		
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
+		int writerId = principalDetails.getId();
 		
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
+
+	    model.addAttribute("photoList", photoList);
+	    
 		return ResponseEntity.ok(photoList);
 	}
 	
