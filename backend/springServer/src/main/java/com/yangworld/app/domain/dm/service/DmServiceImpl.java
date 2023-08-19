@@ -2,6 +2,7 @@ package com.yangworld.app.domain.dm.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 import com.yangworld.app.domain.dm.repository.DmRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +47,24 @@ public class DmServiceImpl implements DmService {
 	}
 
 	@Override
-	public int deleteDmRoom(int participant1, int participant2) {
-		return dmRepository.deleteDmRoom(participant1,participant2);
+	public int deleteDmRoom(int dmRoomId) {
+		int result =  dmRepository.deleteDmRoom(dmRoomId);
+		return result;
+	}
+	
+	@Override
+	public String getUsernameById(int Id) {
+		return dmRepository.getUsernameById(Id);
+	}
+	
+	@Override
+	public List<DmRoom> findDmRoom(int dmRoomId) {
+		return dmRepository.findDmRoom(dmRoomId);
+	}
+	
+	@Override
+	public List<Map<String, Object>> findMemberId(int dmRoomId) {
+		return dmRepository.findMemberId(dmRoomId);
 	}
 
 }

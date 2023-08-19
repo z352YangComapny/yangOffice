@@ -1,10 +1,12 @@
 package com.yangworld.app.domain.dm.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 
 @Mapper
 public interface DmRepository {
@@ -32,8 +34,22 @@ public interface DmRepository {
 	@Insert("insert into dm_room values (seq_dm_room_id.nextval , #{participant1},#{participant2}, default)")
     void insertDmRoom(@Param("participant1") int participant1, @Param("participant2") int participant2);
 
-	@Delete("delete from dm_room where participant1=#{participant1} and participant2=#{participant2}")
-	int deleteDmRoom(int participant1, int participant2);
+	@Delete("delete from dm_room where id=${dmRoomId}")
+	int deleteDmRoom(int dmRoomId);
+
+    @Select("SELECT m.username FROM dm d JOIN member m ON d.receiver_id = m.id WHERE d.id = #{id}")
+	String getUsernameById(int id);
+
+    @Select("SELECT * FROM dm_room WHERE (participant1 = #{userId} OR participant2 = #{userId})")
+	List<DmRoom> findDmRoom(int userId) ;
+
+    @Select("SELECT dm.sender_id, "
+            + "(SELECT username FROM member WHERE id = dm.sender_id) AS sender_username, "
+            + "dm.receiver_id, "
+            + "(SELECT username FROM member WHERE id = dm.receiver_id) AS receiver_username "
+            + "FROM dm "
+            + "WHERE dm.id = #{dmRoomId}")
+	List<Map<String, Object>> findMemberId(int dmRoomId);
 
 	
 }

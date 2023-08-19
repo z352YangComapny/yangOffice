@@ -19,6 +19,7 @@
    <sec:authorize access="isAuthenticated()">
       <script>
          const username = '<sec:authentication property = "principal.username"/>';
+         const id = '<sec:authentication property = "principal.id"/>';
       </script>
       <!--위에 변수 선언을 해주면 하단 stomp.js에서 참조가 가능하다! 기존 js에서는 jstl문법 등을 사용할 수 없으니까! -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -96,23 +97,12 @@
 
                </ul>
                <form class="d-flex">
-                  <sec:authorize access="isAnonymous()">
-                     <button
-                           class="btn btn-secondary my-2 my-sm-0"
-                           type="button"
-                           onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">로그인</button>
-                     &nbsp;
-                     <button
-                           class="btn btn-secondary my-2 my-sm-0"
-                           type="button"
-                           onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">회원가입</button>
-                  </sec:authorize>
                   <sec:authorize access="isAuthenticated()">
-                            <span><a href="${pageContext.request.contextPath}/member/memberDetail.do"
-                     title=" <sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하세요🎃</span>
+                            <span class="align-middle" style="font-weight: bold; color : white; font-size : 15px;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
+                     title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
                      &nbsp;
                      <button
-                           class="btn btn-secondary my-2 my-sm-0"
+                           class="btn btn-secondary my-2 my-sm-0 ml-10"
                            type="button"
                            onclick="document.memberLogoutFrm.submit();">로그아웃</button>
                   </sec:authorize>

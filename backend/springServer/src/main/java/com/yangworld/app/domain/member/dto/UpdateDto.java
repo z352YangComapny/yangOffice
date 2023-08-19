@@ -12,9 +12,6 @@ import java.sql.Date;
 @Builder
 public class UpdateDto {
 
-
-    @NotBlank(message="비밀번호")
-    private String password;
     @NotBlank(message="별명")
     private String nickname;
     @NotBlank(message="연락처")
