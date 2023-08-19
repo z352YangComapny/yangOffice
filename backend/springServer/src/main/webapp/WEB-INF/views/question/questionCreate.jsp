@@ -60,11 +60,17 @@
     <div id="board-form">
         <form:form name="boardFrm" action="${pageContext.request.contextPath}/question/createQna" method="post">
             <input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>
-            <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${writerId}" value="${writerId}" readonly >
+            <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${pageContext.request.userPrincipal.name}" value="${pageContext.request.userPrincipal.name}" readonly>
+            <%-- <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${writerId}" value="${writerId}" readonly > --%>
             <div class="form-group">
                 <label for="exampleSelect1" class="form-label mt-4"></label>
                 <select class="form-select" id="exampleSelect1" name="questionType">
                     <option value="Q">이용문의</option>
+                    <c:if test="${fn:contains(principal.authorities, 'ROLE_ADMIN')}">
+   						 <option value="N">공지사항</option>
+					</c:if>
+
+
                 </select>
             </div>
             <textarea class="form-control" name="content" placeholder="문의사항을 작성하세요." required></textarea>

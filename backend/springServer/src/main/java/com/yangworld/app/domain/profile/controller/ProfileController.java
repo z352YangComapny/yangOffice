@@ -32,6 +32,7 @@ import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.profile.dto.ProfileDto;
 import com.yangworld.app.domain.profile.entity.Profile;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
 import com.yangworld.app.domain.profile.service.ProfileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,15 @@ public class ProfileController {
 	
 	@Autowired
 	private ProfileService profileService;
+	
 	@GetMapping("/create.do")
 	public String showCreateProfileForm(Model model) {
+	    ProfileDto profile = new ProfileDto();
+	    // 필요한 필드들을 설정
+	    profile.getState();
+	    profile.getIntroduction();
+
+	    model.addAttribute("profile", profile);
 	    return "/profile/profileCreate";
 	}
 	
@@ -106,6 +114,7 @@ public class ProfileController {
 			}
 		}
 		
+		
 		ProfileDetails profile = ProfileDetails.builder()
 				.memberId(principal.getId())
 				.state(_profile.getState())
@@ -132,9 +141,6 @@ public class ProfileController {
 			@AuthenticationPrincipal PrincipalDetails principal,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
-		
-	
-		
 		
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
@@ -178,6 +184,54 @@ public class ProfileController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update profile");
 	    }
 	}
+	
+	@PostMapping("/defaultcreate.do")
+	public ResponseEntity<?> createDefaultProfile(
+	        @AuthenticationPrincipal PrincipalDetails principal) {
+
+	    int memberId = principal.getId();
+
+	    ProfileDetails profile = ProfileDetails.builder()
+	            .memberId(memberId)
+	            .state(State.A)
+	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
+	            .build();
+
+	    // 기본 사진의 파일 경로
+	    String defaultImagePath = "/Users/hongseung-young/Documents/GitHub/yangOffice/backend/springServer/src/main/webapp/resources/upload/profile/default.jpg"; // 실제 경로로 수정
+
+	    Attachment defaultAttachment = Attachment.builder()
+	            .originalFilename("default.jpg")
+	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
+	            .build();
+
+	    profile.getAttachments().add(defaultAttachment);
+
+	    int result = profileService.insertProfile(profile);
+
+	    if (result > 0) {
+	        return ResponseEntity.ok().build();
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to insert profile");
+	    }
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	@PostMapping("/reset")

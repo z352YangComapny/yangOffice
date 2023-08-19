@@ -47,6 +47,8 @@
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
+        
+        
     </div>
 </div>
 <script>
