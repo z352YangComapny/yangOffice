@@ -75,7 +75,9 @@ public class PhotoFeedController {
 	public void feedCreate() {}
 	
 	// 피드 만들기
+	
 	@PostMapping("/feedCreated.do")
+	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String peedCreate(
 			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
 	        BindingResult bindingResult,
@@ -83,11 +85,7 @@ public class PhotoFeedController {
 	        @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
 	        throws IllegalStateException, IOException {
 
-		// member 객체가 null임
 		
-		log.debug("_feed = {}",_feed);
-		log.debug("member = {}",member); 
-		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
 		
 		if(member == null) {
 			return "forward:/index.jsp";
@@ -121,10 +119,10 @@ public class PhotoFeedController {
 		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
-			return "forward:/index.jsp";
+			return "redirect:/";
 	    } else {
 	        // 생성 중 오류가 발생한 경우
-	        return "forward:/index.jsp";
+	        return "forward:/index.do";
 	    }
 	}
 	/**
