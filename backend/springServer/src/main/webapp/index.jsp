@@ -25,6 +25,7 @@
 
     </div>
 </sec:authorize>
+
 <sec:authorize access = "isAuthenticated()">
 
     <jsp:include page ="/WEB-INF/views/common/header.jsp">

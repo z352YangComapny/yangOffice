@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -68,13 +70,67 @@ public class PhotoFeedController {
 	}
 
 
+	// 페이지 이동
 	@GetMapping("/feed/feedCreate.do")
 	public void feedCreate() {}
-	    
+	
+	// 피드 만들기
+	@PostMapping("/feedCreated.do")
+	public String peedCreate(
+			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
+	        BindingResult bindingResult,
+	        @AuthenticationPrincipal Member member,
+	        @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
+	        throws IllegalStateException, IOException {
+
+		// member 객체가 null임
+		
+		log.debug("_feed = {}",_feed);
+		log.debug("member = {}",member); 
+		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
+		
+		if(member == null) {
+			return "forward:/index.jsp";
+		}
+		
+		List<Attachment> attachments = new ArrayList<>();
+		
+		for(MultipartFile upFile : upFiles){
+			if(!upFile.isEmpty()) { 
+				String originalFilename = upFile.getOriginalFilename(); 
+				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); 
+				File destFile = new File(renamedFilename); 
+				upFile.transferTo(destFile);
+				
+				Attachment attach =  
+						Attachment.builder()
+						.originalFilename(originalFilename)
+						.renamedFilename(renamedFilename)
+						.build();
+				attachments.add(attach);
+			}
+		}
+		
+		FeedDetails feed = FeedDetails.builder()
+				.writerId(member.getId())
+				.content(_feed.getContent())
+				.attachments(attachments)
+				.build();
+		
+		 
+		int result = photoFeedService.insertFeed(feed);
+		
+		if (result > 0) {
+			return "forward:/index.jsp";
+	    } else {
+	        // 생성 중 오류가 발생한 경우
+	        return "forward:/index.jsp";
+	    }
+	}
 	/**
 	 * 회원 조회
 	 */
-	@GetMapping("/") 
+	@GetMapping("/")
 	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String selectFeed(
 			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
@@ -82,6 +138,9 @@ public class PhotoFeedController {
 			) {
 		
 		// GET = http://localhost:8080/JS
+		if (principalDetails == null) {
+	        return "forward:/index.jsp";  // 로그인 페이지로 리다이렉트
+	    }
 		
 		int writerId = principalDetails.getId();
 		
@@ -126,57 +185,6 @@ public class PhotoFeedController {
 	}
 
 
-	// 피드 만들기
-	@PostMapping("/feedCreate.do")
-	public String peedCreate(
-			@RequestPart @Valid FeedCreateDto _feed,
-			BindingResult bindingResult,
-			@AuthenticationPrincipal Member member,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) // required = false 파일을 첨부하지 않아도 요청이 성공
-					throws IllegalStateException, IOException {
-		
-		
-		log.debug("_feed = {}",_feed);
-		log.debug("member = {}",member); 
-		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
-		
-		
-		
-		List<Attachment> attachments = new ArrayList<>();
-		
-		for(MultipartFile upFile : upFiles){
-			if(!upFile.isEmpty()) { 
-				String originalFilename = upFile.getOriginalFilename(); 
-				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); 
-				File destFile = new File(renamedFilename); 
-				upFile.transferTo(destFile);
-				
-				
-				Attachment attach =  
-						Attachment.builder()
-						.originalFilename(originalFilename)
-						.renamedFilename(renamedFilename)
-						.build();
-				attachments.add(attach);
-			}
-		}
-		
-		FeedDetails feed = FeedDetails.builder()
-				.writerId(member.getId())
-				.content(_feed.getContent())
-				.attachments(attachments)
-				.build();
-		
-		 
-		int result = photoFeedService.insertFeed(feed);
-		
-		if (result > 0) {
-			return "forward:/index.jsp";
-	    } else {
-	        // 생성 중 오류가 발생한 경우
-	        return "forward:/index.jsp";
-	    }
-	}
 	
 	
 	
