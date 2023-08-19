@@ -22,7 +22,7 @@
     }
 
     .feed-img {
-        width: 100%;
+        width: 200px;
         height: 200px;
         object-fit: contain;
     }
@@ -50,24 +50,25 @@
     <sec:authorize access="isAuthenticated()">
         <c:choose>
             <c:when test="${not empty photoList}">
-                <div class="feed-container">
-                    <c:forEach items="${photoList}" var="photo">
-                        <div class="feed-item">
-                            <c:choose>
-                                <c:when test="${not empty photo.attachments}">
-                                    <img src="${pageContext.request.contextPath}/resources/upload/feed/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image 1">
-                                </c:when>
-                            </c:choose>
-                            <c:if test="${fn:length(photo.attachments) > 1}">
-                                <div class="plus-icon">+</div> <!-- 피드에 2개이상 있으면 나타나는 +  -->
-                            </c:if>
-                              <div class="feed-img-overlay">
-                                <p>좋아요 개수: ${photo.likeCount}</p>
-                                <p>댓글 수: ${photo.commentCount}</p> 
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
+               <div class="feed-container">
+				    <c:forEach items="${photoList}" var="photo">
+				        <div class="feed-item">
+				            <c:choose>
+				                <c:when test="${not empty photo.attachments}">
+				                <!-- 수정 필요 -->
+				                    <img src="${pageContext.request.contextPath}/resources/upload/feed/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image">
+				                </c:when>
+				            </c:choose>
+				            <c:if test="${fn:length(photo.attachments) > 1}">
+				                <div class="plus-icon">+</div>
+				            </c:if>
+				            <div class="feed-img-overlay">
+				                <p>좋아요 개수: ${photo.likeCount}</p>
+				                <p>댓글 수: ${photo.commentCount}</p>
+				            </div>
+				        </div>
+				    </c:forEach>
+				</div>
             </c:when>
             <c:otherwise>
                 <p>작성된 피드가 없습니다.</p>

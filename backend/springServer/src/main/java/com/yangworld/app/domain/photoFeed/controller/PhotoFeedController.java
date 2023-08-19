@@ -137,7 +137,7 @@ public class PhotoFeedController {
 		
 		// GET = http://localhost:8080/JS
 		if (principalDetails == null) {
-	        return "forward:/index.jsp";  // 로그인 페이지로 리다이렉트
+	        return "forward:/index.jsp";  
 	    }
 		
 		int writerId = principalDetails.getId();
