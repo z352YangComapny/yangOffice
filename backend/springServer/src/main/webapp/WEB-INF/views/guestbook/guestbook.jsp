@@ -38,10 +38,10 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 					<tr>
 						<td>${guestbook.id}</td>
 						<td>${guestbook.writerId}</td>
-						<td class="content">${guestbook.content}</td>
+						<td>${guestbook.content}</td>
 						<td>${guestbook.regDate}</td>
 						<td>
-						    <input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
+						    <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp;
 						    <button class="btn btn-outline-success updateGuestbook" id="updateGuestbook" name="updateGuestbook" value="${guestbook.id}">수정</button>
 						</td>
 						<td>
@@ -54,15 +54,18 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 	</table>
 </div>
 <script>
-/* document.querySelectorAll(".updateGuestbook").forEach(btn=>{
-	btm.onclick = (e) =>{
-		const value = e.currentTarget.value;
+document.querySelectorAll(".updateGuestbook").forEach(btn=>{
+	btn.onclick = (e) =>{
+		const value = e.target.value;
+		const content = document.querySelector(".content").value;
 		console.log(value);
+		console.log(content);
 		
 			$.ajax({
 				url : "${pageContext.request.contextPath}/guestbook/update.do",
 				data : {
-					updateGuestbook : value
+					updateGuestbook : value,
+					content : content
 				},
 				beforeSend : function(xhr){
 					xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');
@@ -74,10 +77,11 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 					const {updateGuestbook} = responseData;
 					const updateGuestbookCell = e.target.closest("tr").querySelector(".content");
 					updateGuestbookCell.textContent = content;
+					location.reload();
 				}
 				});
-	}}
-}) */
+	}
+});
 
 document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 	

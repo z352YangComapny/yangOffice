@@ -78,19 +78,25 @@ public class GuestbookController {
 	}
 	
 	@PostMapping("/update.do")
-	public String guestBookUpdate(
-			@Valid  GuestBookUpdateDto _guestBook,
+	public ResponseEntity<?> guestBookUpdate(
+			GuestBookUpdateDto updateDto,
 			@RequestParam int updateGuestbook,
+			@RequestParam String content,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member
 			){
 		
-		GuestBook guestBook = _guestBook.guestBook();
+		GuestBook guestBook = updateDto.guestBook();
 		log.info("guestBook={}",guestBook);
 		guestBook.setWriterId(member.getId());
-		int result = guestBookService.updateGuestBook(guestBook);
 		
-		return "redirect:/guestbook.guestbook.do";
+		updateDto.setId(updateGuestbook);
+		updateDto.setContent(content);
+		log.info("_guestBook={}",updateDto);
+		int result = guestBookService.updateGuestBook(updateDto);
+		
+		log.info("result={}",result);
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
 	@GetMapping("/guestbook.do")
