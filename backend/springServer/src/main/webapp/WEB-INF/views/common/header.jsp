@@ -94,7 +94,7 @@
                </ul>
                <form class="d-flex">
                   <sec:authorize access="isAuthenticated()">
-                            <span class="align-middle" style="font-weight: bold; color : white;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
+                            <span class="align-middle" style="font-weight: bold; color : white; font-size : 15px;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
                      title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
                      &nbsp;
                      <button

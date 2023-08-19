@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import redis.clients.jedis.Response;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Map;
 
 @Validated
@@ -63,31 +65,43 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<?> update(@AuthenticationPrincipal PrincipalDetails principal,
-                                    @RequestBody UpdateDto updateDto){
+//    @PostMapping("/memberUpdate.do")
+//    public ResponseEntity<?> update(@AuthenticationPrincipal PrincipalDetails principal,
+//                                    @RequestBody UpdateDto updateDto){
+//
+////        log.info("modify dto = {}", updateDto);
+////        if(passwordEncoder.encode(updateDto.getPassword()).equals(principal.getPassword())){
+////            updateDto.setPassword(principal.getPassword());
+////        } else{
+////            updateDto.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+////        }
+//
+//        // 로그인한 회원의 정보 업데이트
+//        memberService.updateMember(updateDto, principal.getUsername());
+//
+//        // 업데이트 한 회원의 새 정보를 authentication에 새롭게 담아주기
+//        PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(principal.getUsername());
+//        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+//                                        principalDetails,
+//                                        principalDetails.getPassword(),
+//                                        principalDetails.getAuthorities()
+//                                        );
+//        log.info("newAuthentication = {}", newAuthentication);
+//        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+//        return ResponseEntity.ok().body(Map.of("msg", "회원정보가 수정되었습니다."));
+//    }
 
-        log.info("modify dto = {}", updateDto);
-        if(passwordEncoder.encode(updateDto.getPassword()).equals(principal.getPassword())){
-            updateDto.setPassword(principal.getPassword());
-        } else{
-            updateDto.setPassword(passwordEncoder.encode(updateDto.getPassword()));
-        }
-        // 로그인한 회원의 정보 업데이트
-        memberService.updateMember(updateDto, principal.getUsername());
 
-        // 업데이트 한 회원의 새 정보를 authentication에 새롭게 담아주기
-        PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(principal.getUsername());
-        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
-                                        principalDetails,
-                                        principalDetails.getPassword(),
-                                        principalDetails.getAuthorities()
-                                        );
-        log.info("newAuthentication = {}", newAuthentication);
-        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-        return ResponseEntity.ok().build();
+//    @PostMapping("/memberUpdate.do")
+//    public String memberUpdate(@Au){
+//
+//
+//
+//
+//
+//    }
 
-    }
+
 
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@AuthenticationPrincipal PrincipalDetails principal){
@@ -136,6 +150,17 @@ public class MemberController {
 
     @GetMapping("/memberHome.do")
     public String memberHome(){ return "redirect:/member/memberHome.do";}
+
+    @GetMapping("/memberDetail.do")
+    public void memberDetail(@AuthenticationPrincipal PrincipalDetails principal, Authentication authentication){
+
+        principal = (PrincipalDetails)authentication.getPrincipal();
+        Object credentials = authentication.getCredentials();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+    }
+
+
 
  }
 

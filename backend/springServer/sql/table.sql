@@ -14,7 +14,6 @@ create table member
     constraints p_member_id primary key( id),
     constraints c_member_gender check (gender in ('M', 'F')),
     constraints u_member_username unique(username),
-    constraints u_member_name unique( name),
     constraints u_member_nickname unique(nickname),
     constraints u_member_phone unique (phone),
     constraints u_member_email unique (email),
@@ -60,6 +59,7 @@ create table profile
     state        char(1) not null,
     introduction varchar2(300),
     constraints  p_profile_id primary key( id),
+    constraints  u_profile_member_id unique (member_id);
     constraints  f_profile_member_id foreign key (member_id) references member (id) on delete cascade,
     constraints  c_profile_state check (state in ('A', 'B', 'C', 'D', 'E'))
 );
