@@ -23,16 +23,3 @@
 		</c:forEach>
 	</div>
 </section>
-<script>
-	(() => {
-	    const updateStoryMain = () => {
-	        $.get('/story/main', (data) => {
-	            $('#storyMainUpdate').html(data);
-	        });
-	    };
-	
-	    updateStoryMain();
-	
-	    setInterval(updateStoryMain, 1000);
-	})();
-</script>
