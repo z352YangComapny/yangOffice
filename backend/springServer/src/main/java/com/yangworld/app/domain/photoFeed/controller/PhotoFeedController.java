@@ -67,7 +67,10 @@ public class PhotoFeedController {
 	    return "your_html_page"; // 실제 페이지의 이름으로 변경
 	}
 
-	
+
+	@GetMapping("/feed/feedCreate.do")
+	public void feedCreate() {}
+	    
 	/**
 	 * 회원 조회
 	 */

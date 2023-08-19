@@ -41,9 +41,7 @@
         font-size: 12px;
     }
 </style>
-<script>
 
-</script>
 
 <div class="container">
     <h1>피드</h1>
@@ -76,3 +74,10 @@
         </c:choose>
     </sec:authorize>
 </div>
+<script>
+document.querySelector("#btn-add").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/feed/feedCreate.do';
+};
+</script>
+
+
