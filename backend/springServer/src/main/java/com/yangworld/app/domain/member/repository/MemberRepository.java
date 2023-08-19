@@ -1,12 +1,10 @@
 package com.yangworld.app.domain.member.repository;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
-import com.yangworld.app.domain.member.dto.FollowDto;
-import com.yangworld.app.domain.member.dto.SignUpDto;
-import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.dto.*;
 import org.apache.ibatis.annotations.*;
 import com.yangworld.app.domain.member.entity.Member;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
@@ -45,5 +43,16 @@ public interface MemberRepository {
 
     @Select("select count(*) from member")
     int getMemberTotalCount();
+
+    List<Member> getMemberPage(RowBounds rowBounds);
+
+    @Update("update member set email=#{email}, nickname=#{nickname}, phone=#{phone}, birthday=#{birthday}, gender=#{gender} where id=#{id}")
+    int updateMemberByAdmin(UpdateMemberDto memberUpdate);
+
+    @Delete("delete authorities where member_id=#{id}")
+    void deleteAuthorities(int id);
+
+    @Select("select * from member where id=#{writerId}")
+    Member findById(int writerId);
 }
 

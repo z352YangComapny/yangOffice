@@ -5,11 +5,13 @@ export const PhotofeedContext = createContext()
 
 const PhotofeedContextProvider = (props) => {
     const [photofeed , setPhotofeed ] = useState([]);
-    const [FeedNo , setFeedNo ] = useState(0);
+    const [feedNo , setFeedNo ] = useState(0);
     const [feedTotalNo, setFeedTotalNo] = useState(0);
 
     const getFeed = (id) => {}
-    const getFeeds = () => {}
+    const getFeeds = async (pageNo) => {
+      return await axios.get(`/api/v1/feed/${pageNo}`)
+    }
     const getTotalFeedCount = async () => {
       return await axios.get('/api/v1/photoFeedCount')
     }
@@ -18,7 +20,7 @@ const PhotofeedContextProvider = (props) => {
     const value = {
       states : {
         photofeed, 
-        FeedNo,
+        feedNo,
         feedTotalNo
       },
       actions: {
@@ -26,6 +28,7 @@ const PhotofeedContextProvider = (props) => {
         getFeeds,
         getTotalFeedCount,
         setFeedTotalNo,
+        setPhotofeed,
         deletedFeed
       }
     };

@@ -19,8 +19,6 @@ select * from member where username=#{username}
         <result column="reg_date" property="regDate"/>
     </resultMap>
 
-
-
     <!-- insertAuthorities 메서드에 대한 쿼리문 -->
     <insert id="insertAuthorities">
         <foreach collection="authorityList" item="authority" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
@@ -30,7 +28,6 @@ select * from member where username=#{username}
         </foreach>
     </insert>
 
-
     <select id="loadUserByUsername" resultMap="memberAuthMap">
         select *
         from member M
@@ -39,6 +36,32 @@ select * from member where username=#{username}
         where M.username = #{username}
     </select>
     <resultMap id="memberAuthMap" type="principalDetails">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="birthday" property="birthday"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="provider" property="provider"/>
+        <result column="reg_date" property="regDate"/>
+        <collection property="authorities" ofType="simpleGrantedAuthority">
+            <constructor>
+                <arg column="authority" javaType="string"/>
+            </constructor>
+        </collection>
+    </resultMap>
+
+    <select id="getMemberPage" resultMap="memberjoin">
+        select *
+        from member M
+        left join authorities A
+        on M.id = A.member_id
+        order by id desc
+    </select>
+    <resultMap id="memberjoin" type="member">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="name" property="name"/>

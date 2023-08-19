@@ -65,7 +65,6 @@ function Dashboard() {
   const handleGetTotalFeedCount = () => {
     getTotalFeedCount()
     .then((resp)=>{
-      console.log(resp)
       setFeedTotalNo(resp.data)
     })
     .catch((err)=>{
@@ -83,13 +82,6 @@ function Dashboard() {
     })
   }
   const handleGetReportTotalCount = () => {
-    getMemberTotlaCount()
-    .then((resp)=>{
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-    
   }
   
   return (

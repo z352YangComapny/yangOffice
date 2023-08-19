@@ -6,10 +6,13 @@ export const StoryContext = createContext()
 const StoryContextProvider = (props) => {
     const [StoryList , setStoryList ] = useState([]);
     const [StoryPage , setStoryPage] = useState(0);
-    const [StoryTotalPages, setStoryTotalPages] = useState(0);
+    const [StoryTotalCount, setStoryTotalCount] = useState(0);
 
     const getStory = (id) => {}
     const getStoryList = () => {}
+    const getTotalStoryCount =async () =>{
+      return await axios.get('/api/v1/totalStoryCount')
+    }
     const updateStory = (Story) => {}
     const deletedStory = (id) => {}
 
@@ -18,13 +21,15 @@ const StoryContextProvider = (props) => {
       states : {
         StoryList, 
         StoryPage,
-        StoryTotalPages
+        StoryTotalCount
       },
       actions: {
         getStory,
         getStoryList,
         updateStory,
-        deletedStory
+        deletedStory,
+        setStoryTotalCount,
+        getTotalStoryCount
       }
     };
 

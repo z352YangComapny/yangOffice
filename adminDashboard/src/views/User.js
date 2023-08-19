@@ -16,7 +16,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -33,8 +34,66 @@ import {
   Col,
   Label,
 } from "reactstrap";
+import { MemberContext } from "variables/MemberContnextProvider";
 
 function User(props) {
+  const navigate = useNavigate();
+  let { state } = useLocation();
+  const [memberFrm, setMemberFrm] = useState(state);
+  const {actions:{updateMember}} = useContext(MemberContext)
+  console.log(memberFrm)
+
+  const handleOnChange = (e) => {
+    setMemberFrm({
+      ...memberFrm,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  const handleCheckboxChange = (authority) => {
+    let updatedAuthorities = [...memberFrm.authorities];
+    if (updatedAuthorities.some(auth => auth.authority === authority)) {
+      updatedAuthorities = updatedAuthorities.filter(auth => auth.authority !== authority);
+    } else {
+      updatedAuthorities.push({ authority: authority });
+    }
+    setMemberFrm({
+      ...memberFrm,
+      authorities: updatedAuthorities
+    });
+  };
+
+  const handleSelectChange = (e) => {
+    const selectedProvider = e.target.value;
+    setMemberFrm({
+      ...memberFrm,
+      provider: selectedProvider
+    });
+  };
+
+  const handleRadioChange = (e) => {
+    const selectedGender = e.target.value;
+    setMemberFrm({
+      ...memberFrm,
+      gender: selectedGender
+    });
+  };
+
+  const handleBirthDayOnChange = (e) => {
+    const selectedDay = e.target.value;
+    setMemberFrm({
+      ...memberFrm,
+      birthday:selectedDay
+    })
+  }
+
+  const handleBirthday = () => {
+    return memberFrm.birthday.substring(0, 10)
+  }
+
+  const handleRegDate = () => {
+    return memberFrm.regDate.substring(0, 10)
+  }
 
   const handleResetPassword = (e) => {
     e.preventDefault();
@@ -43,8 +102,16 @@ function User(props) {
 
   const handleUpdateMember = (e) => {
     e.preventDefault();
-    console.log('Update Member init')
-    console.log(e)
+    console.log(memberFrm);
+    updateMember(memberFrm)
+    .then((resp)=>{
+      console.log(resp)
+      alert('회원정보 변경 완료')
+      navigate('/admin/tables')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
 
   return (
@@ -112,9 +179,9 @@ function User(props) {
                       <FormGroup>
                         <label>Usernmae</label>
                         <Input
-                          defaultValue="Creative Code Inc."
+                          defaultValue={state.username}
                           disabled
-                          placeholder="Company"
+                          placeholder="username"
                           type="text"
                         />
                       </FormGroup>
@@ -124,7 +191,7 @@ function User(props) {
                         <label>password</label>
                         <Input
                           defaultValue="Credentials"
-                          placeholder="Username"
+                          placeholder="password"
                           disabled
                           type="text"
                         />
@@ -135,7 +202,7 @@ function User(props) {
                         <label htmlFor="exampleInputEmail1">
                           Email address
                         </label>
-                        <Input placeholder="Email" type="email" />
+                        <Input placeholder="Email" type="email" name="email" value={memberFrm.email} onChange={handleOnChange} />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -144,9 +211,10 @@ function User(props) {
                       <FormGroup>
                         <label>Name</label>
                         <Input
-                          defaultValue="Chet"
+                          defaultValue={memberFrm.name}
                           placeholder="Name"
                           type="text"
+                          disabled
                         />
                       </FormGroup>
                     </Col>
@@ -154,7 +222,9 @@ function User(props) {
                       <FormGroup>
                         <label>Nick Name</label>
                         <Input
-                          defaultValue="Faker"
+                          value={memberFrm.nickname}
+                          name="nickname"
+                          onChange={handleOnChange}
                           placeholder="Nick Name"
                           type="text"
                         />
@@ -166,7 +236,9 @@ function User(props) {
                       <FormGroup>
                         <label>PhoneNumber</label>
                         <Input
-                          defaultValue="Melbourne, Australia"
+                          value={memberFrm.phone}
+                          onChange={handleOnChange}
+                          name="phone"
                           placeholder="PhoneNumber"
                           type="text"
                         />
@@ -176,8 +248,8 @@ function User(props) {
                       <FormGroup>
                         <label>RegDate</label>
                         <Input
-                          value="1992-06-03"
-                          placeholder="PhoneNumber"
+                          value={handleRegDate()}
+                          placeholder="regDate"
                           type="date"
                           disabled
                         />
@@ -186,25 +258,34 @@ function User(props) {
                     <Col md="4">
                       <FormGroup>
                         <label>Authorities</label>
-                        <div style={{display:"flex"}}>
-                        <div style={{marginLeft:"40px"}}>
-                          <Label check>
-                            <Input type="checkbox" />
-                            User
-                          </Label>
-                        </div>
-                        <div style={{marginLeft:"40px"}}>
-                          <Label check>
-                            <Input type="checkbox" />
-                            Manager
-                          </Label>
-                        </div>
-                        <div style={{marginLeft:"40px"}}>
-                          <Label check>
-                            <Input type="checkbox" />
-                            Admin
-                          </Label>
-                        </div>
+                        <div style={{ display: "flex" }}>
+                          <div style={{ marginLeft: "40px" }}>
+                            <Label check>
+                              <Input type="checkbox"
+                                checked={memberFrm.authorities.some(authority => authority.authority === "ROLE_USER")}
+                                onChange={() => handleCheckboxChange("ROLE_USER")}
+                              />
+                              User
+                            </Label>
+                          </div>
+                          <div style={{ marginLeft: "40px" }}>
+                            <Label check>
+                              <Input type="checkbox"
+                                checked={memberFrm.authorities.some(authority => authority.authority === "ROLE_MANAGER")}
+                                onChange={() => handleCheckboxChange("ROLE_MANAGER")}
+                              />
+                              Manager
+                            </Label>
+                          </div>
+                          <div style={{ marginLeft: "40px" }}>
+                            <Label check>
+                              <Input type="checkbox"
+                                checked={memberFrm.authorities.some(authority => authority.authority === "ROLE_ADMIN")}
+                                onChange={() => handleCheckboxChange("ROLE_ADMIN")}
+                              />
+                              Admin
+                            </Label>
+                          </div>
                         </div>
                       </FormGroup>
                     </Col>
@@ -214,9 +295,10 @@ function User(props) {
                       <FormGroup>
                         <label>Birthday</label>
                         <Input
-                          value="1992-06-03"
+                          value={handleBirthday()}
                           placeholder="Birthday"
                           type="date"
+                          onChange={handleBirthDayOnChange}
                         />
                       </FormGroup>
                     </Col>
@@ -226,13 +308,13 @@ function User(props) {
                         <div style={{ display: "flex", height: "40px" }}>
                           <div>
                             <label className="radio-label" style={{ display: "flex", alignItems: "center", marginLeft: "40px", height: "100%", }}>
-                              <Input type="radio" name="gender" value="M" />
+                              <Input type="radio" name="gender" value="M" checked={memberFrm.gender === "M"} onChange={handleRadioChange} />
                               Male
                             </label>
                           </div>
                           <div>
                             <label className="radio-label" style={{ display: "flex", alignItems: "center", marginLeft: "40px", height: "100%", }}>
-                              <Input type="radio" name="gender" value="F" />
+                              <Input type="radio" name="gender" value="F" checked={memberFrm.gender === "F"} onChange={handleRadioChange} />
                               Female
                             </label>
                           </div>
@@ -242,14 +324,14 @@ function User(props) {
                     <Col className="pl-1" md="4">
                       <FormGroup>
                         <label>Provider</label>
-                        <Input type="select" placeholder="Select a provider">
-                          <option>Yang</option>
-                          <option>Git</option>
-                          <option>Google</option>
-                          <option>Instagram</option>
-                          <option>Naver</option>
-                          <option>Kakao</option>
-                          <option>Steam</option>
+                        <Input type="select" placeholder="Select a provider" value={memberFrm.provider} onChange={handleSelectChange}>
+                          <option value="Yang">Yang</option>
+                          <option value="Git">Git</option>
+                          <option value="Google">Google</option>
+                          <option value="Instagram">Instagram</option>
+                          <option value="Naver">Naver</option>
+                          <option value="Apple">Apple</option>
+                          <option value="Steam">Steam</option>
                         </Input>
                       </FormGroup>
                     </Col>

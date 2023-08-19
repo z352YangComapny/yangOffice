@@ -1,14 +1,12 @@
 package com.yangworld.app.domain.member.service;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
-import com.yangworld.app.domain.member.dto.FollowDto;
-import com.yangworld.app.domain.member.dto.SignUpDto;
-import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Authority;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -73,5 +71,24 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.getMemberTotalCount();
     }
 
+    @Override
+    public List<Member> getMemberPage(int pageNo, int pageSize) {
+        int offset = (pageNo-1)*pageSize;
+        RowBounds rowBounds = new RowBounds(offset, pageSize);
+        List<Member> memberList = memberRepository.getMemberPage(rowBounds);
+        return memberList;
+    }
 
+    @Override
+    public int updateMemberByAdmin(UpdateMemberDto memberUpdate) {
+        log.info("update ={} ", memberUpdate);
+        int result = memberRepository.updateMemberByAdmin(memberUpdate);
+        memberRepository.deleteAuthorities(memberUpdate.getId());
+        List<String> authorityList = new ArrayList<>();
+        for (AuthorityDto authority : memberUpdate.getAuthorities()) {
+            authorityList.add(authority.getAuthority());
+        }
+        result += memberRepository.insertAuthorities(memberUpdate.getId(), authorityList);
+        return result;
+    }
 }

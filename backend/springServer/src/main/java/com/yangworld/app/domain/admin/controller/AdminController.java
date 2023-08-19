@@ -1,13 +1,17 @@
 package com.yangworld.app.domain.admin.controller;
 
+import com.yangworld.app.domain.member.dto.UpdateMemberDto;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.FeedDto;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -21,15 +25,33 @@ public class AdminController {
     @GetMapping("/photoFeedCount")
     public ResponseEntity<?> photoFeedTotalCount(){
         int result = photoPeedService.getPhotoFeedTotalCount();
-        log.info("result={}",result);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/memberCount")
     public ResponseEntity<?> memberTotalCount(){
         int result = memberService.memberTotalCount();
-        log.info("result={}",result);
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/memberPage/{pageNo}")
+    public ResponseEntity<?> memberPage(@PathVariable int pageNo) {
+        int pageSize = 10;
+        List<Member> memberList = memberService.getMemberPage(pageNo, pageSize);
+        return ResponseEntity.ok(memberList);
+    }
+
+    @PostMapping("/memberUpdate")
+    public ResponseEntity<?> memberPage(@RequestBody UpdateMemberDto memberUpdate) {
+        int result = memberService.updateMemberByAdmin(memberUpdate);
+        return ResponseEntity.ok("");
+    }
+
+    @GetMapping("/feed/{pageNo}")
+    public ResponseEntity<?> feed(@PathVariable int pageNo){
+        int pageSize=5;
+        log.info("result={},{}",pageNo, pageSize);
+        List<FeedDto> feed = photoPeedService.getPhotoFeed(pageNo ,pageSize);
+        return ResponseEntity.ok(feed);
+    }
 }

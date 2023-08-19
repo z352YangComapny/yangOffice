@@ -17,7 +17,7 @@
 
 */
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -63,7 +63,7 @@ function Sidebar(props) {
         <a
           className="simple-text logo-normal"
         >
-          Yang Company
+          <Link to={'/admin/dashboard'}>Yang Company</Link>
         </a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>

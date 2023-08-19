@@ -68,6 +68,8 @@ function Header(props) {
     routes.map((prop, key) => {
       if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
         brandName = prop.name;
+      }else if(window.location.href.indexOf('user') !==-1){
+        brandName = '회원 상세 정보';
       }
       return null;
     });
@@ -105,7 +107,6 @@ function Header(props) {
         try {
           const decodedToken = JSON.parse(atob(tokenParts[1]));
           setUsername(decodedToken.username)
-          console.log(decodedToken)
         } catch (error) {
           console.log("Error parsing token:", error);
           navigate('/login')

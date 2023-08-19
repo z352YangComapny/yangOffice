@@ -52,14 +52,6 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/user/:id",
-    name: "회원상세조회",
-    icon: "nc-icon nc-single-02",
-    component: <UserPage />,
-    layout: "/admin",
-  },
-  
-  {
     path:"/photofeeds",
     name:"사진피드 관리",
     icon:"nc-icon nc-camera-compact",

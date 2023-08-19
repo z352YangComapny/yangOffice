@@ -1,10 +1,10 @@
 package com.yangworld.app.domain.member.service;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
-import com.yangworld.app.domain.member.dto.FollowDto;
-import com.yangworld.app.domain.member.dto.SignUpDto;
-import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.dto.*;
+import com.yangworld.app.domain.member.entity.Member;
+
+import java.util.List;
 
 public interface MemberService {
     int insertMember(SignUpDto signUpDto);
@@ -22,4 +22,8 @@ public interface MemberService {
     String findMemberByEmail(FindIdDto findIdDto);
 
     int memberTotalCount();
+
+    List<Member> getMemberPage(int pageNo, int pageSize);
+
+    int updateMemberByAdmin(UpdateMemberDto memberUpdate);
 }

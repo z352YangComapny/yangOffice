@@ -2,7 +2,11 @@ import React from 'react'
 
 const Guestbook = () => {
   return (
-    <div>Guestbook</div>
+    <>
+    <div className='content'>
+      <h1>GuestBook</h1>
+    </div>
+    </>
   )
 }
 

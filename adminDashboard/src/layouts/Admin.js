@@ -86,6 +86,7 @@ function Dashboard(props) {
               />
             );
           })}
+          <Route path="/user/:id" element={<User/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
         <Footer fluid />
