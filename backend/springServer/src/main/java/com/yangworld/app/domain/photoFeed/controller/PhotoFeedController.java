@@ -135,7 +135,6 @@ public class PhotoFeedController {
 			Model model
 			) {
 		
-		// GET = http://localhost:8080/JS
 		if (principalDetails == null) {
 	        return "forward:/index.jsp";  
 	    }
@@ -144,10 +143,6 @@ public class PhotoFeedController {
 		
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
 
-		PhotoAttachmentFeedDto photoInfo = PhotoAttachmentFeedDto.builder()
-				.id(writerId)
-				.build();
-		
 	    model.addAttribute("photoList", photoList);
 	    
 		return "forward:/index.jsp"; 
