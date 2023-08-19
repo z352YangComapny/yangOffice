@@ -127,8 +127,8 @@ public class PhotoFeedController {
 
 
 	// 피드 만들기
-	@PostMapping("/feedCreate")
-	public ResponseEntity<?> peedCreate(
+	@PostMapping("/feedCreate.do")
+	public String peedCreate(
 			@RequestPart @Valid FeedCreateDto _feed,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member,
@@ -171,11 +171,10 @@ public class PhotoFeedController {
 		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
-	        // 성공적으로 생성되었을 경우
-			return ResponseEntity.ok(feed);
+			return "forward:/index.jsp";
 	    } else {
 	        // 생성 중 오류가 발생한 경우
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create Feed");
+	        return "forward:/index.jsp";
 	    }
 	}
 	

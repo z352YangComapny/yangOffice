@@ -13,7 +13,7 @@
     <div class="container mt-4">
     <h1>피드 생성</h1>
     
-    <form:form action="${pageContext.request.contextPath}/feedcreate" method="POST" enctype="multipart/form-data">
+    <form:form action="${pageContext.request.contextPath}/feedCreate.do" method="POST" enctype="multipart/form-data">
         
         <div class="form-group">
             <label for="content">내용</label>
