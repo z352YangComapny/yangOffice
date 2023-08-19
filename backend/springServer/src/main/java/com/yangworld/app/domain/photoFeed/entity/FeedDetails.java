@@ -3,6 +3,7 @@ package com.yangworld.app.domain.photoFeed.entity;
 import java.util.List;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.member.entity.Member;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class FeedDetails extends PhotoFeed{
 
 	private Member member;
 	private int attachCount;
+	private List<Like> like;
+	private List<Comments> comments;
 	private List<Attachment> attachments;
 	
 }

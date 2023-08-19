@@ -70,5 +70,10 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findMemberByEmail(findIdDto);
     }
 
+	@Override
+	public Member findById(int writerId) {
+		return memberRepository.findById(writerId);
+	}
+
 
 }

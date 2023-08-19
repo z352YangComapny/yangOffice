@@ -228,6 +228,7 @@ create table guestbook
     constraints f_gue_writer_id foreign key (writer_id) references member (id) on delete cascade,
     constraints f_gue_member_id foreign key (member_id) references member (id) on delete cascade
 );
+
 create sequence seq_guestbook_id;
 
 create table report_guestbook
@@ -331,11 +332,75 @@ END;
 -- END;
 -- /
 
-
+select * from guestbook;
 select * from photo_feed;
 select * from photo_feed where writer_id = 1;
 select* from member;
 select * from attachment;
 
+-- delete from attachment_photo_feed;
+
 commit;
+    select* from member;
+select * from photo_feed;
+
+
+
+SELECT seq_comments_id.nextval FROM dual;
+
+select * from comments;
+
+DELETE FROM comment_feed
+WHERE comment_id = :commentId AND photo_feed_id = :photoFeedId;
+
+
+update comments set content = 'zzzzz' where id = 1;
+
+INSERT INTO comments_feed (comments_id) VALUES (seq_comments_id.currval);
+
+insert into comments_feed (comments_id) values(seq_comments_id.currval);
+
+insert into comments_feed (comments_id) values(seq_comments_id.currval);
+
+SELECT comments_id, photo_feed_id
+FROM comments_feed
+WHERE photo_feed_id = 2 AND comments_id = 2;
+
+select * from attachment;
+select * from attachment_photo_feed;
+select * from comments_feed;
+select * from comments;
+select * from photo_feed;
+
+
+SELECT pf.id AS photo_feed_id, pf.writer_id AS feed_writer_id, pf.content AS feed_content,
+       c.id AS comments_id, c.writer_id AS comments_writer_id, c.content AS comments_content
+FROM photo_feed pf
+LEFT JOIN comments_feed cf ON pf.id = cf.photo_feed_id
+LEFT JOIN comments c ON cf.comments_id = 1;
+
+SELECT c.id, c.writer_id, c.content, c.reg_date 
+            FROM comments_feed cf 
+            JOIN comments c ON cf.comments_id = c.id 
+            WHERE cf.photo_feed_id = 3;
+
+
+select * from photo_feed
+
+select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 1;
+
+delete from comments_feed WHERE comments_id = 1;
+
+insert into comments_feed values();
+select * from ;
+
+select * from photo_feed e join comments c on e.id = c.id;
+
+update comments set content = 'zzz' where id = 2;
+
+    
+select * from member;
+
+commit;
+
 

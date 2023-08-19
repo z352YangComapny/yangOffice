@@ -18,8 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import redis.clients.jedis.Response;
 
 import javax.validation.Valid;
@@ -43,12 +45,22 @@ public class MemberController {
     @GetMapping("/memberLogin.do")
 	public void memberLogin() {}
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignUpDto signUpDto){
+    @GetMapping("/memberCreate.do")
+    public void memberCreate(){}
+
+    @PostMapping("/memberCreate.do")
+    public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr){
         log.info("signUp info = {}",signUpDto);
+
+        if(bindingResult.hasErrors()){
+            ObjectError error = bindingResult.getAllErrors().get(0);
+            redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
+            return "redirect:/member/memberCreate.do";
+        }
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
-        return ResponseEntity.ok().build();
+        return "redirect:/";
     }
 
     @PostMapping("/update")
@@ -121,6 +133,9 @@ public class MemberController {
         }
 
     }
+
+    @GetMapping("/memberHome.do")
+    public String memberHome(){ return "redirect:/member/memberHome.do";}
 
  }
 

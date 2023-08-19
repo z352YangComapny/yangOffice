@@ -13,6 +13,7 @@ import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
+import com.yangworld.app.domain.photoFeed.entity.Like;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.repository.PhotoFeedRepository;
 
@@ -99,10 +100,51 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 
 
 
+
 	@Override
-	public int deleteFeed(FeedCreateDto feed) {
+	public int deleteFeed(int feedId) { 
+		
+		int result = 0;
+		
+		try {
+		result = photoFeedRepository.deleteFeed(feedId);
+		result = photoFeedRepository.deleteAttachment(feedId);
+		result = photoFeedRepository.deleteLink(feedId);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
+	@Override
+	public int updateFeed(int feedId, String content) {
+		int result = 0;
+		
+		result = photoFeedRepository.updateFeed(feedId, content);
+		
+		return result;
+	}
+
+	@Override
+	public PhotoFeed findById(int photoFeedId) {
+		return photoFeedRepository.findById(photoFeedId);
+	}
+
+	@Override
+	public List<Like> getLikesCountByPhotoFeedId(int photoFeedId) {
+		return photoFeedRepository.findLikeById(photoFeedId);
+	}
+
+	@Override
+	public int insertLike(int photoFeedId, int memberId) {
+		return photoFeedRepository.insertLike(photoFeedId, memberId);
+	}
+
+	@Override
+	public int deleteLike(int photoFeedId, int memberId) {
 		// TODO Auto-generated method stub
-		return photoFeedRepository.deleteFeed(feed);
+		return photoFeedRepository.deleteLike(photoFeedId, memberId);
 	}
 
 
