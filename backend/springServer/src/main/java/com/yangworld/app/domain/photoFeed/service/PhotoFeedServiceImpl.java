@@ -61,44 +61,39 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 
 	@Override
 	public List<PhotoAttachmentFeedDto> selectFeed(int writerId) {
-		
-		if (writerId < 0) {
-			log.error("username is null");
-			throw new NullPointerException("유저이름이 없습니다.");
-		} else {
-			List<PhotoAttachmentFeedDto> photoFeedList = photoFeedRepository.selectFeed(writerId);
-			List<Attachment> attachmentList = new ArrayList<>();
-			
-			log.info("List size : [{}]", photoFeedList.size());
-			//회원 아이디 받아와서 피드가 몇 개인지 조회.
-			for(PhotoAttachmentFeedDto photoFeed : photoFeedList) {
-				List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());
-				photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
-				log.info("photo feed check : {}", photoFeed);
-				
-				for(AttachmentPhotoDto attachments : attachmentPhotoDto) {
-					
-					// id 값 저장
-					int id = attachments.getAttachmentId();
-					// id 값으로 조회
-					Attachment attachment = photoFeedRepository.selectAttachment(id);
-					attachmentList.add(attachment);
-					// photoFeed안에 리스트형식에 Attachment 를setAttachments를 해줌
-					photoFeed.setAttachments(attachmentList);
-					
-					 // likeCount 설정
-		            int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
-		            int commentCount = photoFeedRepository.getCommentCount(photoFeed.getId());
-		            
-		            photoFeed.setLikeCount(likeCount);
-				}
-				
-				
-				
-			}
-			
-			return photoFeedList;
-		}
+	    if (writerId < 0) {
+	        log.error("username is null");
+	        throw new NullPointerException("유저이름이 없습니다.");
+	    } else {
+	        List<PhotoAttachmentFeedDto> photoFeedList = photoFeedRepository.selectFeed(writerId);
+	        
+	        log.info("List size: [{}]", photoFeedList.size());
+	        
+	        for (PhotoAttachmentFeedDto photoFeed : photoFeedList) {
+	            List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());
+	            List<Attachment> attachmentList = new ArrayList<>(); // Move this line inside the loop
+	            
+	            photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
+	            
+	            log.info("photo feed check: {}", photoFeed);
+	            
+	            for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
+	                int id = attachments.getAttachmentId();
+	                Attachment attachment = photoFeedRepository.selectAttachment(id);
+	                
+	                attachmentList.add(attachment);
+	            }
+	            
+	            photoFeed.setAttachments(attachmentList);
+	            
+	            int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
+	            int commentCount = photoFeedRepository.getCommentCount(photoFeed.getId());
+	            
+	            photoFeed.setLikeCount(likeCount);
+	        }
+	        
+	        return photoFeedList;
+	    }
 	}
 
 
