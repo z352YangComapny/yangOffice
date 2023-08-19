@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 
 @Mapper
 public interface DmRepository {
@@ -37,6 +38,9 @@ public interface DmRepository {
 
     @Select("SELECT m.username FROM dm d JOIN member m ON d.receiver_id = m.id WHERE d.id = #{id}")
 	String getUsernameById(int id);
+
+    @Select("SELECT * FROM dm_room where id=#{dmRoomId}")
+	List<DmRoom> findDmRoom(int dmRoomId) ;
 
 	
 }

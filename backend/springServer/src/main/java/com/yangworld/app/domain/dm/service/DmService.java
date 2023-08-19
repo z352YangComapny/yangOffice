@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 
 public interface DmService {
 
@@ -19,4 +20,6 @@ public interface DmService {
 	List<Dm> findDmDetails(int dmRoomId);
 
 	String getUsernameById(int Id);
+
+	List<DmRoom> findDmRoom(int dmRoomId);
 }

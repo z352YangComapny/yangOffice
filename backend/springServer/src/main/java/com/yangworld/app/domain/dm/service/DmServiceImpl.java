@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 import com.yangworld.app.domain.dm.repository.DmRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,11 @@ public class DmServiceImpl implements DmService {
 	@Override
 	public String getUsernameById(int Id) {
 		return dmRepository.getUsernameById(Id);
+	}
+	
+	@Override
+	public List<DmRoom> findDmRoom(int dmRoomId) {
+		return dmRepository.findDmRoom(dmRoomId);
 	}
 
 }

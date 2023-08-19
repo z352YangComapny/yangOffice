@@ -9,10 +9,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 import com.yangworld.app.domain.dm.service.DmService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,13 +42,14 @@ public class DmController {
 	@GetMapping("/dmDetail")
 	public void findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId, Model model) {
 		
-		// int userId = principal.getId(); 
+		 int userId = principal.getId(); 
 		
 		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
 		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
 		
 		log.info("dmDetails={}" , dmDetails);
 		model.addAttribute("dmDetails", dmDetails);
+		model.addAttribute("userId", userId);
 	}
 	
 	/**
@@ -80,17 +84,32 @@ public class DmController {
 
 	
 	@PostMapping("/sendDm")
-	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
-		log.info("sendDm info = {}", _dmDto);
-		 int senderId = principal.getId();
-		 Dm dm = _dmDto.toDm();
-		 log.info("senderId={}", senderId);
-		 dm.setSenderId(senderId);
+	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam("dmRoomId") int dmRoomId) {
+	    log.info("sendDm info = {}", _dmDto);
+	    int senderId = principal.getId(); 
+	    List<DmRoom> dmRoomList = dmService.findDmRoom(dmRoomId);
+	    DmRoom targetDmRoom = null;
 
-		// insert
-		dmService.insertDm(dm);
-		
-		return "redirect:/dm/dmDetail.do?id=" + dm.getSenderId();
+	    for (DmRoom dm : dmRoomList) {
+	        if (dm.getParticipant1() == senderId) {
+	            targetDmRoom = dm;
+	        } else if (dm.getParticipant2() == senderId) {
+	        	targetDmRoom = dm;
+	        }
+	    }
+
+	    if (targetDmRoom != null) {
+	        Dm msg = _dmDto.toDm();
+	        log.info("senderId={}", senderId);
+	        msg.setSenderId(senderId);
+	        msg.setReceiverId(targetDmRoom.getParticipant2());
+	        msg.setDmRoomId(dmRoomId);
+	        // insert
+	        dmService.insertDm(msg);
+	        log.info("dm======={}" + targetDmRoom);
+	    }
+
+	    return "redirect:/dm/dmDetail?dmRoomId=" + dmRoomId;
 	}
 
 	@PostMapping("/createDmRoom")
