@@ -6,20 +6,20 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import com.yangworld.app.domain.guestbook.service.GuestBookService;
@@ -37,7 +37,7 @@ public class GuestbookController {
 	
 	@PostMapping("/create.do")
 	public String guestBookCreate(
-			@Valid GuestBookCreateDto _guestBook,
+			@Valid GuestBookCreateDto guestBook,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails member
 			) {
@@ -45,35 +45,42 @@ public class GuestbookController {
 //	        return "redirect:/member/memberLogin.do";
 //	    }
 		
-		log.debug("member={}",member);
-		GuestBook guestBook = _guestBook.guestBook();
+		log.info("memberid={}",member.getId());
+		//GuestBook guestBook = _guestBook.guestBook();
 	
-		log.info("_guestBook={}",_guestBook);
-		guestBook.setWriterId(member.getId());
 		log.info("guestBook={}",guestBook);
+		guestBook.setWriterId(member.getId());
+		
+		log.info("guestbook={}", guestBook.getWriterId());
+		
 		int result = guestBookService.insertGuestBook(guestBook);
-		return "redirect:/guestbook";
+		return "redirect:/guestbook/guestbook.do";
 	}
 	
 	@PostMapping("/delete.do")
-	public String guestBookDelete(
-			@RequestBody Map<String, Integer> requestBody,
-			@AuthenticationPrincipal Member member
+	public ResponseEntity<?> guestBookDelete(
+			@RequestParam int deleteGuestbook,
+			@AuthenticationPrincipal Member member,
+			@Valid  GuestBookDeleteDto delete
 			) {
-		int id = requestBody.get("id");
+		int id = member.getId();
 		GuestBook guestBook = GuestBook.builder()
 							.id(id)
 							.writerId(member.getId())
 							.build();
 		log.info("guestBook={}",guestBook);
-		int result = guestBookService.deleteGuestBook(guestBook);
-		
-		return "redirect:/guestbook";
+		delete.setId(deleteGuestbook);
+		delete.setWriterId(id);
+		log.info("delete={}",delete);
+		int result = guestBookService.deleteGuestBook(delete);
+		log.info("result={}",result);
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
 	@PostMapping("/update.do")
 	public String guestBookUpdate(
-			@Valid @RequestBody GuestBookUpdateDto _guestBook,
+			@Valid  GuestBookUpdateDto _guestBook,
+			@RequestParam int updateGuestbook,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member
 			){
@@ -83,10 +90,10 @@ public class GuestbookController {
 		guestBook.setWriterId(member.getId());
 		int result = guestBookService.updateGuestBook(guestBook);
 		
-		return "redirect:/guestbook";
+		return "redirect:/guestbook.guestbook.do";
 	}
 	
-	@GetMapping("/guestbook")
+	@GetMapping("/guestbook.do")
 	public void guestBookList(
 			@RequestParam(defaultValue = "1") int page,
 			@AuthenticationPrincipal Member member,

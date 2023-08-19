@@ -13,8 +13,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 </style>
 <div id="guestbook-container">
 	<form:form action="${pageContext.request.contextPath}/guestbook/create.do" class="form-inline" method="post">
-		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;
-		<input type="text" class="form-control col-sm-10 ml-1" name="writerId" placeholder="writerId" required/>&nbsp;
+		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;s
 		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
@@ -39,28 +38,77 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 					<tr>
 						<td>${guestbook.id}</td>
 						<td>${guestbook.writerId}</td>
-						<td>${guestbook.content}</td>
+						<td class="content">${guestbook.content}</td>
 						<td>${guestbook.regDate}</td>
 						<td>
-							<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
-							<button type="button" class="btn btn-outline-danger" onclick="showInput()">수정</button>
-							<<!--  button class="btn-update btn btn-outline-primary" value="${dev.id}">-->
+						    <input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
+						    <button class="btn btn-outline-success updateGuestbook" id="updateGuestbook" name="updateGuestbook" value="${guestbook.id}">수정</button>
 						</td>
 						<td>
-							<button type="button" class="btn btn-outline-danger">삭제</button>
-						</td>
+							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}">삭제</button>
+						</td>	
 					</tr>
 				</c:forEach>
 			</c:if>
 		</tbody>
 	</table>
 </div>
-<form:form action="${pageContext.request.contextPath}/guestbook/update.do" class="form-inline" name="guestbookUpdateFrm" method="post">
-	<input type="hidden" name="content" />
-</form:form>
 <script>
-function showInput() {
-    var inputField = document.querySelector('input[name="content"]');
-    inputField.style.display = 'block';
-}
+/* document.querySelectorAll(".updateGuestbook").forEach(btn=>{
+	btm.onclick = (e) =>{
+		const value = e.currentTarget.value;
+		console.log(value);
+		
+			$.ajax({
+				url : "${pageContext.request.contextPath}/guestbook/update.do",
+				data : {
+					updateGuestbook : value
+				},
+				beforeSend : function(xhr){
+					xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');
+				},
+				method:"POST",
+				dataType:"json",
+				success(responseData){
+					console.log(responseData);
+					const {updateGuestbook} = responseData;
+					const updateGuestbookCell = e.target.closest("tr").querySelector(".content");
+					updateGuestbookCell.textContent = content;
+				}
+				});
+	}}
+}) */
+
+document.querySelectorAll(".deleteGuestbook").forEach(btn => {
+	
+    btn.onclick = (e) => {
+      
+    	   const value = e.target.value;
+    	   console.log(value);
+	    	 $.ajax({
+	    		url : "${pageContext.request.contextPath}/guestbook/delete.do",
+				data : {
+					deleteGuestbook : value
+				},
+				beforeSend: function(xhr) {
+				        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+				},
+				method : "POST",
+				dataType : "json",
+				success(responseData){
+					
+					console.log(responseData);
+					const {result} = responseData;
+					if(result>0){
+						const tr = e.target.parentElement.parentElement;
+	                    tr.remove(); 
+					}
+				}
+	    	}); 
+       
+      
+    };
+});
 </script>
+
+
