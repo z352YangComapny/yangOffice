@@ -41,13 +41,12 @@
         font-size: 12px;
     }
 </style>
-<script>
 
-</script>
 
 <div class="container">
     <h1>피드</h1>
-   <input type="button" value="피드작성하기" id="btn-add" class="btn btn-primary">
+   <a href="${pageContext.request.contextPath}/feed/feedCreate.do" class="btn btn-primary">피드작성하기</a>
+
     <sec:authorize access="isAuthenticated()">
         <c:choose>
             <c:when test="${not empty photoList}">
@@ -76,3 +75,6 @@
         </c:choose>
     </sec:authorize>
 </div>
+
+
+
