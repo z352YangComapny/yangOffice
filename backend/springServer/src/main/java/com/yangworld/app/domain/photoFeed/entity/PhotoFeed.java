@@ -3,7 +3,6 @@ package com.yangworld.app.domain.photoFeed.entity;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -12,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhotoPeed {
+public class PhotoFeed {
 	
 	private int id;
 	private int writerId;

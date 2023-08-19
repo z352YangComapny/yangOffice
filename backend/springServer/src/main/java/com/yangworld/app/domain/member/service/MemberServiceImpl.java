@@ -68,5 +68,10 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findMemberByEmail(findIdDto);
     }
 
+    @Override
+    public int memberTotalCount() {
+        return memberRepository.getMemberTotalCount();
+    }
+
 
 }

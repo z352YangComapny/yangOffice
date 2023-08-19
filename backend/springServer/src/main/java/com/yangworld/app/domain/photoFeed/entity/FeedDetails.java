@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class PeedDetails extends PhotoPeed{
+public class FeedDetails extends PhotoFeed {
 
 	private Member member;
 	private int attachCount;

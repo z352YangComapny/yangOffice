@@ -14,8 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +21,8 @@ import com.yangworld.app.commons.HelloSpringUtils;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.PeedCreateDto;
-import com.yangworld.app.domain.photoFeed.entity.PeedDetails;
-import com.yangworld.app.domain.photoFeed.service.PhotoPeedService;
+import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PhotoFeedController {
 	
 	@Autowired
-	private PhotoPeedService photoPeedService;
+	private PhotoFeedService photoPeedService;
 	
 	
 	@PostMapping("/feedCreate")
@@ -73,7 +71,7 @@ public class PhotoFeedController {
 			}
 		}
 		
-		PeedDetails peed = PeedDetails.builder()
+		FeedDetails peed = FeedDetails.builder()
 				.writerId(member.getId())
 				.content(_peed.getContent())
 				.attachments(attachments)

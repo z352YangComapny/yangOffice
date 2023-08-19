@@ -20,4 +20,6 @@ public interface MemberService {
     int deleteFollowee(FollowDto unfollow);
 
     String findMemberByEmail(FindIdDto findIdDto);
+
+    int memberTotalCount();
 }
