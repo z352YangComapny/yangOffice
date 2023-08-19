@@ -14,6 +14,7 @@ create table member
     constraints p_member_id primary key( id),
     constraints c_member_gender check (gender in ('M', 'F')),
     constraints u_member_username unique(username),
+    constraints u_member_name unique( name),
     constraints u_member_nickname unique(nickname),
     constraints u_member_phone unique (phone),
     constraints u_member_email unique (email),
@@ -59,7 +60,6 @@ create table profile
     state        char(1) not null,
     introduction varchar2(300),
     constraints  p_profile_id primary key( id),
-    constraints  u_profile_member_id unique (member_id);
     constraints  f_profile_member_id foreign key (member_id) references member (id) on delete cascade,
     constraints  c_profile_state check (state in ('A', 'B', 'C', 'D', 'E'))
 );
@@ -354,17 +354,6 @@ DELETE FROM comment_feed
 WHERE comment_id = :commentId AND photo_feed_id = :photoFeedId;
 
 
-update comments set content = 'zzzzz' where id = 1;
-
-INSERT INTO comments_feed (comments_id) VALUES (seq_comments_id.currval);
-
-insert into comments_feed (comments_id) values(seq_comments_id.currval);
-
-insert into comments_feed (comments_id) values(seq_comments_id.currval);
-
-SELECT comments_id, photo_feed_id
-FROM comments_feed
-WHERE photo_feed_id = 2 AND comments_id = 2;
 
 select * from attachment;
 select * from attachment_photo_feed;
@@ -373,35 +362,21 @@ select * from comments;
 select * from photo_feed;
 
 
-SELECT pf.id AS photo_feed_id, pf.writer_id AS feed_writer_id, pf.content AS feed_content,
-       c.id AS comments_id, c.writer_id AS comments_writer_id, c.content AS comments_content
-FROM photo_feed pf
-LEFT JOIN comments_feed cf ON pf.id = cf.photo_feed_id
-LEFT JOIN comments c ON cf.comments_id = 1;
 
-SELECT c.id, c.writer_id, c.content, c.reg_date 
-            FROM comments_feed cf 
-            JOIN comments c ON cf.comments_id = c.id 
-            WHERE cf.photo_feed_id = 3;
+select * from member ;
 
-
-select * from photo_feed
-
-select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 1;
-
-delete from comments_feed WHERE comments_id = 1;
-
-insert into comments_feed values();
-select * from ;
-
-select * from photo_feed e join comments c on e.id = c.id;
-
-update comments set content = 'zzz' where id = 2;
+select * from dm_room;
 
     
-select * from dm;
-insert into dm values(seq_dm_id.nextval, 2, 1, '반가슴니다', 1, default);
-
+SELECT
+    dm.sender_id,
+    (SELECT username FROM member WHERE id = dm.sender_id) AS sender_username,
+    dm.receiver_id,
+    (SELECT username FROM member WHERE id = dm.receiver_id) AS receiver_username
+FROM
+    dm
+WHERE
+    dm.id = 4;
 
 
 commit;

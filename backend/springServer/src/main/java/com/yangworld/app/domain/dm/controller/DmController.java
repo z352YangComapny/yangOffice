@@ -35,6 +35,9 @@ public class DmController {
 	
 	@Autowired
 	private DmService dmService;
+	
+	@GetMapping("/dmCreate")
+	public void dmCreate() {}
 
 	/**
 	 * DM 선택한 후 대화창 조회
@@ -76,8 +79,12 @@ public class DmController {
 	    List<Dm> sortedMessages = new ArrayList<>(latestMessagesMap.values());
 	    sortedMessages.sort(Comparator.comparing(Dm::getRegDate).reversed());
 	    
+	    List<DmRoom> dmRoom = dmService.findDmRoom(userId);
+	    
 	    log.info("sortedMessages={}", sortedMessages);
+	    log.info("myDmRoom={}", dmRoom);
 	    model.addAttribute("myDms",myDms);
+	    model.addAttribute("dmRoom",dmRoom);
 	    model.addAttribute("myDmList", sortedMessages);
 	 }
 
@@ -85,7 +92,6 @@ public class DmController {
 	
 	@PostMapping("/sendDm")
 	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam("dmRoomId") int dmRoomId) {
-	    log.info("sendDm info = {}", _dmDto);
 	    int senderId = principal.getId(); 
 	    List<DmRoom> dmRoomList = dmService.findDmRoom(dmRoomId);
 	    DmRoom targetDmRoom = null;
@@ -100,53 +106,65 @@ public class DmController {
 
 	    if (targetDmRoom != null) {
 	        Dm msg = _dmDto.toDm();
-	        log.info("senderId={}", senderId);
+	        
 	        msg.setSenderId(senderId);
 	        msg.setReceiverId(targetDmRoom.getParticipant2());
 	        msg.setDmRoomId(dmRoomId);
 	        // insert
 	        dmService.insertDm(msg);
-	        log.info("dm======={}" + targetDmRoom);
 	    }
 
 	    return "redirect:/dm/dmDetail?dmRoomId=" + dmRoomId;
 	}
 
 	@PostMapping("/createDmRoom")
-	public ResponseEntity<?> insertDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody Map<String, Integer> participants) {
-		log.debug("DmRoomDto info = {}", participants);
+	public String insertDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam int partner) {
 
-		int participant1 = principal.getId();
-		int participant2 = participants.get("partner");
+	    int participant1 = principal.getId();
+	    int participant2 = partner;
 
-		if (participant1 > participant2) {
-			int temp = participant1;
-			participant1 = participant2;
-			participant2 = temp;
-		}
-		log.debug("participants={},{}", participant1, participant2);
-		// insert
-		dmService.insertDmRoom(participant1, participant2);
-		return ResponseEntity.ok().build();
+	    if (participant1 > participant2) {
+	        int temp = participant1;
+	        participant1 = participant2;
+	        participant2 = temp;
+	    }
+
+	    // insert
+	    dmService.insertDmRoom(participant1, participant2);
+
+	    List<DmRoom> dmRooms = dmService.findDmRoom(participant1); // DM Rooms 조회
+
+	    Dm newDm = _dmDto.toDm();
+
+	    if (!dmRooms.isEmpty()) {
+	        DmRoom lastDmRoom = dmRooms.get(dmRooms.size() - 1);
+	        newDm.setDmRoomId(lastDmRoom.getId()); // 가장 마지막 DM Room의 아이디로 설정
+	        newDm.setReceiverId(participant2);
+	        newDm.setSenderId(participant1);
+	        dmService.insertDm(newDm); // 새로운 DM 생성
+	    }
+
+	    return "redirect:/dm/dmList";
 	}
 
+
 	@PostMapping("/deleteDmRoom")
-	public ResponseEntity<?> deleteDmRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Map<String, Integer> map){
-		int participant1 = principalDetails.getId();
-		int participant2 = map.get("partner");
-
-		if (participant1 > participant2) {
-			int temp = participant1;
-			participant1 = participant2;
-			participant2 = temp;
-		}
-
-		int result = dmService.deleteDmRoom(participant1, participant2);
-		if(result>0){
-			return ResponseEntity.ok().build();
-		}else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
+	public String deleteDmRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam int dmRoomId){
+		/*
+		 * int participant1 = principalDetails.getId(); int participant2 = partner;
+		 * 
+		 * if (participant1 > participant2) { int temp = participant1; participant1 =
+		 * participant2; participant2 = temp; }
+		 */
+		log.info("deleteInfo={}" , dmRoomId);
+		int result = dmService.deleteDmRoom(dmRoomId);
+		log.info("result = {}",result);
+		/*
+		 * if(result>0){ return ResponseEntity.ok().build(); }else { return
+		 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); }
+		 */
+		
+		return "redirect:/dm/dmList";
 	}
 	
 	

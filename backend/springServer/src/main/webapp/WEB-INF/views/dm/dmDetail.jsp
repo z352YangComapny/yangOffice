@@ -8,8 +8,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<meta name="_csrf" th:content="${_csrf.token}" />
-<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <%
 // dmRoomId 파라미터를 받아옴
 String dmRoomIdParam = request.getParameter("dmRoomId");
@@ -25,13 +23,22 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
   <div class="container py-5">
 
     <div class="row d-flex justify-content-center" style="height: 690px; width:1300px;">
-      <div class="col-md-10 col-lg-8 col-xl-6">
+      <div class="col-md-10 col-lg-8 col-xl-6" style="height: 500px; width:900px;">
 
         <div class="card" id="chat2" style="top:10%;">
           <div class="card-header d-flex justify-content-between align-items-center p-3">
             <h5 class="mb-0">Direct Message</h5>
-            <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark" onclick="goBack();">뒤로가기
-             </button>
+            
+            	<!-- 채팅방 삭제 버튼 -->
+				<form:form action="${pageContext.request.contextPath}/dm/deleteDmRoom" name="dmDeleteFrm" method="post" id="deleteForm">
+				    <input type="hidden" name="dmRoomId" value="<%= dmRoomId %>" />
+				    <div class="d-flex justify-content-between align-items-center">
+				        <button type="submit" class="btn btn-warning" id="btn-delete" style="margin-left: auto; margin-right: 10px;">채팅방 나가기</button>
+				        <!-- 뒤로가기 버튼 -->
+				        <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" onclick="goBack();">뒤로가기</button>
+				    </div>
+				</form:form>
+            
           </div>
           <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow-y: auto;">
 				 <c:set var="userId" value="${userId}" scope="page" />
@@ -40,7 +47,10 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
 				        <div class="d-flex flex-row justify-content-end mb-4 pt-1">
 				            <div>
 				                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${dm.content}</p>
-				                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${dm.regDate}</p>
+				                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">
+				                	<fmt:parseDate value="${dm.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
+				                     <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
+				                </p>
 				            </div>
 				            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
 				                 alt="avatar 1" style="width: 45px; height: 100%;">
@@ -57,7 +67,10 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
 				                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
 				                    ${dm.content}
 				                </p>
-				                <p class="small ms-3 mb-3 rounded-3 text-muted">${dm.regDate}</p>
+				                <p class="small ms-3 mb-3 rounded-3 text-muted">
+				                	<fmt:parseDate value="${dm.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
+				                     <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
+				                </p>
 				            </div>
 				        </div>
 				    </c:if>
@@ -65,31 +78,20 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
 		 </div> <!--  카드바디 끝 !  -->
 		 
  		<!--  dm 전송 인풋 시작 -->
+		<form:form id="sendDmForm" action="${pageContext.request.contextPath}/dm/sendDm" method="post">
           <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-		<form:form id="sendDmForm" >
-		    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		    <input type="hidden" name="dmRoomId" value="${dmRoomId}" />
+		    <input type="hidden" name="dmRoomId" value="<%= dmRoomId %>" />
 		    <div class="input-group mb-0">
-		        <input type="text" id="messageInput" class="form-control" placeholder="Type message" aria-label="Recipient's username" aria-describedby="button-addon2" path="content" />
+		        <input type="text" id="messageInput" name="content" class="form-control" placeholder="메세지를 입력하세요." aria-label="Recipient's username" aria-describedby="button-addon2" path="content" />
 		        <button class="btn btn-secondary" type="submit" id="button-addon2" style="padding-top: .55rem;">전송</button>
 		    </div>
-		</form:form>
 		</div>
-
-
+		</form:form>
       </div>
     </div>
-
   </div>
 </section>
 <script>
-document.sendDmForm.onsubmit = (e) => {
-	const frm = document.sendDmForm;
-	const dmRoomId = <%= dmRoomId %>
-	frm.action = `${pageContext.request.contextPath}/dm/sendDm?dmRoomId=\${dmRoomId}`;
-	frm.method = "POST";
-	frm.submit();
-};
 <%-- document.addEventListener("DOMContentLoaded", function() {
     const sendDmForm = document.getElementById("sendDmForm");
     const dmRoomId = <%= dmRoomId %>; // dmRoomId 변수 설정
@@ -162,11 +164,21 @@ document.sendDmForm.onsubmit = (e) => {
     });
 } */
 
-function goBack() {
-    // 이전 페이지로 돌아가기
-    history.back();
-}
 
+
+function goBack() {
+    fetch("${pageContext.request.contextPath}/dm/dmList")
+        .then(response => {
+            if (response.ok) {
+                window.location.href = response.url;
+            } else {
+                console.error("Failed to fetch");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
 
 
 </script>

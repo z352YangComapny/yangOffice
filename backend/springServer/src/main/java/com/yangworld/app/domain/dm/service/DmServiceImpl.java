@@ -2,6 +2,7 @@ package com.yangworld.app.domain.dm.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,9 @@ public class DmServiceImpl implements DmService {
 	}
 
 	@Override
-	public int deleteDmRoom(int participant1, int participant2) {
-		return dmRepository.deleteDmRoom(participant1,participant2);
+	public int deleteDmRoom(int dmRoomId) {
+		int result =  dmRepository.deleteDmRoom(dmRoomId);
+		return result;
 	}
 	
 	@Override
@@ -58,6 +60,11 @@ public class DmServiceImpl implements DmService {
 	@Override
 	public List<DmRoom> findDmRoom(int dmRoomId) {
 		return dmRepository.findDmRoom(dmRoomId);
+	}
+	
+	@Override
+	public List<Map<String, Object>> findMemberId(int dmRoomId) {
+		return dmRepository.findMemberId(dmRoomId);
 	}
 
 }
