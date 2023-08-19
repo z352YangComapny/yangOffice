@@ -10,7 +10,6 @@
 		<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
 <section>
 	<div id="storyMainUpdate">
-	aaa
 		<c:forEach items="${payloads}" var="payload">
 			<div>
 				<strong>내용:</strong> ${payload.content}<br>

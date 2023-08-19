@@ -12,7 +12,6 @@ stompClient.connect({}, (frame) => {
 	stompClient.subscribe('/story/main', (payloads) => {
 		console.log('/story/main : ', payloads);
 		setConnected(true);
-        const newPayloads = JSON.parse(payloads.body);
 
 	});
 	
