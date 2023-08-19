@@ -15,12 +15,12 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 <div id="update-container" style="height: 75vh;" class="mt-5">
 	<%-- principal을 변수 loginMember 저장 --%>
 	<sec:authentication property="principal" var="loginMember"/>
-	
-	<form:form name="memberUpdateFrm" action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post">
+
+	<form name="memberUpdateFrm">
 		<h1 class="mt-4 mb-4">User Info</h1>
-		<input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="username" id="memberId" value='${loginMember.username}' readonly required/>
+		<input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="username" id="username" value='${loginMember.username}'  disabled readonly required/>
 		<button type="button" class="form-control btn btn-outline-primary mb-2"><span>비밀번호 재설정</span></button>
-		<input type="text" class="form-control" placeholder="이름" name="name" id="name" value='${loginMember.name}' readonly required/>
+		<input type="text" class="form-control" placeholder="이름" name="name" id="name" value='${loginMember.name}' disabled readonly required/>
 		<input type="text" class="form-control" placeholder="별명" name="nickname" id="nickname" value='${loginMember.nickname}' required/>
 		<input type="text" class="form-control" placeholder="전화번호" name="phone" id="phone" value='${loginMember.phone}'/>
 		<input type="email" class="form-control" placeholder="이메일" name="email" id="email" value='${loginMember.email}' required/>
@@ -28,11 +28,38 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 		<br />
 		<input type="submit" class="btn btn-outline-primary" value="수정" >&nbsp;
 		<input type="reset" class="btn btn-outline-primary" value="취소">
-	</form:form>
+	</form>
 </div>
-
 <script>
+document.memberUpdateFrm.onsubmit = (e) =>{
+	e.preventDefault();
+	const frmData = {
+		nickname : document.querySelector("#nickname").value,
+		phone : document.querySelector("#phone").value,
+		email : document.querySelector("#email").value,
+		birthday : document.querySelector("#birthday").value
+	}
+	const jsonData = JSON.stringify(frmData);
+	console.log(frmData);
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/memberUpdate.do",
+		data : jsonData,
+		contentType : "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+		},
+		type : "POST",
+		dataType : "json",
+		success(responseData){
+			console.log(responseData);
+			const{ msg, member} = responseData;
+			alert(msg);
 
+		}
+	});
+
+
+}
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
