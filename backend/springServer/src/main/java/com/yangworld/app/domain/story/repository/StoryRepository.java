@@ -1,9 +1,6 @@
 package com.yangworld.app.domain.story.repository;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.story.dto.StoryDto;
 
@@ -19,7 +16,10 @@ public interface StoryRepository {
 	@Delete("delete from Story where id = #{id}")
 	int deleteStory(StoryDto storyDto);
 
-	
+	@Select("select count(*) from Story")
+    int getTotalStoryCount();
+
+
 //	SELECT *
 //	FROM (
 //	    SELECT *

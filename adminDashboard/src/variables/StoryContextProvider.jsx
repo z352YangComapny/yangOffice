@@ -4,9 +4,9 @@ import axios from 'axios';
 export const StoryContext = createContext()
 
 const StoryContextProvider = (props) => {
-    const [StoryList , setStoryList ] = useState([]);
-    const [StoryPage , setStoryPage] = useState(0);
-    const [StoryTotalCount, setStoryTotalCount] = useState(0);
+    const [storyList , setStoryList ] = useState([]);
+    const [storyPage , setStoryPage] = useState(0);
+    const [storyTotalCount, setStoryTotalCount] = useState(0);
 
     const getStory = (id) => {}
     const getStoryList = () => {}
@@ -19,9 +19,9 @@ const StoryContextProvider = (props) => {
     
     const value = {
       states : {
-        StoryList, 
-        StoryPage,
-        StoryTotalCount
+        storyList, 
+        storyPage,
+        storyTotalCount
       },
       actions: {
         getStory,

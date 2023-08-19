@@ -24,6 +24,8 @@ const Photofeed = () => {
   const PageNoPerLine = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
+  
+
   useEffect(() => {
     getFeeds(currentPage)
       .then((resp) => {

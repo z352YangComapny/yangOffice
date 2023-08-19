@@ -5,6 +5,7 @@ import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.photoFeed.dto.FeedDto;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.story.service.StoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class AdminController {
     PhotoFeedService photoPeedService;
     @Autowired
     MemberService memberService;
+    @Autowired
+    StoryService storyService;
 
     @GetMapping("/photoFeedCount")
     public ResponseEntity<?> photoFeedTotalCount(){
@@ -50,8 +53,13 @@ public class AdminController {
     @GetMapping("/feed/{pageNo}")
     public ResponseEntity<?> feed(@PathVariable int pageNo){
         int pageSize=5;
-        log.info("result={},{}",pageNo, pageSize);
         List<FeedDto> feed = photoPeedService.getPhotoFeed(pageNo ,pageSize);
         return ResponseEntity.ok(feed);
+    }
+
+    @GetMapping("/totalStoryCount")
+    public ResponseEntity<?> totalStoryCount(){
+        int result = storyService.getTotalStoryCount();
+        return ResponseEntity.ok(result);
     }
 }

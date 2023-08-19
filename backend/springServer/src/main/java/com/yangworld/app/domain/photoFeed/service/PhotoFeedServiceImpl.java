@@ -54,11 +54,9 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 
 	@Override
 	public List<FeedDto> getPhotoFeed(int pageNo, int pageSize) {
-		log.info("result={},{}",pageNo, pageSize);
 		int offset = (pageNo-1)*pageSize;
 		RowBounds rowBounds = new RowBounds(offset, pageSize);
 		List<PhotoFeed> result = photoPeedRepository.getPhotoRawFeed(rowBounds);
-		log.info("result={}",result);
 		List<FeedDto> feedDtos = new ArrayList<>();
 		for (PhotoFeed feed: result ) {
 			List<String> attachmentNames = new ArrayList<>();

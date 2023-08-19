@@ -10,4 +10,5 @@ public interface StoryService {
 
 	int deleteStory(StoryDto storyDto);
 
+    int getTotalStoryCount();
 }

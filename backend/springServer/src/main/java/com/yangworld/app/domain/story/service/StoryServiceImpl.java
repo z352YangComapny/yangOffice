@@ -24,4 +24,9 @@ public class StoryServiceImpl implements StoryService{
 	public int deleteStory(StoryDto storyDto) {
 		return storyRepository.deleteStory(storyDto);
 	}
+
+	@Override
+	public int getTotalStoryCount() {
+		return storyRepository.getTotalStoryCount();
+	}
 }
