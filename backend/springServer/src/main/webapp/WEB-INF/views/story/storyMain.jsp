@@ -10,17 +10,5 @@
 		<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
 
 <section>
-	<div id="storyMainUpdate">
-		<c:forEach items="${payloads}" var="payload">
-			<div>
-				<p>내용: ${payload.content}</p><br>
-	       	</div>
-	       	<div>
-				<p>보낸 사람: ${payload.from}</p><br>
-	       	</div>
-	       	<div>
-				<p>작성일: ${payload.createdAt}</p><br>
-	       	</div>
-		</c:forEach>
-	</div>
+	<div id="storyMainUpdate"></div>
 </section>

@@ -48,6 +48,8 @@ dependencies {
 	implementation 'javax.servlet:jstl'
 	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
 	
+	// https://mvnrepository.com/artifact/org.webjars/sockjs-client
+	implementation group: 'org.webjars', name: 'sockjs-client', version: '1.1.2'
 
 
 

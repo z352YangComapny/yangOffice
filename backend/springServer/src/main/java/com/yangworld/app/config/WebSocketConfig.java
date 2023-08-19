@@ -12,7 +12,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 	
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/stomp").setAllowedOrigins("*")
+		registry.addEndpoint("/stomp")
 			.withSockJS(); // 웹소켓 미지원 브라우져를 위한 설정
 	}
 	
