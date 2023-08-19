@@ -22,7 +22,7 @@
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
     <span>memberHome</span>
-   	<div>
+   	<div style="border: 1px solid #000;">
    		<jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
    	</div>
 </sec:authorize>

@@ -20,6 +20,8 @@ public class PhotoAttachmentFeedDto {
 	private int id;
 	private int writerId;
 	private String content;
+	private int likeCount;
+	private int commentCount;
 	private List<Like> like;
 	private List<AttachmentPhotoDto> attachmentPhotoDto;
 	private List<Attachment> attachments;

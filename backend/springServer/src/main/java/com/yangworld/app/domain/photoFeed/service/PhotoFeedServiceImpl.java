@@ -80,14 +80,17 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 					
 					// id 값 저장
 					int id = attachments.getAttachmentId();
-					log.info("id ={}" , id);
 					// id 값으로 조회
 					Attachment attachment = photoFeedRepository.selectAttachment(id);
 					attachmentList.add(attachment);
 					// photoFeed안에 리스트형식에 Attachment 를setAttachments를 해줌
-					log.info("attachment = {}", attachment);
 					photoFeed.setAttachments(attachmentList);
-					log.info("photo feed check : {}", photoFeed);
+					
+					 // likeCount 설정
+		            int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
+		            int commentCount = photoFeedRepository.getCommentCount(photoFeed.getId());
+		            
+		            photoFeed.setLikeCount(likeCount);
 				}
 				
 				
