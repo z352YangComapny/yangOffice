@@ -15,8 +15,6 @@ stompClient.connect({}, (frame) => {
 
 	});
 	
-}, (error) => {
-    console.error('WebSocket connection error:', error);
 });
 
 
