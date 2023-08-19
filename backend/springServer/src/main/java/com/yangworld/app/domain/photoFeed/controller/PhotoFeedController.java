@@ -74,8 +74,10 @@ public class PhotoFeedController {
 	@GetMapping("/feed/feedCreate.do")
 	public void feedCreate() {}
 	
-	// 피드 만들기
+	@GetMapping("/feed/feedDetail.do")
+	public void feedDetails() {}
 	
+	// 피드 만들기
 	@PostMapping("/feedCreated.do")
 	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String peedCreate(

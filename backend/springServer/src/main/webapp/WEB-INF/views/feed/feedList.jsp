@@ -55,8 +55,9 @@
 				        <div class="feed-item">
 				            <c:choose>
 				                <c:when test="${not empty photo.attachments}">
-				                <!-- 수정 필요 -->
-				                    <img src="${pageContext.request.contextPath}/resources/upload/feed/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image">
+				                    <a href="${pageContext.request.contextPath}/feed/feedDetail.do">
+				                    	<img src="${pageContext.request.contextPath}/resources/upload/feed/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image">
+				                    </a>
 				                </c:when>
 				            </c:choose>
 				            <c:if test="${fn:length(photo.attachments) > 1}">

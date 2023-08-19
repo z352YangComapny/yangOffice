@@ -58,6 +58,8 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 		
 		return result;
 	}
+	
+	
 
 	@Override
 	public List<PhotoAttachmentFeedDto> selectFeed(int writerId) {
