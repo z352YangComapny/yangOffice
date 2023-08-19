@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 public interface GuestBookService {
@@ -13,7 +14,7 @@ public interface GuestBookService {
 
 	int deleteGuestBook(GuestBookDeleteDto delete);
 
-	int updateGuestBook(GuestBook guestBook);
+	int updateGuestBook(GuestBookUpdateDto _guestBook);
 
 	List<GuestBook> findAll(Map<String, Object> params);
 

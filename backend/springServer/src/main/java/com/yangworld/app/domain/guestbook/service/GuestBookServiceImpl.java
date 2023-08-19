@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import com.yangworld.app.domain.guestbook.repository.GuestBookRepository;
 
@@ -31,8 +32,8 @@ public class GuestBookServiceImpl implements GuestBookService{
 	}
 
 	@Override
-	public int updateGuestBook(GuestBook guestBook) {
-		return guestBookRepository.updateGuestBook(guestBook);
+	public int updateGuestBook(GuestBookUpdateDto _guestBook) {
+		return guestBookRepository.updateGuestBook(_guestBook);
 	}
 
 	@Override
