@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yangworld.app.commons.HelloSpringUtils;
+import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
@@ -69,20 +71,30 @@ public class PhotoFeedController {
 	/**
 	 * 회원 조회
 	 */
-	@GetMapping("/feed/list")
-	public ResponseEntity<?> selectFeed(
-			@RequestParam int writerId,
+	@GetMapping("/") 
+	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
+	public String selectFeed(
+			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
 			Model model
 			) {
 		
 		// GET = http://localhost:8080/JS
 		
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
+		int writerId = principalDetails.getId();
 		
-		return ResponseEntity.ok(photoList);
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
+
+		PhotoAttachmentFeedDto photoInfo = PhotoAttachmentFeedDto.builder()
+				.id(writerId)
+				.build();
+		
+	    model.addAttribute("photoList", photoList);
+	    
+		return "forward:/index.jsp"; 
+
 	}
 	
-	
+	// 디테일
 	@GetMapping("/feedDetails/{writer}/{photoFeedId}")
 	public ResponseEntity<?> findById(@PathVariable int writerId, @PathVariable int photoFeedId) {
 	    try {
@@ -97,7 +109,6 @@ public class PhotoFeedController {
 	        log.info("comments = {}", comments);
 	        log.info("likesCount = {}", likesCount);
 
-	        // 단계 4: 필요한 정보 가공하여 반환
 	        FeedDetails response = FeedDetails.builder()
 	                .id(photoFeedId)
 	                .member(member)
@@ -107,13 +118,12 @@ public class PhotoFeedController {
 
 	        return ResponseEntity.ok(response);
 	    } catch (Exception e) {
-	        // 예외 처리
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
 	    }
 	}
 
 
-	
+	// 피드 만들기
 	@PostMapping("/feedCreate")
 	public ResponseEntity<?> peedCreate(
 			@RequestPart @Valid FeedCreateDto _feed,

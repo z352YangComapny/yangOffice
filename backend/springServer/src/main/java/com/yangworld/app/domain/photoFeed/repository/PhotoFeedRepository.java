@@ -73,6 +73,12 @@ public interface PhotoFeedRepository {
 	@Delete("delete from likes where photo_feed_id = #{photoFeedId} and member_id = #{memberId}")
 	int deleteLike(@Param(value = "photoFeedId")int photoFeedId,  @Param(value = "memberId")int memberId);
 
+	@Select("select count(*) from likes where photo_feed_id = #{id}")
+	int getLikeCount(int id);
+
+	@Select("select count(*) as comment_count from comments_feed where photo_feed_id = #{id}")
+	int getCommentCount(int id);
+
 	
 
 

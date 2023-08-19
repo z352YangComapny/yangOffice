@@ -31,6 +31,8 @@
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
     <span>memberHome</span>
-    <img src="${pageContext.request.contextPath}/resources/images/ssoy_logo.png" id="center-image" alt="스프링로고" class="d-block mx-auto mt-5"/>
+   	<div style="border: 1px solid #000;">
+   		<jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
+   	</div>
 </sec:authorize>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
