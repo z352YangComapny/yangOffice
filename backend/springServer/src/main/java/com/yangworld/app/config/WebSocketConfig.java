@@ -19,10 +19,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		// 1. SimpleBroker로 처리하는 url 등록
-		registry.enableSimpleBroker("/story");
+		registry.enableSimpleBroker("/storyMain");
 		
 		// 2. MessageHandler로 처리하는 url 등록
-		registry.setApplicationDestinationPrefixes("/story");
+		registry.setApplicationDestinationPrefixes("/app");
 
 	}
 }

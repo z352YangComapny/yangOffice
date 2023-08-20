@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Story {
 	private int id;
-	private String writerId;
+	private int writerId;
 	private String content;
 	private Date regDate;
 }

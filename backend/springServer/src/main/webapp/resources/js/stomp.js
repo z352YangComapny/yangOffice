@@ -1,27 +1,26 @@
-console.log('Hello stomp.js');
-
-const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
-const stompClient = Stomp.over(ws);
-
-console.log('1.success');
-
-stompClient.connect({}, (frame) => {
-	console.log('open : ', frame);
-	stompClient.send('/story', {}, JSON.stringify({}));
+const connect = () => {
+	const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
+	const stompClient = Stomp.over(ws);
 	
-	// 구독신청 
-	stompClient.subscribe('/story', (payloads) => {
-		console.log('/story : ', payloads);
-		
-		const stories = JSON.parse(payloads.body);
-		
-		renderStory(stories);
-		
-	});
-	
-});
+    // 구독신청 
+    stompClient.connect({}, () => {
+        console.log('WebSocket 연결 성공');
+        stompClient.subscribe('/storyMain', (payloads) => {
+            console.log('구독됨');
+            console.log('/story : ', payloads);
 
-const renderStory = (stories) => {
+            renderStory(payloads);
+        });
+		const userId = document.getElementById('userId').value;
+		console.log('userId = ', userId);
+        stompClient.send("/app/send", {}, JSON.stringify({ userId : userId }));
+    });
+};
+
+const renderStory = (payloads) => {
+	console.log('renderStory 호출 성공');
+	const stories = JSON.parse(payloads.body);
+
 	const view = document.querySelector('#storyMainUpdate');
 	
 	stories.forEach((story) => {
@@ -35,8 +34,3 @@ const renderStory = (stories) => {
 		view.innerHTML += html;
 	});
 };
-
-
-
-
-

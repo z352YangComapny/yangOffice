@@ -9,6 +9,13 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
 
+<sec:authentication property="principal" var="loginMember"/>
 <section>
 	<div id="storyMainUpdate"></div>
 </section>
+<input type='hidden' id='userId' value='${loginMember.id}' />
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    connect();
+});
+</script>
