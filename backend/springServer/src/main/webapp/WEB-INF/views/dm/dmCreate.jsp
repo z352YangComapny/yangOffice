@@ -28,7 +28,6 @@
 						            <div class="input-group mb-3">
 						                <input type="text" id="messageInput" name="content" class="form-control" placeholder="메세지 입력..." aria-label="Recipient's username" aria-describedby="button-addon2" path="content" />
 						                <button type="submit" class="btn btn-primary">SEND</button>
-						                <button type="button" class="btn btn-secondary" id="closeModalButton" data-bs-dismiss="modal">Close</button>
 						            </div>
 						        </div>
 						    </div>
@@ -39,10 +38,9 @@
     </div>
 <script>
 $(document).ready(function() {
-    // 모달 열기
     $('#dmModal').modal({
-        backdrop: 'static',  // 클릭해도 모달이 닫히지 않도록 설정
-        keyboard: false  // ESC 키로 모달을 닫지 못하도록 설정
+        backdrop: 'static',  
+        keyboard: false  
     });
 
     // 모달 닫기 버튼 누를 때 페이지 이동
