@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 public class SignUpDto {
     private int id;
     @NotBlank(message="아이디")
-//    @Pattern(regexp = "^[a-zA-Z0-9]{8,}$", message="아이디는 영문자/숫자로만 8글자 이상이여야 합니다.")
     private String username;
     @NotBlank(message="비밀번호")
     private String password;
@@ -35,7 +34,6 @@ public class SignUpDto {
     private String phone;
     @NotBlank(message="Email")
     private String email;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 }
