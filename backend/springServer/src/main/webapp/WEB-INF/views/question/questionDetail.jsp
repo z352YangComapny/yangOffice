@@ -47,6 +47,7 @@
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="addComment();">댓글 작성</button>
         
         
     </div>
@@ -56,5 +57,38 @@ function goBack() {
     // 이전 페이지로 돌아가기
     history.back();
 }
+function addComment() {
+    var commentContent = document.getElementById('commentContent').value;
+    if (commentContent.trim() !== '') {
+        // 작성한 댓글 내용을 서버로 전송하는 로직을 추가
+        var questionId = ${question.id}; // 해당 게시글 ID를 가져오는 방식으로 변경
+        var formData = new FormData();
+        formData.append('questionId', questionId);
+        formData.append('content', commentContent);
+        
+        // Ajax를 이용해 서버로 데이터 전송
+        $.ajax({
+            type: 'POST',
+            url: '/addComment', // 실제 댓글 추가를 처리하는 URL로 수정
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                alert('댓글이 작성되었습니다.');
+                // 페이지 새로고침 또는 댓글만 추가하여 업데이트 (필요에 따라 선택)
+                location.reload(); // 전체 페이지 새로고침
+                // 또는 댓글 영역만 업데이트 (Ajax 등으로 서버로부터 댓글 데이터를 받아서 업데이트)
+            },
+            error: function() {
+                alert('댓글 작성 중 오류가 발생했습니다.');
+            }
+        });
+    } else {
+        alert('댓글 내용을 입력해주세요.');
+    }
+}
+
+// ... 이후 코드 ...
+</script>
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yangworld.app.domain.question.entity.Comment;
 import com.yangworld.app.domain.question.entity.Question;
 import com.yangworld.app.domain.question.repository.QuestionRepository;
 
@@ -45,5 +46,8 @@ public class QuestionServiceImpl implements QuestionService {
 		Question question = questionRepository.findQuestionById(id);
 		return question;
 	}
+	
+	
+
 	
 }
