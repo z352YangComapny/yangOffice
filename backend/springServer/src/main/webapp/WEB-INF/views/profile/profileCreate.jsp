@@ -23,6 +23,8 @@
         <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/create.do" class="col-md-6">
         	<div class="form-group">	
                 <label for="upFile">프로필 사진</label>
+                <img src="<c:url value='/resources/upload/profile/${profileDetails.attachments[0].renamedFilename}' />" alt="프로필 사진" width="100">
+                
                 <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
             </div>
             <div class="form-group">
@@ -38,25 +40,20 @@
             
             
             <button type="submit" class="btn btn-primary">생성</button>
-			<button type="button" class="btn btn-secondary ml-2" id="laterButton">나중에 하기</button>
+			<button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/profile/defaultcreate.do">나중에 하기</button>
 
         </form:form>
     </div>
 <script>
 
-const currentUser = "${pageContext.request.userPrincipal.name}";
-$(document).ready(function() {
+/* $(document).ready(function() {
     $("#laterButton").click(function() {
         var csrfToken = $("meta[name='_csrf']").attr("content");
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
         
         $.ajax({
-            url: "${pageContext.request.contextPath}/profile/defaultcreate.do",
+            url: "/profile/defaultcreate.do",
             type: "POST",
-            /* data: {
-                state: "A",
-                introduction: "안녕하세요"+ currentUser + "입니다." 
-            }, */
             beforeSend: function(xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
@@ -68,7 +65,8 @@ $(document).ready(function() {
             }
         });
     });
-});
+}); */
+
 
 
 

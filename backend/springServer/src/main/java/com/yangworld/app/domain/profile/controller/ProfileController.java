@@ -56,31 +56,19 @@ public class ProfileController {
 	    return "/profile/profileCreate";
 	}
 	
+	@GetMapping("/update.do")
+    public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+        int memberId = principal.getId();
+        ProfileDetails profile = profileService.getProfileByMemberId(memberId);
+        
+        profile.getState();
+        profile.getIntroduction();
+        profile.getAttachments();
+        
+        model.addAttribute("profile", profile);
+        return "/profile/profileUpdate";
+    }
 	
-	
-	
-//	@PostMapping("/create")
-//	public ResponseEntity<?> create(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody ProfileDto profileDto){
-//		
-//		int memberId = principal.getId();
-//		log.debug("memberId info = {} ", memberId);
-//		
-//		
-//		profileDto.setMemberId(memberId);
-//		profileService.insertProfile(profileDto);
-//		
-//		return ResponseEntity.ok().build();
-//	}
-	
-//	@PostMapping("/update")
-//	public ResponseEntity<?> update(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody ProfileDto profileDto){
-//		
-//		int memberId = principal.getId();
-//		profileDto.setMemberId(memberId);
-//		profileService.updateProfile(profileDto);
-//		
-//		return ResponseEntity.ok().build();
-//	}
 	
 	
 
@@ -114,14 +102,12 @@ public class ProfileController {
 			}
 		}
 		
-		
 		ProfileDetails profile = ProfileDetails.builder()
 				.memberId(principal.getId())
 				.state(_profile.getState())
 				.introduction(_profile.getIntroduction())
 				.attachments(attachments)
 				.build();
-		
 		
 		int result = profileService.insertProfile(profile);
 		
@@ -197,15 +183,19 @@ public class ProfileController {
 	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
 	            .build();
 
-	    // 기본 사진의 파일 경로
-	    String defaultImagePath = "/Users/hongseung-young/Documents/GitHub/yangOffice/backend/springServer/src/main/webapp/resources/upload/profile/default.jpg"; // 실제 경로로 수정
+	    if (profile != null) {
+	        // 기본 사진의 파일 경로
+	        String defaultImagePath = "/Users/hongseung-young/Documents/GitHub/yangOffice/backend/springServer/src/main/webapp/resources/upload/profile/default.jpg"; // 실제 경로로 수정
 
-	    Attachment defaultAttachment = Attachment.builder()
-	            .originalFilename("default.jpg")
-	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
-	            .build();
+	        Attachment defaultAttachment = Attachment.builder()
+	                .originalFilename("default.jpg")
+	                .renamedFilename("default.jpg") // 실제 파일명으로 수정
+	                .build();
 
-	    profile.getAttachments().add(defaultAttachment);
+	        if (profile.getAttachments() != null) {
+	            profile.getAttachments().add(defaultAttachment);
+	        }
+	    }
 
 	    int result = profileService.insertProfile(profile);
 

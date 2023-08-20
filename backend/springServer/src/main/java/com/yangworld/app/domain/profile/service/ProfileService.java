@@ -16,6 +16,8 @@ public interface ProfileService {
 
 	int updateProfile(ProfileDetails profile);
 
+	ProfileDetails getProfileByMemberId(int id);
+
 
 //	int resetProfile(ProfileDto profile);
 
