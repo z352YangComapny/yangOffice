@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.question.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
 import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
 import com.yangworld.app.domain.question.entity.Question;
@@ -39,16 +43,18 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository questionRepository;
 	
+	@Autowired
+	private MemberService memberService;
 	/**
 	 * 윤아
 	 * 공지사항 & 이용문의 디테일 
 	 */
 	@GetMapping("/questionDetail")
-	public void questionDetail(@RequestParam int id, Model model) {
+	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model) {
 		Question question = questionService.findQuestionById(id);
 		log.info("question = {}", question);
 		model.addAttribute("question", question);
-		
+		model.addAttribute("principalName",principal.getUsername());
 	}
 	
 	/**
@@ -56,7 +62,9 @@ public class QuestionController {
 	 * 공지사항 orderby로 상단에뜨게 하는 findAllQuestionList 
 	 */
 	@GetMapping("/questionList")
-	public void questionList(@RequestParam(defaultValue = "1") int page,
+	public void questionList(
+						@AuthenticationPrincipal PrincipalDetails principal ,
+						@RequestParam(defaultValue = "1") int page,
 						Model model
 						){
 		int limit = 10;
@@ -68,10 +76,25 @@ public class QuestionController {
 		// 페이징 정보를 계산하고 전달
 	    int totalCount = questionRepository.countAllQuestion(); // 전체 데이터 개수 조회
 	    int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
+	    
+	    List<String> writerNames = new ArrayList<>();
+	    for (Question question : questions) {
+	        Member writer = memberService.findById(question.getWriterId());
+	        log.info("writer = {}", writer);
+	        writerNames.add(writer.getUsername()); // 또는 다른 원하는 정보를 가져올 수 있음
+	    }
+	    
+	    
+	    log.info("prinUname = {}", principal.getUsername());
+	    
+	    model.addAttribute("writerNames", writerNames);
+	    model.addAttribute("principalId", principal.getId());
+	    model.addAttribute("principalUsername", principal.getUsername());
 	    model.addAttribute("questions", questions);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
 	}
+	
 	
 	 @GetMapping("/questionCreate")
 	    public void createQna(Model model, Authentication authentication) {
@@ -131,27 +154,39 @@ public class QuestionController {
 	
 
 	
-	 @PostMapping("/deleteNotice")
-	    public ResponseEntity<String> deleteNotice(@RequestParam int questionId) {
+	
+	@GetMapping("/deleteNotice")
+    public String deleteNotice(@RequestParam int questionId, RedirectAttributes redirectAttributes) {
+        
+	log.info("questionId = {}", questionId);
+	try {
+		questionService.deleteNoticeById(questionId);
+        redirectAttributes.addFlashAttribute("successMsg", "공지사항이 삭제되었습니다.");
+    } catch (Exception e) {
+        e.printStackTrace(); // 예외 출력
+        
+        redirectAttributes.addFlashAttribute("errorMsg", "공지사항 삭제 중 오류가 발생했습니다.");
+    }
+
+    return "redirect:/question/questionList";
+}
+	@GetMapping("/questionUpdate")
+    public String updateQuestionForm(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int id, Model model) {
+        Question question = questionService.findQuestionById(id);
+        
+        model.addAttribute("principalId", principal.getId());
+        model.addAttribute("question", question);
+        log.info("principalId = {}", principal.getId());
+        log.info("id = {} " , id);
+        return "question/questionUpdate";
+    }
+	
+	@PostMapping("/updateQuestion")
+	public String updateQuestion(@ModelAttribute QuestionUpdateQnaDto updateDto) {
 		
-		 log.info("questionId = {}", questionId);
-		 try {
-		        // 공지사항 삭제 로직을 구현하고 삭제된 여부를 확인하는 코드 작성
-		        int deletedRows = questionService.deleteNoticeById(questionId);
-		        
-		        if (deletedRows > 0) {
-		            return ResponseEntity.ok().body("공지사항이 삭제되었습니다.");
-		        } else {
-		            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("공지사항 삭제 중 오류가 발생했습니다.");
-		        }
-		    } catch (Exception e) {
-		    	 e.printStackTrace(); // 예외 출력
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("공지사항 삭제 중 오류가 발생했습니다.");
-		    }
-	
-	
-	 }
-	
-	
-	
+	        int updatedQuestion = questionService.updateQuestion(updateDto);
+	        
+	        
+	        return "redirect:/question/questionList"; 
+	}
 }

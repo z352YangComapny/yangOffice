@@ -43,17 +43,18 @@
 <div id="board-container">
     <div id="board-form">
         <input type="text" class="form-control" placeholder="제목" name="title" id="title" value="${question.title}" readonly required>
-        <input type="text" class="form-control" name="memberId" value="${question.writerId}" readonly required>
+        <input type="text" class="form-control" name="memberId" value="${principalName}" readonly required>
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
         <button type="button" class="btn btn-primary btn-lg" onclick="addComment();">댓글 작성</button>
-        <button type="button" class="btn btn-primary btn-lg" onclick="deleteNotice(${question.id});">공지사항 삭제</button>
+        
         
         
         
     </div>
 </div>
+
 <script>
 function goBack() {
     history.back();
@@ -86,14 +87,18 @@ function addComment() {
         alert('댓글 내용을 입력해주세요.');
     }
 }
-
 /* function deleteNotice(questionId) {
     if (confirm('정말로 공지사항을 삭제하시겠습니까?')) {
-        // 공지사항 삭제 요청을 서버로 보내는 코드 추가
+        const jsonData = { questionId: questionId }; // JSON 데이터 생성
+
         $.ajax({
             type: 'POST',
-            url: `${pageContext.request.contextPath}/question/deleteNoice`,
-            data: { questionId: questionId },
+            url: "${pageContext.request.contextPath}/question/deleteNotice",
+            data: JSON.stringify(jsonData), // JSON 형식으로 데이터 변환
+            contentType: "application/json", // 데이터 형식을 JSON으로 지정
+            headers: {
+                "X-CSRF-TOKEN": csrfToken // CSRF 토큰을 헤더에 추가 (csrfToken 변수는 클라이언트 측에서 가져와야 함)
+            },
             success: function(data) {
                 alert('공지사항이 삭제되었습니다.');
                 location.reload(); // 페이지 새로고침
@@ -103,7 +108,8 @@ function addComment() {
             }
         });
     }
-}
- */
+} */
+
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

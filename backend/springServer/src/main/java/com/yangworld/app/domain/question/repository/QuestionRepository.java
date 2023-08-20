@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
 import com.yangworld.app.domain.question.entity.Question;
 
 @Mapper
@@ -41,4 +42,8 @@ public interface QuestionRepository {
 	@Delete("delete question where id = #{questionId}")
 	int deleteNoticeById(int questionId);
 
+	@Update("update question set title=#{title}, content=#{content} where id =#{id}")
+	int updateQuestion(QuestionUpdateQnaDto updateDto);
+
+	
 }
