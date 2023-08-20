@@ -16,8 +16,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // reactstrap components
 import {
@@ -37,11 +38,23 @@ import {
 import { MemberContext } from "variables/MemberContnextProvider";
 
 function User(props) {
+  const imageUrlRoot = "http://localhost:8080/resources/upload/attachment/"
   const navigate = useNavigate();
   let { state } = useLocation();
   const [memberFrm, setMemberFrm] = useState(state);
+  const [profile , setProfile] = useState({});
   const {actions:{updateMember}} = useContext(MemberContext)
-  console.log(memberFrm)
+
+  useEffect(()=>{
+    axios.get(`/api/v1/profile/${state.id}`)
+    .then((resp)=>{
+      setProfile(resp.data)
+      console.log(resp)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  },[state.id])
 
   const handleOnChange = (e) => {
     setMemberFrm({
@@ -102,7 +115,6 @@ function User(props) {
 
   const handleUpdateMember = (e) => {
     e.preventDefault();
-    console.log(memberFrm);
     updateMember(memberFrm)
     .then((resp)=>{
       console.log(resp)
@@ -129,15 +141,14 @@ function User(props) {
                     <img
                       alt="..."
                       className="avatar border-gray"
-                      src={require("assets/img/mike.jpg")}
+                      src={imageUrlRoot+profile.renamedFilename}
                     />
-                    <h5 className="title">Chet Faker</h5>
+                    <h5 className="title">{profile.username}</h5>
                   </a>
-                  <p className="description">@chetfaker</p>
+                  <p className="description">{memberFrm.name}</p>
                 </div>
                 <p className="description text-center">
-                  "I like the way you work it <br />
-                  No diggity <br />I wanna bag it up"
+                  {profile.introduction}
                 </p>
               </CardBody>
               <CardFooter>
@@ -146,19 +157,19 @@ function User(props) {
                   <Row>
                     <Col className="ml-auto" lg="3" md="6" xs="6">
                       <h5>
-                        12 <br />
+                        {profile.follower} <br />
                         <small>Follower</small>
                       </h5>
                     </Col>
                     <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
                       <h5>
-                        2GB <br />
+                        {profile.followee} <br />
                         <small>Followee</small>
                       </h5>
                     </Col>
                     <Col className="mr-auto" lg="3">
                       <h5>
-                        24,6$ <br />
+                        구현중.. <br />
                         <small>누적 신고 수</small>
                       </h5>
                     </Col>

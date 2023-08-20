@@ -9,7 +9,9 @@ const StoryContextProvider = (props) => {
     const [storyTotalCount, setStoryTotalCount] = useState(0);
 
     const getStory = (id) => {}
-    const getStoryList = () => {}
+    const getStoryList = async (pageNo) => {
+      return await axios.get(`/api/v1/story/${pageNo}`)
+    }
     const getTotalStoryCount =async () =>{
       return await axios.get('/api/v1/totalStoryCount')
     }
@@ -28,6 +30,7 @@ const StoryContextProvider = (props) => {
         getStoryList,
         updateStory,
         deletedStory,
+        setStoryList,
         setStoryTotalCount,
         getTotalStoryCount
       }

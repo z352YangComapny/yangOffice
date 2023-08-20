@@ -4,14 +4,11 @@ import axios from 'axios';
 export const GuestbookContext = createContext()
 
 const GuestbookContextProvider = (props) => {
-    const [guestbook , setGuestbook ] = useState([]);
-    const [guestbookNo , setGuestbookNo ] = useState(0);
+    const [guestbookList , setGuestbookList ] = useState([]);
     const [guestbookTotalNo, setGuestbookTotalNo] = useState(0);
 
-    const getGuestbook = async (id) => {
-      return await axios.get(`/api/v1/guestbook/${id}`)
-    }
-    const getGuestbooks = async (pageNo) => {
+
+    const getGuestbookList = async (pageNo) => {
       return await axios.get(`/api/v1/guestbook/${pageNo}`)
     }
     const updateGuestbook = async (id, guestbook) => {
@@ -20,18 +17,22 @@ const GuestbookContextProvider = (props) => {
     const deletedGuestbook = async (id) => {
       return await axios.delete(`/api/v1/guestbook/${id}`)
     }
+    const getGuestbookTotalNo = async () => {
+      return await axios.get(`/api/v1/guestbookTotalNo`)
+    }
 
     const value = {
       states : {
-        guestbook, 
-        guestbookNo,
+        guestbookList, 
         guestbookTotalNo
       },
       actions: {
-        getGuestbook,
-        getGuestbooks,
+        setGuestbookList,
+        getGuestbookList,
         updateGuestbook,
         deletedGuestbook,
+        setGuestbookTotalNo,
+        getGuestbookTotalNo
       }
     };
     

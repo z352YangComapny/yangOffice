@@ -65,7 +65,7 @@ WHERE
 GROUP BY
     pf.id, pf.content, pf.reg_date, m.username;
 
-
+SELECT * FROM attachment a JOIN attachment_profile ap ON a.id = ap.attachment_id where profile_id=1;
 
 
 

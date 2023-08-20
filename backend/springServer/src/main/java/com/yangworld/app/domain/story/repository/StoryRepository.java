@@ -1,8 +1,12 @@
 package com.yangworld.app.domain.story.repository;
 
+import com.yangworld.app.domain.story.entity.Story;
 import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.story.dto.StoryDto;
+import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 @Mapper
 public interface StoryRepository {
@@ -18,6 +22,8 @@ public interface StoryRepository {
 
 	@Select("select count(*) from Story")
     int getTotalStoryCount();
+	@Select("select * from story order by reg_date desc")
+	List<Story> getAdminStory(RowBounds rowBounds);
 
 
 //	SELECT *

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap';
+import { Button, Card, CardHeader, CardTitle, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 import { StoryContext } from 'variables/StoryContextProvider'
 
 const Story = () => {
   const {
-    states : {
-      storyList, 
+    states: {
+      storyList,
       storyPage,
       storyTotalCount
     },
@@ -14,24 +14,53 @@ const Story = () => {
       getStoryList,
       updateStory,
       deletedStory,
+      setStoryList,
       setStoryTotalCount,
       getTotalStoryCount
     }
   } = useContext(StoryContext);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const PageNoPerLine = 20;
-  const MaxPageNo = Math.ceil(storyTotalCount/PageNoPerLine)
+  const PageNoPerLine = 10;
+  const MaxPageNo = Math.ceil(storyTotalCount / PageNoPerLine)
 
-  useEffect(()=>{
+  useEffect(() => {
     getTotalStoryCount()
-    .then((resp)=>{
-      setStoryTotalCount(resp.data);
-    })
-      .catch((err)=>{
+      .then((resp) => {
+        setStoryTotalCount(resp.data);
+      })
+      .catch((err) => {
         console.log(err)
       })
-  },[currentPage]);
+
+  }, [])
+
+  useEffect(() => {
+    getStoryList(currentPage)
+      .then((resp) => {
+        console.log(resp)
+        setStoryList(resp.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [currentPage]);
+
+
+  const renderStoryList = () => {
+    const storyItems = storyList.map((story, index) => (
+      <tr key={index}>
+        <th scope="row">{story.id}</th>
+        <td>{story.username}</td>
+        <td>{story.content}</td>
+        <td>{story.regDate}</td>
+        <td>
+          <Button onClick={() => console.log(`${story.id}`)}>신고</Button>
+      </td>
+      </tr>
+    ));
+    return storyItems
+  };
 
   const renderPaginationItems = () => {
     const paginationItems = [];
@@ -52,14 +81,42 @@ const Story = () => {
     }
     return paginationItems;
   };
-  
+
 
   return (
     <>
-    <div className='content'>
-      <h1>Story</h1>
+      <div className='content'>
+        <Card className='card-plain'>
+          <CardHeader>
+            <CardTitle tag="h4">Story 전체 조회</CardTitle>
+            <p className="card-category">
+              시간순으로 정렬되어 있습니다.
+            </p>
+          </CardHeader>
+        </Card>
+        <Table striped>
+          <thead>
+            <tr>
+              <th>
+                Id
+              </th>
+              <th>
+                Writer
+              </th>
+              <th>
+                Content
+              </th>
+              <th>
+                RegDate
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {renderStoryList()}
+          </tbody>
+        </Table>
 
-      <Row>
+        <Row>
           <Col />
           <Col>
             <Pagination size="">
@@ -98,9 +155,9 @@ const Story = () => {
           </Col>
           <Col />
         </Row>
-    </div>
+      </div>
     </>
-    
+
   )
 }
 
