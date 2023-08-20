@@ -208,6 +208,8 @@ create table story
 );
 create sequence seq_story_id;
 
+insert into story(id, writer_id, content) values(seq_story_id.nextval, 14, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
 create table report_story
 (
     report_id   number,

@@ -1,0 +1,14 @@
+#storyMainUpdate {
+	display: flex;
+	overflow-x: auto;
+	width: 100%;
+	height: 200px;
+}
+
+.card {
+	flex: 0 0 18rem;
+	margin-right: 20px;
+}
+.card:last-child {
+	margin-right: 0;
+}

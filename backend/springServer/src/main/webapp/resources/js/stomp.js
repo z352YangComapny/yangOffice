@@ -13,7 +13,7 @@ const connect = () => {
         });
 		const userId = document.getElementById('userId').value;
 		console.log('userId = ', userId);
-        stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
+        stompClient.send("/app/send", {}, JSON.stringify({ userId : userId }));
     });
 };
 
@@ -26,11 +26,13 @@ const renderStory = (payloads) => {
 	
 	stories.forEach((story) => {
 		const html = `
-		<div>from : ${story.from}</div>
-		<br>
-		<div>content : ${story.content}</div>
-		<br>
-		<div>createdAt : ${story.createdAt}</div>
+		<div class="card m-3" style="width: 18rem;">
+		  <ul class="list-group list-group-flush">
+		    <li class="list-group-item">${story.from}</li>
+		    <li class="list-group-item">${story.content}</li>
+		    <li class="list-group-item">${story.createdAt}</li>
+		  </ul>
+		</div>
 		`;
 		view.innerHTML += html;
 	});
