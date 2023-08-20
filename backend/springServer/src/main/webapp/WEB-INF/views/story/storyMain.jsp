@@ -19,7 +19,32 @@
 <section>
 	<div id="storyMainUpdate"></div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title storyModalWriterId" id="storyModalTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-2">.col-md-4</div>
+				<div class="col-md-9 ml-auto storyModalContent" style="word-wrap: break-word;"></div>
+			</div>
+    	</div>
+      </div>
+      <div class="modal-footer storyModalCreatedAt"></div>
+    </div>
+  </div>
+</div>
+
 <input type='hidden' id='userId' value='${loginMember.id}' />
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     connect();
@@ -28,4 +53,6 @@ document.querySelector('#storyMainUpdate').addEventListener('wheel', (e) => {
     e.preventDefault();
     document.querySelector('#storyMainUpdate').scrollLeft += e.deltaY; 
 });
+
+
 </script>

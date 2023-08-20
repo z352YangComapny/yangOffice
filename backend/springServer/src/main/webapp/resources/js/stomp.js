@@ -26,14 +26,30 @@ const renderStory = (payloads) => {
 	
 	stories.forEach((story) => {
 		const html = `
-		<div class="card m-3" style="width: 18rem;">
+		<div class="card m-3">
 		  <ul class="list-group list-group-flush">
-		    <li class="list-group-item">${story.from}</li>
-		    <li class="list-group-item">${story.content}</li>
-		    <li class="list-group-item">${story.createdAt}</li>
+		    <li class="list-group-item writerId">${story.from}</li>
+		    <li class="list-group-item content">${story.content}</li>
+		    <li class="list-group-item createdAt">${story.createdAt}</li>
 		  </ul>
 		</div>
 		`;
 		view.innerHTML += html;
 	});
+	
+	const storyElements = document.querySelectorAll('.card');
+    storyElements.forEach((storyElement) => {
+        storyElement.addEventListener('click', () => {
+            const writerId = storyElement.querySelector('.writerId').textContent;
+            const content = storyElement.querySelector('.content').textContent;
+            const createdAt = storyElement.querySelector('.createdAt').textContent;
+
+            document.querySelector('.storyModalWriterId').textContent = writerId;
+            document.querySelector('.storyModalContent').textContent = content;
+            document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+
+			$('#storyModal').modal('handleUpdate');
+            $('#storyModal').modal('show');
+        });
+    });
 };
