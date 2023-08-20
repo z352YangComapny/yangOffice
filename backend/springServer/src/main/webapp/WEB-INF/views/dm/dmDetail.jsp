@@ -33,7 +33,7 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
 				<form:form action="${pageContext.request.contextPath}/dm/deleteDmRoom" name="dmDeleteFrm" method="post" id="deleteForm">
 				    <input type="hidden" name="dmRoomId" value="<%= dmRoomId %>" />
 				    <div class="d-flex justify-content-between align-items-center">
-				        <button type="submit" class="btn btn-warning" id="btn-delete" style="margin-left: auto; margin-right: 10px;">채팅방 나가기</button>
+				        <button type="button" class="btn btn-warning" id="btn-delete" style="margin-left: 10px; margin-right: 10px;" onclick="deleteDm();">채팅방 나가기</button>
 				        <!-- 뒤로가기 버튼 -->
 				        <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" onclick="goBack();">뒤로가기</button>
 				    </div>
@@ -60,19 +60,23 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
 				        <c:set var="firstDmSenderId" value="${dm.senderId}" scope="page" />
 				    </c:if>
 				    <c:if test="${dm.senderId != userId or dm.senderId == firstDmSenderId}">
-				        <div class="d-flex flex-row justify-content-start">
-				            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-				                 alt="avatar 1" style="width: 45px; height: 100%;">
-				            <div>
-				                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
-				                    ${dm.content}
-				                </p>
-				                <p class="small ms-3 mb-3 rounded-3 text-muted">
-				                	<fmt:parseDate value="${dm.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
-				                     <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
-				                </p>
-				            </div>
-				        </div>
+				       <div class="d-flex flex-row justify-content-start align-items-center" id="otherDm" onmouseover="showButton(this)" onmouseout="hideButton(this)">
+						    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+						         alt="avatar 1" style="width: 45px; height: 100%;">
+						    <div class="d-flex flex-column">
+						        <div class="d-flex align-items-center">
+						            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+						                ${dm.content}
+						            </p>
+						            <button class="btn btn-sm btn-danger d-none btn-toggle" style="margin-left: 10px;" onclick="goReport(${dm.id}, ${dm.senderId});">신고</button>
+						        </div>
+						        <p class="small ms-3 mb-3 rounded-3 text-muted">
+						            <fmt:parseDate value="${dm.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
+						            <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
+						        </p>
+						    </div>
+						</div>
+
 				    </c:if>
 				</c:forEach>
 		 </div> <!--  카드바디 끝 !  -->
@@ -92,78 +96,30 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
   </div>
 </section>
 <script>
-<%-- document.addEventListener("DOMContentLoaded", function() {
-    const sendDmForm = document.getElementById("sendDmForm");
-    const dmRoomId = <%= dmRoomId %>; // dmRoomId 변수 설정
+function showButton(container) {
+    const button = container.querySelector('.btn');
+    button.classList.remove('d-none'); // 버튼을 보이도록 클래스 제거
+}
 
-    sendDmForm.addEventListener("submit", function(event) {
-        event.preventDefault(); // 기본 동작 중단 (페이지 새로고침 방지)
+function hideButton(container) {
+    const button = container.querySelector('.btn');
+    button.classList.add('d-none'); // 버튼을 숨기도록 클래스 추가
+}
 
-        const messageInput = document.getElementById("messageInput");
 
-        // 입력된 메시지 가져오기
-        const message = messageInput.value;
-
-        // 서버로 전송할 데이터 준비
-        const data = {
-            dmRoomId: dmRoomId,
-            content: message
-        };
-
-        // 서버로 데이터 전송
-        fetch("${pageContext.request.contextPath}/dm/sendDm?dmRoomId=" + dmRoomId, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            // 서버 응답 처리 (예: 화면 갱신 등)
-            console.log(result);
+function goReport(dmId,reportedId) {
+    fetch("${pageContext.request.contextPath}/report/createDmReport?dmId=" + dmId + "&reportedId=" + reportedId)
+        .then(response => {
+            if (response.ok) {
+                window.location.href = response.url;
+            } else {
+                console.error("Failed to fetch");
+            }
         })
         .catch(error => {
-            // 에러 처리
-            console.error(error);
+            console.error("Error:", error);
         });
-    });
-});
- --%>
-
-/* function sendDm() {
-    const message = $("#messageInput").val(); // 입력된 메시지 가져오기
-    
-    const currentTime = new Date();
-    const formattedTime = currentTime.toLocaleString(); // 시간을 원하는 형식으로 포맷팅
-    
-    $.ajax({
-        type: "POST",
-        url: "${pageContext.request.contextPath}/dm/sendDm?dmRoomId="+ dmRoomId, // sendDm URL 설정
-        data: { message: message },
-        success: function(response) {
-            // 메시지 전송이 성공한 경우, 채팅 창에 메시지 추가
-            console.log("message=" + response);
-            const chatContainer = $(".card-body");
-            const newMessage = `
-                <div class="d-flex flex-row justify-content-end mb-4 pt-1">
-                    <div>
-                        <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${message}</p>
-                        <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${formattedTime}</p>
-                    </div>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                         alt="avatar 1" style="width: 45px; height: 100%;">
-                </div>
-            `;
-            chatContainer.append(newMessage);
-        },
-        error: function() {
-            console.error("Error sending message");
-        }
-    });
-} */
-
+}
 
 
 function goBack() {
@@ -179,6 +135,12 @@ function goBack() {
             console.error("Error:", error);
         });
 }
+
+const deleteDm = () => {
+	if(confirm("채팅방을 삭제하시겠습니까?")) {
+		document.dmDeleteFrm.submit();
+	}
+};
 
 
 </script>

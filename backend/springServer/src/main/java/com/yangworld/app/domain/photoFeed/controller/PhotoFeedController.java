@@ -74,8 +74,10 @@ public class PhotoFeedController {
 	@GetMapping("/feed/feedCreate.do")
 	public void feedCreate() {}
 	
-	// 피드 만들기
+	@GetMapping("/feed/feedDetail.do")
+	public void feedDetails() {}
 	
+	// 피드 만들기
 	@PostMapping("/feedCreated.do")
 	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String peedCreate(
@@ -135,19 +137,14 @@ public class PhotoFeedController {
 			Model model
 			) {
 		
-		// GET = http://localhost:8080/JS
 		if (principalDetails == null) {
-	        return "forward:/index.jsp";  // 로그인 페이지로 리다이렉트
+	        return "forward:/index.jsp";  
 	    }
 		
 		int writerId = principalDetails.getId();
 		
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
 
-		PhotoAttachmentFeedDto photoInfo = PhotoAttachmentFeedDto.builder()
-				.id(writerId)
-				.build();
-		
 	    model.addAttribute("photoList", photoList);
 	    
 		return "forward:/index.jsp"; 

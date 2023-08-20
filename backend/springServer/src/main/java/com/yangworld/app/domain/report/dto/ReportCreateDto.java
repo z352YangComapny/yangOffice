@@ -10,14 +10,11 @@ import lombok.Data;
 public class ReportCreateDto {
 	private int id;
 	
-	@NotBlank(message="신고할사람 입력")
-	private int reportedId;
 	@NotBlank(message="신고사유 입력")
 	private String content;
 	
 	public Report toReport() {
 		return Report.builder()
-				.reportedId(reportedId)
 				.content(content)
 				.build();
 	}
