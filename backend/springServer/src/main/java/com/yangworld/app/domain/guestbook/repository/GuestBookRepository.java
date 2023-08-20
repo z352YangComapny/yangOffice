@@ -9,19 +9,22 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 @Mapper
 public interface GuestBookRepository {
 
 	@Insert("insert into guestbook (id,writer_id,member_id,content,reg_date) values (seq_guestbook_id.nextval,#{writerId},#{memberId},#{content},default)")
-	int insertGuestBook(GuestBook guestBook);
+	int insertGuestBook(GuestBookCreateDto guestBook);
 
 	@Delete("delete from guestbook where id = #{id} and writer_id = #{writerId}")
-	int deleteGuestBook(GuestBook guestBook);
+	int deleteGuestBook(GuestBookDeleteDto delete);
 
 	@Update("update guestbook set content = #{content} where id = #{id}")
-	int updateGuestBook(GuestBook guestBook);
+	int updateGuestBook(GuestBookUpdateDto _guestBook);
 
 	@Select("select * from guestbook order by reg_date desc")
 	List<GuestBook> findAll(Map<String, Object> params);
