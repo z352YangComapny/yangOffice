@@ -23,4 +23,8 @@ public interface MemberService {
     String findMemberByEmail(FindIdDto findIdDto);
 
 	Member findById(int writerId);
+
+    Member findByNickname(String nickname);
+
+    Member findByPhone(String phone);
 }

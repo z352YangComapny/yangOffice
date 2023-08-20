@@ -42,14 +42,6 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.updateMember(updateDto, username);
     }
 
-//    @Override
-//    public PrincipalDetails loadUserByUsername(String username) {
-//        PrincipalDetails principalDetails = new PrincipalDetails();
-//        if(principalDetails == null)
-//            throw new UsernameNotFoundException(username);
-//        return principalDetails;
-//    }
-
     @Override
     public int deleteMember(String username) {
         return memberRepository.deleteMember(username);
@@ -74,6 +66,16 @@ public class MemberServiceImpl implements MemberService{
 	public Member findById(int writerId) {
 		return memberRepository.findById(writerId);
 	}
+
+    @Override
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
+    }
+
+    @Override
+    public Member findByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
+    }
 
 
 }
