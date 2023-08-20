@@ -13,12 +13,13 @@ const connect = () => {
         });
 		const userId = document.getElementById('userId').value;
 		console.log('userId = ', userId);
-        stompClient.send("/app/send", {}, JSON.stringify({ userId : userId }));
+        stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
     });
 };
 
 const renderStory = (payloads) => {
 	console.log('renderStory 호출 성공');
+	console.log('payloads = ', payloads);
 	const stories = JSON.parse(payloads.body);
 
 	const view = document.querySelector('#storyMainUpdate');

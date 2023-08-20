@@ -34,19 +34,22 @@ public class StoryStompController {
 	@MessageMapping("/send")
 	@SendTo("/storyMain")
 	public List<Payload> story(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
-	    String id = message.get("userId");
-	    log.debug("Received ID: {}", id);
-//		List<StoryMainDto> stories = storyService.findStoryById(principal.getId());
+	    int id = Integer.parseInt(message.get("userId"));
+	    log.info("Received ID: {}", id);
+		List<StoryMainDto> stories = storyService.findStoryById(id);
+		log.info("stories : {}", stories);
 		List<Payload> payloads = new ArrayList<>();
-//		for(StoryMainDto story : stories) {
-//			Payload tmp = Payload.builder()
-//				    .type(PayloadType.STORY)
-//				    .from(story.getWriterId())
-//				    .content(story.getContent())
-//				    .createdAt(story.getRegDate())
-//				    .build();
-//			payloads.add(tmp);
-//		}
+		for(StoryMainDto story : stories) {
+			String username = storyService.findMemberUsername(story.getWriterId());
+			Payload tmp = Payload.builder()
+				    .type(PayloadType.STORY)
+				    .from(username)
+				    .content(story.getContent())
+				    .createdAt(story.getRegDate())
+				    .build();
+			payloads.add(tmp);
+		}
+		log.info("payloads : {}", payloads);
 		return payloads;
 	}
 }

@@ -15,4 +15,6 @@ public interface StoryService {
 
 	List<StoryMainDto> findStoryById(int id);
 
+	String findMemberUsername(String writerId);
+
 }

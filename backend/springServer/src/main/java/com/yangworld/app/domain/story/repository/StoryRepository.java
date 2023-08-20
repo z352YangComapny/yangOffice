@@ -17,13 +17,16 @@ public interface StoryRepository {
 	@Insert("insert into Story values (seq_story_id.nextval, #{writerId}, #{content}, default)")
 	int createStory(StoryDto storyDto);
 
-	@Update("update Story set content = #{content}, reg_date = default where id = #{id}")
+	@Update("update Story set content = #{content}, reg_date = default where writer_id = #{writerId}")
 	int updateStory(StoryDto storyDto);
 	
-	@Delete("delete from Story where id = #{id}")
+	@Delete("delete from Story where writer_id = #{writerId}")
 	int deleteStory(StoryDto storyDto);
 	
-	@Select("select * from (select * from story where writer_id = 1 and reg_date >= (sysdate - 1) union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = 1 and s.reg_date >= (sysdate - 1)) order by reg_date")
+	@Select("select * from (select * from story where writer_id = #{id} and reg_date >= (sysdate - 1) union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = #{id} and s.reg_date >= (sysdate - 1)) order by reg_date")
 	List<StoryMainDto> findStoryById(int id);
+	
+	@Select("select username from member where id = #{writerId}")
+	String findMemberUsername(String writerId);
 	
 }
