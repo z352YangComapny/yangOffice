@@ -25,14 +25,23 @@
 
     </div>
 </sec:authorize>
-<sec:authorize access = "isAuthenticated()">
 
+<sec:authorize access = "isAuthenticated()">
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
-    <span>memberHome</span>
-   	<div style="border: 1px solid #000;">
-   		<jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
-   	</div>
+    <div class="d-flex flex-row">
+        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
+        <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
+            <div id ="dm"  class="flex-grow-1" style="height : 10vh; margin : 0;"></div>
+            <div id="story"  class="flex-grow-1" style="height : 20vh; margin : 0;"></div>
+            <div id="photoFeed" class="flex-grow-1" style="border: 1px solid #000; height: 40vh; margin : 0;">
+                <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
+            </div>
+            <div class="d-flex justify-content-end align-content-center flex-grow-1" style="height: 10vh; margin : 0;">
+                <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/';">Guests Book</button>
+            </div>
+        </div>
+    </div>
 </sec:authorize>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
