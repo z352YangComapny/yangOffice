@@ -19,6 +19,7 @@
    <sec:authorize access="isAuthenticated()">
       <script>
          const username = '<sec:authentication property = "principal.username"/>';
+         const id = '<sec:authentication property = "principal.id"/>';
       </script>
       <!--위에 변수 선언을 해주면 하단 stomp.js에서 참조가 가능하다! 기존 js에서는 jstl문법 등을 사용할 수 없으니까! -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -90,11 +91,11 @@
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">월드에 놀러가기</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/guestbook/guestbook.do">방명록</a></li>
+                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/guestbook/guestbook">방명록</a></li>
                </ul>
                <form class="d-flex">
                   <sec:authorize access="isAuthenticated()">
-                            <span class="align-middle" style="font-weight: bold; color : white;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
+                            <span class="align-middle" style="font-weight: bold; color : white; font-size : 15px;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
                      title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
                      &nbsp;
                      <button

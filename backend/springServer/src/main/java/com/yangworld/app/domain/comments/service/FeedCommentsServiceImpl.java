@@ -51,7 +51,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
     @Override
     public List<Comments> getCommentsByPhotoFeedId(int photoFeedId) {
-        // 댓글을 불러오는 로직을 구현
         return commentsRepository.getCommentsByPhotoFeedId(photoFeedId);
     }
 
