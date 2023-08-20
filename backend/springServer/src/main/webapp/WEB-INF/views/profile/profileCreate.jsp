@@ -27,10 +27,30 @@
                 
                 <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
             </div>
-            <div class="form-group">
-                <label for="state">상태</label>
-                <input type="text" class="form-control" id="state" name="state" value="A" required>
-            </div>
+            
+            <div>
+				<label class="form-label mt-4" for="state">상태</label>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="state" id="A" value="A" checked/>
+					<label class="form-check-label" for="A">A</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="state" id="B" value="B"/>
+					<label class="form-check-label" for="B">B</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="state" id="C" value="C"/>
+					<label class="form-check-label" for="C">C</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="state" id="D" value="D"/>
+					<label class="form-check-label" for="D">D</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="state" id="E" value="E"/>
+					<label class="form-check-label" for="E">E</label>
+				</div>
+			</div>
             
             <div class="form-group">
                 <label for="introduction">간단소개</label>
