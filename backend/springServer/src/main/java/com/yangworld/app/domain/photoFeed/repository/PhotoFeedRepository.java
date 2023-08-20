@@ -38,7 +38,7 @@ public interface PhotoFeedRepository {
     @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}") 
     List<AttachmentPhotoDto> selectAttachmentPhoto(int photoFeedId);
     
-
+    // 사진 조회
 	@Select("select * from attachment where id = #{id}")
 	Attachment selectAttachment(int id);
 	

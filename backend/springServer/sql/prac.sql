@@ -12,3 +12,11 @@ where
     pf.id = 2;
 select * from likes;
 select count(*) from likes where photo_feed_id = 1;
+
+select * from photo_feed where id= 2;
+select * from attachment;
+select * from attachment_photo_feed;
+
+select * from member;
+
+update member set password ='$2a$10$uXnleXBDUNo050kiahyM8uktWRfCf3ySpQdo55MwFeS0md8r5Q2OS';
