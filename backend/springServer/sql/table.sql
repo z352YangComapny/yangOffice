@@ -344,7 +344,8 @@ commit;
     select* from member;
 select * from photo_feed;
 
-
+select * from report;
+select * from report_guestbook;
 
 SELECT seq_comments_id.nextval FROM dual;
 

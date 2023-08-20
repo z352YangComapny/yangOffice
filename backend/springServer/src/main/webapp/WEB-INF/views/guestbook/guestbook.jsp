@@ -49,7 +49,9 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						</td>
 						<td>
 							<form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
-							<button type="button" class="btn btn-outline-danger reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}">신고</button>
+							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
+							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp;
+								<button type="submit" class="btn btn-outline-danger reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}">신고</button>
 							</form:form>
 						</td>	
 					</tr>

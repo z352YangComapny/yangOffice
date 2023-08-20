@@ -52,17 +52,23 @@ public class ReportController {
 	public ResponseEntity<?> insertReportGuestBook(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
 			ReportCreateDto _reportDto,
-			@RequestParam int guestBookId
+			@RequestParam int reportGuestbook,
+			@RequestParam int reportedId,
+			@RequestParam String reportContent
 		){
 		
 		int reporterId = principalDetails.getId();
 		
 		Report report = _reportDto.toReport();
-		log.info("report = {}",report);
 		report.setReporterId(reporterId);
+		report.setReportedId(reportedId);
+		report.setContent(reportContent);
 		
-		
-		reportService.insertReportGuestBook(report,guestBookId);
+		log.info("report = {}",report);
+		int result = reportService.insertReport(report);
+		log.info("result1={}",result);
+		result += reportService.insertReportGuestBook(report,reportGuestbook);
+		log.info("result2={}",result);
 		
 		return ResponseEntity.ok().build();
 	}

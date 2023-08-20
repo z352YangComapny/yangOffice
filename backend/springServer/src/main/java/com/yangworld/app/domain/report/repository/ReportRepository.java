@@ -27,5 +27,5 @@ public interface ReportRepository {
 	int insertReportDm(ReportDm reportDm);
 
 	@Insert("insert into report_guestbook(report_id, guestbook_id) values(#{reportId}, #{guestBookId})")
-	int insertReportGuestBook(ReportGuestBook reportGuestBook);
+	int insertReportGuestBook(ReportGuestBook reportGuestbook);
 }
