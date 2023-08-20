@@ -50,9 +50,14 @@ public class QuestionController {
 	 * 공지사항 & 이용문의 디테일 
 	 */
 	@GetMapping("/questionDetail")
-	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model) {
+	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model, Authentication authentication) {
 		Question question = questionService.findQuestionById(id);
 		log.info("question = {}", question);
+		
+		boolean isAdmin = authentication.getAuthorities().stream()
+	            .map(GrantedAuthority::getAuthority)
+	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
+		model.addAttribute("isAdmin", isAdmin);
 		model.addAttribute("question", question);
 		model.addAttribute("principalName",principal.getUsername());
 	}
@@ -171,9 +176,13 @@ public class QuestionController {
     return "redirect:/question/questionList";
 }
 	@GetMapping("/questionUpdate")
-    public String updateQuestionForm(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int id, Model model) {
+    public String updateQuestionForm(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int id, Model model, Authentication authentication) {
         Question question = questionService.findQuestionById(id);
+        boolean isAdmin = authentication.getAuthorities().stream()
+	            .map(GrantedAuthority::getAuthority)
+	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
         
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("principalId", principal.getId());
         model.addAttribute("question", question);
         log.info("principalId = {}", principal.getId());

@@ -47,7 +47,9 @@
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
-        <button type="button" class="btn btn-primary btn-lg" onclick="addComment();">댓글 작성</button>
+        <c:if test="${isAdmin}">
+	        <button type="button" class="btn btn-primary btn-lg" onclick="addComment();">댓글 작성</button>
+		 </c:if>
         
         
         

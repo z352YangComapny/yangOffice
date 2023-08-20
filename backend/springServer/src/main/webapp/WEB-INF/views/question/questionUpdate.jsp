@@ -23,8 +23,10 @@
         </div>
         
         <button type="submit" class="btn btn-primary">수정</button>
+       			<c:if test="${isAdmin}">
         <a href="${pageContext.request.contextPath}/question/deleteNotice?questionId=${question.id}" 
    			class="btn btn-primary ">삭제</a>
+				 </c:if>
     </form>
 </div>
 
