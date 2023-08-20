@@ -46,6 +46,11 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						</td>
 						<td>
 							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}">삭제</button>
+						</td>
+						<td>
+							<form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
+							<button type="button" class="btn btn-outline-danger reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}">신고</button>
+							</form:form>
 						</td>	
 					</tr>
 				</c:forEach>

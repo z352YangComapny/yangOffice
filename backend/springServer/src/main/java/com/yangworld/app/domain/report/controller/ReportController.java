@@ -48,10 +48,10 @@ public class ReportController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/insertReportGuestBook")
+	@PostMapping("/insertReportGuestBook.do")
 	public ResponseEntity<?> insertReportGuestBook(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody ReportCreateDto _reportDto,
+			ReportCreateDto _reportDto,
 			@RequestParam int guestBookId
 		){
 		
