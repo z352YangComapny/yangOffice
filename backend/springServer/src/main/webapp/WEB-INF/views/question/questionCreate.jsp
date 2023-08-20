@@ -66,9 +66,9 @@
                 <label for="exampleSelect1" class="form-label mt-4"></label>
                 <select class="form-select" id="exampleSelect1" name="questionType">
                     <option value="Q">이용문의</option>
-                    <c:if test="${fn:contains(principal.authorities, 'ROLE_ADMIN')}">
-   						 <option value="N">공지사항</option>
-					</c:if>
+                    <c:if test="${isAdmin}">
+      				  <option value="N">공지사항</option>
+   					 </c:if>
 
 
                 </select>

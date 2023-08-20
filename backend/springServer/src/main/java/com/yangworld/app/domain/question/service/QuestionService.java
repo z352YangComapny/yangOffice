@@ -15,5 +15,7 @@ public interface QuestionService {
 
 	Question findQuestionById(int id);
 
+	int deleteNoticeById(int questionId);
+
 
 }

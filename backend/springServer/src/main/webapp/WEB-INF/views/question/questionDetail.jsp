@@ -48,17 +48,18 @@
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
         <button type="button" class="btn btn-primary btn-lg" onclick="addComment();">댓글 작성</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="deleteNotice(${question.id});">공지사항 삭제</button>
+        
         
         
     </div>
 </div>
 <script>
 function goBack() {
-    // 이전 페이지로 돌아가기
     history.back();
 }
 function addComment() {
-    var commentContent = document.getElementById('commentContent').value;
+   	const commentContent = document.getElementById('commentContent').value;
     if (commentContent.trim() !== '') {
         // 작성한 댓글 내용을 서버로 전송하는 로직을 추가
         var questionId = ${question.id}; // 해당 게시글 ID를 가져오는 방식으로 변경
@@ -75,9 +76,7 @@ function addComment() {
             contentType: false,
             success: function(data) {
                 alert('댓글이 작성되었습니다.');
-                // 페이지 새로고침 또는 댓글만 추가하여 업데이트 (필요에 따라 선택)
-                location.reload(); // 전체 페이지 새로고침
-                // 또는 댓글 영역만 업데이트 (Ajax 등으로 서버로부터 댓글 데이터를 받아서 업데이트)
+                location.reload(); 
             },
             error: function() {
                 alert('댓글 작성 중 오류가 발생했습니다.');
@@ -88,7 +87,23 @@ function addComment() {
     }
 }
 
-// ... 이후 코드 ...
-</script>
+/* function deleteNotice(questionId) {
+    if (confirm('정말로 공지사항을 삭제하시겠습니까?')) {
+        // 공지사항 삭제 요청을 서버로 보내는 코드 추가
+        $.ajax({
+            type: 'POST',
+            url: `${pageContext.request.contextPath}/question/deleteNoice`,
+            data: { questionId: questionId },
+            success: function(data) {
+                alert('공지사항이 삭제되었습니다.');
+                location.reload(); // 페이지 새로고침
+            },
+            error: function() {
+                alert('공지사항 삭제 중 오류가 발생했습니다.');
+            }
+        });
+    }
+}
+ */
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

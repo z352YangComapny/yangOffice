@@ -3,6 +3,7 @@ package com.yangworld.app.domain.question.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -15,7 +16,7 @@ import com.yangworld.app.domain.question.entity.Question;
 @Mapper
 public interface QuestionRepository {
 
-	@Insert("insert into question values(seq_question_id.nextval, #{writerId}, #{title}, #{content},'Q', default)")
+	@Insert("insert into question values(seq_question_id.nextval, #{writerId}, #{title}, #{content},#{type}, default)")
 	@SelectKey(
 		    statement = "select seq_question_id.currval from dual",
 		    keyColumn = "id",
@@ -36,5 +37,8 @@ public interface QuestionRepository {
 
 	@Select("select count(*) from question")
 	int countAllQuestion();
+
+	@Delete("delete question where id = #{questionId}")
+	int deleteNoticeById(int questionId);
 
 }

@@ -47,7 +47,11 @@ public class QuestionServiceImpl implements QuestionService {
 		return question;
 	}
 	
-	
+	@Override
+	public int deleteNoticeById(int questionId) {
+		
+		return questionRepository.deleteNoticeById(questionId);
+	}
 
 	
 }

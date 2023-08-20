@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
 import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
 import com.yangworld.app.domain.question.entity.Question;
+import com.yangworld.app.domain.question.entity.QuestionType;
 import com.yangworld.app.domain.question.repository.QuestionRepository;
 import com.yangworld.app.domain.question.service.QuestionService;
 
@@ -45,6 +48,7 @@ public class QuestionController {
 		Question question = questionService.findQuestionById(id);
 		log.info("question = {}", question);
 		model.addAttribute("question", question);
+		
 	}
 	
 	/**
@@ -69,13 +73,22 @@ public class QuestionController {
 	    model.addAttribute("totalPages", totalPages);
 	}
 	
-	@GetMapping("/questionCreate")
-	public void createQna(){}
+	 @GetMapping("/questionCreate")
+	    public void createQna(Model model, Authentication authentication) {
+	        boolean isAdmin = authentication.getAuthorities().stream()
+	            .map(GrantedAuthority::getAuthority)
+	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
+	        
+	        model.addAttribute("isAdmin", isAdmin);
+	    
+	    
+	}
 	
 	/**
 	 * 윤아
 	 * - 이용문의작성 
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	@PostMapping("/createQna")
 	public String createQna(@AuthenticationPrincipal PrincipalDetails principal , @ModelAttribute QuestionCreateQnaDto _qnaDto, Model model) {
 		log.info("createQna info = {}", _qnaDto);
@@ -85,6 +98,14 @@ public class QuestionController {
 		Question qna = _qnaDto.toQna();
 		log.info("writerId={}", writerId);
 		qna.setWriterId(writerId);
+		
+		log.info("qna.getType() = {}", qna.getType());
+		// 'type' 값을 설정합니다.
+	    if (QuestionType.N.equals(qna.getType())) {
+	        qna.setType(QuestionType.N); // 공지사항인 경우 'N'으로 설정
+	    } else {
+	        qna.setType(QuestionType.Q); // 이용문의인 경우 'Q'로 설정
+	    }
 		
 		// question 테이블 insert
 		questionService.insertQna(qna);
@@ -110,10 +131,26 @@ public class QuestionController {
 	
 
 	
+	 @PostMapping("/deleteNotice")
+	    public ResponseEntity<String> deleteNotice(@RequestParam int questionId) {
+		
+		 log.info("questionId = {}", questionId);
+		 try {
+		        // 공지사항 삭제 로직을 구현하고 삭제된 여부를 확인하는 코드 작성
+		        int deletedRows = questionService.deleteNoticeById(questionId);
+		        
+		        if (deletedRows > 0) {
+		            return ResponseEntity.ok().body("공지사항이 삭제되었습니다.");
+		        } else {
+		            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("공지사항 삭제 중 오류가 발생했습니다.");
+		        }
+		    } catch (Exception e) {
+		    	 e.printStackTrace(); // 예외 출력
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("공지사항 삭제 중 오류가 발생했습니다.");
+		    }
 	
 	
-	
-	
+	 }
 	
 	
 	
