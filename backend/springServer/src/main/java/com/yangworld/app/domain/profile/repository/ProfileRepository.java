@@ -1,5 +1,7 @@
 package com.yangworld.app.domain.profile.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -80,6 +82,10 @@ public interface ProfileRepository {
 
 	@Select("select * from profile where member_id = #{memberId}")
     ProfileDetails getProfileByMemberId(int memberId);
+
+
+	@Select("SELECT * FROM attachment WHERE id IN (SELECT attachment_id FROM attachment_profile WHERE profile_id = #{profileId})")
+    List<Attachment> getAttachmentsByProfileId(@Param("profileId") int profileId);
 
 
 

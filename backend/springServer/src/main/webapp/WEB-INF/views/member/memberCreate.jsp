@@ -13,53 +13,7 @@
 	<form:form name="memberCreateFrm" action="" method="POST">
 		<h1>Sign up</h1>
 		<table class="mx-auto w-75">
-			<tr>
-				<div class="form-group">
-					<label class="form-label mt-4" for="usrname">아이디</label>
-					<input type="text" value="" class="form-control is-valid" id="username" name="username">
-					<div class="valid-feedback">사용가능한 아이디입니다.</div>
-					<div class="invalid-feedback">4글자 이상 10글자 이하의 영문자, 숫자 조합으로 작성해주세요.</div>
-				</div>
-			<tr>
-			<tr>
-				<div class="form-group">
-					<label class="form-label mt-4" for="password">비밀번호</label>
-					<input type="password" value="" class="form-control is-valid" id="password" name="password">
-					<label class="form-label mt-4" for="pwd_confirmation">비밀번호</label>
-					<input type="password" value="" class="form-control is-valid" id="pwd_confirmation">
-					<div class="valid-feedback">비밀번호 확인 되었습니다.</div>
-					<div class="invalid-feedback">비밀번호를 입력해주세요</div>
-					<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
-				</div>
-			</tr>
-			<tr>
-				<div class="form-group">
-					<label class="form-label mt-4" for="name">이름</label>
-					<input type="password" value="" class="form-control is-valid" id="name" name="name">
-					<div class="valid-feedback">사용가능한 아이디입니다.</div>
-					<div class="invalid-feedback">이름을 입력해주세요</div>
-				</div>
-			</tr>
-			<tr>
-				<div class="form-group">
-					<label class="form-label mt-4" for="name">별명</label>
-					<input type="password" value="" class="form-control is-valid" id="name" name="name">
-					<div class="valid-feedback">사용가능한 별명입니다.</div>
-					<div class="invalid-feedback">이미 존재하는 별명입니다.</div>
-				</div>
-			</tr>
-			<tr>
-				<label class="form-label mt-4" for="gender">성별</label>
-				<div class="form-check">
-					<input class="form-check-input" type="radio" name="gender" id="F" value="M" checked/>
-					<label class="form-check-label" for="M">M</label>
-				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="radio" name="gender" id="F" value="F"/>
-					<label class="form-check-label" for="F">F</label>
-				</div>
-			</tr>
-
+			
 
 
 				<th>아이디</th>

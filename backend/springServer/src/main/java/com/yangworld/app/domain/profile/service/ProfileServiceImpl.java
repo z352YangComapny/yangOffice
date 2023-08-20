@@ -99,6 +99,10 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileRepository.resetProfile(memberId);
 		
 	}
+	@Override
+    public List<Attachment> getAttachmentsByProfileId(int profileId) {
+        return profileRepository.getAttachmentsByProfileId(profileId);
+    }
 
 //	@Override
 //	public int resetProfile(ProfileDto profile) {

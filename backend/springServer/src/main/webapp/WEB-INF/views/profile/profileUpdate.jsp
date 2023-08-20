@@ -23,54 +23,60 @@
         <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/update.do" class="col-md-6">
         	<div class="form-group">	
                 <label for="upFile">프로필 사진</label>
+                <img src="<c:url value='/resources/upload/profile/${profile.attachments[0].renamedFilename}' />" alt="프로필 사진" width="100">
                 <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
+                <%-- <c:if test="${not empty profile.attachments}">
+                	<img src="${pageContext.request.contextPath}/resources/upload/profile/${profile.attachments[0].renamedFilename}" alt="프로필 사진" width="200" height="200">
+                </c:if>
+          --%>
             </div>
             <div class="form-group">
                 <label for="state">상태</label>
-                <input type="text" class="form-control" id="state" name="state" value="A" required>
+                <input type="text" class="form-control" id="state" name="state" value="${profile.state}" required>
             </div>
             
             <div class="form-group">
                 <label for="introduction">간단소개</label>
-                <textarea class="form-control" id="introduction" name="introduction" rows="4" required>안녕하세요.${pageContext.request.userPrincipal.name}입니다. </textarea>
+                <textarea class="form-control" id="introduction" name="introduction" rows="4" required>${profile.introduction} </textarea>
             </div>
             
-            
-            
+          
             <button type="submit" class="btn btn-primary">수정</button>
-			<button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/profile/defaultcreate.do">초기화</button>
+			<button type="button" class="btn btn-primary" id="resetButton">초기화</button>
 
         </form:form>
     </div>
-<script>
 
-/* $(document).ready(function() {
-    $("#laterButton").click(function() {
-        var csrfToken = $("meta[name='_csrf']").attr("content");
-        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+<script>
+$(document).ready(function() {
+    
+    $('#resetButton').click(function() {
         
-        $.ajax({
-            url: "/profile/defaultcreate.do",
-            type: "POST",
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function(response) {
-                console.log("프로필 기본값 삽입 성공");
-            },
-            error: function(xhr, status, error) {
-                console.error("프로필 기본값 삽입 에러: " + error);
-            }
-        });
+        $('#upFile').val(''); 
+        $('#state').val('A'); 
+        $('#introduction').val('안녕하세요.${pageContext.request.userPrincipal.name}입니다.');
+        // 표시된 이미지 제거
+        $('img[src$="default.jpg"]').removeAttr('src');
     });
-}); */
+
+    
+});
+
 
 
 
 
 </script>
 
-    
+      <<%-- div>
+            <c:if test="${not empty profileAttachments}">
+    <h2>프로필 사진</h2>
+    <c:forEach items="${profileAttachments}" var="attachment">
+        <img src="<c:url value='/resources/upload/profile/${attachment[0].renamedFilename}' />" alt="프로필 사진" width="200" height="200">
+    </c:forEach>
+</c:if>
+            </div> --%>
 </body>
 </html>
 

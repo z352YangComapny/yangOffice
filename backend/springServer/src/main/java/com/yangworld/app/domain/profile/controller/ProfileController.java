@@ -57,17 +57,21 @@ public class ProfileController {
 	}
 	
 	@GetMapping("/update.do")
-    public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
-        int memberId = principal.getId();
-        ProfileDetails profile = profileService.getProfileByMemberId(memberId);
-        
-        profile.getState();
-        profile.getIntroduction();
-        profile.getAttachments();
-        
-        model.addAttribute("profile", profile);
-        return "/profile/profileUpdate";
-    }
+	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+	    int memberId = principal.getId();
+	    
+	    // 프로필 정보 가져오기
+	    ProfileDetails profile = profileService.getProfileByMemberId(memberId);
+	    
+	    // 프로필 사진 가져오기
+	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+	   
+	    model.addAttribute("profile", profile);
+	    model.addAttribute("profileAttachments", profileAttachments);
+	    
+	    return "/profile/profileUpdate";
+	}
+
 	
 	
 	
@@ -120,9 +124,9 @@ public class ProfileController {
 	    }
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/update.do")
 	public ResponseEntity<?> update(
-			@RequestPart @Valid ProfileDto _profile,
+			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
@@ -143,9 +147,7 @@ public class ProfileController {
 						.build();
 				attachments.add(attach);
 			}
-			
 		}
-		
 		ProfileDetails profile = ProfileDetails.builder()
 				.id(_profile.getId())
 				.memberId(principal.getId())
@@ -172,30 +174,22 @@ public class ProfileController {
 	}
 	
 	@PostMapping("/defaultcreate.do")
-	public ResponseEntity<?> createDefaultProfile(
-	        @AuthenticationPrincipal PrincipalDetails principal) {
-
+	public ResponseEntity<?> createDefaultProfile(@AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
-
 	    ProfileDetails profile = ProfileDetails.builder()
 	            .memberId(memberId)
 	            .state(State.A)
 	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
 	            .build();
 
-	    if (profile != null) {
-	        // 기본 사진의 파일 경로
-	        String defaultImagePath = "/Users/hongseung-young/Documents/GitHub/yangOffice/backend/springServer/src/main/webapp/resources/upload/profile/default.jpg"; // 실제 경로로 수정
-
-	        Attachment defaultAttachment = Attachment.builder()
-	                .originalFilename("default.jpg")
-	                .renamedFilename("default.jpg") // 실제 파일명으로 수정
-	                .build();
-
-	        if (profile.getAttachments() != null) {
-	            profile.getAttachments().add(defaultAttachment);
-	        }
-	    }
+	    // 첨부 파일 생성 및 추가
+	    Attachment defaultAttachment = Attachment.builder()
+	            .originalFilename("default.jpg")
+	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
+	            .build();
+	    List<Attachment> attachments = new ArrayList<>();
+	    attachments.add(defaultAttachment);
+	    profile.setAttachments(attachments);
 
 	    int result = profileService.insertProfile(profile);
 
@@ -205,6 +199,7 @@ public class ProfileController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to insert profile");
 	    }
 	}
+
 
 
 	

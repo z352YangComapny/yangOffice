@@ -23,7 +23,7 @@
         <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/create.do" class="col-md-6">
         	<div class="form-group">	
                 <label for="upFile">프로필 사진</label>
-                <img src="<c:url value='/resources/upload/profile/${profileDetails.attachments[0].renamedFilename}' />" alt="프로필 사진" width="100">
+                <%-- <img src="<c:url value='/resources/upload/profile/${profileDetails.attachments[0].renamedFilename}' />" alt="프로필 사진" width="100"> --%>
                 
                 <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
             </div>
