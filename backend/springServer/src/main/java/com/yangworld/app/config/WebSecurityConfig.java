@@ -35,7 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/index.jsp").permitAll()
-                .antMatchers("/member/memberCreate.do").anonymous()
+                .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
+                        "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
+                        "/member/checkEmail.do").anonymous()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
