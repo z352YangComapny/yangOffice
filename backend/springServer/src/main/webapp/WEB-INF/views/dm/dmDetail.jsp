@@ -113,7 +113,7 @@ $(document).ready(function() {
 
 function loadDmDetails() {
 	    const dmRoomId = <%= dmRoomId %>;
-	    const url = '${pageContext.request.contextPath}/dm/dmDetailList?dmRoomId=' + dmRoomId;
+	    const url = '\${pageContext.request.contextPath}/dm/dmDetailList?dmRoomId=' + dmRoomId;
 
 	    $.ajax({
 	        url: url,
@@ -141,10 +141,10 @@ function loadDmDetails() {
             <div class="d-flex flex-column">
                 <div class="d-flex align-items-center">
                     <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
-                        ${dm.content}
+                        \${dm.content}
                     </p>
                 </div>
-                <p class="small ms-3 mb-3 rounded-3 text-muted">${formatDate(dm.regDate)}</p>
+                <p class="small ms-3 mb-3 rounded-3 text-muted">\${formatDate(dm.regDate)}</p>
             </div>
         `;
 					} else {
@@ -152,8 +152,8 @@ function loadDmDetails() {
 						dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
 						dmDiv.innerHTML = `
             <div>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${dm.content}</p>
-                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${formatDate(dm.regDate)}</p>
+                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">\${dm.content}</p>
+                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">\${formatDate(dm.regDate)}</p>
             </div>
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
                  alt="avatar 1" style="width: 45px; height: 100%;">
