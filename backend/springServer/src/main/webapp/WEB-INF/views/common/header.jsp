@@ -75,7 +75,7 @@
       </div>
    </div>
 </div>
-   <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>"
+   <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>
 </sec:authorize>
 <div id="container">
    <header>

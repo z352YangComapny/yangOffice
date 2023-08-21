@@ -26,6 +26,7 @@ input#btn-add{float: left;
 				<th>제목</th>
 				<th>작성자</th>
 				<th>작성일</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -66,6 +67,9 @@ input#btn-add{float: left;
 						<a href="${pageContext.request.contextPath}/question/questionUpdate?id=${question.id}" class="btn btn-primary btn-sm">수정</a>
 						</td>
 						</c:if>
+						<c:if test="${ writerNames[vs.index] ne principalUsername }">
+						<td></td>
+						</c:if> 
 					</tr>				
 				</c:forEach>
 			</c:if>

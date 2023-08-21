@@ -70,7 +70,6 @@ function addComment() {
         formData.append('questionId', questionId);
         formData.append('content', commentContent);
         
-        // Ajax를 이용해 서버로 데이터 전송
         $.ajax({
             type: 'POST',
             url: '/addComment', // 실제 댓글 추가를 처리하는 URL로 수정
