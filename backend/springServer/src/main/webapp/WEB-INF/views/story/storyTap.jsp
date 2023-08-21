@@ -19,11 +19,9 @@
 					  <ul class="list-group list-group-flush">
 					    <li class="list-group-item writerId">${story.writerId}</li>
 					    <li class="list-group-item content">${story.content}</li>
-					    <li class="list-group-item">
-					    	<div class="createdAt">${story.regDate}</div>
-					    	<button class="btn btn-primary">삭제</button>
-					    </li>
+					    <li class="list-group-item createdAt">${story.regDate}</li>
 					  </ul>
+					  <button class="btn btn-primary">삭제</button>
 					</div>
 				</c:forEach>
 			</div>
