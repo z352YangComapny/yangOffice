@@ -89,10 +89,11 @@ public class ProfileController {
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
+	    model.addAttribute("principalGender", principal.getGender());
 	    log.info("profile = {}", profile);
 	    log.info("profileAttachment = {}",profileAttachments);
 	    
-		return "/proflie/profileMain";
+		return "/profile/profileMain";
 	}
 
 	

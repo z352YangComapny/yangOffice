@@ -11,10 +11,6 @@
 <head>
     <meta charset="UTF-8">
     <title>프로필 수정</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <style>
     /* 이미지 최대 너비와 최대 높이 설정 */
@@ -37,7 +33,7 @@
                     <c:choose>
                         <c:when test="${not empty profileAttachments}">
                             <c:forEach items="${profileAttachments}" var="attachment">
-                                <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+                                <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/profile/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
