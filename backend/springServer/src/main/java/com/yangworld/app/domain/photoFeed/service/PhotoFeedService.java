@@ -29,6 +29,10 @@ public interface PhotoFeedService {
 
 	int deleteLike(int photoFeedId, int memberId);
 
+
+	List<PhotoAttachmentFeedDto> selectFeedDetail(int writerId, int photoFeedId);
+
+
 	
 
 }
