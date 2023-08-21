@@ -13,15 +13,18 @@
     <div class="d-flex flex-row">
         <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
         <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
-			<div id="story"  class="flex-grow-1">
-				<c:forEach items="${stories}" var="story" varStatus="vs">
+        	<div>
+        		<button></button>
+        	</div>
+			<div id="story"  class="flex-grow-6" style=" height: 80vh;">
+				<c:forEach items="${stories}" var="story">
 					<div class="card m-3">
 					  <ul class="list-group list-group-flush">
 					    <li class="list-group-item writerId">${story.writerId}</li>
 					    <li class="list-group-item content">${story.content}</li>
 					    <li class="list-group-item createdAt">${story.regDate}</li>
 					  </ul>
-					  <button class="btn btn-primary">삭제</button>
+					  <button class="btn btn-secondary">삭제</button>
 					</div>
 				</c:forEach>
 			</div>

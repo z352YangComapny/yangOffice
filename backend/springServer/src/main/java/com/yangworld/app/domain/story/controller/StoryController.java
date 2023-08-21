@@ -41,9 +41,9 @@ public class StoryController {
 	public void storyMain() {}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> create(@RequestBody StoryDto storyDto){
+	public void create(@RequestBody StoryDto storyDto){
 		int result = storyService.createStory(storyDto);
-		return ResponseEntity.ok().build();
+		
 	}
 	
 	@PostMapping("/update")
