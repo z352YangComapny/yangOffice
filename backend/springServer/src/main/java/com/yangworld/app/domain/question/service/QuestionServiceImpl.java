@@ -7,6 +7,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
+import com.yangworld.app.domain.question.entity.Comment;
 import com.yangworld.app.domain.question.entity.Question;
 import com.yangworld.app.domain.question.repository.QuestionRepository;
 
@@ -46,4 +48,15 @@ public class QuestionServiceImpl implements QuestionService {
 		return question;
 	}
 	
+	@Override
+	public int deleteNoticeById(int questionId) {
+		
+		return questionRepository.deleteNoticeById(questionId);
+	}
+
+	@Override
+	public int updateQuestion(QuestionUpdateQnaDto updateDto) {
+		int result = questionRepository.updateQuestion(updateDto); 
+		return result;
+	}
 }

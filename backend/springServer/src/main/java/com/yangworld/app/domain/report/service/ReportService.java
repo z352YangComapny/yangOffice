@@ -11,6 +11,10 @@ public interface ReportService {
 
 	int insertReport(Report report);
 
+
+	int insertReportProfile(Report report, int profileId);
+
+
 //	int insertReportDm(ReportDm reportDm);
 
 }

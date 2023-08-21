@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class ProfileDetails extends Profile{
 	
-	private Member member;
+	private int id;
 	private int attachCount;
 	private List<Attachment> attachments;
 	
