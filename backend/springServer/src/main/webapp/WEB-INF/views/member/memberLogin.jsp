@@ -28,8 +28,7 @@
 </script>
 </head>
 <body>
-
-	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top : 50px;">
+	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top : 50px; >
 	<form:form action="${pageContext.request.contextPath}/member/memberLogin.do"
 			   method="post">
 		<c:if test="${param.error ne null}">
@@ -53,7 +52,7 @@
 				<div>
 					<label for="username" class="col-sm-2 col-form-label">ID</label>
 					<div class="form-group col-sm-15">
-						<input type="text" value="user1" name = "username" placeholder="Input" class="form-control" />
+						<input type="text" value="user1" name = "username"  id="username" placeholder="Input" class="form-control" />
 					</div>
 				</div>
 				<div>
@@ -70,11 +69,11 @@
 	</form:form>
 	</div>
 	<div class="d-flex justify-content-center align-items-center" style ="margin-top : 30px;">
-		<a href="">아이디찾기</a>
+		<a href="#" id="openModalLink1" >아이디찾기</a>
 		&nbsp;
 		|
 		&nbsp;
-		<a href="">비밀번호찾기</a>
+		<a href="#">비밀번호찾기</a>
 	</div>
 	<div class="sns-icon d-flex justify-content-center align-items-center"  style ="margin-top : 30px;" >
 		<a href=""><img src="${pageContext.request.contextPath}/resources/images/apple.png"></a>
@@ -98,8 +97,222 @@
 	</div>
 
 
+	<%--아이디 찾기 모달 시작--%>
+	<div class="modal" id="searchIdModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Search ID</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<p>༼ つ ◕_◕ ༽つ 아이디 찾기는 이메일 인증 후 확인 가능합니다</p>
+						<label for="email" class="col-sm-2 col-form-label">Email</label>
+						<div class="d-flex flex-row">
+							<input type="text" class="form-control" id="email" name="email" style="width:250px; margin-right:5px;">
+							<div style="width:250px;">
+								<select class="form-control" name="emailDomain" id="emailDomain" >
+									<option>메일주소 선택</option>
+									<option>@naver.com</option>
+									<option>@daum.net</option>
+									<option>@gmail.com</option>
+									<option>@hanmail.com</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-group-addon d-flex justify-content-end mt-2">
+							<button type="button" class="btn btn-outline-primary" id="mailCheckSearch">이메일 인증</button>
+						</div>
+						<div class="mail-check-box mt-2">
+							<input class="form-control mail-check-input" id="mailAuth" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+							<div class="valid-feedback" id="mailValid" >인증번호가 확인되었습니다.</div>
+							<div class="invalid-feedback" id="mailInvalid">인증번호가 일치하지 않습니다. 다시 확인해주세요.</div>
+						</div>
+						<div class="mt-2">
+							<label for="email" class="col-form-label">Searched ID</label>
+							<input class="form-control" id="searchedID" disabled="disabled" readonly/>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary searchId" >Search Id</button>
+					<button type="button" class="btn btn-secondary close-modal"  data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%--아이디 찾기 모달 끝--%>
+
+
+	<script>
+		// 모달 창 X 버튼으로 닫기
+		document.addEventListener("DOMContentLoaded", function() {
+			const closeModalButton = document.getElementById("closeModalButton");
+			closeModalButton.addEventListener("click", function() {
+				const modal = document.getElementById("searchIdModal");
+				modal.style.display = "none";
+				modal.classList.remove("show");
+			});
+		});
+
+		document.addEventListener("DOMContentLoaded", function() {
+			const openModalLink = document.getElementById("openModalLink1");
+			const modal = document.getElementById("searchIdModal");
+			const searchButton = modal.querySelector(".searchId");
+			const closeButton = modal.querySelector(".close-modal");
+
+			openModalLink.addEventListener("click", function(event) {
+				event.preventDefault(); // 기본 동작(링크 이동) 막기
+				modal.style.display = "block"; // 모달 보이기
+				modal.classList.add("show"); // 모달 클래스 추가 (부트스트랩 모달 스타일을 위해)
+			});
+
+			// 모달 창 외부를 클릭하면 모달이 닫히도록 설정
+			modal.addEventListener("click", function(event) {
+				if (event.target === modal) {
+					modal.style.display = "none";
+					modal.classList.remove("show");
+				}
+			});
+			const $searchedID =  $("#searchedID");
+			// 모달 내부의 확인 버튼 클릭 이벤트
+			searchButton.addEventListener("click", function() {
+				// 여기에 확인 버튼 클릭 시 수행할 동작 추가
+				const inputCode = $mailAuth.val();
+
+				if (inputCode === code) {
+					$searchedID.val(userId); // userId 값을 searchedID input 태그에 할당
+
+				}
+			});
+
+			closeButton.addEventListener("click", function(){
+				$("#username").val($searchedID.val());
+
+				// 모달 내부의 필드들을 초기화
+				$("#email").val(""); // 이메일 입력 필드 초기화
+				$("#emailDomain").val("메일주소 선택"); // 이메일 도메인 선택 초기화
+				$("#mailAuth").val(""); // 인증번호 입력 필드 초기화
+				$("#mailValid").hide(); // 인증번호 유효성 표시 초기화
+				$("#mailInvalid").hide(); // 인증번호 무효성 표시 초기화
+				$searchedID.val("");
+				// 모달 초기화
+				modal.style.display = "none";
+				modal.classList.remove("show");
+			});
 
 
 
 
-			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		});
+
+
+
+
+
+	</script>
+
+<script>
+	// 이메일 인증
+	let code;
+	let userId;
+	$('#mailCheckSearch').click(function() {
+		const email = $('#email').val();// 이메일 주소값 얻어오기!
+		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
+		const checkInput = $('.mail-check-input') // 인증번호 입력하는곳
+
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/member/checkEmailSearch.do",
+			data : {
+				email : email
+			},
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')},
+			method : "POST",
+			dataType :"json",
+			success(responseData){
+				console.log(responseData);
+				const {emailAuth, username} = responseData;
+				checkInput.attr('disabled',false);
+				code = emailAuth;
+				userId = username;
+				alert('인증번호가 전송되었습니다.');
+			}
+		}); // end ajax
+	}); // end send eamil*/
+
+	//인증번호 비교
+	const $mailValid = $("#mailValid");
+	const $mailInvalid = $("#mailInvalid");
+	const $mailAuth = $("#mailAuth");
+	const $emailDomain = $('#emailDomain');
+	$mailAuth.blur(function(){
+		const inputCode = $(this).val();
+
+		if(inputCode !== code){
+			$mailAuth.addClass('is-invalid');
+			$mailAuth.removeClass('is-valid');
+			$mailValid.hide();
+			$mailInvalid.show();
+		} else {
+			$mailAuth.removeClass('is-invalid');
+			$mailAuth.addClass('is-valid');
+			$mailValid.show();
+			$mailInvalid.hide();
+			$('#mail-Check-Btn').attr('disabled',true);
+			$('#email').attr('readonly',true);
+			$emailDomain.attr('readonly',true);
+			$emailDomain.attr('onFocus', 'this.initialSelect = this.selectedIndex');
+			$emailDomain.attr('onChange', 'this.selectedIndex = this.initialSelect');
+
+		}
+
+	});
+
+	// 이메일에 도메인 합치기
+	$(document).ready(function() {
+		const $email = $("#email");
+		const $emailDomain = $("#emailDomain");
+
+		$emailDomain.on("change", function() {
+			const selectedDomain = $(this).val();
+			const currentValue = $email.val();
+
+			// 선택한 도메인이 없으면 무시
+			if (!selectedDomain) {
+				return;
+			}
+
+			// 첫 번째 옵션 선택 시, 입력값을 초기화
+			if (selectedDomain === "메일주소 선택") {
+				$email.val("");
+				return;
+			}
+
+			// 입력값이 없거나 이미 선택한 도메인이 포함되어 있다면 새로운 값으로 업데이트
+			if (!currentValue || currentValue.endsWith(selectedDomain)) {
+				$email.val("");
+				$email.val(selectedDomain);
+			} else {
+				// 입력값이 있고, 선택한 도메인이 포함되어 있지 않다면 도메인을 붙여서 업데이트
+				if(currentValue.includes("@")){
+					$email.val("");
+					$email.val(selectedDomain);
+				} else{
+					$email.val(currentValue + selectedDomain);
+				}
+
+			}
+		});
+	});
+
+
+
+
+</script>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

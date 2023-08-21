@@ -1,7 +1,5 @@
 package com.yangworld.app.domain.member.service;
 
-import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
@@ -12,19 +10,17 @@ public interface MemberService {
 
     int updateMember(UpdateDto updateDto, String username);
 
-//    PrincipalDetails loadUserByUsername(String username);
-
     int deleteMember(String username);
 
     int insertFollowee(FollowDto followDto);
 
     int deleteFollowee(FollowDto unfollow);
 
-    String findMemberByEmail(FindIdDto findIdDto);
-
 	Member findById(int writerId);
 
     Member findByNickname(String nickname);
 
     Member findByPhone(String phone);
+
+    Member findMemberByEmail(String email);
 }

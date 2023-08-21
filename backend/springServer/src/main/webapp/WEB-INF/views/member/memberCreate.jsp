@@ -127,8 +127,8 @@
 				</div>
 				<div class="divider"></div>
 				<div class="right-side">
-					<button type="button" class="btn btn-danger btn-simple agree-confirm">동의</button>
-					<button type="button" class="btn btn-danger btn-simple agree-close">닫기</button>
+					<button type="button" class="btn btn-primary btn-simple agree-confirm">동의</button>
+					<button type="button" class="btn btn-secondary btn-simple agree-close">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -145,7 +145,7 @@
 			<div class="modal-body" style="height: 500px; overflow: auto;">
 				적용 시작일: 2022년 6월 30일
 
-				쓰리고(이하 ‘회사’)의 개인정보처리방침은 아래의 내용을 담고 있습니다.
+				YANG COMPANY(이하 ‘회사’)의 개인정보처리방침은 아래의 내용을 담고 있습니다.
 
 				제1조 목적
 				제2조 수집하는 개인정보의 항목
@@ -317,27 +317,17 @@
 				</div>
 				<div class="divider"></div>
 				<div class="right-side">
-					<button type="button" class="btn btn-danger btn-simple agree-confirm">동의</button>
-					<button type="button" class="btn btn-danger btn-simple agree-close">닫기</button>
+					<button type="button" class="btn btn-primary btn-simple agree-confirm">동의</button>
+					<button type="button" class="btn btn-secondary btn-simple agree-close">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
 <%--모달끝--%>
 
 
-
-
-
-
-
-
-
-
+<%-- Login content --%>
 <div id="enroll-container" class="mx-auto text-center mt-5 mb-5">
 	<form:form name="memberCreateFrm" action="" method="POST">
 		<h1>Sign up</h1>
@@ -754,7 +744,7 @@
 	// 이메일 인증
 	$('#mail-Check-Btn').click(function() {
 		const email = $('#email').val();// 이메일 주소값 얻어오기!
-		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
+		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인DM
 		const checkInput = $('.mail-check-input') // 인증번호 입력하는곳
 
 		$.ajax({
@@ -942,6 +932,7 @@
 		closeButton.addEventListener("click", function(){
 			modal.classList.remove("show");
 		});
+
 	});
 
 	// 개인정보 이용및 수집
