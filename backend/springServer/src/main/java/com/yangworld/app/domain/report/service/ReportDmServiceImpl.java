@@ -42,17 +42,22 @@ public class ReportDmServiceImpl implements ReportService {
 	    }
 
 	@Override
-	public int insertReportGuestBook(Report report, int guestBookId) {
+	public int insertReportGuestBook(Report report, int reportGuestbook) {
 		int reportId = report.getId();
 		
 		ReportGuestBook reportGuestBook = ReportGuestBook.builder()
 											.id(reportId)
-											.guestBookId(guestBookId)
+											.guestBookId(reportGuestbook)
 											.build();
 		return reportRepository.insertReportGuestBook(reportGuestBook);
 	}
 
+	@Override
+	public int insertReport(Report report) {
+		return reportRepository.insertReport(report);
+	}
 
+	
 	@Override
 	public int insertReportProfile(Report report, int profileId) {
 		
