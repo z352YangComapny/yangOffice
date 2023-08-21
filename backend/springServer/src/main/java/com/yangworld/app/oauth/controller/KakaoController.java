@@ -34,7 +34,7 @@ public class KakaoController{
 	@Autowired
 	private MemberService memberService;
 
-	@GetMapping("/member/memberLogin.do")
+	@GetMapping("/login.do")
 	public RedirectView login() {
 		log.info("init={}");
 		return new RedirectView(kakaoService.getAuthorizeUri());
