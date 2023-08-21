@@ -60,6 +60,7 @@ public class ProfileController {
 	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
 	    
+	    log.info("principal = {} ", principal.getId());
 	    // 프로필 정보 가져오기
 	    ProfileDetails profile = profileService.getProfileByMemberId(memberId);
 	    
@@ -68,8 +69,10 @@ public class ProfileController {
 	   
 	    model.addAttribute("profile", profile);
 	    model.addAttribute("profileAttachments", profileAttachments);
-	    
+	    log.info("profile = {}", profile);
+	    log.info("profileAttachment = {}",profileAttachments);
 	    return "/profile/profileUpdate";
+	    
 	}
 
 	
@@ -129,7 +132,7 @@ public class ProfileController {
 			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
+			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model) 
 					throws IllegalStateException, IOException {
 		
 		List<Attachment> attachments = new ArrayList<>(); 
@@ -164,6 +167,8 @@ public class ProfileController {
 		log.debug("profile ={}", profile);
 		log.debug("result ={}", result);
 		
+		
+		model.addAttribute("profile", profile);
 		if (result > 0) {
 			
 			return ResponseEntity.ok().build();

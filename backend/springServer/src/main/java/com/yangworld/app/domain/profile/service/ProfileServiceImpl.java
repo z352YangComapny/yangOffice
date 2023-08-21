@@ -101,6 +101,7 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	@Override
     public List<Attachment> getAttachmentsByProfileId(int profileId) {
+		log.info("profileId = {}", profileId);
         return profileRepository.getAttachmentsByProfileId(profileId);
     }
 
