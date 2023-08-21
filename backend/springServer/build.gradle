@@ -58,6 +58,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework/spring-context-support
 	implementation group: 'org.springframework', name: 'spring-context-support', version: '5.3.24'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client
+	implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.7.10'
 
 
 
