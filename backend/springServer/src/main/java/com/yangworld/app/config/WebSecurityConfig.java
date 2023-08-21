@@ -1,54 +1,74 @@
-@Override
-	public List<PhotoAttachmentFeedDto> selectFeed(int writerId) {
-	    if (writerId < 0) {
-	        log.error("username is null");
-	        throw new NullPointerException("유저이름이 없습니다.");
-	    } else {
-	    	
-	    	// 인증된 회원 아이디를 갖고 피드 검색
-	        List<PhotoAttachmentFeedDto> photoFeedList = photoFeedRepository.selectFeed(writerId);
-	        
-	        log.info("List size: [{}]", photoFeedList.size());
-	        
-	        for (PhotoAttachmentFeedDto photoFeed : photoFeedList) {
-	        	// 검색 결과 id를 가지고 연결 테이블 검색
-	            List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());
-	            
-	            // list만들어주기
-	            List<Attachment> attachmentList = new ArrayList<>();
-	            
-	            
-	            // photoFeed에 attachmentPhotoDto 라는 List<AttachmentPhotoDto>에 1번째 검색결과 넣기
-	            photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
-	            
-//	            log.info("photo feed check: {}", photoFeed);
-	            
-	            for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
-	            	// 두번째 검색 결과를 받음
-	                int id = attachments.getAttachmentId();
-	                
-	                // 3번째 검색 = attachment 테이블에 2번째 검색결과들로 조회
-	                Attachment attachment = photoFeedRepository.selectAttachment(id);
-	                
-	                attachmentList.add(attachment);
-	            }
-	            
-	            // set
-	            photoFeed.setAttachments(attachmentList);
-	            
-	            // 좋아연
-	            int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
-	            
-	            
-	            // 댓글 수 조회
-	            int commentCount = photoFeedRepository.getCommentCount(photoFeed.getId());
-	            
-	            
-	            
-	            photoFeed.setLikeCount(likeCount);
-	            
-	        }
-	        
-	        return photoFeedList;
-	    }
-	}
+package com.yangworld.app.config;
+
+import com.yangworld.app.config.auth.PrincipalDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+
+@SuppressWarnings("deprecation")
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private PrincipalDetailsService principalService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    // 정적파일은 인증 통과
+    @Override
+    public void configure(WebSecurity web) throws Exception{
+        web.ignoring().mvcMatchers("/resources/**");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/", "/index.jsp").permitAll()
+                .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
+                        "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
+                        "/member/checkEmail.do").anonymous()
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/story/storyMain").permitAll()
+                .antMatchers("/stomp").permitAll()
+                .anyRequest().authenticated();
+                
+
+        http.formLogin()
+                .loginPage("/member/memberLogin.do")
+                .loginProcessingUrl("/member/memberLogin.do").permitAll()
+                .usernameParameter("username")
+                .passwordParameter("password")
+
+
+//                .defaultSuccessUrl("/member/memberHome.do")
+
+       //  a7ab4cff61f0fd4138e497aa2e0c9eb3a52f3036
+
+                .defaultSuccessUrl("/")
+                .permitAll();
+
+        http.logout()
+                .logoutUrl("/member/memberLogout.do")
+                .logoutSuccessUrl("/")
+                .permitAll();
+
+
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(principalService).passwordEncoder(passwordEncoder());
+
+    }
+}

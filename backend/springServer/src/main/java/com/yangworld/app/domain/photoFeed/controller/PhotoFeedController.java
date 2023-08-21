@@ -93,10 +93,10 @@ public class PhotoFeedController {
 
         FeedDetails response = FeedDetails.builder()
                 .id(photoFeedId)
-                .attachments(null)
+                .content(photoFeed.getContent())
                 .build();
         
-        
+        model.addAttribute("response", response);
         model.addAttribute("photoDetail", photoDetail);
 
 	}

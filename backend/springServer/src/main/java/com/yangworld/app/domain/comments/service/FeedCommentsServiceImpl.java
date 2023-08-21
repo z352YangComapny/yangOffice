@@ -51,7 +51,9 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
     @Override
     public List<Comments> getCommentsByPhotoFeedId(int photoFeedId) {
-        return commentsRepository.getCommentsByPhotoFeedId(photoFeedId);
+    	 List<Comments> comments = commentsRepository.getCommentsByPhotoFeedId(photoFeedId);
+    	 
+        return comments;
     }
 
 
@@ -62,7 +64,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
 		int writerId = principalDetails.getId();
 		String content = commentUpdateDto.getContent();
 		
-		// 얘는 포토피드 아이디랑 댓글 아이디가 필요함 그럴려면 포토피드 아이디를 받아야겠네뷰딴에서 던져주면 그걸받아서 끌고와서 조회 댓글아이디는 어떻게 조회하게 좋을까?
 		result = commentsRepository.updateComment(writerId, content);
 		
 		return result;

@@ -10,60 +10,77 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member.css" />
 
 <style>
-    /* 이미지 크기 및 정렬 조절 */
-    .carousel-inner .carousel-item img {
-        max-width: 100%; /* 이미지 최대 너비 */
-        height: auto;
-        display: block; /* 중앙 정렬을 위한 display 설정 */
-        margin: 0 auto; /* 가운데 정렬 */
+    /* 스타일링 기본 설정 */
+    body {
+        font-family: Arial, sans-serif;
     }
 
-    /* 버튼 위치 및 정렬 조절 */
-    .carousel-indicators {
-        bottom: -20px; /* 버튼 아래로 이동 */
+    /* 컨테이너 스타일 조절 */
+    .carousel-and-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .carousel-control-prev,
-    .carousel-control-next {
-        top: 50%; /* 상단 위치 */
-        transform: translateY(-50%); /* 수직 가운데 정렬 */
-        width: auto; /* 기본 너비 */
-        font-size: 20px; /* 버튼 크기 */
-        background-color: transparent; /* 배경색 투명 */
-        border: none; /* 테두리 없음 */
+
+    /* 이미지 크기 및 정렬 조절 */
+    .carousel-inner .carousel-item img {
+        width: 500px; /* 이미지 최대 너비 */
+        height: 500px;
     }
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        color: #000; /* 버튼 색상 */
+
+    /* 사진 박스 스타일 조절 */
+    .carousel-box {
+        flex: 1;
+        margin-right: 20px;
     }
-    .carousel-control-prev {
-        left: 10px; /* 왼쪽 버튼 위치 */
-    }
-    .carousel-control-next {
-        right: 10px; /* 오른쪽 버튼 위치 */
+
+    /* 오른쪽 컨텐츠 스타일 조절 */
+    .content-box {
+        flex: 1;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
     }
 </style>
 
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <c:forEach items="${photoDetail}" var="photo" varStatus="status">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" class="${status.first ? 'active' : ''}" aria-current="${status.first ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
-        </c:forEach>
-    </div>
-    <div class="carousel-inner">
-        <c:forEach items="${photoDetail}" var="photo" varStatus="status">
-            <div class="carousel-item ${status.first ? 'active' : ''}">
-                <img src="${pageContext.request.contextPath}/resources/upload/attachment/feed/${photo.attachments[0].renamedFilename}" class="d-block" alt="Image ${status.index + 1}">
+<div class="carousel-and-content">
+    <div class="carousel-box">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <c:forEach items="${photoDetail}" var="photo" varStatus="status">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" class="${status.first ? 'active' : ''}" aria-current="${status.first ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
+                </c:forEach>
             </div>
-        </c:forEach>
+            <div class="carousel-inner">
+                <c:forEach items="${photoDetail}" var="photo" varStatus="status">
+                    <div class="carousel-item ${status.first ? 'active' : ''}">
+                        <img src="${pageContext.request.contextPath}/resources/upload/attachment/feed/${photo.attachments[0].renamedFilename}" class="d-block" alt="Image ${status.index + 1}">
+                    </div>
+                </c:forEach>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </a>
+    <div class="content-box">
+        <div>${response.content}</div>
+    </div>
 </div>
+   <div class="comment-form">
+            <h4>댓글 작성</h4>
+            <form:form action="${pageContext.request.contextPath}/commentCreate" method="post">
+                <div class="mb-3">
+                    <label for="comment" class="form-label">댓글 내용</label>
+                    <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">댓글 작성</button>
+            </form:form>
+        </div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

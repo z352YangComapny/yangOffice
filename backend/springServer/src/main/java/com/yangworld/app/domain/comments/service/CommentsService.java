@@ -26,4 +26,5 @@ public interface CommentsService {
 	int deleteComment(PrincipalDetails principalDetails,  CommentCreateDto commentDeleteDto);
 
 	List<Comments> getCommentsByPhotoFeedId(int photoFeedId);
+
 }

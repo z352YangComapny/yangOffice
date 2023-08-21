@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,15 +35,12 @@ public class commentsController {
 	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
 	
-	@GetMapping("/getComments")
-	public ResponseEntity<?> getComments(@RequestParam int photoFeedId) {
-	    List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
-	    
-	    if (comments != null && !comments.isEmpty()) {
-	        return ResponseEntity.ok(comments);
-	    } else {
-	        return ResponseEntity.ok("no");
-	    }
+	@GetMapping("/feed/feedDetail")
+	public void getComments(@RequestParam int photoFeedId, Model model) {
+		
+    List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
+    
+    model.addAttribute("comments", comments);
 	}
 
 	
@@ -50,7 +48,7 @@ public class commentsController {
 	
 	// 댓글 작성
 	@PostMapping("/commentCreate")
-	public ResponseEntity<?> commentCreate(
+	public String commentCreate(
 	        @AuthenticationPrincipal PrincipalDetails principalDetails,
 	        @RequestBody @Valid CommentCreateDto commentCreateDto,
 	        BindingResult bindingResult) {
@@ -58,13 +56,9 @@ public class commentsController {
 		log.info("principalDetails = {}", principalDetails.getId());
 		
 		
-	    int result = commentService.insertComment(principalDetails, commentCreateDto);
-
-	    if (result > 0) {
-	        return ResponseEntity.ok("Comment inserted successfully.");
-	    } else {
-	        return ResponseEntity.badRequest().body("Failed to insert comment.");
-	    }
+		int result = commentService.insertComment(principalDetails, commentCreateDto);
+		
+		return "redirect:/";
 	}
 	
 	
