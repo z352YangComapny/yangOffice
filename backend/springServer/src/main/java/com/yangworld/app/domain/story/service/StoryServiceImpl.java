@@ -23,11 +23,11 @@ public class StoryServiceImpl implements StoryService{
 	}
 	
 	@Override
-	public int updateStory(StoryDto storyDto) {
+	public int updateStory(StoryMainDto storyDto) {
 		return storyRepository.updateStory(storyDto);
 	}
 	@Override
-	public int deleteStory(StoryDto storyDto) {
+	public int deleteStory(StoryMainDto storyDto) {
 		return storyRepository.deleteStory(storyDto);
 	}
 	
@@ -36,7 +36,7 @@ public class StoryServiceImpl implements StoryService{
 		return storyRepository.findStoryById(id);
 	}
 	@Override
-	public String findMemberUsername(String writerId) {
+	public String findMemberUsername(int writerId) {
 		return storyRepository.findMemberUsername(writerId);
 	}
 	

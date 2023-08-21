@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class StoryDto {
-	private int id;
-	private String writerId;
+	private int writerId;
 	private String content;
-
 }

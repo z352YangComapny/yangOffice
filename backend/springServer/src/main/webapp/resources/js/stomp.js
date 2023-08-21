@@ -55,10 +55,10 @@ const renderStory = (payloads) => {
     
 };
 
-const updateModal = (element) => {
-	const writerId = element.querySelector('.writerId').textContent;
-	const content = element.querySelector('.content').textContent;
-	const createdAt = element.querySelector('.createdAt').textContent;
+const updateModal = (e) => {
+	const writerId = e.querySelector('.writerId').textContent;
+	const content = e.querySelector('.content').textContent;
+	const createdAt = e.querySelector('.createdAt').textContent;
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;

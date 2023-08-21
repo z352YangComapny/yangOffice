@@ -34,6 +34,7 @@ public class StoryController {
 	@GetMapping("/storyTap")
 	public void storyTap(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		List<StoryMainDto> stories = storyService.findStoryByIdOnly(principal.getId());
+		log.info("stories = {}", stories);
 		model.addAttribute("stories", stories);
 	}
 	
@@ -41,20 +42,22 @@ public class StoryController {
 	public void storyMain() {}
 
 	@PostMapping("/create")
-	public void create(@RequestBody StoryDto storyDto){
+	public String create(StoryDto storyDto){
+		log.info("storyDto = {}", storyDto);
 		int result = storyService.createStory(storyDto);
-		
+		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<?> update(@RequestBody StoryDto storyDto){
+	public String update(StoryMainDto storyDto){
+		log.info("storyDto = {}", storyDto);
 		int result = storyService.updateStory(storyDto);
-		return ResponseEntity.ok().build();
+		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/delete")
-	public ResponseEntity<?> delete(@RequestBody StoryDto storyDto){
+	public String delete(StoryMainDto storyDto){
 		int result = storyService.deleteStory(storyDto);
-		return ResponseEntity.ok().build();
+		return "redirect:/story/storyTap";
 	}
 }
