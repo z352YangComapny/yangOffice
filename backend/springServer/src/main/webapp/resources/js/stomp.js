@@ -1,28 +1,55 @@
-console.log('Hello stomp.js');
-
-const ws = new SockJS(`http://${location.host}/???`); // endpoint, 달라질 거임
-const stompClient = Stomp.over(ws); // SockJS 웹소켓 연결 객체를 Stomp 클라이언트 객체로 변환, Stomp 프로토콜을 사용하여 메시지 브로커와 통신 가능 
-
-// 연결이 되면 해당 핸들러 함수가 실행된다.
-stompClient.connect({}, (frame) =>{
+const connect = () => {
+	const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
+	const stompClient = Stomp.over(ws);
 	
-	console.log('open : ', frame);
+    // 구독신청 
+    stompClient.connect({}, () => {
+        console.log('WebSocket 연결 성공');
+        stompClient.subscribe('/storyMain', (payloads) => {
+            console.log('구독됨');
+            console.log('/story : ', payloads);
+
+            renderStory(payloads);
+        });
+		const userId = document.getElementById('userId').value;
+		console.log('userId = ', userId);
+        stompClient.send("/app/send", {}, JSON.stringify({ userId : userId }));
+    });
+};
+
+const renderStory = (payloads) => {
+	console.log('renderStory 호출 성공');
+	console.log('payloads = ', payloads);
+	const stories = JSON.parse(payloads.body);
+
+	const view = document.querySelector('#storyMainUpdate');
 	
-	stompClient.subscribe('/chatAll/all', (message)=>{
-		console.log('/chatAll/all : ', message);
-		renderMessage(message);
+	stories.forEach((story) => {
+		const html = `
+		<div class="card m-3">
+		  <ul class="list-group list-group-flush">
+		    <li class="list-group-item writerId">${story.from}</li>
+		    <li class="list-group-item content">${story.content}</li>
+		    <li class="list-group-item createdAt">${story.createdAt}</li>
+		  </ul>
+		</div>
+		`;
+		view.innerHTML += html;
 	});
+	
+	const storyElements = document.querySelectorAll('.card');
+    storyElements.forEach((storyElement) => {
+        storyElement.addEventListener('click', () => {
+            const writerId = storyElement.querySelector('.writerId').textContent;
+            const content = storyElement.querySelector('.content').textContent;
+            const createdAt = storyElement.querySelector('.createdAt').textContent;
 
-});
+            document.querySelector('.storyModalWriterId').textContent = writerId;
+            document.querySelector('.storyModalContent').textContent = content;
+            document.querySelector('.storyModalCreatedAt').textContent = createdAt;
 
-const renderMessage = (message) =>{
-	const {type, from, content, createdAt} = JSON.parse(message.body); // 받아온 JSON 객체를 변환 후 구조분해할당!
-	
-	//jquery 변수를 $표시로 시작
-	const $noticeModal = $("#noticeModal");
-	$noticeModal.find(".modal-body").html(content); 
-	$noticeModal.find(".modal-footer .from").html(from); // 수정 예정
-	$noticeModal.modal(); // 모달 시각화, 모달을 호출한다.
-	
-	
-}
+			$('#storyModal').modal('handleUpdate');
+            $('#storyModal').modal('show');
+        });
+    });
+};

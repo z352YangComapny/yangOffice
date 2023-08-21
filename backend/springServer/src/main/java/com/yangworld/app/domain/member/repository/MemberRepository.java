@@ -20,7 +20,8 @@ public interface MemberRepository {
             resultType = int.class,
             statement = "select seq_member_id.currval from dual")
     int insertMember(SignUpDto signUpDto);
-    int insertAuthorities(@Param("id")int id, @Param("authorityList")List<String> authorityList);
+
+    int insertAuthorities(@Param("id") int id, @Param("authorityList") List<String> authorityList);
 
     PrincipalDetails loadUserByUsername(String username);
 
@@ -46,6 +47,11 @@ public interface MemberRepository {
     
     @Select("select * from member where id = #{writer}")
 	Member findById(int writer);
-    
+
+    @Select("select * from member where nickname = #{nickname}")
+    Member findByNickname(String nickname);
+
+    @Select("select *from member where phone = #{phone}")
+    Member findByPhone(String phone);
 }
 
