@@ -36,8 +36,7 @@ public class KakaoServiceImpl implements KakaoService {
 		String result = AUTHORIZE_URI
 				+"?redirect_uri="+REDIRECT_URI
 				+"&response_type=code"
-				+"&client_id="+REST_API_KEY
-				+"&scope="+SCOPE;
+				+"&client_id="+REST_API_KEY;
 		log.info("result={}",result);
 		return result;
 	}
