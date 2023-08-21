@@ -113,7 +113,7 @@ $(document).ready(function() {
 
 function loadDmDetails() {
 	    const dmRoomId = <%= dmRoomId %>;
-	    const url = '\${pageContext.request.contextPath}/dm/dmDetailList?dmRoomId=' + dmRoomId;
+	    const url = '${pageContext.request.contextPath}/dm/dmDetailList?dmRoomId=' + dmRoomId;
 
 	    $.ajax({
 	        url: url,
@@ -129,7 +129,7 @@ function loadDmDetails() {
 	            dmDetailsContainer.innerHTML = '';
 
 	            // Loop through the data and generate HTML
-				ata.forEach(dm => {
+				data.forEach(dm => {
 					const dmDiv = document.createElement('div');
 
 					if (dm.receiverId !== id) {

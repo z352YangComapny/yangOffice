@@ -519,5 +519,86 @@ insert into attachment_profile (attachment_id, profile_id) values (9, 9);
 insert into attachment_profile (attachment_id, profile_id) values (10, 10);
 insert into attachment_profile (attachment_id, profile_id) values (11, 11);
 
+-- 첫 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 2, 1, '안녕하세요!', 1, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 두 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 3, 2, '안녕하세요~', 2, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 세 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 4, 3, '반가워요!', 3, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 네 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 5, 4, '만나서 기뻐요!', 4, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 다섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 6, 5, '안녕하세요! 어떻게 지내세요?', 5, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 여섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 7, 6, '안녕하세요~ 잘 지내고 있어요!', 6, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 일곱 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 8, 7, '오늘 날씨가 좋네요!', 7, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 여덟 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 9, 8, '맞아요, 기분 좋아지네요!', 8, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 아홉 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 10, 9, '어디 가기 좋을까요?', 9, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 11, 10, '저는 공원이 좋아요!', 10, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열한 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 3, 1, '안녕하세요! 오랜만이네요~', 11, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열두 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 4, 2, '네, 오랜만이네요~', 12, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열세 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 5, 3, '어디 좋은 카페 아시나요?', 13, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열네 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 6, 4, '옆에 있는 커피숍이 좋아요!', 14, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열다섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 7, 5, '좋아요, 한번 가보겠습니다!', 15, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열여섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 8, 6, '기다리겠습니다~', 16, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열일곱 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 9, 7, '저녁에 뭐 드실까요?', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열여덟 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 10, 8, '피자 어때요?', 18, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열아홉 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 11, 9, '저도 좋아요!', 19, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 스무 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 11, 1, '안녕하세요! 만나서 반가워요~', 20, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+
 
 commit;
