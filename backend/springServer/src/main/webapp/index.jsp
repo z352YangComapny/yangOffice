@@ -33,7 +33,11 @@
     <div class="d-flex flex-row">
         <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
         <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
-            <div id ="dm"  class="flex-grow-1" style="height : 10vh; margin : 0;"></div>
+            <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
+            	 <a href="${pageContext.request.contextPath}/dm/dmList">
+			        <img src="${pageContext.request.contextPath}/resources/images/dm_logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>
+			    </a>
+            </div>
             <div id="story"  class="flex-grow-1" style="height : 20vh; margin : 0;"></div>
             <div id="photoFeed" class="flex-grow-1" style="border: 1px solid #000; height: 40vh; margin : 0;">
                 <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
