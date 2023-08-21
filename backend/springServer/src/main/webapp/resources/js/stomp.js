@@ -13,7 +13,9 @@ const connect = () => {
         });
 		const userId = document.getElementById('userId').value;
 		console.log('userId = ', userId);
-        stompClient.send("/app/send", {}, JSON.stringify({ userId : userId }));
+        const sendInterval = setInterval(() => {
+            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
+        }, 1000);
     });
 };
 
@@ -23,6 +25,7 @@ const renderStory = (payloads) => {
 	const stories = JSON.parse(payloads.body);
 
 	const view = document.querySelector('#storyMainUpdate');
+	view.innerHTML = '';
 	
 	stories.forEach((story) => {
 		const html = `

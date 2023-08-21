@@ -210,8 +210,6 @@ create table story
 );
 create sequence seq_story_id;
 
-insert into story(id, writer_id, content) values(seq_story_id.nextval, 14, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
 create table report_story
 (
     report_id   number,
@@ -348,7 +346,8 @@ commit;
     select* from member;
 select * from photo_feed;
 
-
+select * from report;
+select * from report_guestbook;
 
 SELECT seq_comments_id.nextval FROM dual;
 
@@ -384,5 +383,3 @@ WHERE
 
 
 commit;
-
-
