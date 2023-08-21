@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Slf4j
-public class PrincipalDetails extends Member implements UserDetails {
+public class PrincipalDetails extends Member implements UserDetails{
 
     @Override
     public List<SimpleGrantedAuthority> getAuthorities() {
