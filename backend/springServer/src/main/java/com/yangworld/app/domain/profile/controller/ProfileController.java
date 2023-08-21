@@ -69,10 +69,30 @@ public class ProfileController {
 	   
 	    model.addAttribute("profile", profile);
 	    model.addAttribute("profileAttachments", profileAttachments);
+	    model.addAttribute("principalBday", principal.getBirthday());
+	    model.addAttribute("principalName", principal.getName());
 	    log.info("profile = {}", profile);
 	    log.info("profileAttachment = {}",profileAttachments);
+	    
 	    return "/profile/profileUpdate";
 	    
+	}
+	@GetMapping("/main.do")
+	public String mainFrm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+		int memberId = principal.getId();
+		log.info("principal = {} ", principal.getId());
+		ProfileDetails profile = profileService.getProfileByMemberId(memberId);
+	    
+	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+	   
+	    model.addAttribute("profile", profile);
+	    model.addAttribute("profileAttachments", profileAttachments);
+	    model.addAttribute("principalBday", principal.getBirthday());
+	    model.addAttribute("principalName", principal.getName());
+	    log.info("profile = {}", profile);
+	    log.info("profileAttachment = {}",profileAttachments);
+	    
+		return "/proflie/profileMain";
 	}
 
 	
