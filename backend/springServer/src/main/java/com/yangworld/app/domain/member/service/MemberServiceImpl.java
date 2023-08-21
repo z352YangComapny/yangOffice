@@ -77,5 +77,15 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findByPhone(phone);
     }
 
+	@Override
+	public PrincipalDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		PrincipalDetails member = memberRepository.loadUserByUsername(username);
+		log.debug("member={}",member);
+		if(member == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		return member;
+	}
+
 
 }

@@ -83,7 +83,7 @@
 		&nbsp;
 		<a href=""><img src="${pageContext.request.contextPath}/resources/images/google.png"></a>
 		&nbsp;
-		<a href=""><img src="${pageContext.request.contextPath}/resources/images/instagrampng.png"></a>
+		<a href="${pageContext.request.contextPath}/oauth/kakao/member/memberLogin.do"><img src="${pageContext.request.contextPath}/resources/images/instagrampng.png">123</a>
 		&nbsp;
 		<a href=""><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
 		&nbsp;
