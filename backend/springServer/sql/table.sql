@@ -60,9 +60,11 @@ create table profile
     state        char(1) not null,
     introduction varchar2(300),
     constraints  p_profile_id primary key( id),
+    constraints  u_profile_member_id unique (member_id);
     constraints  f_profile_member_id foreign key (member_id) references member (id) on delete cascade,
     constraints  c_profile_state check (state in ('A', 'B', 'C', 'D', 'E'))
 );
+
 create sequence seq_profile_id;
 
 create table report_profile
@@ -228,6 +230,7 @@ create table guestbook
     constraints f_gue_writer_id foreign key (writer_id) references member (id) on delete cascade,
     constraints f_gue_member_id foreign key (member_id) references member (id) on delete cascade
 );
+
 create sequence seq_guestbook_id;
 
 create table report_guestbook
@@ -331,11 +334,52 @@ END;
 -- END;
 -- /
 
-
+select * from guestbook;
 select * from photo_feed;
 select * from photo_feed where writer_id = 1;
 select* from member;
 select * from attachment;
 
-commit;
+-- delete from attachment_photo_feed;
 
+commit;
+    select* from member;
+select * from photo_feed;
+
+select * from report;
+select * from report_guestbook;
+
+SELECT seq_comments_id.nextval FROM dual;
+
+select * from comments;
+
+DELETE FROM comment_feed
+WHERE comment_id = :commentId AND photo_feed_id = :photoFeedId;
+
+
+
+select * from attachment;
+select * from attachment_photo_feed;
+select * from comments_feed;
+select * from comments;
+select * from photo_feed;
+
+
+
+select * from member ;
+
+select * from dm_room;
+
+    
+SELECT
+    dm.sender_id,
+    (SELECT username FROM member WHERE id = dm.sender_id) AS sender_username,
+    dm.receiver_id,
+    (SELECT username FROM member WHERE id = dm.receiver_id) AS receiver_username
+FROM
+    dm
+WHERE
+    dm.id = 4;
+
+
+commit;

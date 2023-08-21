@@ -1,23 +1,25 @@
 package com.yangworld.app.domain.guestbook.controller;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import com.yangworld.app.domain.guestbook.service.GuestBookService;
@@ -33,57 +35,75 @@ public class GuestbookController {
 	@Autowired
 	private GuestBookService guestBookService;
 	
-	@PostMapping("/create")
-	public ResponseEntity<?> guestBookCreate(
-			@Valid @RequestBody GuestBookCreateDto _guestBook,
+	@PostMapping("/create.do")
+	public String guestBookCreate(
+			@Valid GuestBookCreateDto guestBook,
 			BindingResult bindingResult,
-			@AuthenticationPrincipal Member member
+			@AuthenticationPrincipal PrincipalDetails member
 			) {
+//		if (member == null) {
+//	        return "redirect:/member/memberLogin.do";
+//	    }
 		
-		GuestBook guestBook = _guestBook.guestBook();
+		log.info("memberid={}",member.getId());
+		//GuestBook guestBook = _guestBook.guestBook();
 	
-		log.info("_guestBook={}",_guestBook);
-		guestBook.setWriterId(member.getId());
 		log.info("guestBook={}",guestBook);
+		guestBook.setWriterId(member.getId());
+		
+		log.info("guestbook={}", guestBook.getWriterId());
+		
 		int result = guestBookService.insertGuestBook(guestBook);
-		return ResponseEntity.ok(null);
+		return "redirect:/guestbook/guestbook.do";
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/delete.do")
 	public ResponseEntity<?> guestBookDelete(
-			@RequestBody Map<String, Integer> requestBody,
-			@AuthenticationPrincipal Member member
+			@RequestParam int deleteGuestbook,
+			@AuthenticationPrincipal Member member,
+			@Valid  GuestBookDeleteDto delete
 			) {
-		int id = requestBody.get("id");
+		int id = member.getId();
 		GuestBook guestBook = GuestBook.builder()
 							.id(id)
 							.writerId(member.getId())
 							.build();
 		log.info("guestBook={}",guestBook);
-		int result = guestBookService.deleteGuestBook(guestBook);
-		
-		return ResponseEntity.ok(null);
+		delete.setId(deleteGuestbook);
+		delete.setWriterId(id);
+		log.info("delete={}",delete);
+		int result = guestBookService.deleteGuestBook(delete);
+		log.info("result={}",result);
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/update.do")
 	public ResponseEntity<?> guestBookUpdate(
-			@Valid @RequestBody GuestBookUpdateDto _guestBook,
+			GuestBookUpdateDto updateDto,
+			@RequestParam int updateGuestbook,
+			@RequestParam String content,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal Member member
 			){
 		
-		GuestBook guestBook = _guestBook.guestBook();
+		GuestBook guestBook = updateDto.guestBook();
 		log.info("guestBook={}",guestBook);
 		guestBook.setWriterId(member.getId());
-		int result = guestBookService.updateGuestBook(guestBook);
 		
-		return ResponseEntity.ok(null);
+		updateDto.setId(updateGuestbook);
+		updateDto.setContent(content);
+		log.info("_guestBook={}",updateDto);
+		int result = guestBookService.updateGuestBook(updateDto);
+		
+		log.info("result={}",result);
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
-	@GetMapping("/list")
-	public ResponseEntity<?> guestBookList(
+	@GetMapping("/guestbook")
+	public void guestBookList(
 			@RequestParam(defaultValue = "1") int page,
-			@AuthenticationPrincipal Member member
+			@AuthenticationPrincipal Member member,
+			Model model
 			){
 		int limit = 5;
 		Map<String, Object> params = Map.of(
@@ -92,6 +112,6 @@ public class GuestbookController {
 			);
 		log.info("member ={} ",member);
 		List<GuestBook> guestBooks = guestBookService.findAll(params);
-		return ResponseEntity.ok(guestBooks);
+		model.addAttribute("guestBooks",guestBooks);
 	}
 }

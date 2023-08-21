@@ -36,6 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
 //	}
 	
 	@Override
+	@Transactional
 	public int insertProfile(ProfileDetails profile) {
 		int result = 0;
 		
@@ -46,23 +47,30 @@ public class ProfileServiceImpl implements ProfileService {
 			for(Attachment attach : attachments) {
 				attach.setId(profile.getId());
 				result = profileRepository.insertAttachment(attach);
+				log.info("profileId={}", profile.getId());
+	            log.info("attach = {}", attach);
 				
 				// attachment_profile 테이블에 관련 정보 추가
-				AttachmentProfile attachmentProfile = new AttachmentProfile();
-				attachmentProfile.setAttachmentId(attach.getId());
-				attachmentProfile.setProfileId(profile.getId());
-				result = profileRepository.insertAttachmentProfile(attachmentProfile);
+				//AttachmentProfile attachmentProfile = new AttachmentProfile();
+	           int attachId = attach.getId();
+	           int profileId = profile.getId();
+	           log.info("attachId222 ={}", attachId);
+	           log.info("prfile222={}", profileId);
+				//attachmentProfile.setAttachmentId(attach.getId());
+				//attachmentProfile.setProfileId(profile.getId())
+				result = profileRepository.insertAttachmentProfile(attachId, profileId);
 			}
 		}
 		return result;
 	}
 	
 	@Override
+	@Transactional
 	public int updateProfile(ProfileDetails profile) {
 	    int result = 0;
 
-	    // 프로파일 업데이트
 	    result = profileRepository.updateProfile(profile);
+	    log.info("profileId={}", profile.getId());
 
 	    List<Attachment> attachments = ((ProfileDetails) profile).getAttachments();
 	    if (attachments != null && !attachments.isEmpty()) {
@@ -71,23 +79,31 @@ public class ProfileServiceImpl implements ProfileService {
 	            result = profileRepository.updateAttachment(attach);
 	            log.info("profileId={}", profile.getId());
 	            log.info("attach = {}", attach);
-	            // 첨부파일 프로파일 업데이트
+	            
 	            AttachmentProfile attachmentProfile = new AttachmentProfile();
 	            attachmentProfile.setAttachmentId(attach.getId());
 	            attachmentProfile.setProfileId(profile.getId());
 	            result = profileRepository.updateAttachmentProfile(attachmentProfile);
+	            log.info("attachmentProfile = {}",attachmentProfile);
 	        }
 	    }
 	    return result;
 	}
 	
-	
-	
+	@Override
+    public ProfileDetails getProfileByMemberId(int id) {
+        return profileRepository.getProfileByMemberId(id);
+    }
 	@Override
 	public int resetProfile(int memberId) {
 		return profileRepository.resetProfile(memberId);
 		
 	}
+	@Override
+    public List<Attachment> getAttachmentsByProfileId(int profileId) {
+		log.info("profileId = {}", profileId);
+        return profileRepository.getAttachmentsByProfileId(profileId);
+    }
 
 //	@Override
 //	public int resetProfile(ProfileDto profile) {

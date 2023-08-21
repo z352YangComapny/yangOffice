@@ -1,7 +1,11 @@
 package com.yangworld.app.domain.profile.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
@@ -46,11 +50,20 @@ public interface ProfileRepository {
 	int insertProfile(ProfileDetails profile);
 
 	@Insert("insert into attachment (id, original_filename, renamed_filename) values (seq_attachment_id.nextval, #{originalFilename}, #{renamedFilename})")
+	@SelectKey(
+            statement = "select seq_attachment_id.currval FROM dual",
+            keyColumn = "id",
+            keyProperty = "id",
+            before = false,
+            resultType = int.class
+    )
 	int insertAttachment(Attachment attach);
 	
-	@Insert("insert into attachment_profile (attachment_id, profile_id) " +
-            "values (#{attachmentId}, #{profileId})")
-    int insertAttachmentProfile(AttachmentProfile attachmentProfile);
+	@Insert("insert into attachment_profile values(#{attachId}, #{profileId})")
+	int insertAttachmentProfile( @Param("attachId") int attachId, @Param("profileId")int profileId);
+//	@Insert("insert into attachment_profile (attachment_id, profile_id) "
+//            "values (#{attachmentId}, #{profileId})")
+//    int insertAttachmentProfile(AttachmentProfile attachmentProfile);
 // ------------------------- insert ----------------------------------------------------------
 
 	
@@ -63,6 +76,19 @@ public interface ProfileRepository {
 
 	@Update("update attachment_profile set attachment_id = #{attachmentId}, profile_id = #{profileId} where attachment_id = #{attachmentId} and profile_id = #{profileId}")
 	int updateAttachmentProfile(AttachmentProfile attachmentProfile);
+
+
+
+
+	@Select("select * from profile where member_id = #{memberId}")
+    ProfileDetails getProfileByMemberId(int memberId);
+
+
+	@Select("SELECT * FROM attachment WHERE id IN (SELECT attachment_id FROM attachment_profile WHERE profile_id = #{profileId})")
+    List<Attachment> getAttachmentsByProfileId(@Param("profileId") int profileId);
+
+
+
 	
 	
 	

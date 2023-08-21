@@ -12,9 +12,6 @@ import java.sql.Date;
 @Builder
 public class UpdateDto {
 
-
-    @NotBlank(message="비밀번호")
-    private String password;
     @NotBlank(message="별명")
     private String nickname;
     @NotBlank(message="연락처")
@@ -23,6 +20,6 @@ public class UpdateDto {
     private String email;
     @NotBlank(message ="생일")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String birthday;
+    private Date birthday;
 
 }

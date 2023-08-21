@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.member.service;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
@@ -24,6 +25,7 @@ public class MemberServiceImpl implements MemberService{
     @Autowired
     private MemberRepository memberRepository;
 
+
     @Override
     public int insertMember(SignUpDto signUpDto) {
         List<String> authorityList = new ArrayList<>();
@@ -38,14 +40,6 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int updateMember(UpdateDto updateDto, String username) {
         return memberRepository.updateMember(updateDto, username);
-    }
-
-    @Override
-    public PrincipalDetails loadUserByUsername(String username) {
-        PrincipalDetails principalDetails = new PrincipalDetails();
-        if(principalDetails == null)
-            throw new UsernameNotFoundException(username);
-        return principalDetails;
     }
 
     @Override
@@ -67,6 +61,31 @@ public class MemberServiceImpl implements MemberService{
     public String findMemberByEmail(FindIdDto findIdDto) {
         return memberRepository.findMemberByEmail(findIdDto);
     }
+
+	@Override
+	public Member findById(int writerId) {
+		return memberRepository.findById(writerId);
+	}
+
+    @Override
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
+    }
+
+    @Override
+    public Member findByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
+    }
+
+	@Override
+	public PrincipalDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		PrincipalDetails member = memberRepository.loadUserByUsername(username);
+		log.debug("member={}",member);
+		if(member == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		return member;
+	}
 
 
 }

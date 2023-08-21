@@ -1,31 +1,36 @@
 package com.yangworld.app.domain.member.controller;
 
 
+import com.yangworld.app.commons.MailSender;
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
-import com.yangworld.app.domain.member.dto.FollowDto;
-import com.yangworld.app.domain.member.dto.SignUpDto;
-import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
+import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import redis.clients.jedis.Response;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Collection;
 import java.util.Map;
 
 @Validated
@@ -35,35 +40,54 @@ import java.util.Map;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private PrincipalDetailsService principalDetailsService;
+
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MailSender mailSender;
     
     @GetMapping("/memberLogin.do")
 	public void memberLogin() {}
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignUpDto signUpDto){
+    @GetMapping("/memberCreate.do")
+    public void memberCreate(){}
+
+    @PostMapping("/memberCreate.do")
+    public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr){
         log.info("signUp info = {}",signUpDto);
+
+        if(bindingResult.hasErrors()){
+            ObjectError error = bindingResult.getAllErrors().get(0);
+            redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
+            return "redirect:/member/memberCreate.do";
+        }
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
-        return ResponseEntity.ok().build();
+        redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
+        return "redirect:/";
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<?> update(@AuthenticationPrincipal PrincipalDetails principal,
+    @PostMapping("/memberUpdate.do")
+    public ResponseEntity<?> memberUpdate(@AuthenticationPrincipal PrincipalDetails principal,
                                     @RequestBody UpdateDto updateDto){
 
-        log.info("modify dto = {}", updateDto);
-        if(passwordEncoder.encode(updateDto.getPassword()).equals(principal.getPassword())){
-            updateDto.setPassword(principal.getPassword());
-        } else{
-            updateDto.setPassword(passwordEncoder.encode(updateDto.getPassword()));
-        }
+//        log.info("modify dto = {}", updateDto);
+//        if(passwordEncoder.encode(updateDto.getPassword()).equals(principal.getPassword())){
+//            updateDto.setPassword(principal.getPassword());
+//        } else{
+//            updateDto.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+//        }
+        log.info("updateDto={}", updateDto);
         // 로그인한 회원의 정보 업데이트
         memberService.updateMember(updateDto, principal.getUsername());
 
         // 업데이트 한 회원의 새 정보를 authentication에 새롭게 담아주기
-        PrincipalDetails principalDetails = memberService.loadUserByUsername(principal.getUsername());
+        PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(principal.getUsername());
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
                                         principalDetails,
                                         principalDetails.getPassword(),
@@ -71,9 +95,59 @@ public class MemberController {
                                         );
         log.info("newAuthentication = {}", newAuthentication);
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-        return ResponseEntity.ok().build();
+
+        Member member = (PrincipalDetails)newAuthentication.getPrincipal();
+
+        return ResponseEntity.ok().body(Map.of("msg", "회원정보가 수정되었습니다.", "member", member));
+    }
+
+
+    @GetMapping("/checkIdDuplicate.do")
+    public ResponseEntity<?> checkIdDuplicate(@RequestParam String username){
+        boolean available = false;
+        try {
+            UserDetails principal = principalDetailsService.loadUserByUsername(username);
+
+        } catch(UsernameNotFoundException e){
+            available = true; // 찾았는데 없으면 오류가 발생하고, 해당 Id는 사용이 가능해짐
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available, "chkusername", username));
 
     }
+
+    @GetMapping("/checkNicknameDuplicate.do")
+    public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname){
+        boolean available = false;
+        Member member = memberService.findByNickname(nickname);
+        if(member == null){
+            available = true;
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available));
+    }
+
+    /**
+     *  휴대전화 중복검사
+     * @param phone
+     * @return
+     */
+    @GetMapping("/checkPhoneDuplicate.do")
+    public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone){
+        boolean  available = false;
+        Member member = memberService.findByPhone(phone);
+        if(member == null){
+            available = true;
+        }
+        return ResponseEntity.ok().body(Map.of("available", available));
+    }
+
+    @GetMapping("/checkEmail.do")
+    public ResponseEntity<?> checkEmail(@RequestParam String email){
+        log.info("email={}", email);
+        log.info("auth={}", mailSender.joinEmail(email));
+        return ResponseEntity.ok().body(Map.of("emailAuth", mailSender.joinEmail(email)));
+    }
+    
+    
 
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@AuthenticationPrincipal PrincipalDetails principal){
@@ -122,6 +196,18 @@ public class MemberController {
     public ResponseEntity<List<Member>> findAll(){
 //        List<Member> memberList = memberService.findMember();
         return null;
+    }
+
+    @GetMapping("/memberHome.do")
+    public String memberHome(){ return "redirect:/member/memberHome.do";}
+
+    @GetMapping("/memberDetail.do")
+    public void memberDetail(@AuthenticationPrincipal PrincipalDetails principal, Authentication authentication){
+
+        principal = (PrincipalDetails)authentication.getPrincipal();
+        Object credentials = authentication.getCredentials();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
     }
 
  }

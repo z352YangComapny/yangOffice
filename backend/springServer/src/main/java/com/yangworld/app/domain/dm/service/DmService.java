@@ -1,10 +1,12 @@
 package com.yangworld.app.domain.dm.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
+import com.yangworld.app.domain.dm.entity.DmRoom;
 
 public interface DmService {
 
@@ -14,7 +16,13 @@ public interface DmService {
 
     void insertDmRoom(int participant1, int participant2);
 
-	int deleteDmRoom(int participant1, int participant2);
+	int deleteDmRoom(int dmRoomId);
 
 	List<Dm> findDmDetails(int dmRoomId);
+
+	String getUsernameById(int Id);
+
+	List<DmRoom> findDmRoom(int dmRoomId);
+
+	List<Map<String, Object>> findMemberId(int dmRoomId);
 }

@@ -1,36 +1,36 @@
 package com.yangworld.app.domain.story.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.yangworld.app.domain.story.dto.StoryDto;
+import com.yangworld.app.domain.story.dto.StoryMainDto;
 
 @Mapper
 public interface StoryRepository {
 	
-	@Insert("insert into Story values (seq_story_id.nextval, #{writerId}, #{content}, default)")
+	@Insert("insert into story values (seq_story_id.nextval, #{writerId}, #{content}, default)")
 	int createStory(StoryDto storyDto);
 
-	@Update("update Story set content = #{content}, reg_date = default where id = #{id}")
-	int updateStory(StoryDto storyDto);
+	@Update("update story set content = #{content}, reg_date = default where id = #{id}")
+	int updateStory(StoryMainDto storyDto);
 	
-	@Delete("delete from Story where id = #{id}")
-	int deleteStory(StoryDto storyDto);
-
+	@Delete("delete from story where id = #{id}")
+	int deleteStory(StoryMainDto storyDto);
 	
-//	SELECT *
-//	FROM (
-//	    SELECT *
-//	    FROM Story
-//	    WHERE writer_id = 1
-//	      AND reg_date >= (SYSDATE - 1)
-//	    UNION
-//	    SELECT s.*
-//	    FROM Story s
-//	    JOIN follow f ON s.writer_id = f.followee
-//	    WHERE f.follower = 1
-//	      AND s.reg_date >= (SYSDATE - 1)
-//	); 메인에 띄울 스토리를 찾아내는 쿼리
+//	@Select("select * from (select * from story where writer_id = #{id} and reg_date >= (sysdate - 1) union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = #{id} and s.reg_date >= (sysdate - 1)) order by reg_date")
+	@Select("select * from (select * from story where writer_id = #{id} union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = #{id}) order by reg_date")
+	List<StoryMainDto> findStoryById(int id);
+	
+	@Select("select username from member where id = #{writerId}")
+	String findMemberUsername(int writerId);
+	
+	@Select("select * from story where writer_id = #{wirterId} order by reg_date")
+	List<StoryMainDto> findStoryByIdOnly(int writerId);
+	
 }

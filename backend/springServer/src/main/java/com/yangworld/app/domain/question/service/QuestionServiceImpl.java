@@ -1,10 +1,14 @@
 package com.yangworld.app.domain.question.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
+import com.yangworld.app.domain.question.entity.Comment;
 import com.yangworld.app.domain.question.entity.Question;
 import com.yangworld.app.domain.question.repository.QuestionRepository;
 
@@ -30,9 +34,12 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 	
 	@Override
-	public List<Question> findAllQuestion() {
-		List<Question> questions = questionRepository.findAllQuestion();
-		return questions;
+	public List<Question> findAllQuestion(Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return questionRepository.findAllQuestion(rowBounds);
 	}
 	
 	@Override
@@ -41,4 +48,15 @@ public class QuestionServiceImpl implements QuestionService {
 		return question;
 	}
 	
+	@Override
+	public int deleteNoticeById(int questionId) {
+		
+		return questionRepository.deleteNoticeById(questionId);
+	}
+
+	@Override
+	public int updateQuestion(QuestionUpdateQnaDto updateDto) {
+		int result = questionRepository.updateQuestion(updateDto); 
+		return result;
+	}
 }

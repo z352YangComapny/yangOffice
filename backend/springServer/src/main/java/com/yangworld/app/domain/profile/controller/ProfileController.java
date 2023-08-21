@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.profile.dto.ProfileDto;
 import com.yangworld.app.domain.profile.entity.Profile;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
 import com.yangworld.app.domain.profile.service.ProfileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,44 +45,73 @@ public class ProfileController {
 	@Autowired
 	private ProfileService profileService;
 	
+	@GetMapping("/create.do")
+	public String showCreateProfileForm(Model model) {
+	    ProfileDto profile = new ProfileDto();
+	    // 필요한 필드들을 설정
+	    profile.getState();
+	    profile.getIntroduction();
+
+	    model.addAttribute("profile", profile);
+	    return "/profile/profileCreate";
+	}
 	
-//	@PostMapping("/create")
-//	public ResponseEntity<?> create(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody ProfileDto profileDto){
-//		
-//		int memberId = principal.getId();
-//		log.debug("memberId info = {} ", memberId);
-//		
-//		
-//		profileDto.setMemberId(memberId);
-//		profileService.insertProfile(profileDto);
-//		
-//		return ResponseEntity.ok().build();
-//	}
+	@GetMapping("/update.do")
+	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+	    int memberId = principal.getId();
+	    
+	    log.info("principal = {} ", principal.getId());
+	    // 프로필 정보 가져오기
+	    ProfileDetails profile = profileService.getProfileByMemberId(memberId);
+	    
+	    // 프로필 사진 가져오기
+	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+	   
+	    model.addAttribute("profile", profile);
+	    model.addAttribute("profileAttachments", profileAttachments);
+	    model.addAttribute("principalBday", principal.getBirthday());
+	    model.addAttribute("principalName", principal.getName());
+	    log.info("profile = {}", profile);
+	    log.info("profileAttachment = {}",profileAttachments);
+	    
+	    return "/profile/profileUpdate";
+	    
+	}
+	@GetMapping("/main.do")
+	public String mainFrm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+		int memberId = principal.getId();
+		log.info("principal = {} ", principal.getId());
+		ProfileDetails profile = profileService.getProfileByMemberId(memberId);
+	    
+	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+	   
+	    model.addAttribute("profile", profile);
+	    model.addAttribute("profileAttachments", profileAttachments);
+	    model.addAttribute("principalBday", principal.getBirthday());
+	    model.addAttribute("principalName", principal.getName());
+	    model.addAttribute("principalGender", principal.getGender());
+	    log.info("profile = {}", profile);
+	    log.info("profileAttachment = {}",profileAttachments);
+	    
+		return "/profile/profileMain";
+	}
+
 	
-//	@PostMapping("/update")
-//	public ResponseEntity<?> update(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody ProfileDto profileDto){
-//		
-//		int memberId = principal.getId();
-//		profileDto.setMemberId(memberId);
-//		profileService.updateProfile(profileDto);
-//		
-//		return ResponseEntity.ok().build();
-//	}
 	
 	
 
-	@PostMapping("/create")
+	@PostMapping("/create.do")
 	public ResponseEntity<?> create(
-			@RequestPart @Valid ProfileDto _profile,
+			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
+			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
 		
-		log.debug("_profile = {}", _profile);
-		log.debug("principal = {}",principal); 
-		log.debug("upFiles = {}", upFiles); 
-		
+		log.info("_profile = {}", _profile);
+		log.info("principal = {}",principal); 
+		log.info("upFiles = {}", upFiles); 
+		log.info("principal = {}", principal.getId());
 		
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
@@ -105,7 +136,6 @@ public class ProfileController {
 				.introduction(_profile.getIntroduction())
 				.attachments(attachments)
 				.build();
-		
 		
 		int result = profileService.insertProfile(profile);
 		
@@ -118,18 +148,13 @@ public class ProfileController {
 	    }
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/update.do")
 	public ResponseEntity<?> update(
-			@RequestPart @Valid ProfileDto _profile,
+			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) 
+			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model) 
 					throws IllegalStateException, IOException {
-		
-		log.debug("_profile = {}", _profile);
-		log.debug("principal = {}",principal); 
-		log.debug("upFiles = {}", upFiles); 
-		
 		
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
@@ -147,19 +172,24 @@ public class ProfileController {
 				attachments.add(attach);
 			}
 		}
-		
 		ProfileDetails profile = ProfileDetails.builder()
+				.id(_profile.getId())
 				.memberId(principal.getId())
 				.state(_profile.getState())
 				.introduction(_profile.getIntroduction())
 				.attachments(attachments)
 				.build();
 		
+		log.info("_profile = {}", _profile);
+		log.info("principal = {}",principal); 
+		log.info("upFiles = {}", upFiles); 
 		
 		int result = profileService.updateProfile(profile);
 		log.debug("profile ={}", profile);
 		log.debug("result ={}", result);
 		
+		
+		model.addAttribute("profile", profile);
 		if (result > 0) {
 			
 			return ResponseEntity.ok().build();
@@ -168,6 +198,51 @@ public class ProfileController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update profile");
 	    }
 	}
+	
+	@PostMapping("/defaultcreate.do")
+	public ResponseEntity<?> createDefaultProfile(@AuthenticationPrincipal PrincipalDetails principal) {
+	    int memberId = principal.getId();
+	    ProfileDetails profile = ProfileDetails.builder()
+	            .memberId(memberId)
+	            .state(State.A)
+	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
+	            .build();
+
+	    // 첨부 파일 생성 및 추가
+	    Attachment defaultAttachment = Attachment.builder()
+	            .originalFilename("default.jpg")
+	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
+	            .build();
+	    List<Attachment> attachments = new ArrayList<>();
+	    attachments.add(defaultAttachment);
+	    profile.setAttachments(attachments);
+
+	    int result = profileService.insertProfile(profile);
+
+	    if (result > 0) {
+	        return ResponseEntity.ok().build();
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to insert profile");
+	    }
+	}
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	@PostMapping("/reset")
