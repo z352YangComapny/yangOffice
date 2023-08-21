@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.story.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Story {
 	private int id;
-	private String writerId;
+	private int writerId;
 	private String content;
-	private Date regDate;
+	private LocalDateTime regDate;
 }

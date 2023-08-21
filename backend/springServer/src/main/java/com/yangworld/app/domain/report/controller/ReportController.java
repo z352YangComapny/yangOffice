@@ -75,6 +75,27 @@ public class ReportController {
 		
 		return ResponseEntity.ok().build();
 	}
+
+	
+	@PostMapping("/insertReportProfile")
+	public ResponseEntity<?> insertReportProfile(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody ReportCreateDto _reportDto,
+			@RequestParam int profileId
+		){
+		
+		int reporterId = principalDetails.getId();
+		
+		Report report = _reportDto.toReport();
+		log.info("report = {}",report);
+		report.setReporterId(reporterId);
+		
+		
+		reportService.insertReportProfile(report,profileId);
+		
+		return ResponseEntity.ok().build();
+	}
+
 	
 	
 	

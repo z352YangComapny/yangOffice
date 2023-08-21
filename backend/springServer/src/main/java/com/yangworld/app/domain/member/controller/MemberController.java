@@ -1,12 +1,14 @@
 package com.yangworld.app.domain.member.controller;
 
 
+import com.yangworld.app.commons.MailSender;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +27,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import redis.clients.jedis.Response;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 
@@ -43,6 +46,9 @@ public class MemberController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MailSender mailSender;
     
     @GetMapping("/memberLogin.do")
 	public void memberLogin() {}
@@ -62,11 +68,11 @@ public class MemberController {
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
+        redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
         return "redirect:/";
     }
 
     @PostMapping("/memberUpdate.do")
-    @ResponseBody
     public ResponseEntity<?> memberUpdate(@AuthenticationPrincipal PrincipalDetails principal,
                                     @RequestBody UpdateDto updateDto){
 
@@ -96,16 +102,52 @@ public class MemberController {
     }
 
 
-//    @PostMapping("/memberUpdate.do")
-//    public String memberUpdate(@Au){
-//
-//
-//
-//
-//
-//    }
+    @GetMapping("/checkIdDuplicate.do")
+    public ResponseEntity<?> checkIdDuplicate(@RequestParam String username){
+        boolean available = false;
+        try {
+            UserDetails principal = principalDetailsService.loadUserByUsername(username);
 
+        } catch(UsernameNotFoundException e){
+            available = true; // 찾았는데 없으면 오류가 발생하고, 해당 Id는 사용이 가능해짐
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available, "chkusername", username));
 
+    }
+
+    @GetMapping("/checkNicknameDuplicate.do")
+    public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname){
+        boolean available = false;
+        Member member = memberService.findByNickname(nickname);
+        if(member == null){
+            available = true;
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available));
+    }
+
+    /**
+     *  휴대전화 중복검사
+     * @param phone
+     * @return
+     */
+    @GetMapping("/checkPhoneDuplicate.do")
+    public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone){
+        boolean  available = false;
+        Member member = memberService.findByPhone(phone);
+        if(member == null){
+            available = true;
+        }
+        return ResponseEntity.ok().body(Map.of("available", available));
+    }
+
+    @GetMapping("/checkEmail.do")
+    public ResponseEntity<?> checkEmail(@RequestParam String email){
+        log.info("email={}", email);
+        log.info("auth={}", mailSender.joinEmail(email));
+        return ResponseEntity.ok().body(Map.of("emailAuth", mailSender.joinEmail(email)));
+    }
+    
+    
 
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@AuthenticationPrincipal PrincipalDetails principal){
@@ -163,8 +205,6 @@ public class MemberController {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
     }
-
-
 
  }
 

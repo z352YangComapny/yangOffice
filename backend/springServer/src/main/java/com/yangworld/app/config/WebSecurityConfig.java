@@ -35,18 +35,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/index.jsp").permitAll()
-                .antMatchers("/member/memberCreate.do").anonymous()
+                .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
+                        "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
+                        "/member/checkEmail.do").anonymous()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/story/storyMain").permitAll()
+                .antMatchers("/stomp").permitAll()
                 .anyRequest().authenticated();
+                
 
         http.formLogin()
                 .loginPage("/member/memberLogin.do")
-                .loginProcessingUrl("/member/memberLogin.do")
+                .loginProcessingUrl("/member/memberLogin.do").permitAll()
                 .usernameParameter("username")
                 .passwordParameter("password")
-
-//                .defaultSuccessUrl("/member/memberHome.do")
-
                 .defaultSuccessUrl("/")
                 .permitAll();
 

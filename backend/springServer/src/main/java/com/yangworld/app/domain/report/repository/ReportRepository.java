@@ -9,6 +9,9 @@ import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.entity.ReportDm;
 import com.yangworld.app.domain.report.entity.ReportGuestBook;
 
+import com.yangworld.app.domain.report.entity.ReportProfile;
+
+
 @Mapper
 public interface ReportRepository {
 
@@ -28,4 +31,8 @@ public interface ReportRepository {
 
 	@Insert("insert into report_guestbook(report_id, guestbook_id) values(#{reportId}, #{guestBookId})")
 	int insertReportGuestBook(ReportGuestBook reportGuestBook);
+
+	@Insert("insert into report_profile(report_id, profile_id) values(#{reportId}, #{profileId})")
+	int insertReportProfile(ReportProfile reportProfile);
+
 }
