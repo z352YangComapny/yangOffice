@@ -6,5 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member.css" />
-	<h1></h1>
+
+hi
+
+
+
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

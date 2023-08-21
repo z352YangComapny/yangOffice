@@ -75,7 +75,39 @@ public class PhotoFeedController {
 	public void feedCreate() {}
 	
 	@GetMapping("/feed/feedDetail.do")
-	public void feedDetails() {}
+	public String feedDetails(@RequestParam int writerId, @RequestParam int photoFeedId, Model model) {
+	    try {
+	        // 데이터베이스에서 필요한 정보 조회
+	        Member member = memberService.findById(writerId);
+	        PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+	        List<Comments> comments = commentsService.getCommentsByPhotoFeedId(photoFeedId);
+	        List<Like> likesCount = photoFeedService.getLikesCountByPhotoFeedId(photoFeedId);
+
+	        log.info("member = {}", member);
+	        log.info("photoFeed = {}", photoFeed);
+	        log.info("comments = {}", comments);
+	        log.info("likesCount = {}", likesCount);
+
+	        FeedDetails response = FeedDetails.builder()
+	                .id(photoFeedId)
+	                .member(member)
+	                .like(likesCount)
+	                .comments(comments)
+	                .build();
+
+	        // 이미지 리스트를 모델에 추가
+//	        model.addAttribute("images", photoFeed.getImages());
+
+	        // 모델에 피드 디테일 정보 추가
+	        model.addAttribute("feedDetails", response);
+
+	        return "feedDetail"; // 뷰 이름 리턴
+	    } catch (Exception e) {
+	        // 오류 처리
+	        return "error"; // 오류 페이지 뷰 이름
+	    }
+	}
+
 	
 	// 피드 만들기
 	@PostMapping("/feedCreated.do")
@@ -153,7 +185,7 @@ public class PhotoFeedController {
 	
 	// 디테일
 	@GetMapping("/feedDetails/{writer}/{photoFeedId}")
-	public ResponseEntity<?> findById(@PathVariable int writerId, @PathVariable int photoFeedId) {
+	public String findById(@PathVariable int writerId, @PathVariable int photoFeedId, Model model) {
 	    try {
 	        // 단계 2: 데이터베이스에서 필요한 정보 조회
 	        Member member = memberService.findById(writerId);
@@ -161,7 +193,7 @@ public class PhotoFeedController {
 	        List<Comments> comments = commentsService.getCommentsByPhotoFeedId(photoFeedId);
 	        List<Like> likesCount = photoFeedService.getLikesCountByPhotoFeedId(photoFeedId);
 
-	        log.info("member ={}", member);
+	        log.info("member = {}", member);
 	        log.info("photoFeed = {}", photoFeed);
 	        log.info("comments = {}", comments);
 	        log.info("likesCount = {}", likesCount);
@@ -173,9 +205,16 @@ public class PhotoFeedController {
 	                .comments(comments)
 	                .build();
 
-	        return ResponseEntity.ok(response);
+	        // 이미지 리스트를 모델에 추가
+//	        model.addAttribute("images", photoFeed.getImages());
+
+	        // 모델에 피드 디테일 정보 추가
+	        model.addAttribute("feedDetails", response);
+
+	        return "/feedDetail.do"; 
 	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
+	        // 오류 처리
+	        return "error"; // 오류 페이지 뷰 이름
 	    }
 	}
 

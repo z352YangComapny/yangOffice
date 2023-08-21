@@ -40,10 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         http.formLogin()
-                .loginPage("/member/memberLogin.do")
-                .loginProcessingUrl("/member/memberLogin.do")
-                .usernameParameter("username")
-                .passwordParameter("password");
+	        .loginPage("/member/memberLogin.do")
+	        .loginProcessingUrl("/member/memberLogin.do")
+	        .usernameParameter("username")
+	        .passwordParameter("password")
+	        .defaultSuccessUrl("/")
+	        .permitAll();
 
 //                .defaultSuccessUrl("/member/memberHome.do")
 
