@@ -97,9 +97,15 @@ int dmRoomId = Integer.parseInt(dmRoomIdParam);
   </div>
 </section>
 <script>
+	// Helper function to format date
+	function formatDate(dateString) {
+		const date = new Date(dateString);
+		const options = { year: '2-digit', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' };
+		return date.toLocaleString('en-US', options);
+	}
+
 $(document).ready(function() {
     // 페이지 로딩 시 dmDetails 데이터 받아오기
-    loadDmDetails();
 
     // 삭제 버튼 클릭 이벤트 처리
     $('#btn-delete').click(deleteDm);
@@ -123,40 +129,39 @@ function loadDmDetails() {
 	            dmDetailsContainer.innerHTML = '';
 
 	            // Loop through the data and generate HTML
-	            data.forEach(dm => {
-	                const dmDiv = document.createElement('div');
-	    console.log(dm.senderId);
-	    console.log(dm.receiverId);
-	    console.log(id);
-	    if (dm.receiverId === id) {
-	        // If the sender ID is the same as the logged-in user, place on the left
-	        dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
-	        dmDiv.innerHTML = `
-	            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-	                 alt="avatar 1" style="width: 45px; height: 100%;">
-	            <div class="d-flex flex-column">
-	                <div class="d-flex align-items-center">
-	                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
-	                        \${dm.content}
-	                    </p>
-	                </div>
-	                <p class="small ms-3 mb-3 rounded-3 text-muted">\${formatDate(dm.regDate)}</p>
-	            </div>
-	        `;
-	    } else {
-	        // If the sender ID is different, place on the right
-	        dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
-	        dmDiv.innerHTML = `
-	            <div>
-	                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">\${dm.content}</p>
-	                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">\${formatDate(dm.regDate)}</p>
-	            </div>
-	            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-	                 alt="avatar 1" style="width: 45px; height: 100%;">
-	        `;
-	    }
-	                dmDetailsContainer.appendChild(dmDiv);
-	            });
+				ata.forEach(dm => {
+					const dmDiv = document.createElement('div');
+
+					if (dm.receiverId !== id) {
+						// If the receiver ID is not the logged-in user, place on the left
+						dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
+						dmDiv.innerHTML = `
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                 alt="avatar 1" style="width: 45px; height: 100%;">
+            <div class="d-flex flex-column">
+                <div class="d-flex align-items-center">
+                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+                        ${dm.content}
+                    </p>
+                </div>
+                <p class="small ms-3 mb-3 rounded-3 text-muted">${formatDate(dm.regDate)}</p>
+            </div>
+        `;
+					} else {
+						// If the receiver ID is the logged-in user, place on the right
+						dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
+						dmDiv.innerHTML = `
+            <div>
+                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${dm.content}</p>
+                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${formatDate(dm.regDate)}</p>
+            </div>
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                 alt="avatar 1" style="width: 45px; height: 100%;">
+        `;
+					}
+
+					dmDetailsContainer.appendChild(dmDiv);
+				});
 	scrollToBottom(dmDetailsContainer);
 	        },
 	        error: function(error) {
@@ -170,19 +175,13 @@ function loadDmDetails() {
 	}
 
 
-	// Helper function to format date
-	function formatDate(dateString) {
-	    const date = new Date(dateString);
-	    const options = { year: '2-digit', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' };
-	    return date.toLocaleString('en-US', options);
-	}
-
 	// Call the function to load DM details
 	//window.onload = loadDmDetails();
 	document.addEventListener('DOMContentLoaded', function() {
 	    loadDmDetails(); // Initial call
 	    setInterval(loadDmDetails, 1000); // Repeat every 1 second
 	});
+
 function showButton(container) {
     const button = container.querySelector('.btn');
     button.classList.remove('d-none'); // 버튼을 보이도록 클래스 제거
