@@ -64,5 +64,7 @@ function goBack() {
     // 이전 페이지로 돌아가기
     history.back();
 }
+
+document.
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

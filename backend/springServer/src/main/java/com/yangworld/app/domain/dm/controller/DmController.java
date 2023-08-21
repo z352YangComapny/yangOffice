@@ -42,18 +42,15 @@ public class DmController {
 	/**
 	 * DM 선택한 후 대화창 조회
 	 */
-	@GetMapping("/dmDetail")
-	public void findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId, Model model) {
-		
-		 int userId = principal.getId(); 
-		
-		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
-		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
-		
-		log.info("dmDetails={}" , dmDetails);
-		model.addAttribute("dmDetails", dmDetails);
-		model.addAttribute("userId", userId);
+	@GetMapping("/dmDetailList")
+	public ResponseEntity<List<Dm>> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId) {
+	    int userId = principal.getId(); 
+	    List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
+	    return ResponseEntity.ok(dmDetails);
 	}
+	
+	@GetMapping("/dmDetail")
+	public void dmDetail() {}
 	
 	/**
 	 * 가장 최신 dm List 가져오기 
