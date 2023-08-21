@@ -32,9 +32,9 @@ public class StoryController {
 	private StoryService storyService;
 	
 	@GetMapping("/storyTap")
-	public void storyTap(Model model) {
-//		Story story = storyService.findStoryById();
-//		model.addAttribute("story", story); 로그인멤버 id 받아서 처리
+	public void storyTap(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		List<StoryMainDto> stories = storyService.findStoryByIdOnly(principal.getId());
+		model.addAttribute("stories", stories);
 	}
 	
 	@GetMapping("/storyMain")

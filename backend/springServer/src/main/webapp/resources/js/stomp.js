@@ -4,15 +4,15 @@ const connect = () => {
 	
     // 구독신청 
     stompClient.connect({}, () => {
-        console.log('WebSocket 연결 성공');
+//        console.log('WebSocket 연결 성공');
         stompClient.subscribe('/storyMain', (payloads) => {
-            console.log('구독됨');
-            console.log('/story : ', payloads);
+//            console.log('구독됨');
+//            console.log('/story : ', payloads);
 
             renderStory(payloads);
         });
 		const userId = document.getElementById('userId').value;
-		console.log('userId = ', userId);
+//		console.log('userId = ', userId);
         const sendInterval = setInterval(() => {
             stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
         }, 1000);
@@ -20,8 +20,8 @@ const connect = () => {
 };
 
 const renderStory = (payloads) => {
-	console.log('renderStory 호출 성공');
-	console.log('payloads = ', payloads);
+//	console.log('renderStory 호출 성공');
+//	console.log('payloads = ', payloads);
 	const stories = JSON.parse(payloads.body);
 
 	const view = document.querySelector('#storyMainUpdate');
@@ -41,18 +41,32 @@ const renderStory = (payloads) => {
 	});
 	
 	const storyElements = document.querySelectorAll('.card');
+	const storyModal = $('#storyModal');
+	    
     storyElements.forEach((storyElement) => {
         storyElement.addEventListener('click', () => {
-            const writerId = storyElement.querySelector('.writerId').textContent;
-            const content = storyElement.querySelector('.content').textContent;
-            const createdAt = storyElement.querySelector('.createdAt').textContent;
+			updateModal(storyElement);
 
-            document.querySelector('.storyModalWriterId').textContent = writerId;
-            document.querySelector('.storyModalContent').textContent = content;
-            document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+            storyModal.modal('show');
 
-			$('#storyModal').modal('handleUpdate');
-            $('#storyModal').modal('show');
         });
+	    
     });
+    
+};
+
+const updateModal = (element) => {
+	const writerId = element.querySelector('.writerId').textContent;
+	const content = element.querySelector('.content').textContent;
+	const createdAt = element.querySelector('.createdAt').textContent;
+	
+	document.querySelector('.storyModalWriterId').textContent = writerId;
+	document.querySelector('.storyModalContent').textContent = content;
+	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+};
+
+const clearModal = () => {
+    document.querySelector('.storyModalWriterId').textContent = '';
+    document.querySelector('.storyModalContent').textContent = '';
+    document.querySelector('.storyModalCreatedAt').textContent = '';
 };

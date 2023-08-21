@@ -36,4 +36,9 @@ public class StoryServiceImpl implements StoryService{
 	public String findMemberUsername(String writerId) {
 		return storyRepository.findMemberUsername(writerId);
 	}
+	
+	@Override
+	public List<StoryMainDto> findStoryByIdOnly(int writerId) {
+		return storyRepository.findStoryByIdOnly(writerId);
+	}
 }

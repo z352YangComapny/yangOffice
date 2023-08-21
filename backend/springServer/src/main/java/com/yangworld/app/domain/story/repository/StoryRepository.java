@@ -30,4 +30,7 @@ public interface StoryRepository {
 	@Select("select username from member where id = #{writerId}")
 	String findMemberUsername(String writerId);
 	
+	@Select("select * from story where writer_id = #{wirterId} order by reg_date")
+	List<StoryMainDto> findStoryByIdOnly(int writerId);
+	
 }
