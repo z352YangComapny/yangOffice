@@ -426,7 +426,98 @@ INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
 VALUES (20, 20);
 
 
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
 
+-- @profile table 테이블 테스트 데이터
+
+-- 어태치먼트 아이디 1-20, 포토 피드 아이디 1-20 모두 매칭
+
+
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 1, 'A', 'Introduction for Member 1');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 2, 'B', 'Introduction for Member 2');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 3, 'C', 'Introduction for Member 3');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 4, 'D', 'Introduction for Member 4');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 5, 'E', 'Introduction for Member 5');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 6, 'A', 'Introduction for Member 6');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 7, 'B', 'Introduction for Member 7');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 8, 'C', 'Introduction for Member 8');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 9, 'D', 'Introduction for Member 9');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 10, 'E', 'Introduction for Member 10');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 11, 'A', 'Introduction for Member 11');
+
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @follow table 테이블 테스트 데이터
+
+-- 멤버 간의 팔로우 관계
+insert into follow (follower, followee) values (1, 2);
+insert into follow (follower, followee) values (1, 3);
+insert into follow (follower, followee) values (2, 3);
+insert into follow (follower, followee) values (2, 4);
+insert into follow (follower, followee) values (3, 1);
+insert into follow (follower, followee) values (3, 5);
+insert into follow (follower, followee) values (4, 2);
+insert into follow (follower, followee) values (5, 6);
+insert into follow (follower, followee) values (5, 1);
+insert into follow (follower, followee) values (6, 1);
+insert into follow (follower, followee) values (6, 3);
+insert into follow (follower, followee) values (7, 4);
+insert into follow (follower, followee) values (8, 2);
+insert into follow (follower, followee) values (8, 3);
+insert into follow (follower, followee) values (9, 1);
+insert into follow (follower, followee) values (9, 6);
+insert into follow (follower, followee) values (10, 3);
+insert into follow (follower, followee) values (10, 4);
+insert into follow (follower, followee) values (11, 1);
+insert into follow (follower, followee) values (11, 5);
+-- 멤버 간의 팔로우 관계가 아닌 경우 (추가 20개)
+insert into follow (follower, followee) values (1, 4);
+insert into follow (follower, followee) values (2, 5);
+insert into follow (follower, followee) values (3, 6);
+insert into follow (follower, followee) values (4, 1);
+insert into follow (follower, followee) values (5, 2);
+insert into follow (follower, followee) values (6, 4);
+insert into follow (follower, followee) values (7, 5);
+insert into follow (follower, followee) values (8, 6);
+insert into follow (follower, followee) values (9, 4);
+insert into follow (follower, followee) values (10, 5);
+insert into follow (follower, followee) values (11, 6);
+insert into follow (follower, followee) values (1, 7);
+insert into follow (follower, followee) values (2, 8);
+insert into follow (follower, followee) values (3, 9);
+insert into follow (follower, followee) values (4, 10);
+insert into follow (follower, followee) values (5, 11);
+insert into follow (follower, followee) values (6, 7);
+insert into follow (follower, followee) values (7, 8);
+insert into follow (follower, followee) values (8, 9);
+insert into follow (follower, followee) values (9, 10);
+insert into follow (follower, followee) values (10, 11);
+
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @follow table 테이블 테스트 데이터
+
+-- 프로필에 어태치먼트 연결
+insert into attachment_profile (attachment_id, profile_id) values (1, 1);
+insert into attachment_profile (attachment_id, profile_id) values (2, 2);
+insert into attachment_profile (attachment_id, profile_id) values (3, 3);
+insert into attachment_profile (attachment_id, profile_id) values (4, 4);
+insert into attachment_profile (attachment_id, profile_id) values (5, 5);
+insert into attachment_profile (attachment_id, profile_id) values (6, 6);
+insert into attachment_profile (attachment_id, profile_id) values (7, 7);
+insert into attachment_profile (attachment_id, profile_id) values (8, 8);
+insert into attachment_profile (attachment_id, profile_id) values (9, 9);
+insert into attachment_profile (attachment_id, profile_id) values (10, 10);
+insert into attachment_profile (attachment_id, profile_id) values (11, 11);
 
 
 commit;
