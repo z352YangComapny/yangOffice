@@ -91,7 +91,7 @@ public class DmController {
 
 	
 	@PostMapping("/sendDm")
-	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam("dmRoomId") int dmRoomId) {
+	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam("dmRoomId") int dmRoomId, @RequestParam String content) {
 	    int senderId = principal.getId(); 
 	    List<DmRoom> dmRoomList = dmService.findDmRoom(dmRoomId);
 	    DmRoom targetDmRoom = null;
@@ -103,13 +103,22 @@ public class DmController {
 	        	targetDmRoom = dm;
 	        }
 	    }
-
+	    	log.info("targetDmRoom={}", targetDmRoom);
 	    if (targetDmRoom != null) {
 	        Dm msg = _dmDto.toDm();
 	        
 	        msg.setSenderId(senderId);
-	        msg.setReceiverId(targetDmRoom.getParticipant2());
+	        
+	        int receiverId = 0;
+	        if(targetDmRoom.getParticipant1() == senderId) {
+	        	receiverId = targetDmRoom.getParticipant2();
+	        } else if (targetDmRoom.getParticipant2() == senderId) {
+	        	receiverId = targetDmRoom.getParticipant1();
+	        }
+	        msg.setReceiverId(receiverId);
 	        msg.setDmRoomId(dmRoomId);
+	        
+	        log.info("msg = {}", msg);
 	        // insert
 	        dmService.insertDm(msg);
 	    }
@@ -156,9 +165,7 @@ public class DmController {
 		 * if (participant1 > participant2) { int temp = participant1; participant1 =
 		 * participant2; participant2 = temp; }
 		 */
-		log.info("deleteInfo={}" , dmRoomId);
 		int result = dmService.deleteDmRoom(dmRoomId);
-		log.info("result = {}",result);
 		/*
 		 * if(result>0){ return ResponseEntity.ok().build(); }else { return
 		 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); }

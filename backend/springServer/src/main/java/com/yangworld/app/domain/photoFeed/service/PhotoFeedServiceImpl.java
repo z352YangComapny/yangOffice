@@ -16,6 +16,7 @@ import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
 import com.yangworld.app.domain.photoFeed.entity.Like;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.repository.PhotoFeedRepository;
+import com.yangworld.app.domain.question.entity.Comment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,6 +60,21 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 		return result;
 	}
 	
+	@Override
+	public List<PhotoAttachmentFeedDto> selectFeedDetail(int writerId, int photoFeedId) {
+		
+		// 조회
+		if (photoFeedId < 0) {
+	        log.error("username is null");
+	        throw new NullPointerException("유저이름이 없습니다.");
+	    } 
+	    	// 사진, 댓글, 좋아요 가져오기 할건데 사진 이름을 가져와야함 그래서 트랙잭션 처리 해야함 가져온 정보로 select 하기
+	    	List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
+	    	
+	    	log.info("List size :  [{}]", photoFeedDetail.size());
+		
+		return photoFeedDetail;
+	}
 	
 
 	@Override
@@ -67,6 +83,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        log.error("username is null");
 	        throw new NullPointerException("유저이름이 없습니다.");
 	    } else {
+	    	
 	    	// 인증된 회원 아이디를 갖고 피드 검색
 	        List<PhotoAttachmentFeedDto> photoFeedList = photoFeedRepository.selectFeed(writerId);
 	        
@@ -79,10 +96,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	            // list만들어주기
 	            List<Attachment> attachmentList = new ArrayList<>();
 	            
+	            
 	            // photoFeed에 attachmentPhotoDto 라는 List<AttachmentPhotoDto>에 1번째 검색결과 넣기
 	            photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
 	            
-	            log.info("photo feed check: {}", photoFeed);
+//	            log.info("photo feed check: {}", photoFeed);
 	            
 	            for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
 	            	// 두번째 검색 결과를 받음
@@ -99,9 +117,15 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	            
 	            // 좋아연
 	            int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
+	            
+	            
+	            // 댓글 수 조회
 	            int commentCount = photoFeedRepository.getCommentCount(photoFeed.getId());
 	            
+	            
+	            
 	            photoFeed.setLikeCount(likeCount);
+	            
 	        }
 	        
 	        return photoFeedList;
@@ -156,6 +180,13 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 		// TODO Auto-generated method stub
 		return photoFeedRepository.deleteLike(photoFeedId, memberId);
 	}
+
+
+
+	
+
+
+
 
 
 }

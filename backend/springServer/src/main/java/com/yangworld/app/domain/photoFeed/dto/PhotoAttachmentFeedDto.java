@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.photoFeed.entity.Like;
+import com.yangworld.app.domain.question.entity.Comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class PhotoAttachmentFeedDto {
 	private int likeCount;
 	private int commentCount;
 	private List<Like> like;
+	private List<Comment> comments;
 	private List<AttachmentPhotoDto> attachmentPhotoDto;
 	private List<Attachment> attachments;
 	private LocalDateTime regDate;
