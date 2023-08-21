@@ -40,8 +40,8 @@ public interface DmRepository {
     @Select("SELECT m.username FROM dm d JOIN member m ON d.receiver_id = m.id WHERE d.id = #{id}")
 	String getUsernameById(int id);
 
-    @Select("SELECT * FROM dm_room WHERE (participant1 = #{userId} OR participant2 = #{userId})")
-	List<DmRoom> findDmRoom(int userId) ;
+    @Select("SELECT * FROM dm_room WHERE id=${dmRoomId}")
+	List<DmRoom> findDmRoom(int dmRoomId) ;
 
     @Select("SELECT dm.sender_id, "
             + "(SELECT username FROM member WHERE id = dm.sender_id) AS sender_username, "

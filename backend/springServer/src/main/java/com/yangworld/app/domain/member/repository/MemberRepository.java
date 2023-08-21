@@ -20,7 +20,9 @@ public interface MemberRepository {
             resultType = int.class,
             statement = "select seq_member_id.currval from dual")
     int insertMember(SignUpDto signUpDto);
-    int insertAuthorities(@Param("id")int id, @Param("authorityList")List<String> authorityList);
+
+    int insertAuthorities(@Param("id") int id, @Param("authorityList") List<String> authorityList);
+
     PrincipalDetails loadUserByUsername(String username);
 
     @Update("update member set password=#{password} where username = #{username}")
