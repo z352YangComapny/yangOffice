@@ -97,7 +97,6 @@ public class PhotoFeedController {
                 .build();
         
         
-        
         model.addAttribute("photoDetail", photoDetail);
 
 	}

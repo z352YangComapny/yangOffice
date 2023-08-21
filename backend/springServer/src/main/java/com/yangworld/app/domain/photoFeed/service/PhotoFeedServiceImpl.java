@@ -62,19 +62,37 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	
 	@Override
 	public List<PhotoAttachmentFeedDto> selectFeedDetail(int writerId, int photoFeedId) {
-		
-		// 조회
-		if (photoFeedId < 0) {
-	        log.error("username is null");
-	        throw new NullPointerException("유저이름이 없습니다.");
-	    } 
-	    	// 사진, 댓글, 좋아요 가져오기 할건데 사진 이름을 가져와야함 그래서 트랙잭션 처리 해야함 가져온 정보로 select 하기
-	    	List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
-	    	
-	    	log.info("List size :  [{}]", photoFeedDetail.size());
-		
-		return photoFeedDetail;
+	    if (photoFeedId < 0) {
+	        log.error("photoFeedId is null");
+	        throw new IllegalArgumentException("피드 ID가 유효하지 않습니다.");
+	    }
+	    // 피드 조회
+	    // 이안에 content가 있는데 지금 이쿼리는 그 뭐여 그저기에 완벽한 쿼리잖아 그러면 어떻게해야하냐..쿼리문을 하나 더써?
+	    List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
+	    
+	    log.info("List size: [{}]", photoFeedDetail.size());
+	    for (PhotoAttachmentFeedDto photoFeed : photoFeedDetail) {
+	        // 사진 첨부 정보 조회
+	        List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhotoDetail(photoFeed.getId());
+	        
+	        List<Attachment> attachmentList = new ArrayList<>();
+	        
+	        photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
+	        
+	        for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
+	            // 사진 첨부 파일의 ID로 상세 정보 조회
+	            int id = attachments.getAttachmentId();
+	            Attachment attachment = photoFeedRepository.selectAttachmentDetail(id);
+	            
+	            attachmentList.add(attachment);
+	        }
+	        photoFeed.setAttachments(attachmentList);
+	    }
+	    
+	    
+	    return photoFeedDetail;
 	}
+
 	
 
 	@Override
