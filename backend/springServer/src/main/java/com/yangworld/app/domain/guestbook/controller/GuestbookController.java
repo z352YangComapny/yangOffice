@@ -99,7 +99,7 @@ public class GuestbookController {
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
-	@GetMapping("/guestbook")
+	@GetMapping("/guestbook.do")
 	public void guestBookList(
 			@RequestParam(defaultValue = "1") int page,
 			@AuthenticationPrincipal Member member,

@@ -1,0 +1,12 @@
+yang_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g083bae14db3383_yang_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+yang_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g083bae14db3383_yang_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+yang_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g083bae14db3383_yang_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+yang_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g083bae14db3383_yang_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+yang_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g083bae14db3383_yang_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+
