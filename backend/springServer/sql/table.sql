@@ -60,7 +60,7 @@ create table profile
     state        char(1) not null,
     introduction varchar2(300),
     constraints  p_profile_id primary key( id),
-    constraints  u_profile_member_id unique (member_id);
+    constraints  u_profile_member_id unique (member_id),
     constraints  f_profile_member_id foreign key (member_id) references member (id) on delete cascade,
     constraints  c_profile_state check (state in ('A', 'B', 'C', 'D', 'E'))
 );

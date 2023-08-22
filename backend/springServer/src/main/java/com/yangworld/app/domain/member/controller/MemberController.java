@@ -140,13 +140,47 @@ public class MemberController {
         return ResponseEntity.ok().body(Map.of("available", available));
     }
 
+    // 회원가입시 이메일 인증요청
     @GetMapping("/checkEmail.do")
     public ResponseEntity<?> checkEmail(@RequestParam String email){
         log.info("email={}", email);
-        log.info("auth={}", mailSender.joinEmail(email));
+
         return ResponseEntity.ok().body(Map.of("emailAuth", mailSender.joinEmail(email)));
     }
-    
+
+    //아이디찾기 시 요청
+    @PostMapping("/checkEmailSearch.do")
+    public ResponseEntity<?> checkEmailSearch(@RequestParam String email){
+        log.info("email={}", email);
+        Member member = memberService.findMemberByEmail(email);
+        String username = "";
+        if(member == null){
+            username = "회원정보를 찾을 수 없습니다. 가입하신 이메일을 다시 확인해주세요.";
+        } else{
+            username = member.getUsername();
+            log.info("username = {}", username);
+        }
+
+        return ResponseEntity.ok().body(Map.of("emailAuth", mailSender.joinEmail(email), "username", username));
+    }
+
+    @PostMapping("/resetPassword.do")
+    public ResponseEntity<?> resetPassword(@RequestParam String password, @RequestParam String username){
+
+        log.info("password ={}", password);
+        log.info("username={}", username);
+        String  newPassword =  passwordEncoder.encode(password);
+        log.info("newPwd={}", newPassword);
+
+        int result = memberService.resetPassword(newPassword, username);
+        log.info("result@reset = {}", result);
+
+        return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
+                
+
+    }
+
+
     
 
     @PostMapping("/delete")
@@ -178,20 +212,6 @@ public class MemberController {
         memberService.deleteFollowee(unfollow);
 
         return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/findId")
-    public ResponseEntity<?> findId(@RequestBody FindIdDto findIdDto){
-
-        String username = memberService.findMemberByEmail(findIdDto);
-        if(username == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("msg", "일치하는 이메일 주소가 없습니다. 확인 바랍니다."));
-        } else{
-            log.info("username = {}", username);
-            return ResponseEntity.status(HttpStatus.OK).body(Map.of("username", username));
-        }
-
     }
 
     @GetMapping("/memberHome.do")
