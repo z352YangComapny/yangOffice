@@ -72,24 +72,65 @@
          <div>${response.content}</div>
     </div>
 </div>
-${response.id }
 <hr style="border: 3px">
-   		<div class="comment-form">
-            <h4>댓글 작성</h4>
-            <form:form
-            action="${pageContext.request.contextPath}/feedDetails/commentCreate" 
-            method="post">
-                <div class="mb-3">
-                    <label for="comment" class="form-label">댓글 내용</label>
-                    <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
-                    <input type="hidden" name="photoFeedId" value="${response.id}">
-                </div>
-                <button type="submit" class="btn btn-primary">댓글 작성</button>
-            </form:form>
-        </div>
-        
-<script>
+		<!-- 댓글 작성 폼 시작 -->
+	   		<div class="comment-form">
+	            <form:form
+	            action="${pageContext.request.contextPath}/feedDetails/commentCreate" 
+	            method="post">
+	                <div class="mb-3">
+	                    <label for="comment" class="form-label">댓글 내용</label>
+	                    <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+	                    <input type="hidden" name="photoFeedId" value="${response.id}">
+	                    <input type="hidden" name="returnUrl" value="${requestScope.requestURL}">
+	                </div>
+	                <button type="submit" class="btn btn-primary">댓글 작성</button>
+	            </form:form>
+	        </div>
+		<!-- 댓글 작성 폼 끝 -->
+     		
+   		<!-- 댓글 목록 폼 시작 -->
+				<div class="comment-list">
+				    <h2>댓글 목록</h2>
+				    <ul class="list-group">
+				        <c:forEach items="${commentList}" var="comment">
+				            <li class="list-group-item">
+				                <div class="d-flex justify-content-between">
+				                    <div class="comment-content">${comment.writerId} : ${comment.content}</div>
+				                    <div class="comment-info">
+										<c:if test="${comment.writerId eq principalDetails.id}">
+										    <button type="button" class="btn btn-secondary" onclick="deleteComment(${comment.id}, ${response.id})">삭제</button>
+										</c:if>
+				                        ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
+				                    </div>
+				                </div>
+				            </li>
+				        </c:forEach>
+				    </ul>
+				</div>
+		<!-- 댓글 목록 폼 끝 -->
 
+
+<script>
+    /* AJAX 요청 */
+   function deleteComment(commentId, photoFeedId) {
+    if (confirm("댓글을 삭제하시겠습니까?")) {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/commentDelete",
+            data: {
+                comment: commentId,
+                photoFeedId: photoFeedId
+            },
+            success: function(response) {
+                location.reload(); 
+            },
+            error: function(error) {
+                console.error("댓글 삭제 실패:", error);
+            }
+        });
+    }
+}
 
 </script>
 

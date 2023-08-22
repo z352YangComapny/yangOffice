@@ -51,8 +51,6 @@ public interface PhotoFeedRepository {
 	// attachment_photo_feed delete (link table)
 	@Delete("delete from attachment where id not in (select attachment_id from attachment_photo_feed)")
 	int deleteAttachment(int feedId);
-//delete from attachment where id not in (select attachment_id from attachment_photo_feed)
-
 
 	// attachment delete
 	@Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")

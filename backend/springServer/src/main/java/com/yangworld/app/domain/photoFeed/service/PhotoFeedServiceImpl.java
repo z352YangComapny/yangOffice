@@ -67,7 +67,6 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        throw new IllegalArgumentException("피드 ID가 유효하지 않습니다.");
 	    }
 	    // 피드 조회
-	    // 이안에 content가 있는데 지금 이쿼리는 그 뭐여 그저기에 완벽한 쿼리잖아 그러면 어떻게해야하냐..쿼리문을 하나 더써?
 	    List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
 	    
 	    log.info("List size: [{}]", photoFeedDetail.size());

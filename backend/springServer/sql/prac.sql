@@ -79,18 +79,21 @@ where
 SELECT c.*
 FROM comments c
 JOIN comment_feed cf ON c.id = cf.comments_id
-WHERE cf.photo_feed_id = 4;
+WHERE cf.photo_feed_id = 21;
 
     
 SELECT a.*
 FROM attachment a
 JOIN attachment_photo_feed af ON a.id = af.attachment_id
-WHERE af.photo_feed_id = 45; 
+WHERE af.photo_feed_id = 21; 
 
 select * from photo_feed;
-select * from comments_feed;
-select * from comments;
 
+select * from comments;
+select * from comments_feed;
+select * from attachment_photo_feed;
+
+select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 2;
 
 
 

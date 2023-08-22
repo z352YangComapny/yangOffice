@@ -37,14 +37,17 @@ public class commentsController {
 	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
 	
-	// 댓글 조회
-	@GetMapping("/photoFeedId={photoFeedId}")
-	public void getComments(@PathVariable int photoFeedId, Model model) {
-	
-    List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
-    
-    model.addAttribute("comments", comments);
-	}
+//	// 댓글 조회
+//	@GetMapping("/feed/feedDetail")
+//	public void getComments(
+//			@AuthenticationPrincipal PrincipalDetails principalDetails,
+//			@RequestParam int photoFeedId,
+//			Model model) {
+//	
+//		List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
+//    
+//		model.addAttribute("comments", comments);
+//	}
 	
 	// 댓글 작성
 	@PostMapping("/feedDetails/commentCreate")
@@ -55,7 +58,7 @@ public class commentsController {
 	    
 	    int result = commentService.insertComment(principalDetails, comment, photoFeedId);
 	    
-	    return "redirect:/";
+	    return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}
 
 	
@@ -75,17 +78,16 @@ public class commentsController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/comentDelete")
-	public ResponseEntity<?> commentDelete(
+	@PostMapping("/commentDelete")
+	public String commentDelete(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody @Valid CommentCreateDto commentDeleteDto,
-			BindingResult bindingResult
+			@RequestParam String comment,
+	        @RequestParam int photoFeedId
 			){
+		log.info("comment ={}", comment);
+		int result = commentService.deleteComment(principalDetails, photoFeedId, comment);
 		
-		int result = commentService.deleteComment(principalDetails, commentDeleteDto);
-		
-		
-		return ResponseEntity.ok().build();
+		return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}
 	
 	
