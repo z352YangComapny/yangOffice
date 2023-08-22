@@ -32,29 +32,32 @@ public class StoryController {
 	private StoryService storyService;
 	
 	@GetMapping("/storyTap")
-	public void storyTap(Model model) {
-//		Story story = storyService.findStoryById();
-//		model.addAttribute("story", story); 로그인멤버 id 받아서 처리
+	public void storyTap(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		List<StoryMainDto> stories = storyService.findStoryByIdOnly(principal.getId());
+		log.info("stories = {}", stories);
+		model.addAttribute("stories", stories);
 	}
 	
 	@GetMapping("/storyMain")
 	public void storyMain() {}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> create(@RequestBody StoryDto storyDto){
+	public String create(StoryDto storyDto){
+		log.info("storyDto = {}", storyDto);
 		int result = storyService.createStory(storyDto);
-		return ResponseEntity.ok().build();
+		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<?> update(@RequestBody StoryDto storyDto){
+	public String update(StoryMainDto storyDto){
+		log.info("storyDto = {}", storyDto);
 		int result = storyService.updateStory(storyDto);
-		return ResponseEntity.ok().build();
+		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/delete")
-	public ResponseEntity<?> delete(@RequestBody StoryDto storyDto){
+	public String delete(StoryMainDto storyDto){
 		int result = storyService.deleteStory(storyDto);
-		return ResponseEntity.ok().build();
+		return "redirect:/story/storyTap";
 	}
 }

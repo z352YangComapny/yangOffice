@@ -25,4 +25,5 @@ public interface MemberService {
     Member findMemberByEmail(String email);
 
     int resetPassword(String newPassword, String username);
+
 }
