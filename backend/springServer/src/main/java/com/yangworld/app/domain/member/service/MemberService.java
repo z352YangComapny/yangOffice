@@ -23,4 +23,6 @@ public interface MemberService {
     Member findByPhone(String phone);
 
     Member findMemberByEmail(String email);
+
+    int resetPassword(String newPassword, String username);
 }

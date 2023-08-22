@@ -144,7 +144,6 @@ public class MemberController {
     @GetMapping("/checkEmail.do")
     public ResponseEntity<?> checkEmail(@RequestParam String email){
         log.info("email={}", email);
-        log.info("auth={}", mailSender.joinEmail(email));
 
         return ResponseEntity.ok().body(Map.of("emailAuth", mailSender.joinEmail(email)));
     }
@@ -153,8 +152,6 @@ public class MemberController {
     @PostMapping("/checkEmailSearch.do")
     public ResponseEntity<?> checkEmailSearch(@RequestParam String email){
         log.info("email={}", email);
-        log.info("auth={}", mailSender.joinEmail(email));
-
         Member member = memberService.findMemberByEmail(email);
         String username = "";
         if(member == null){
@@ -166,7 +163,22 @@ public class MemberController {
 
         return ResponseEntity.ok().body(Map.of("emailAuth", mailSender.joinEmail(email), "username", username));
     }
-    
+
+    @PostMapping("/resetPassword.do")
+    public ResponseEntity<?> resetPassword(@RequestParam String password, @RequestParam String username){
+
+        log.info("password ={}", password);
+        log.info("username={}", username);
+        String  newPassword =  passwordEncoder.encode(password);
+
+        int result = memberService.resetPassword(newPassword, username);
+        log.info("result@reset = {}", result);
+
+        return ResponseEntity.ok().build();
+
+    }
+
+
     
 
     @PostMapping("/delete")

@@ -749,7 +749,7 @@
 
 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/member/checkEmail.do", // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+			url : "${pageContext.request.contextPath}/member/checkEmail.do",
 			data : {
 				email : email
 			},

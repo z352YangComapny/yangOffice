@@ -73,5 +73,10 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findMemberByEmail(email);
     }
 
+    @Override
+    public int resetPassword(String newPassword, String username) {
+        return memberRepository.resetPassword(newPassword, username);
+    }
+
 
 }
