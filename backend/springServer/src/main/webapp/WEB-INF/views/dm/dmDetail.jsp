@@ -82,6 +82,17 @@
         // 삭제 버튼 클릭 이벤트 처리
         $('#btn-delete').click(deleteDm);
     });
+    
+    function showButton(container) {
+        const button = container.querySelector('.btn');
+        button.classList.remove('d-none');
+    }
+
+    function hideButton(container) {
+        const button = container.querySelector('.btn');
+        button.classList.add('d-none'); 
+    }
+
 
     function loadDmDetails() {
         const dmRoomId = <%= dmRoomId %>;
@@ -112,14 +123,16 @@
 					                 alt="avatar 1" style="width: 45px; height: 100%;">
 					            <div class="d-flex flex-column">
 					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 10px">\${dm.name}</p>
-					                <div class="d-flex align-items-center">
+					                <div class="d-flex align-items-center" onmouseover="showButton(this)" onmouseout="hideButton(this)">
 					                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
 					                        \${dm.content}
 					                    </p>
+					                    <button class="btn btn-sm btn-danger d-none btn-toggle" style="margin-left: 10px;"  onclick="goReport(\${dm.id}, \${dm.senderId});">신고</button>
 					                </div>
 					                <p class="small ms-3 mb-3 rounded-3 text-muted">\${formatDate(dm.regDate)}</p>
 					            </div>
 					        `;
+					        
                     } else {
                         console.log("오른짝")
                         // If the receiver ID is the logged-in user, place on the right
@@ -151,16 +164,6 @@
         loadDmDetails();
         setInterval(loadDmDetails, 1000); 
     });
-
-    function showButton(container) {
-        const button = container.querySelector('.btn');
-        button.classList.remove('d-none');
-    }
-
-    function hideButton(container) {
-        const button = container.querySelector('.btn');
-        button.classList.add('d-none'); 
-    }
 
 
     function goReport(dmId, reportedId) {
