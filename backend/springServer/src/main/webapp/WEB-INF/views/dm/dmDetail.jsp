@@ -127,7 +127,7 @@
 					                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
 					                        \${dm.content}
 					                    </p>
-					                    <button class="btn btn-sm btn-danger d-none btn-toggle" style="margin-left: 10px;"  onclick="goReport(\${dm.id}, \${dm.senderId});">신고</button>
+					                    <button class="btn btn-sm btn-light d-none btn-toggle" style="margin-left: 10px; font-size:20px;"  onclick="goReport(\${dm.id}, \${dm.senderId});">🚨</button>
 					                </div>
 					                <p class="small ms-3 mb-3 rounded-3 text-muted">\${formatDate(dm.regDate)}</p>
 					            </div>
