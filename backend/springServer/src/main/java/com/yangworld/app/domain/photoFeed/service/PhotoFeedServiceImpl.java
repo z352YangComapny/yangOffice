@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yangworld.app.domain.attachment.entity.AttachmentPhotoFeed;
+import com.yangworld.app.domain.attachment.entity.AttachmentProfile;
 import com.yangworld.app.domain.attachment.repository.AttachmentRepository;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;

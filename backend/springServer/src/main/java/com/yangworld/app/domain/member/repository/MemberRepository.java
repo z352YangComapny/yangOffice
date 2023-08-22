@@ -5,7 +5,6 @@ import com.yangworld.app.domain.member.dto.*;
 import org.apache.ibatis.annotations.*;
 import com.yangworld.app.domain.member.entity.Member;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -54,5 +53,10 @@ public interface MemberRepository {
 
     @Select("select * from member where id=#{writerId}")
     Member findById(int writerId);
+
+    @Select("select count(*) from follow where follower= #{id}")
+    int findFollowerCountByMemberId(int id);
+    @Select("select count(*) from follow where followee= #{id}")
+    int findFolloweeCountByMemberId(int id);
 }
 

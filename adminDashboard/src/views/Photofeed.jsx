@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Card, CardBody, CardGroup, CardImg, CardSubtitle, CardText, CardTitle, Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap'
+import { Button, Card, CardBody, CardGroup, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap'
 import { PhotofeedContext } from 'variables/PhotofeedContextProvider';
 
 const Photofeed = () => {
-  const imageUrlRoot = "http://localhost:8080/resources/upload/feed/"
+  const imageUrlRoot = "http://localhost:8080/resources/upload/attachment/"
 
   const {
     states: {
@@ -95,6 +95,14 @@ const Photofeed = () => {
   return (
     <>
       <div className="content">
+      <Card className='card-plain'>
+          <CardHeader>
+            <CardTitle tag="h4">사진피드 전체 조회</CardTitle>
+            <p className="card-category">
+              시간순으로 정렬되어 있습니다.
+            </p>
+          </CardHeader>
+        </Card>
         <Row>
           <Col>
             <CardGroup>

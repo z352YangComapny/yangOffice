@@ -1,10 +1,17 @@
 package com.yangworld.app.domain.admin.controller;
 
+import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
+import com.yangworld.app.domain.guestbook.service.GuestBookService;
 import com.yangworld.app.domain.member.dto.UpdateMemberDto;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.photoFeed.dto.FeedDto;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.profile.dto.AdminProfileDto;
+import com.yangworld.app.domain.profile.entity.Profile;
+import com.yangworld.app.domain.profile.service.ProfileService;
+import com.yangworld.app.domain.story.dto.StoryAdminDto;
+import com.yangworld.app.domain.story.entity.Story;
 import com.yangworld.app.domain.story.service.StoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +31,10 @@ public class AdminController {
     MemberService memberService;
     @Autowired
     StoryService storyService;
+    @Autowired
+    GuestBookService guestBookService;
+    @Autowired
+    ProfileService profileService;
 
     @GetMapping("/photoFeedCount")
     public ResponseEntity<?> photoFeedTotalCount(){
@@ -61,5 +72,28 @@ public class AdminController {
     public ResponseEntity<?> totalStoryCount(){
         int result = storyService.getTotalStoryCount();
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/story/{pageNo}")
+    public ResponseEntity<?> story(@PathVariable int pageNo) {
+        int pageSize = 10;
+        List<StoryAdminDto> result = storyService.getAdminStory(pageNo , pageSize);
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/guestbookTotalNo")
+    public ResponseEntity<?> guestbookTotalNo(){
+        int result = guestBookService.guestbookTotalNo();
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/guestbook/{pageNo}")
+    public ResponseEntity<?> guestbookList(@PathVariable int pageNo) {
+        int pageSize = 10;
+        List<GuestbookAdminDto> result = guestBookService.guestbookList(pageNo , pageSize);
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<?> profile(@PathVariable int id){
+        AdminProfileDto adminProfileDto = profileService.findProfileByMemberIdForAdmin(id);
+        return ResponseEntity.ok(adminProfileDto);
     }
 }

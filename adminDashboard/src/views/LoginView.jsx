@@ -50,6 +50,10 @@ const LoginView = () => {
             localStorage.setItem('Authorization', token)
             getAuth();
         })
+        .catch((err)=>{
+            console.log(err)
+            alert('로그인 실패')
+        })
     }
 
     return (

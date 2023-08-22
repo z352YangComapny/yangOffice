@@ -1,11 +1,11 @@
 package com.yangworld.app.domain.guestbook.repository;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
+import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 @Mapper
 public interface GuestBookRepository {
@@ -18,5 +18,8 @@ public interface GuestBookRepository {
 
 	@Update("update guestbook set content = #{content} where id = #{id}")
 	int updateGuestBook(GuestBook guestBook);
-
+	@Select("select count(*) from guestbook")
+	int guestbookTotalNo();
+	@Select("select * from guestbook order by reg_date desc")
+	List<GuestBook> guestBookList(RowBounds rowBounds);
 }
