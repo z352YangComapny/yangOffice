@@ -33,19 +33,16 @@
 .modal{
 }
 .modal-content{
-	border-radius: 80px;
 	padding: 40px;
-	background-color: #CCFFE5;
 }
-.modal-header{
+.storyModalWriterId{
 	background-color: #E0E0E0;
 }
-.modal-body {
+.storyModalContent {
 	background-color: #FFFFFF;
 }
-.modal-footer{
+.storyModalCreatedAt{
 	background-color: #E0E0E0;
-	
 }
 .storyModalContent{
 	height: 100px;

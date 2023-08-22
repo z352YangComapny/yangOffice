@@ -37,7 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index.jsp" ,"/oauth/**").permitAll()
                 .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
                         "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
-                        "/member/checkEmail.do").anonymous()
+                        "/member/checkEmail.do", "/member/checkEmailSearch.do",
+                            "/member/resetPassword.do").anonymous()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/story/storyMain").permitAll()
                 .antMatchers("/stomp").permitAll()

@@ -35,9 +35,7 @@
 .modal{
 }
 .modal-content{
-	border-radius: 80px;
 	padding: 40px;
-	background-color: #CCFFE5;
 }
 .modal-header{
 	background-color: #E0E0E0;
@@ -47,5 +45,4 @@
 }
 .modal-footer{
 	background-color: #E0E0E0;
-	
 }

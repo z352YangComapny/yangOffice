@@ -21,15 +21,12 @@
 			<div id="story"  class="flex-grow-6" style=" height: 80vh;">
 				<c:forEach items="${stories}" var="story">
 					<div class="card m-3">
-					 	<button type="hidden" id="storyId" value="${story.id}"/>
+					 	<input type="hidden" id="storyId" value="${story.id}"/>
 					  <ul class="list-group list-group-flush">
 					    <li class="list-group-item writerId">${story.writerId}</li>
 					    <li class="list-group-item content">${story.content}</li>
 					    <li class="list-group-item createdAt">${story.regDate}</li>
 					  </ul>
-					</div>
-					<div>
-						<button class="btn btn-secondary" id="btnDelete">삭제</button>
 					</div>
 				</c:forEach>
 			</div>
@@ -48,8 +45,9 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer storyModalCreatedAt"></div>
-	       <button class="btn btn-primary" id="btnUpdateStory">수정</button>
-	       <button type="hidden" id="storyModalId" value=""/>
+			<button class="btn btn-primary" id="btnUpdateStory">수정</button>
+			<button class="btn btn-secondary" id="btnDelete">삭제</button>
+	       <input type="hidden" id="storyModalId" value=""/>
 	    </div>
 	  </div>
 	</div>
@@ -152,7 +150,7 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 
 document.querySelector("#btnDelete").onclick = () => {
 	if(confirm('정말로 삭제함?')){
-		const id = document.querySelector("#storyId").value;
+		const id = document.querySelector("#storyModalId").value;
 		document.querySelector("#deleteModalId").value = id;
 		
 		const frm = document.querySelector("#deleteFrm");
