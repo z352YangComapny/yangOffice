@@ -7,11 +7,14 @@ import "assets/css/bootstrap.min.css"
 import "assets/css/paper-kit.css";
 import "assets/demo/demo.css";
 import reportWebVitals from './reportWebVitals';
+import MembetContextProvider from 'contexts/MembetContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <MembetContextProvider>
     <App />
+    </MembetContextProvider>
   </React.StrictMode>
 );
 

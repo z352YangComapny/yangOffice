@@ -64,11 +64,11 @@ export default class Game extends Scene {
     }
 
     create() {
-        if(!this.network){
+        if(!this.network.token){
             console.log(this.network)
             return
         }
-        console.log(this.network)
+        console.log("game init")
         // Load Map
         this.map = this.make.tilemap({ key: 'map' });
         const tileset = this.map.addTilesetImage('FloorAndGround', 'floorAndGround')

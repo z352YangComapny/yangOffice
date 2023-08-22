@@ -66,6 +66,7 @@ public class SecurityConfig {
 		corsConfiguration.addAllowedOrigin("http://localhost:7070");
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addExposedHeader("Authorization");
 		source.registerCorsConfiguration("/**", corsConfiguration);
 		return source;
 	}
