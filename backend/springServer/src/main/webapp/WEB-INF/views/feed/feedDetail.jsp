@@ -42,7 +42,7 @@
         border-radius: 5px;
     }
 </style>
-
+<hr style="height: 3px">
 <div class="carousel-and-content">
     <div class="carousel-box">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -72,6 +72,7 @@
         <div>${response.content}</div>
     </div>
 </div>
+<hr style="border: 3px">
    <div class="comment-form">
             <h4>댓글 작성</h4>
             <form:form action="${pageContext.request.contextPath}/commentCreate" method="post">
