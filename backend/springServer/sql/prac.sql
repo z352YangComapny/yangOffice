@@ -72,15 +72,25 @@ from
     comments_feed cf join comments cm
     on cf.photo_feed_id = cm.id
 where
-    pf.id = 2;
+    pf.id = 2;    
 
-select * from comments;
+
+
+SELECT c.*
+FROM comments c
+JOIN comment_feed cf ON c.id = cf.comments_id
+WHERE cf.photo_feed_id = 4;
 
     
 SELECT a.*
 FROM attachment a
 JOIN attachment_photo_feed af ON a.id = af.attachment_id
 WHERE af.photo_feed_id = 45; 
+
+select * from photo_feed;
+select * from comments_feed;
+select * from comments;
+
 
 
 

@@ -69,13 +69,15 @@
         </div>
     </div>
     <div class="content-box">
-        <div>${response.content}</div>
+        <div>${comments}</div>
     </div>
 </div>
 <hr style="border: 3px">
    <div class="comment-form">
             <h4>댓글 작성</h4>
-            <form:form action="${pageContext.request.contextPath}/commentCreate" method="post">
+            <form:form
+            action="${pageContext.request.contextPath}/feedDetails/commentCreate" 
+            method="post">
                 <div class="mb-3">
                     <label for="comment" class="form-label">댓글 내용</label>
                     <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
@@ -83,5 +85,10 @@
                 <button type="submit" class="btn btn-primary">댓글 작성</button>
             </form:form>
         </div>
+        
+<script>
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

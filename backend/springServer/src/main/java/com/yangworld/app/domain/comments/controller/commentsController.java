@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/feedDetails")
 public class commentsController {
 	
 	
@@ -35,8 +36,9 @@ public class commentsController {
 	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
 	
-	@GetMapping("/feed/feedDetail")
-	public void getComments(@RequestParam int photoFeedId, Model model) {
+	// 댓글 조회
+	@GetMapping("/photoFeedId={photoFeedId}")
+	public void getComments(@PathVariable int photoFeedId, Model model) {
 		
     List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
     
@@ -50,16 +52,22 @@ public class commentsController {
 	@PostMapping("/commentCreate")
 	public String commentCreate(
 	        @AuthenticationPrincipal PrincipalDetails principalDetails,
-	        @RequestBody @Valid CommentCreateDto commentCreateDto,
+	        @ModelAttribute @Valid CommentCreateDto commentCreateDto,
 	        BindingResult bindingResult) {
-		
-		log.info("principalDetails = {}", principalDetails.getId());
-		
-		
-		int result = commentService.insertComment(principalDetails, commentCreateDto);
-		
-		return "redirect:/";
+	    
+	    int photofeed = principalDetails.getId();
+	    log.info("principalDetails = {}", principalDetails.getId());
+	    
+	    if (bindingResult.hasErrors()) {
+	        // 폼 데이터 유효성 검사 실패 시 처리
+	        return ""; // 해야할 거 
+	    }
+	    
+	    int result = commentService.insertComment(principalDetails, commentCreateDto);
+	    
+	    return "redirect:/feed/feedDetail?photoFeedId=" + photofeed;
 	}
+
 	
 	
 	// 댓글 수정
