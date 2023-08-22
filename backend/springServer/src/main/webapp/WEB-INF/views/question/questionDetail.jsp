@@ -20,7 +20,7 @@
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
-        height: 400px;
+        height: 500px;
     }
 
     div#board-form input,
@@ -39,43 +39,124 @@
         text-align: left;
     }
 </style>
-
+<meta name="_csrf" content="${_csrf.token}">
+<meta name="_csrf_header" content="${_csrf.headerName}">
 <div id="board-container">
     <div id="board-form">
         <input type="text" class="form-control" placeholder="제목" name="title" id="title" value="${question.title}" readonly required>
         <input type="text" class="form-control" name="memberId" value="${principalName}" readonly required>
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
+        
+        <c:if test="${isAdmin && questionType eq 'Q'}">
+                <label for="commentContent"></label>
+                <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
+            <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+        </c:if>
+        
+        
+        
+        
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
-        <c:if test="${isAdmin}">
-	        <button type="button" class="btn btn-primary btn-lg" onclick="addComment();">댓글 작성</button>
-		 </c:if>
-        
-        
-        
         
     </div>
 </div>
 
 <script>
-function goBack() {
-    history.back();
-}
-function addComment() {
-   	const commentContent = document.getElementById('commentContent').value;
+const csrfToken = "${_csrf.token}";
+
+
+document.querySelector('#commentCreate').onclick = () => {
+    const commentContent = document.getElementById('commentContent').value;
+
     if (commentContent.trim() !== '') {
-        // 작성한 댓글 내용을 서버로 전송하는 로직을 추가
-        var questionId = ${question.id}; // 해당 게시글 ID를 가져오는 방식으로 변경
-        var formData = new FormData();
+        const qnaCommentDto = {
+            commentId: 0,
+            questionId: ${questionId} 
+        };
+
+        const qnaCommentCreateDto = {
+            content: commentContent, 
+            writerId: "${principalId}",
+            commentQna: qnaCommentDto 
+        };
+
+        fetch('/qnaCommentCreate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
+            },
+            body: JSON.stringify(qnaCommentCreateDto)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('댓글 작성 중 오류 발생');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('댓글이 작성되었습니다.');
+            location.reload();
+        })
+        .catch(error => {
+            console.error('댓글 작성 중 오류:', error);
+            alert('댓글 작성 중 오류가 발생했습니다.');
+        });
+    } else {
+        alert('댓글 내용을 입력해주세요.');
+    }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+	
+    fetch('/getQnaComments?questionId=${questionId}', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('댓글 가져오기 중 오류 발생');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data !== "no") {
+            // 댓글 데이터가 있는 경우
+            const comments = data;
+            const commentContent = document.getElementById("commentContent");
+            commentContent.value = comments[0].content; // 첫 번째 댓글의 내용을 가져와서 출력
+            
+        } else {
+            // 댓글 데이터가 없는 경우
+            const commentContent = document.getElementById("commentContent");
+            commentContent.placeholder = "댓글을 입력해주세요.";
+        }
+    })
+    .catch(error => {
+        console.error('댓글 가져오기 중 오류:', error);
+    });
+});
+
+/* function addComment() {
+    const commentContent = document.getElementById('commentContent').value;
+    if (commentContent.trim() !== '') {
+        const questionId = ${question.id};
+        const formData = new FormData();
         formData.append('questionId', questionId);
         formData.append('content', commentContent);
         
         $.ajax({
             type: 'POST',
-            url: '/addComment', // 실제 댓글 추가를 처리하는 URL로 수정
+            url: '/qnaCommentCreate', 
             data: formData,
             processData: false,
             contentType: false,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')},
             success: function(data) {
                 alert('댓글이 작성되었습니다.');
                 location.reload(); 
@@ -87,7 +168,7 @@ function addComment() {
     } else {
         alert('댓글 내용을 입력해주세요.');
     }
-}
+} */
 /* function deleteNotice(questionId) {
     if (confirm('정말로 공지사항을 삭제하시겠습니까?')) {
         const jsonData = { questionId: questionId }; // JSON 데이터 생성

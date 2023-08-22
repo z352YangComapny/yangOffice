@@ -60,6 +60,9 @@ public class QuestionController {
 		model.addAttribute("isAdmin", isAdmin);
 		model.addAttribute("question", question);
 		model.addAttribute("principalName",principal.getUsername());
+		model.addAttribute("questionType", question.getType());
+		model.addAttribute("questionId", question.getId());
+		model.addAttribute("principalId", principal.getId());
 	}
 	
 	/**

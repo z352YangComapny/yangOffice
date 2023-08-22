@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -16,7 +17,8 @@ public interface CommentsRepository {
 
 	// ok
 	@Insert("insert into comments values(seq_comments_id.nextval, #{writerId}, #{content}, sysdate)")
-	int insertComment(@Param(value = "writerId") int writerId,@Param(value = "content")  String content);
+//	@Options(useGeneratedKeys = true, keyProperty = "id")
+	int insertComment(@Param(value = "writerId") int writerId, @Param(value = "content") String content);
 	
 	// ok
 	@Insert("insert into comments_feed (comments_id, photo_feed_id) values(#{commentId}, #{photoFeedId})")
@@ -38,9 +40,13 @@ public interface CommentsRepository {
 	@Select("select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = #{photoFeedId}")
 	List<Comments> getCommentsByPhotoFeedId(int photoFeedId);
 	
+	//---------------------------------------------------------------------------------------------------------
+	
+	@Insert("insert into comments_question (comments_id, question_id) values (seq_comments_id.currval, #{questionId})")
+	int insertCommentQna(@Param(value = "commentId") int commentId, @Param(value = "questionId") int questionId);
 
-
-
+	@Select("select c.content from comments_question cq join comments c on cq.comments_id = c.id where cq.question_id = #{questionId}")
+	List<Comments> getCommentsByQuestionId(int questionId);
 
 
 	

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,8 +78,14 @@ public class ProfileController {
 	    return "/profile/profileUpdate";
 	    
 	}
-	@GetMapping("/main.do")
+	@GetMapping("/")
+	@PreAuthorize("isAuthenticated()")
 	public String mainFrm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+		
+		if (principal == null) {
+	        return "forward:/index.jsp";  
+	    }
+		
 		int memberId = principal.getId();
 		log.info("principal = {} ", principal.getId());
 		ProfileDetails profile = profileService.getProfileByMemberId(memberId);
@@ -93,7 +100,7 @@ public class ProfileController {
 	    log.info("profile = {}", profile);
 	    log.info("profileAttachment = {}",profileAttachments);
 	    
-		return "/profile/profileMain";
+	    return "forward:/index.jsp"; 
 	}
 
 	

@@ -31,8 +31,11 @@
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
     <div class="d-flex flex-row">
-        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
-        <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
+	        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
+	        	<jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
+	         </div>
+	         
+	        <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
             <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
             	 <a href="${pageContext.request.contextPath}/dm/dmList">
 			        <img src="${pageContext.request.contextPath}/resources/images/dm_logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>

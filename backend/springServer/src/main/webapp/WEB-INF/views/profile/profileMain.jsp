@@ -3,15 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param value="프로필 메인" name="title"/>
-</jsp:include>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>프로필 메인</title>
-</head>
 <style>
     /* 이미지 최대 너비와 최대 높이 설정 */
     #selectedImage {
@@ -35,6 +26,7 @@
     }
 </style>
 <body>
+<sec:authorize access="isAuthenticated()">
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
         
@@ -44,7 +36,7 @@
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/profile/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+		                    <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
@@ -64,7 +56,7 @@
                 <textarea class="form-control" id="introduction" name="introduction" rows="4" required style="width: 350px; height: 200px;" disabled>${profile.introduction} </textarea>
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
-            ${principalName}&nbsp&nbsp&nbsp${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp&nbsp&nbsp${principalBday}
+            ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
             <button type="submit" class="btn btn-primary">수정</button>
             	
             </div>
@@ -74,7 +66,7 @@
 
         </form:form>
     </div>
-
+</sec:authorize>
 
 <script>
 
