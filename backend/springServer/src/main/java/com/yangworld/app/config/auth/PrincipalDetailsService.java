@@ -1,5 +1,6 @@
 package com.yangworld.app.config.auth;
 
+import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,4 +28,7 @@ public class PrincipalDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         return principalDetails;
     }
+	public int insertMember(SignUpDto signUpDto) {
+		return memberRepository.insertMember(signUpDto);
+	}
 }
