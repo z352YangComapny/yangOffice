@@ -13,7 +13,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 </style>
 <div id="guestbook-container">
 	<form:form action="${pageContext.request.contextPath}/guestbook/create.do" class="form-inline" method="post">
-		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;s
+		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;
 		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
@@ -48,11 +48,11 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}">삭제</button>
 						</td>
 						<td>
-							<form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
-							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
-							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp;
-								<button type="submit" class="btn btn-outline-danger reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}">신고</button>
-							</form:form>
+							<%-- <form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
+ 							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
+							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp; 
+							</form:form> --%>
+								<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" onclick="goReport(${guestbook.id}, ${guestbook.writerId});">🚨</button>
 						</td>	
 					</tr>
 				</c:forEach>
@@ -120,6 +120,20 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
       
     };
 });
+
+function goReport(guestbookId,reportedId) {
+    fetch("${pageContext.request.contextPath}/report/guestbookReport?guestbookId=" + guestbookId + "&reportedId=" + reportedId)
+        .then(response => {
+            if (response.ok) {
+                window.location.href = response.url;
+            } else {
+                console.error("Failed to fetch");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
 </script>
 
 
