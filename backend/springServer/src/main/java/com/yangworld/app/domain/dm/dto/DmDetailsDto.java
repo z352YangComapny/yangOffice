@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class DmDetailsDto {
 
 	private int id;
-	private String name;
+	private String name; // member
 	private String renamedFileName; // attahment
 	private int receiverId;
 	private int senderId;

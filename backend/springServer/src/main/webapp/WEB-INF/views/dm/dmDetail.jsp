@@ -103,7 +103,6 @@
                 // Loop through the data and generate HTML
                 data.forEach(dm => {
                     const dmDiv = document.createElement('div');
-
                     if (dm.receiverId == id) {
                         console.log("왼짝")
                         // If the receiver ID is not the logged-in user, place on the left
@@ -112,7 +111,7 @@
 					            <img src="${pageConext.request.contextPath}/resource/upload/attachment/profile/${dm.renamedFileName}"
 					                 alt="avatar 1" style="width: 45px; height: 100%;">
 					            <div class="d-flex flex-column">
-					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 15px">\${dm.name}</p>
+					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 10px">\${dm.name}</p>
 					                <div class="d-flex align-items-center">
 					                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
 					                        \${dm.content}

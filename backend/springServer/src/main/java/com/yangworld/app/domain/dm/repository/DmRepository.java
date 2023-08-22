@@ -75,5 +75,8 @@ public interface DmRepository {
     @Select("SELECT * FROM attachment WHERE id=#{attachId}")
 	Attachment findRenameFileNameForDm(int attachId);
 
+    @Select("SELECT * FROM dm_room WHERE id=#{dmRoomId}")
+	List<DmRoom> findDmRoomById(int dmRoomId);
+
 	
 }

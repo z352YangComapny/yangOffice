@@ -57,8 +57,8 @@ public class DmServiceImpl implements DmService {
 	}
 	
 	@Override
-	public List<DmRoom> findDmRoomById(int userId) {
-		return dmRepository.findDmRoom(userId);
+	public List<DmRoom> findDmRoomById(int dmRoomId) {
+		return dmRepository.findDmRoomById(dmRoomId);
 	}
 	
 	@Override
@@ -67,9 +67,9 @@ public class DmServiceImpl implements DmService {
 		
 		List<Dm> dmDetails = dmRepository.findDmDetails(dmRoomId);
 		List<DmDetailsDto> dmDto= new ArrayList<>();
+		int otherId = 0;
 		
 		for(Dm dm : dmDetails) {
-			int otherId = 0;
 			
 			if(dm.getReceiverId() == userId) {
 				otherId = dm.getSenderId();
