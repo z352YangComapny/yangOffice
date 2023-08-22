@@ -58,14 +58,25 @@ const renderStory = (payloads) => {
 			    const currentCardIndex = parseInt(document.querySelector('#currentCard').value);
 			    console.log('currentCardIndex : ', currentCardIndex);
 			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
+			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
 			    console.log('nextCardIndex : ', nextCardIndex);
-			    
-			    if (nextCardIndex) {
-			    	const nextCard = nextCardIndex.closest('.card');
-			        updateModal(nextCard);
-			    }else{
-			    	storyModal.modal('hide');
+			    	
+			    if (event.deltaY < 0){
+			    	if (beforeCardIndex) {
+				    	const beforeCard = beforeCardIndex.closest('.card');
+				        updateModal(beforeCard);
+				    }else{
+				    	storyModal.modal('hide');
+				    }
+			    }else if (event.deltaY > 0){
+				    if (nextCardIndex) {
+				    	const nextCard = nextCardIndex.closest('.card');
+				        updateModal(nextCard);
+				    }else{
+				    	storyModal.modal('hide');
+				    }
 			    }
+			    
 			});
 
         });

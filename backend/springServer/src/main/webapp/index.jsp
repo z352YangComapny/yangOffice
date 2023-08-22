@@ -43,7 +43,7 @@
 			    </a>
             </div>
             <div id="story"  class="flex-grow-1" style="height : 20vh; margin : 0;">
-            	<a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton" style="color: MediumSeaGreen; font-size: 40px; font-family: 'Kalam', cursive; padding: 5px; margin: 3px; text-decoration: none;">Story</a>
+            	<a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton" style="color: MediumSeaGreen; font-size: 40px; font-family: 'Kalam', cursive; text-decoration: none;">Story</a>
             	<jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
             </div>
             <div id="photoFeed" class="flex-grow-1" style="border: 1px solid #000; height: 40vh; margin : 0;">
