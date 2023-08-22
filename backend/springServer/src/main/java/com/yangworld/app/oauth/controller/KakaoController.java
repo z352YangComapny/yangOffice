@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,6 +34,8 @@ public class KakaoController{
 	private KakaoService kakaoService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private PrincipalDetailsService pricipalDetailsService;
 
 	@GetMapping("/login.do")
 	public RedirectView login() {
@@ -62,7 +65,7 @@ public class KakaoController{
 		String memberId = attributes.get("id")+"@kakao";
 		PrincipalDetails member = null;
 		try {
-			member = (PrincipalDetails) memberService.loadUserByUsername(memberId);
+			member = (PrincipalDetails) pricipalDetailsService.loadUserByUsername(memberId);
 		}catch(UsernameNotFoundException ignore) {
 			// 회원이 아닌 경우 
 			Map<String, Object> kakaoAccount = (Map<String,Object>) attributes.get("kakao_account");

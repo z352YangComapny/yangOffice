@@ -170,11 +170,13 @@ public class MemberController {
         log.info("password ={}", password);
         log.info("username={}", username);
         String  newPassword =  passwordEncoder.encode(password);
+        log.info("newPwd={}", newPassword);
 
         int result = memberService.resetPassword(newPassword, username);
         log.info("result@reset = {}", result);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
+                
 
     }
 

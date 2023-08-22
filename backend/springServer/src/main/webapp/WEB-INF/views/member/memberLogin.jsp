@@ -208,9 +208,8 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary searchId">Reset Password</button>
+						<button type="button" class="btn btn-primary searchId" onclick="resetPassword()">Reset Password</button>
 						<button type="button" class="btn btn-secondary close-modal"  data-bs-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -536,6 +535,12 @@
 			function nextStep() {
 			document.getElementById("modalContent1").style.display = "none";
 			document.getElementById("modalContent2").style.display = "block";
+			}
+			// 모달을 닫는 함수
+			function closeModal() {
+				const resetPwdModal = document.getElementById("resetPwdModal");
+				resetPwdModal.style.display = "none";
+				resetPwdModal.classList.remove("show");
 			}
 
 			// 비밀번호 재설정 버튼 클릭 시 Ajax 요청 수행

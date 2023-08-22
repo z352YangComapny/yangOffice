@@ -53,6 +53,6 @@ public interface MemberRepository {
     Member findByPhone(String phone);
 
     @Update("update member set password = #{newPassword} where username = #{username}")
-    int resetPassword(String newPassword, String username);
+    int resetPassword(@Param("newPassword")String newPassword, @Param("username")String username);
 }
 
