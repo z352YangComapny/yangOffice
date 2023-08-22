@@ -1,8 +1,5 @@
 package com.yangworld.app.domain.member.service;
 
-import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.config.auth.PrincipalDetailsService;
-import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
@@ -11,7 +8,6 @@ import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,11 +53,6 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.deleteFollowee(unfollow);
     }
 
-    @Override
-    public String findMemberByEmail(FindIdDto findIdDto) {
-        return memberRepository.findMemberByEmail(findIdDto);
-    }
-
 	@Override
 	public Member findById(int writerId) {
 		return memberRepository.findById(writerId);
@@ -77,15 +68,16 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findByPhone(phone);
     }
 
-	@Override
-	public PrincipalDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		PrincipalDetails member = memberRepository.loadUserByUsername(username);
-		log.debug("member={}",member);
-		if(member == null) {
-			throw new UsernameNotFoundException(username);
-		}
-		return member;
-	}
+    @Override
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findMemberByEmail(email);
+    }
+
+    @Override
+    public int resetPassword(String newPassword, String username) {
+        return memberRepository.resetPassword(newPassword, username);
+    }
+
 
 
 }
