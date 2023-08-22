@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
+import com.yangworld.app.domain.comments.dto.CommentUpdateDto;
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
@@ -32,7 +33,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
     public List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId) {
     	
 		 List<CommentFeed> comments = commentsRepository.getCommentsByPhotoFeedId(photoFeedId);
-		 log.info("comments ={}",comments);
 		 
 		 List<CommentAllDto> commentList = new ArrayList<>();
 		 
@@ -46,7 +46,7 @@ public class FeedCommentsServiceImpl implements CommentsService{
 				 
 			 
 			 CommentAllDto commentAllDto = CommentAllDto.builder()
-					 .id(photoFeedId)
+					 .id(cmt.getId())
 					 .writerId(cmt.getWriterId())
 					 .content(cmt.getContent())
 					 .regDate(cmt.getRegDate())
@@ -59,18 +59,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
         return commentList;
     }
 
-
-	@Override
-	public int updateComment(PrincipalDetails principalDetails, CommentCreateDto commentUpdateDto) {
-		int result = 0;
-		
-		int writerId = principalDetails.getId();
-		String content = commentUpdateDto.getContent();
-		
-		result = commentsRepository.updateComment(writerId, content);
-		
-		return result;
-	}
 
 	@Override
 	public int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId) {
@@ -89,17 +77,29 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 
 	@Override
-	public int deleteComment(PrincipalDetails principalDetails, int photoFeedId, String comment) {
+	public int deleteComment(int commentId) {
 		
 		int result = 0;
 		
-		int commentId = principalDetails.getId();
-		
+		log.info("commentId ={}", commentId);
 		result = commentsRepository.deleteComment(commentId);
 		
 		if(result > 0) {
 			result = commentsRepository.deleteCommentFeed(commentId);
 		}
+		
+		return result;
+	}
+
+
+	@Override
+	public int updateComment(PrincipalDetails principalDetails, CommentUpdateDto commentUpdateDto, int commentId) {
+		int result = 0;
+		
+		String newContent = commentUpdateDto.getNewContent();
+		
+		result = commentsRepository.updateComment(commentId, newContent); 
+		
 		
 		return result;
 	}

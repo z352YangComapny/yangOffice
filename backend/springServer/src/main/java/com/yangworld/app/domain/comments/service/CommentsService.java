@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
+import com.yangworld.app.domain.comments.dto.CommentUpdateDto;
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.question.entity.Comment;
@@ -19,13 +20,14 @@ import com.yangworld.app.domain.question.entity.Comment;
 public interface CommentsService {
 	
 
-	int updateComment(PrincipalDetails principalDetails,  CommentCreateDto commentUpdateDto);
 
 	List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId);
 
 	int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId);
 
-	int deleteComment(PrincipalDetails principalDetails, int photoFeedId, String comment);
+	int deleteComment(int commentId);
+
+	int updateComment(PrincipalDetails principalDetails, CommentUpdateDto commentUpdateDto,int commentId);
 
 
 }

@@ -96,42 +96,65 @@
 				        <c:forEach items="${commentList}" var="comment">
 				            <li class="list-group-item">
 				                <div class="d-flex justify-content-between">
-				                    <div class="comment-content">${comment.writerId} : ${comment.content}</div>
+				                    <div class="comment-content" id="comment-${comment.id}">
+				                        ${comment.writerId} : <span class="comment-text">${comment.content}</span>
+				                    </div>
 				                    <div class="comment-info">
-										<c:if test="${comment.writerId eq principalDetails.id}">
-										    <button type="button" class="btn btn-secondary" onclick="deleteComment(${comment.id}, ${response.id})">삭제</button>
-										</c:if>
+				                        <c:if test="${comment.writerId eq principalDetails.id}">
+				                            ${comment.id}
+				                            <form:form
+				                                action="${pageContext.request.contextPath}/feedDetails/commentDelete" 
+				                                method="post">
+				                                <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
+				                                <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
+				                                <button type="submit" class="btn btn-secondary">삭제</button>
+				                            </form:form>
+				                            <!-- Edit button -->
+				                            <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">수정</button>
+				                        </c:if>
 				                        ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
 				                    </div>
+				                </div>
+				                <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
+				                    <textarea class="form-control" rows="3">${comment.content}</textarea>
+				                    <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인</button>
 				                </div>
 				            </li>
 				        </c:forEach>
 				    </ul>
 				</div>
+
 		<!-- 댓글 목록 폼 끝 -->
-
-
 <script>
-    /* AJAX 요청 */
-   function deleteComment(commentId, photoFeedId) {
-    if (confirm("댓글을 삭제하시겠습니까?")) {
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/commentDelete",
-            data: {
-                comment: commentId,
-                photoFeedId: photoFeedId
-            },
-            success: function(response) {
-                location.reload(); 
-            },
-            error: function(error) {
-                console.error("댓글 삭제 실패:", error);
-            }
+    $(document).ready(function () {
+        $(".edit-comment-btn").click(function () {
+            var commentId = $(this).data("comment-id");
+            $("#comment-" + commentId).hide();
+            $("#edit-comment-form-" + commentId).show();
         });
-    }
-}
 
+        $(".update-comment-btn").click(function () {
+            var commentId = $(this).data("comment-id");
+            var newContent = $("#edit-comment-form-" + commentId + " textarea").val();
+
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/feedDetails/commentUpdate",
+                data: {
+                    commentId: commentId,
+                    photoFeedId: "${response.id}",
+                    newContent: newContent
+                },
+                success: function () {
+                    $("#comment-" + commentId + " .comment-text").text(newContent);
+                    $("#edit-comment-form-" + commentId).hide();
+                    $("#comment-" + commentId).show();
+                }
+            });
+        });
+    });
 </script>
+
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
