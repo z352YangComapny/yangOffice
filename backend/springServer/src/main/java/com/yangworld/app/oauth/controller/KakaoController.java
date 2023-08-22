@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -95,12 +95,12 @@ public class KakaoController{
 		}
 		
 		// 로그인 처리
-//		Authentication authentication = new UsernamePasswordAuthenticationToken(
-//					member,
-//					member.getPassword(),
-//					member.getAuthorities()
-//				);
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(
+					member,
+					member.getPassword(),
+					member.getAuthorities()
+				);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		return new RedirectView(request.getContextPath()+"/");
 	}
