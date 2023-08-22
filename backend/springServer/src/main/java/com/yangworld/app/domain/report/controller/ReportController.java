@@ -34,6 +34,11 @@ public class ReportController {
 		
 	}
 	
+	@GetMapping("/guestbookReport")
+	public void guestbookReport() {
+		
+	}
+	
 	/**
 	 * 윤아
 	 * dm report 인서트 
@@ -60,10 +65,9 @@ public class ReportController {
 	@PostMapping("/insertReportGuestBook.do")
 	public String insertReportGuestBook(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			ReportCreateDto _reportDto,
-			@RequestParam int reportGuestbook,
+			@ModelAttribute ReportCreateDto _reportDto,
+			@RequestParam int guestbookId,
 			@RequestParam int reportedId,
-			@RequestParam String reportContent,
 			RedirectAttributes redirectAttributes
 		){
 		
@@ -72,11 +76,11 @@ public class ReportController {
 		Report report = _reportDto.toReport();
 		report.setReporterId(reporterId);
 		report.setReportedId(reportedId);
-		report.setContent(reportContent);
 		
-		log.info("report = {}",report);
 		
-		reportService.insertReportGuestBook(report,reportGuestbook);
+		log.info("report@cont = {}",report);
+		
+		reportService.insertReportGuestBook(report,guestbookId);
 		redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
 		
 		return "redirect:/guestbook/guestbook.do";
