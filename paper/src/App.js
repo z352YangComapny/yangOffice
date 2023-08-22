@@ -7,6 +7,7 @@ import Footer from './components/common/Footer';
 import SignIn from './pages/SignIn';
 import GameSocketComponent from './components/route/GameSocketComponent';
 import DemoFooter from 'components/Footers/DemoFooter';
+import Index from 'views/Index';
 
 function App() {
   const [ping, setPing] = useState('');
@@ -36,25 +37,12 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <span>{ping}</span>
-      </header>
       <GameComponent />
+      <span>{ping}</span>
       <SignIn/>
       <GameSocketComponent/>
       <Footer/>
+      <Index/>
     </div>
   );
 }

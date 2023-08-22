@@ -34,7 +34,7 @@ function DemoFooter() {
                   href="https://www.creative-tim.com?ref=pkr-footer"
                   target="_blank"
                 >
-                  Creative Tim
+                  Yang world
                 </a>
               </li>
               <li>
@@ -55,10 +55,13 @@ function DemoFooter() {
               </li>
             </ul>
           </nav>
+          <p>이 커뮤니티 프로젝트는 화합과 소통을 위해 시작되었습니다.
+
+함께하는 모든 분들의 노력으로 만들어진 소중한 공간이며, 우리의 목표는 더 평화로운 미래를 찾는 것입니다.</p>
           <div className="credits ml-auto">
             <span className="copyright">
               © {new Date().getFullYear()}, made with{" "}
-              <i className="fa fa-heart heart" /> by Creative Tim
+              <i className="fa fa-heart heart" /> by Yang World
             </span>
           </div>
         </Row>
