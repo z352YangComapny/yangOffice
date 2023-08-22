@@ -5,8 +5,7 @@ export const MemberContext = createContext();
 const SpringBaseURL = "http://localhost:8080"
 
 const MembetContextProvider = (props) => {
-    const [isLogin, setIsLogin] = useState(false);
-    const [accessToken , setAccessToken] = useState('');
+    const [isLogin, setIsLogin] = useState(localStorage.getItem('token')?true:false);
     const [userProfile , setUserProfile] = useState({
         id:0,
         username:"default",
@@ -16,7 +15,7 @@ const MembetContextProvider = (props) => {
     });
 
     const LogOut = () => {
-        setAccessToken('');
+        localStorage.removeItem('token')
         setIsLogin(false);
     }
 
@@ -32,11 +31,11 @@ const MembetContextProvider = (props) => {
     const value = {
         states:{
             isLogin,
-            accessToken
+            userProfile
         },
         actions:{
+          setUserProfile,
             setIsLogin,
-            setAccessToken,
             LogOut,
             signin
         },

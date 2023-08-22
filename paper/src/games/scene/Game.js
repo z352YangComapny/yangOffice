@@ -1,3 +1,4 @@
+
 import Phaser, { Scene } from "phaser";
 import { createCharacterAnims } from "../anims/CharacterAnims";
 import PlayerController from "../characters/PlayerController";
@@ -6,7 +7,9 @@ import Network from "../network/NetWork";
 
 export default class Game extends Scene {
     constructor() {
-        super('game')
+        super({ key: 'Game' });
+        this.userProfile=window.userProfile;
+        delete window.userProfile;
         this.map = null;
         this.network = null;
         this.cursors = null;
@@ -68,7 +71,6 @@ export default class Game extends Scene {
             console.log(this.network)
             return
         }
-        console.log("game init")
         // Load Map
         this.map = this.make.tilemap({ key: 'map' });
         const tileset = this.map.addTilesetImage('FloorAndGround', 'floorAndGround')
@@ -80,8 +82,10 @@ export default class Game extends Scene {
         this.registerKeys()
 
         // , this.network.mySessionId
-        this.myPlayer = this.physics.add.sprite(800, 500, 'adam')
-        this.controller = new PlayerController(this, 0, 0, 16, 16)
+        this.myPlayer = new MyPlayer(this, 800, 500, 'adam' , this.cursors , this.network);
+        this.myPlayer.setPlayerName(this.userProfile.username);
+        this.controller = new PlayerController(this, 0, 0, 16, 16 , this.cursors , this.myPlayer);
+
         // Object Layer
         this.addGroupFromTiled('carpet', 'generic', 'Generic', false);
         this.addGroupFromTiled('wall', 'floorAndGround', 'FloorAndGround', true);
@@ -97,62 +101,13 @@ export default class Game extends Scene {
         
         this.cameras.main.zoom = 1.3
         this.cameras.main.startFollow(this.myPlayer, true);
-
-        
-        
-
         
     }
 
     update() {
         if (this.myPlayer) {
-            const speed = 200;
-            let vx=0;
-            let vy=0;
+            this.myPlayer.update()
             
-            if(this.cursors.left.isDown){
-              vx-=speed
-            }
-            else if(this.cursors.right.isDown){
-              vx+=speed
-            }
-
-            if(this.cursors.up.isDown){
-              vy-=speed
-              this.myPlayer.setDepth(this.myPlayer.y)
-            } else if(this.cursors.down.isDown){
-              vy+=speed
-              this.myPlayer.setDepth(this.myPlayer.y)
-            }
-
-            this.myPlayer.setVelocity(vx , vy)
-            this.myPlayer.body.velocity.setLength(speed);
-            // this.myPlayer.playContainerBody.setVelocity(vx , vy)
-            // this.myPlayer.playContainerBody.setLength(speed)
-
-            if (vx > 0) {
-                this.myPlayer.anims.play(`${this.playerTexture}_run_right`, true)
-            } else if (vx < 0) {
-                this.myPlayer.anims.play(`${this.playerTexture}_run_left`, true)
-            } else if (vy > 0) {
-                this.myPlayer.anims.play(`${this.playerTexture}_run_down`, true)
-            } else if (vy < 0) {
-                this.myPlayer.anims.play(`${this.playerTexture}_run_up`, true)
-            } else {
-                this.myPlayer.anims.play(`${this.playerTexture}_idle_down`, true)
-            //   const parts = this.myPlayer.anims.currentAnim.key.split('_')
-            //   parts[1] = 'idle'
-            //   const newAnim = parts.join('_')
-            //   // this prevents idle animation keeps getting called
-            //   if (this.anims.currentAnim.key !== newAnim) {
-            //     this.play(parts.join('_'), true)
-            //     // send new location and anim to server
-            //     // network.updatePlayer(this.x, this.y, this.anims.currentAnim.key)
-            //   }
-            }
-
-
-
         }
     }
 
@@ -208,3 +163,4 @@ export default class Game extends Scene {
     }
 
 }
+

@@ -1,33 +1,34 @@
+
 import Phaser from "phaser";
 
-export default class PlayerController extends Phaser.GameObjects.Zone{
-    constructor(scene , x, y , width ,height){
+class PlayerController extends Phaser.GameObjects.Zone{
+    constructor(scene , x, y , width ,height , cursors ,player){
         super(scene, x, y , width, height)
-        this.selectItem = undefined;
+        this.cursors = cursors;
+        this.player = player;
+
+        scene.physics.add.existing(this)
     }
-    update(player, cursors){
-        if(!cursors){
+    update(){
+        if(!this.cursors){
+          console.log("there is no cursors @ controller")
             return
         }
-        if (player.playerBehavior === "SITTING") {
+        if (this.player.playerBehavior === "SITTING") {
             return
         }
-        const {x, y} = player;
+        const {x, y} = this.player;
  
-        if (cursors.left.isDown) {
+        if (this.cursors.left.isDown) {
             this.setPosition(x - 32, y);
-          } else if (cursors.right.isDown) {
+          } else if (this.cursors.right.isDown) {
             this.setPosition(x + 32, y);
-          } else if (cursors.up.isDown) {
+          } else if (this.cursors.up.isDown) {
             this.setPosition(x, y - 32);
-          } else if (cursors.down.isDown) {
+          } else if (this.cursors.down.isDown) {
             this.setPosition(x, y + 32);
           }
-        if (this.selectedItem) {
-            if (!this.scene.physics.overlap(this, this.selectedItem)) {
-                this.selectedItem.clearDialogBox();
-                this.selectedItem = undefined;
-            }
-        }
     }
 }
+
+export default PlayerController;

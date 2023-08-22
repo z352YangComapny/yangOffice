@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class PlayerController extends Phaser.GameObjects.Zone{
+class PlayerController extends Phaser.GameObjects.Zone{
     constructor(scene , x, y , width ,height){
         super(scene, x, y , width, height)
         this.selectItem = undefined;
@@ -31,3 +31,5 @@ export default class PlayerController extends Phaser.GameObjects.Zone{
         }
     }
 }
+
+export default PlayerController;

@@ -4,7 +4,7 @@ import PlayerController from "../characters/PlayerController";
 import MyPlayer from "../characters/Myplayer";
 import Network from "../network/NetWork";
 
-export default class Game extends Scene {
+class Game extends Scene {
     constructor() {
         super('game')
         this.map = null;
@@ -207,3 +207,5 @@ export default class Game extends Scene {
     }
 
 }
+
+export default Game;

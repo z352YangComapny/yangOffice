@@ -26,8 +26,12 @@ const SignIn = () => {
 
 
   useEffect(()=>{
-    if(isLogin)
-    alert('로그인 성공 환영합니다.')
+    if(isLogin&&localStorage.getItem('token')){
+      alert('로그인 성공 환영합니다.')
+    } else { 
+      setIsLogin(false);
+    }
+    
   },[isLogin])
 
   const onFrmChange = (e) => {
@@ -36,7 +40,7 @@ const SignIn = () => {
 
   const onSubmit = () => {
     signin(signInFrm).then((resp)=>{
-      setAccessToken(resp.headers.authorization);
+      localStorage.setItem("token",resp.headers.authorization);
       setIsLogin(true);
     })
     .catch((err)=>{

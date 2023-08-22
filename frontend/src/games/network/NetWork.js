@@ -1,5 +1,4 @@
 
-
 export default class Network {
     constructor(){
         this.token = localStorage.getItem('nktsca')
