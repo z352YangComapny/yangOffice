@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.yangworld.app.domain.dm.dto.DmListDto;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.entity.DmRoom;
@@ -22,7 +23,7 @@ public interface DmService {
 
 	String getUsernameById(int Id);
 
-	List<DmRoom> findDmRoom(int dmRoomId);
+	List<DmRoom> findDmRoom(int userId);
 
 	List<Map<String, Object>> findMemberId(int dmRoomId);
 }

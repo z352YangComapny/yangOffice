@@ -1,13 +1,19 @@
 package com.yangworld.app.domain.dm.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DmListDto {
 
-	private int id;
 	private String username; // member
 	private String content; // dm
 	private int dmRoomId;  // dm
@@ -15,6 +21,7 @@ public class DmListDto {
 	private int participant2; // dmRoom
 	private LocalDateTime regDate; // dm
 	
+
 	
 	
 }
