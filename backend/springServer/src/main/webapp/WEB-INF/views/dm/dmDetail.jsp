@@ -27,7 +27,7 @@
 
                 <div class="card" id="chat2" style="top:10%;">
                     <div class="card-header d-flex justify-content-between align-items-center p-3">
-                        <h5 class="mb-0">Direct Message</h5>
+                        <h5 class="mb-0">Direct Message </h5>
 
                         <!-- 채팅방 삭제 버튼 -->
                         <form:form action="${pageContext.request.contextPath}/dm/deleteDmRoom" name="dmDeleteFrm"
@@ -109,9 +109,10 @@
                         // If the receiver ID is not the logged-in user, place on the left
                         dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
                         dmDiv.innerHTML = `
-					            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+					            <img src="${pageConext.request.contextPath}/resource/upload/attachment/profile/${dm.renamedFileName}"
 					                 alt="avatar 1" style="width: 45px; height: 100%;">
 					            <div class="d-flex flex-column">
+					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 15px">\${dm.name}</p>
 					                <div class="d-flex align-items-center">
 					                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
 					                        \${dm.content}
@@ -129,8 +130,6 @@
 			                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">\${dm.content}</p>
 			                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">\${formatDate(dm.regDate)}</p>
 			            </div>
-			            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-			                 alt="avatar 1" style="width: 45px; height: 100%;">
 			        `;
                     }
 

@@ -1,26 +1,26 @@
 package com.yangworld.app.domain.dm.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DmListDto {
+public class DmDetailsDto {
 
-	private String name; // member
-	private String nickname; // member
+	private int id;
+	private String name;
 	private String renamedFileName; // attahment
-	private String content; // dm
-	private int dmRoomId;  // dm
-	private int participant1; // dmRoom
-	private int participant2; // dmRoom
-	private LocalDateTime regDate; // dm
+	private int receiverId;
+	private int senderId;
+	private String content;
+	private int dmRoomId;
+	private LocalDateTime regDate;
 	
 }
