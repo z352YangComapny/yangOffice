@@ -22,9 +22,24 @@ public class ReportDmServiceImpl implements ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
+
+	@Override
+	public int insertReportGuestBook(Report report, int reportGuestbook) {
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		
+		ReportGuestBook reportGuestBook = ReportGuestBook.builder()
+											.id(reportId)
+											.guestBookId(reportGuestbook)
+											.build();
+		
+		return reportRepository.insertReportGuestBook(reportGuestBook);
+	}
+
     @Override
     public int insertReportDm(Report report, int dmId) {
         int result = reportRepository.insertReport(report);
+
 
         int reportId = report.getId(); // report 테이블의 id값 가져오기
 
@@ -41,21 +56,7 @@ public class ReportDmServiceImpl implements ReportService {
         return resultReportDm; // insertReportDm 메서드의 결과 반환
     }
 
-    @Override
-    public int insertReportGuestBook(Report report, int reportGuestbook) {
-        int reportId = report.getId();
 
-        ReportGuestBook reportGuestBook = ReportGuestBook.builder()
-                .id(reportId)
-                .guestBookId(reportGuestbook)
-                .build();
-        return reportRepository.insertReportGuestBook(reportGuestBook);
-    }
-
-    @Override
-    public int insertReport(Report report) {
-        return reportRepository.insertReport(report);
-    }
 
 
     @Override
