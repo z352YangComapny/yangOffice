@@ -884,12 +884,12 @@
 		return false;
 	}
 
-	if(!$("#flexCheckDefault1").checked){
+	if(!$("#flexCheckDefault1").prop("checked")){
 		alert("회원약관 동의를 확인 해주세요.");
 		return false;
 	}
 
-	if(!$("#flexCheckDefault2").checked){
+	if(!$("#flexCheckDefault2").prop("checked")){
 		alert("개인정보 이용 및 수집에 대한 동의를 확인 해주세요.");
 		return false;
 	}
