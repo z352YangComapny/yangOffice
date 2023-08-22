@@ -74,8 +74,34 @@ public class PhotoFeedController {
 	@GetMapping("/feed/feedCreate.do")
 	public void feedCreate() {}
 	
-	@GetMapping("/feed/feedDetail.do")
-	public void feedDetails() {}
+	// 피드 디테일
+	@GetMapping("/feed/feedDetail")
+	public void feedDetails(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestParam int photoFeedId,
+			Model model) {
+		
+		// 피드번호를 받아서 피드 안에 있는 정보들을 model.addAttribute해줘야함. 근데 지금 List를했네시발
+	
+		int writerId = principalDetails.getId();
+		
+        // 데이터베이스에서 필요한 정보 조회
+		
+        // 피드 조회
+		List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId); 
+		
+    	PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+
+        FeedDetails response = FeedDetails.builder()
+                .id(photoFeedId)
+                .attachments(null)
+                .build();
+        
+        
+        
+        model.addAttribute("photoDetail", photoDetail);
+
+	}
+
 	
 	// 피드 만들기
 	@PostMapping("/feedCreated.do")
@@ -151,33 +177,40 @@ public class PhotoFeedController {
 
 	}
 	
-	// 디테일
-	@GetMapping("/feedDetails/{writer}/{photoFeedId}")
-	public ResponseEntity<?> findById(@PathVariable int writerId, @PathVariable int photoFeedId) {
-	    try {
-	        // 단계 2: 데이터베이스에서 필요한 정보 조회
-	        Member member = memberService.findById(writerId);
-	        PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
-	        List<Comments> comments = commentsService.getCommentsByPhotoFeedId(photoFeedId);
-	        List<Like> likesCount = photoFeedService.getLikesCountByPhotoFeedId(photoFeedId);
-
-	        log.info("member ={}", member);
-	        log.info("photoFeed = {}", photoFeed);
-	        log.info("comments = {}", comments);
-	        log.info("likesCount = {}", likesCount);
-
-	        FeedDetails response = FeedDetails.builder()
-	                .id(photoFeedId)
-	                .member(member)
-	                .like(likesCount)
-	                .comments(comments)
-	                .build();
-
-	        return ResponseEntity.ok(response);
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
-	    }
-	}
+//	// 디테일
+//	@GetMapping("/feedDetails/{writer}/{photoFeedId}")
+//	public String findById(@PathVariable int writerId, @PathVariable int photoFeedId, Model model) {
+//	    try {
+//	        // 단계 2: 데이터베이스에서 필요한 정보 조회
+//	        Member member = memberService.findById(writerId);
+//	        PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+//	        List<Comments> comments = commentsService.getCommentsByPhotoFeedId(photoFeedId);
+//	        List<Like> likesCount = photoFeedService.getLikesCountByPhotoFeedId(photoFeedId);
+//
+//	        log.info("member = {}", member);
+//	        log.info("photoFeed = {}", photoFeed);
+//	        log.info("comments = {}", comments);
+//	        log.info("likesCount = {}", likesCount);
+//
+//	        FeedDetails response = FeedDetails.builder()
+//	                .id(photoFeedId)
+//	                .member(member)
+//	                .like(likesCount)
+//	                .comments(comments)
+//	                .build();
+//
+//	        // 이미지 리스트를 모델에 추가
+////	        model.addAttribute("images", photoFeed.getImages());
+//
+//	        // 모델에 피드 디테일 정보 추가
+//	        model.addAttribute("feedDetails", response);
+//
+//	        return "/feedDetail.do"; 
+//	    } catch (Exception e) {
+//	        // 오류 처리
+//	        return "error"; // 오류 페이지 뷰 이름
+//	    }
+//	}
 
 
 	

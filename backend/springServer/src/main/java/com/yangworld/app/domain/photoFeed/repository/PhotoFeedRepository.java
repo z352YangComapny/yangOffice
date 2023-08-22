@@ -16,6 +16,7 @@ import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.entity.FeedDetails;
 import com.yangworld.app.domain.photoFeed.entity.Like;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
+import com.yangworld.app.domain.question.entity.Comment;
 
 @Mapper
 public interface PhotoFeedRepository {
@@ -78,6 +79,11 @@ public interface PhotoFeedRepository {
 
 	@Select("select count(*) as comment_count from comments_feed where photo_feed_id = #{id}")
 	int getCommentCount(int id);
+
+	@Select("select a.* from attachment a join attachment_photo_feed af on a.id = af.attachment_id where af.photo_feed_id = #{photoFeedId}")
+	List<PhotoAttachmentFeedDto> selectFeedDetail(int photoFeedId);
+
+
 
 	
 

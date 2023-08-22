@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StoryMainDto {
 	private int id;
-	private String writerId;
+	private int writerId;
 	private String content;
 	private LocalDateTime regDate;
 }

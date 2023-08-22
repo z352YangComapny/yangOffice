@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/index.jsp").permitAll()
+                .antMatchers("/", "/index.jsp" ,"/oauth/**").permitAll()
                 .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
                         "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
                         "/member/checkEmail.do").anonymous()
@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/")
                 .permitAll();
+
 
         http.logout()
                 .logoutUrl("/member/memberLogout.do")
