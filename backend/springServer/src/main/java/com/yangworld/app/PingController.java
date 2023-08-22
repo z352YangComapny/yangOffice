@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @Slf4j
 public class PingController {
+
+	@GetMapping("/world/world.do")
+	public void world() {}
+
 	@GetMapping("")
 	public String index(){
 		return "forward:/index.jsp";

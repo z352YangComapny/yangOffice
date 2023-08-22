@@ -1,0 +1,207 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "maps/fianl.json",
+    "expandedProjectPaths": [
+        "maps",
+        "character",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "#Basement": {
+            "scaleInDock": 1
+        },
+        "#Classroom_and_library": {
+            "scaleInDock": 1
+        },
+        "#FloorAndGround": {
+            "scaleInDock": 0.75
+        },
+        "#Generic": {
+            "scaleInDock": 1
+        },
+        "#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640,
+                "y": 479.5
+            }
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#Basement": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#FloorAndGround": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#Generic": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#chair": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#computer": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#vendingmachine": {
+            "scaleInDock": 1
+        },
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx#whiteboard": {
+            "scaleInDock": 1
+        },
+        "maps/fianl.json": {
+            "scale": 0.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 700,
+                "y": 742
+            }
+        },
+        "maps/fianl.json#Basement": {
+            "scaleInDock": 1
+        },
+        "maps/fianl.json#Classroom_and_library": {
+            "scaleInDock": 0.75
+        },
+        "maps/fianl.json#FloorAndGround": {
+            "scaleInDock": 0.75
+        },
+        "maps/fianl.json#Generic": {
+            "scaleInDock": 1
+        },
+        "maps/fianl.json#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json": {
+            "scale": 0.6301171875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 639.5635732440642,
+                "y": 383.26204203087224
+            }
+        },
+        "maps/yang.json#Basement": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#Classroom_and_library": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#Generic": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#Room_Builder_Floors": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#Room_Builder_Office": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#Room_Builder_Walls": {
+            "scaleInDock": 1
+        },
+        "maps/yang.json#tmw_desert_spacing": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640,
+                "y": 383.66666666666663
+            }
+        },
+        "maps/yangCompany.json#Basement": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#Classroom_and_library": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#Generic": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#Room_Builder_Floors": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#Room_Builder_Office": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#Room_Builder_Walls": {
+            "scaleInDock": 1
+        },
+        "maps/yangCompany.json#tmw_desert_spacing": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx": {
+            "expandedObjectLayers": [
+                7,
+                6,
+                10,
+                5,
+                11,
+                8,
+                12
+            ],
+            "scale": 0.5,
+            "selectedLayer": 11,
+            "viewCenter": {
+                "x": 640,
+                "y": 481
+            }
+        },
+        "untitled.tmx#Basement": {
+            "scaleInDock": 0.75
+        },
+        "untitled.tmx#Classroom_and_library": {
+            "scaleInDock": 1
+        },
+        "untitled.tmx#FloorAndGround": {
+            "scaleInDock": 0.75
+        },
+        "untitled.tmx#Generic": {
+            "scaleInDock": 0.75
+        },
+        "untitled.tmx#Modern_Office_Black_Shadow": {
+            "scaleInDock": 0.75
+        }
+    },
+    "last.exportedFilePath": "C:/workspace/yangOffice/frontend/public/assets/maps",
+    "last.imagePath": "C:/workspace/yangOffice/frontend/public/assets/tilesets",
+    "map.height": 30,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "json",
+    "map.width": 40,
+    "openFiles": [
+        "maps/yang.json",
+        "maps/yangCompany.json",
+        "untitled.tmx",
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx",
+        "maps/fianl.json"
+    ],
+    "project": "final.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "maps/fianl.json",
+        "maps/yang.json",
+        "maps/yangCompany.json",
+        "untitled.tmx",
+        "C:/workspace/SkyOffice-master/client/public/assets/map/map.tmx"
+    ],
+    "tileset.embedInMap": true
+}
