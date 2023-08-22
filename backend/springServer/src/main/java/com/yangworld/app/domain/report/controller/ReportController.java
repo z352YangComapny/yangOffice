@@ -58,12 +58,13 @@ public class ReportController {
 	}
 
 	@PostMapping("/insertReportGuestBook.do")
-	public ResponseEntity<?> insertReportGuestBook(
+	public String insertReportGuestBook(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
 			ReportCreateDto _reportDto,
 			@RequestParam int reportGuestbook,
 			@RequestParam int reportedId,
-			@RequestParam String reportContent
+			@RequestParam String reportContent,
+			RedirectAttributes redirectAttributes
 		){
 		
 		int reporterId = principalDetails.getId();
@@ -74,12 +75,11 @@ public class ReportController {
 		report.setContent(reportContent);
 		
 		log.info("report = {}",report);
-		int result = reportService.insertReport(report);
-		log.info("result1={}",result);
-		result += reportService.insertReportGuestBook(report,reportGuestbook);
-		log.info("result2={}",result);
 		
-		return ResponseEntity.ok().build();
+		reportService.insertReportGuestBook(report,reportGuestbook);
+		redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
+		
+		return "redirect:/guestbook/guestbook.do";
 	}
 
 	

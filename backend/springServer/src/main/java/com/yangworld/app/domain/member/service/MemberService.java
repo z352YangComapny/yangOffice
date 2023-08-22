@@ -27,4 +27,6 @@ public interface MemberService {
     Member findByNickname(String nickname);
 
     Member findByPhone(String phone);
+
+	PrincipalDetails loadUserByUsername(String memberId);
 }
