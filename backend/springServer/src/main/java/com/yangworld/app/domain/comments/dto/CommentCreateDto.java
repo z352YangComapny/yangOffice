@@ -23,7 +23,6 @@ public class CommentCreateDto {
 	private String content;
 	private PhotoFeed photoFeed;
 	private CommentFeedDto commentFeed;
-	private List<Comments> comments;
 	private LocalDateTime regDate;
 	
 }

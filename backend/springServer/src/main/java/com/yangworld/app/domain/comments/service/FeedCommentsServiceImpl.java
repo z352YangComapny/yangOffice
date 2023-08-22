@@ -14,40 +14,13 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
+import com.yangworld.app.domain.question.entity.Comment;
 
 @Service("FeedCommentsServiceImpl")
 public class FeedCommentsServiceImpl implements CommentsService{
 
 	@Autowired
 	private CommentsRepository commentsRepository;
-
-
-
-
-
-
-
-
-	@Override
-	public int insertComment(PrincipalDetails principalDetails, CommentCreateDto commentCreateDto) {
-	    int result = 0;
-	    
-	    int writerId = principalDetails.getId();
-	    String content = commentCreateDto.getContent();
-	    int photoFeedId = commentCreateDto.getPhotoFeed().getId();
-	    
-	    // 댓글 삽입
-	    result = commentsRepository.insertComment(writerId, content);
-	    
-	    if (result > 0) {
-	        // 댓글 피드 삽입
-	        int commentId = result; // 이전 삽입에서 얻은 댓글 아이디
-	        result = commentsRepository.insertCommentFeed(commentId, photoFeedId);
-	    }
-	    
-	    return result; 
-	}
-
 
     @Override
     public List<Comments> getCommentsByPhotoFeedId(int photoFeedId) {
@@ -81,13 +54,31 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 		int result = 0;
 		
-		int commentId = commentDeleteDto.getId();
+		int commentId = principalDetails.getId();
 		
 		result = commentsRepository.deleteComment(commentId);
 		
 		if(result > 0) {
 			result = commentsRepository.deleteCommentFeed(commentId);
 		}
+		
+		return result;
+	}
+
+
+
+
+	@Override
+	public int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId) {
+		
+		int result = 0;
+		
+		int writerId = principalDetails.getId();
+		
+		
+		result = commentsRepository.insertComment(writerId, comment);
+		
+		result = commentsRepository.insertCommentFeed(writerId, photoFeedId);
 		
 		return result;
 	}

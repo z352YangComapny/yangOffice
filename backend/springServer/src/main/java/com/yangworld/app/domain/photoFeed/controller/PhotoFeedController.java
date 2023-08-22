@@ -80,11 +80,9 @@ public class PhotoFeedController {
 			@RequestParam int photoFeedId,
 			Model model) {
 		
-		// 피드번호를 받아서 피드 안에 있는 정보들을 model.addAttribute해줘야함. 근데 지금 List를했네시발
 	
 		int writerId = principalDetails.getId();
 		
-        // 데이터베이스에서 필요한 정보 조회
 		
         // 피드 조회
 		List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId); 
@@ -104,7 +102,6 @@ public class PhotoFeedController {
 	
 	// 피드 만들기
 	@PostMapping("/feedCreated.do")
-	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String peedCreate(
 			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
 	        BindingResult bindingResult,

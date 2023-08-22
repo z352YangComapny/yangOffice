@@ -69,11 +69,12 @@
         </div>
     </div>
     <div class="content-box">
-        <div>${comments}</div>
+         <div>${response.content}</div>
     </div>
 </div>
+${response.id }
 <hr style="border: 3px">
-   <div class="comment-form">
+   		<div class="comment-form">
             <h4>댓글 작성</h4>
             <form:form
             action="${pageContext.request.contextPath}/feedDetails/commentCreate" 
@@ -81,6 +82,7 @@
                 <div class="mb-3">
                     <label for="comment" class="form-label">댓글 내용</label>
                     <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                    <input type="hidden" name="photoFeedId" value="${response.id}">
                 </div>
                 <button type="submit" class="btn btn-primary">댓글 작성</button>
             </form:form>

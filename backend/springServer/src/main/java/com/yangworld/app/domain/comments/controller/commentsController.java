@@ -24,6 +24,7 @@ import com.yangworld.app.domain.comments.dto.CommentCreateDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
 import com.yangworld.app.domain.photoFeed.controller.PhotoFeedController;
+import com.yangworld.app.domain.question.entity.Comment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,33 +40,22 @@ public class commentsController {
 	// 댓글 조회
 	@GetMapping("/photoFeedId={photoFeedId}")
 	public void getComments(@PathVariable int photoFeedId, Model model) {
-		
+	
     List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
     
     model.addAttribute("comments", comments);
 	}
-
-	
-	// TODO 댓글 조회
 	
 	// 댓글 작성
-	@PostMapping("/commentCreate")
+	@PostMapping("/feedDetails/commentCreate")
 	public String commentCreate(
 	        @AuthenticationPrincipal PrincipalDetails principalDetails,
-	        @ModelAttribute @Valid CommentCreateDto commentCreateDto,
-	        BindingResult bindingResult) {
+	        @RequestParam String comment,
+	        @RequestParam int photoFeedId) {
 	    
-	    int photofeed = principalDetails.getId();
-	    log.info("principalDetails = {}", principalDetails.getId());
+	    int result = commentService.insertComment(principalDetails, comment, photoFeedId);
 	    
-	    if (bindingResult.hasErrors()) {
-	        // 폼 데이터 유효성 검사 실패 시 처리
-	        return ""; // 해야할 거 
-	    }
-	    
-	    int result = commentService.insertComment(principalDetails, commentCreateDto);
-	    
-	    return "redirect:/feed/feedDetail?photoFeedId=" + photofeed;
+	    return "redirect:/";
 	}
 
 	
