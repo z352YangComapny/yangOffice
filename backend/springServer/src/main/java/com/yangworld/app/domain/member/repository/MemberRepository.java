@@ -1,13 +1,11 @@
 package com.yangworld.app.domain.member.repository;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import org.apache.ibatis.annotations.*;
 import com.yangworld.app.domain.member.entity.Member;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -41,8 +39,8 @@ public interface MemberRepository {
     @Delete("delete from follow where follower = #{follower} and followee = #{followee}")
     int deleteFollowee(FollowDto unfollow);
 
-    @Select("select username from member where email = #{email}")
-    String findMemberByEmail(FindIdDto findIdDto);
+    @Select("select * from member where email = #{email}")
+    Member findMemberByEmail(String email);
 
     
     @Select("select * from member where id = #{writer}")
@@ -53,5 +51,8 @@ public interface MemberRepository {
 
     @Select("select *from member where phone = #{phone}")
     Member findByPhone(String phone);
+
+    @Update("update member set password = #{newPassword} where username = #{username}")
+    int resetPassword(@Param("newPassword")String newPassword, @Param("username")String username);
 }
 

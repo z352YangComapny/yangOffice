@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,8 +40,9 @@ public class KakaoController{
 	private PrincipalDetailsService principalDetailsService;
     @Autowired
     PasswordEncoder passwordEncoder;
-	
-	
+	@Autowired
+	private PrincipalDetailsService pricipalDetailsService;
+
 	@GetMapping("/login.do")
 	public RedirectView login() {
 		log.info("init={}");
