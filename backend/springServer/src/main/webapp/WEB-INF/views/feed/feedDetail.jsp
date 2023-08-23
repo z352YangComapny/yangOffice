@@ -46,6 +46,7 @@
 	    height:30px;
     }
 </style>
+
 <hr style="height: 3px">
 <div class="carousel-and-content">
     <div class="carousel-box">
@@ -72,12 +73,20 @@
             </a>
         </div>
     </div>
-    <!-- 피드 삭제 버튼 -->
+    
+    <c:if test="${response.writerId ne principalDetails.id }">
+    
+     <button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;" onclick="goReport(${response.id}, ${response.writerId});">🚨</button>
+     
+	</c:if>
+	
+	<!-- 피드 삭제 버튼 -->
 	<c:if test="${response.writerId eq principalDetails.id}">
 	    <form:form action="${pageContext.request.contextPath}/feedDetails/feedDelete" method="post">
 	        <input type="hidden" name="feedId" value="${response.id}">
 	        <button type="submit" class="btn btn-danger">피드 삭제</button>
 	    </form:form>
+	    <!-- 여기! -->
 	</c:if>
     
     <div class="content-box">
@@ -115,6 +124,9 @@
 				                        ${comment.writerId} : <span class="comment-text">${comment.content}</span>
 				                    </div>
 				                    <div class="comment-info">
+				                    	<c:if test="${comment.writerId ne principalDetails.id}">
+				                    		<button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;" onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">🚨</button>
+				                    	</c:if>
 				                        <c:if test="${comment.writerId eq principalDetails.id}">
 				                            <form:form
 				                                action="${pageContext.request.contextPath}/feedDetails/commentDelete" 
@@ -174,7 +186,32 @@ $(document).ready(function () {
         });
     });
 });
-
+function goReport(feedId, reportedId) {
+    fetch("${pageContext.request.contextPath}/report/createFeedReport?feedId=" + feedId + "&reportedId=" + reportedId)
+        .then(response => {
+            if (response.ok) {
+                window.location.href = response.url;
+            } else {
+                console.error("Failed to fetch");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
+function goReportComments(commentsId, reportedId, feedId) {
+    fetch("${pageContext.request.contextPath}/report/createCommentsReport?commentsId=" + commentsId + "&reportedId=" + reportedId + "&photoFeedId=" + feedId)
+        .then(response => {
+            if (response.ok) {
+                window.location.href = response.url;
+            } else {
+                console.error("Failed to fetch");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
 </script>
 
 

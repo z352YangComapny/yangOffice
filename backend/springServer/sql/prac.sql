@@ -95,6 +95,15 @@ select * from attachment_photo_feed;
 
 select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 2;
 
+delete from comments where ;
 
+select * from report;
+
+select * from report_photo_feed;
+
+select * from comments;
+select  * from user_role_privs;
+select * from member ;
+select * from authorities;
 
 select * from comments;

@@ -34,6 +34,12 @@ public class ReportController {
 		
 	}
 	
+	@GetMapping("/createFeedReport")
+	public void createFeedReport() {}
+	
+	@GetMapping("/createCommentsReport")
+	public void createCommentsReport() {}
+	
 	/**
 	 * 윤아
 	 * dm report 인서트 
@@ -101,7 +107,51 @@ public class ReportController {
 		
 		return ResponseEntity.ok().build();
 	}
-
+	
+	
+	@PostMapping("/insertReportFeed")
+	private String insertReportFeed(@AuthenticationPrincipal PrincipalDetails principal
+			, @ModelAttribute ReportCreateDto _reportDto,
+			@RequestParam int feedId, @RequestParam int reportedId,
+			RedirectAttributes redirectAttributes) {
+		
+		int reporterId = principal.getId();
+		
+		Report report = _reportDto.toReport();
+		log.info("report = {}", report);
+		report.setReporterId(reporterId);
+		report.setReportedId(reportedId);
+		
+		// 1. report 테이블에 insert
+		int result = reportService.insertReportFeed(report, feedId); // reportId = report 시퀀스값
+		
+		 redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
+		
+		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
+	}
+	
+	@PostMapping("/insertReportComments")
+	private String insertReportComments(@AuthenticationPrincipal PrincipalDetails principal
+			, @ModelAttribute ReportCreateDto _reportDto,
+			@RequestParam int commentsId,
+			@RequestParam int reportedId,
+			@RequestParam int feedId,
+			RedirectAttributes redirectAttributes) {
+		
+		int reporterId = principal.getId();
+		
+		Report report = _reportDto.toReport();
+		log.info("report = {}", report);
+		report.setReporterId(reporterId);
+		report.setReportedId(reportedId);
+		
+		// 1. report 테이블에 insert
+		int result = reportService.insertReportComments(report, commentsId); // reportId = report 시퀀스값
+		
+		 redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
+		
+		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
+	}
 	
 	
 	
