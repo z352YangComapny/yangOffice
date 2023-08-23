@@ -25,8 +25,8 @@ public interface CommentsRepository {
 	int insertCommentFeed(@Param(value ="writerId") int writerId, @Param(value ="photoFeedId") int photoFeedId);
 	
 	// ok
-	@Update("update comments set content = #{content} where id = #{commentId}")
-	int updateComment(@Param(value ="commentId") int commentId, @Param(value ="content") String newContent);
+	@Update("update comments set content = #{newContent} where id = #{commentId}")
+	int updateComment(@Param(value ="commentId") int commentId, @Param(value ="newContent") String newContent);
 	
 	// ok
 	@Delete("delete from comments where id = #{commentId}")
@@ -41,6 +41,11 @@ public interface CommentsRepository {
 
 	@Select("select * from comments where id = #{commentId}")
 	List<Comments> commentByPhotoFeedId(int commentId);
+
+	@Delete("")
+	int deletecommentAll(int feedId);
+
+	int deleteCommentFeedAll(int feedId);
 	
 
 

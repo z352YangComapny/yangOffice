@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.comments.repository.CommentsRepository;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
@@ -27,6 +28,8 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	@Autowired
 	private PhotoFeedRepository photoFeedRepository;
 
+	@Autowired
+	private CommentsRepository commentsRepository;
 	@Override
 	@Transactional
 	public int insertFeed(FeedDetails feed) {
@@ -153,6 +156,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 
 
 	@Override
+	@Transactional
 	public int deleteFeed(int feedId) { 
 		
 		int result = 0;
@@ -194,7 +198,6 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 
 	@Override
 	public int deleteLike(int photoFeedId, int memberId) {
-		// TODO Auto-generated method stub
 		return photoFeedRepository.deleteLike(photoFeedId, memberId);
 	}
 

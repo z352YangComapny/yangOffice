@@ -27,7 +27,7 @@ public interface CommentsService {
 
 	int deleteComment(int commentId);
 
-	int updateComment(PrincipalDetails principalDetails, CommentUpdateDto commentUpdateDto,int commentId);
+	int updateComment(PrincipalDetails principalDetails, String newContent,int commentId);
 
 
 }

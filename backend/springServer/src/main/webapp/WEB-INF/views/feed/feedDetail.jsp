@@ -41,6 +41,10 @@
         background-color: #f5f5f5;
         border-radius: 5px;
     }
+    #likes{
+	    width:30px ;
+	    height:30px;
+    }
 </style>
 <hr style="height: 3px">
 <div class="carousel-and-content">
@@ -68,9 +72,20 @@
             </a>
         </div>
     </div>
+    <!-- 피드 삭제 버튼 -->
+	<c:if test="${response.writerId eq principalDetails.id}">
+	    <form:form action="${pageContext.request.contextPath}/feedDetails/feedDelete" method="post">
+	        <input type="hidden" name="feedId" value="${response.id}">
+	        <button type="submit" class="btn btn-danger">피드 삭제</button>
+	    </form:form>
+	</c:if>
+    
     <div class="content-box">
          <div>${response.content}</div>
     </div>
+    <button>
+    	<img id="likes"src="${context.request.contextPage}/resources/images/like.png">
+    </button>
 </div>
 <hr style="border: 3px">
 		<!-- 댓글 작성 폼 시작 -->
@@ -101,7 +116,6 @@
 				                    </div>
 				                    <div class="comment-info">
 				                        <c:if test="${comment.writerId eq principalDetails.id}">
-				                            ${comment.id}
 				                            <form:form
 				                                action="${pageContext.request.contextPath}/feedDetails/commentDelete" 
 				                                method="post">
@@ -126,34 +140,43 @@
 
 		<!-- 댓글 목록 폼 끝 -->
 <script>
-    $(document).ready(function () {
-        $(".edit-comment-btn").click(function () {
-            var commentId = $(this).data("comment-id");
-            $("#comment-" + commentId).hide();
-            $("#edit-comment-form-" + commentId).show();
-        });
 
-        $(".update-comment-btn").click(function () {
-            var commentId = $(this).data("comment-id");
-            var newContent = $("#edit-comment-form-" + commentId + " textarea").val();
+$(document).ready(function () {
+    // Edit button 클릭 시
+    $(".edit-comment-btn").click(function () {
+        var commentId = $(this).data("comment-id");
+        $("#edit-comment-form-" + commentId).toggle();
+    });
 
-            $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/feedDetails/commentUpdate",
-                data: {
-                    commentId: commentId,
-                    photoFeedId: "${response.id}",
-                    newContent: newContent
-                },
-                success: function () {
-                    $("#comment-" + commentId + " .comment-text").text(newContent);
-                    $("#edit-comment-form-" + commentId).hide();
-                    $("#comment-" + commentId).show();
-                }
-            });
+    // 확인 버튼 클릭 시
+    $(".update-comment-btn").click(function () {
+        var commentId = $(this).data("comment-id");
+        var newContent = $("#edit-comment-form-" + commentId + " textarea").val(); // 새로운 댓글 내용 가져오기
+
+        // AJAX를 통해 서버로 데이터 전송
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/feedDetails/commentUpdate",
+            data: {
+                commentId: commentId,
+                content: newContent
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')
+            },
+            success: function (response) {
+                alert(response); // 서버의 응답 메시지를 알림으로 표시
+                location.reload(); // 페이지 새로고침
+            },
+            error: function (error) {
+                alert("Error updating comment: " + error.responseText);
+            }
         });
     });
+});
+
 </script>
+
 
 
 

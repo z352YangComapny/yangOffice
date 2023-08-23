@@ -65,24 +65,25 @@ public class commentsController {
 
 	
 	
-	// 댓글 수정
-	 @PostMapping("/commentUpdate")
-	    public ResponseEntity<String> commentUpdate(
-	            @AuthenticationPrincipal PrincipalDetails principalDetails,
-	            @RequestParam int commentId,
-	            @RequestBody CommentUpdateDto commentUpdateDto
-	    ){
-		 log.info("commentId = {}", commentId);
-		 log.info("commentUpdateDto = {}", commentUpdateDto);
-		 
-	        int result = commentService.updateComment(principalDetails, commentUpdateDto,commentId);
-
-	        if (result > 0) {
-	            return ResponseEntity.ok("댓글이 수정되었습니다.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 수정에 실패하였습니다.");
-	        }
-	    }
+	 // 	댓글 수정
+	 @PostMapping("/feedDetails/commentUpdate")
+	 public ResponseEntity<String> commentUpdate(
+	         @AuthenticationPrincipal PrincipalDetails principalDetails,
+	         @RequestParam int commentId,
+	         @RequestParam String content
+	 ){
+	 
+	  log.info("commentId = {}", commentId);
+	  log.info("newContent = {}", content);
+	 
+	     int result = commentService.updateComment(principalDetails, content,commentId);
+	
+	     if (result > 0) {
+	         return ResponseEntity.ok("댓글이 수정되었습니다.");
+	 } else {
+	     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 수정에 실패하였습니다.");
+	     }
+	 }
 	
 	@PostMapping("/feedDetails/commentDelete")
 	public String commentDelete(

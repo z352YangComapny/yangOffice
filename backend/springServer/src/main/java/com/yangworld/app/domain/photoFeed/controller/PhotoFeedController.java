@@ -96,6 +96,7 @@ public class PhotoFeedController {
 
         FeedDetails response = FeedDetails.builder()
                 .id(photoFeedId)
+                .writerId(writerId)
                 .content(photoFeed.getContent())
                 .build();
         Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
@@ -181,23 +182,13 @@ public class PhotoFeedController {
 
 	}
 	
-
-
-
 	
-	
-	
-	
-	@PostMapping("/feedDelete")
-	public ResponseEntity<?> deleteFeed(@RequestParam int feedId){
-//		DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
-//		DELETE FROM photo_feed WHERE id = [피드의 ID];
-//		DELETE FROM attachment
-//		WHERE id NOT IN (SELECT attachment_id FROM attachment_photo_feed);
+	@PostMapping("/feedDetails/feedDelete")
+	public String deleteFeed(@RequestParam int feedId){
 		
 		 int result = photoFeedService.deleteFeed(feedId);
 		
-		return ResponseEntity.ok().build();
+		 return "redirect:/";
 	}
 	
 	@PostMapping("/feedUpdate")

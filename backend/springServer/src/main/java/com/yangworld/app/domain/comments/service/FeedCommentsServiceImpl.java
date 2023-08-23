@@ -93,10 +93,9 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 
 	@Override
-	public int updateComment(PrincipalDetails principalDetails, CommentUpdateDto commentUpdateDto, int commentId) {
-		int result = 0;
+	public int updateComment(PrincipalDetails principalDetails, String newContent, int commentId) {
 		
-		String newContent = commentUpdateDto.getNewContent();
+		int result = 0;
 		
 		result = commentsRepository.updateComment(commentId, newContent); 
 		
