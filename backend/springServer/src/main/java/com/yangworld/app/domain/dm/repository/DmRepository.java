@@ -78,5 +78,8 @@ public interface DmRepository {
     @Select("SELECT * FROM dm_room WHERE id=#{dmRoomId}")
 	List<DmRoom> findDmRoomById(int dmRoomId);
 
+    @Select("SELECT * FROM dm WHERE receiver_id = #{userId} or sender_id = #{userId} ORDER BY reg_date DESC FETCH FIRST 1 ROWS ONLY;")
+	Dm findMyNewDm(int userId);
+
 	
 }

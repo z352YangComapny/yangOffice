@@ -119,7 +119,7 @@
                         // If the receiver ID is not the logged-in user, place on the left
                         dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
                         dmDiv.innerHTML = `
-					            <img src="${pageConext.request.contextPath}/resource/upload/attachment/profile/${dm.renamedFileName}"
+					            <img src="${pageContext.request.contextPath}/resources/upload/attachment/profile/\${dm.renamedFileName}"
 					                 alt="avatar 1" style="width: 45px; height: 100%;">
 					            <div class="d-flex flex-column">
 					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 10px">\${dm.name}</p>

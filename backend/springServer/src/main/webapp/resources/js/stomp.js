@@ -11,6 +11,7 @@ const connect = () => {
 
             renderStory(payloads);
         });
+	        
 		const userId = document.getElementById('userId').value;
 //		console.log('userId = ', userId);
         const sendInterval = setInterval(() => {
@@ -69,4 +70,40 @@ const clearModal = () => {
     document.querySelector('.storyModalWriterId').textContent = '';
     document.querySelector('.storyModalContent').textContent = '';
     document.querySelector('.storyModalCreatedAt').textContent = '';
+};
+
+
+// ---------------------------------------------------------------------
+
+const notifyConnect = () => {
+	const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
+	const stompClient = Stomp.over(ws);
+	
+    // 구독신청 
+    stompClient.connect({}, () => {
+    
+	    const userId = document.getElementById('userId').value;
+	    
+	   stompClient.subscribe(`/dm/notice/${userId}`, (notification) => {
+	       noticeDm(notification);
+	    });
+	    
+	  });
+};
+
+const noticeDm = (notification) => {
+	const {type, from, to, content, createdAt} = JSON.parse(notification.body);
+	
+	const notificationDiv = $("#notification-div");
+	notificationDiv.html(`
+	    <div class="alert alert-dismissible alert-info" style="margin-right: 20px;">
+	        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+	        <strong>❕</strong>${content}
+	    </div>
+	`);
+		    
+	     notificationDiv.find('.btn-close').click(() => {
+        notificationDiv.empty();
+   		 });
+	
 };

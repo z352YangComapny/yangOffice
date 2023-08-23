@@ -5,7 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <fmt:requestEncoding value = "utf-8"/> <!-- 한글로 제목을 변경할 경우에는 인코딩이 깨질 수 있으니 해당 설정 잡아주기 -->
-
 <sec:authorize access="isAnonymous()">
 <jsp:include page ="/WEB-INF/views/common/header2.jsp">
     <jsp:param name = "title" value = "안녕 스프링"/>
@@ -38,6 +37,7 @@
 </sec:authorize>
 
 <sec:authorize access = "isAuthenticated()">
+<sec:authentication property="principal" var="dmMember"/>
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
@@ -45,10 +45,12 @@
         <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
         <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
             <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
+            		<div id="notification-div"> </div>
+            		<input type='hidden' id='userId' value='${dmMember.id}' />
             	 <a href="${pageContext.request.contextPath}/dm/dmList">
-			        <img src="${pageContext.request.contextPath}/resources/images/dm_logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>
+			        <img src="${pageContext.request.contextPath}/resources/images/dm-pixel-logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>
 			    </a>
-            </div>
+            </div> 
             <div id="story"  class="flex-grow-1" style="height : 20vh; margin : 0;">
             	<jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
             </div>
@@ -60,5 +62,20 @@
             </div>
         </div>
     </div>
+    
+<script>
+<c:choose>
+    <c:when test="${not empty dmMember}">
+        const userId = ${dmMember.id}; // 인증된 멤버의 ID를 가져옵니다.
+        document.addEventListener('DOMContentLoaded', () => {
+            notifyConnect(userId);
+        });
+    </c:when>
+    <c:otherwise>
+    console.log("로그인되지 않았습니다. DM 알림을 구독하지 않습니다.");
+    </c:otherwise>
+</c:choose>
+</script>
 </sec:authorize>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
