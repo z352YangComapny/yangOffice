@@ -37,7 +37,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
 					<tr>
 						<td>${guestbook.id}</td>
-						<td>${guestbook.writerId}</td>
+						<td>${guestbook.nickname}</td>
 						<td id="originalContent">${guestbook.content}</td>
 						<td>${guestbook.regDate}</td>
 						<td>
@@ -52,7 +52,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
  							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
 							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp; 
 							</form:form> --%>
-								<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" onclick="goReport(${guestbook.id}, ${guestbook.writerId});">🚨</button>
+								<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" onclick="goReport(${guestbook.id}, ${guestbook.nickname});">🚨</button>
 						</td>	
 					</tr>
 				</c:forEach>
