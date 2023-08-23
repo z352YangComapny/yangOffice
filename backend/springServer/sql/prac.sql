@@ -53,12 +53,47 @@ from
     on apf.attachment_id = atc.id
 where
     pf.id = 49;
+    select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 2;
+    select * from comments;
     
+SELECT c.id, c.writer_id, c.content, c.reg_date
+FROM comments c
+INNER JOIN comments_feed cf ON c.id = cf.comments_id
+WHERE cf.photo_feed_id = 2;
+
+select * from comments_feed;
+
+
+select 
+    cm.*
+from
+    photo_feed pf join comments_feed cf
+    on pf.id = cf.photo_feed_id,
+    comments_feed cf join comments cm
+    on cf.photo_feed_id = cm.id
+where
+    pf.id = 2;    
+
+
+
+SELECT c.*
+FROM comments c
+JOIN comment_feed cf ON c.id = cf.comments_id
+WHERE cf.photo_feed_id = 21;
+
     
 SELECT a.*
 FROM attachment a
 JOIN attachment_photo_feed af ON a.id = af.attachment_id
-WHERE af.photo_feed_id = 49; 
+WHERE af.photo_feed_id = 21; 
+
+select * from photo_feed;
+
+select * from comments;
+select * from comments_feed;
+select * from attachment_photo_feed;
+
+select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 2;
 
 
 

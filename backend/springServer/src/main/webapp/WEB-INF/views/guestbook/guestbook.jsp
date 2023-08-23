@@ -13,7 +13,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 </style>
 <div id="guestbook-container">
 	<form:form action="${pageContext.request.contextPath}/guestbook/create.do" class="form-inline" method="post">
-		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;s
+		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;
 		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
@@ -38,21 +38,21 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 					<tr>
 						<td>${guestbook.id}</td>
 						<td>${guestbook.writerId}</td>
-						<td>${guestbook.content}</td>
+						<td id="originalContent">${guestbook.content}</td>
 						<td>${guestbook.regDate}</td>
 						<td>
-						    <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp;
-						    <button class="btn btn-outline-success updateGuestbook" id="updateGuestbook" name="updateGuestbook" value="${guestbook.id}">수정</button>
+						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
+						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}">수정</button>
 						</td>
 						<td>
 							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}">삭제</button>
 						</td>
 						<td>
-							<form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
-							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
-							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp;
-								<button type="submit" class="btn btn-outline-danger reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}">신고</button>
-							</form:form>
+							<%-- <form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
+ 							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
+							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp; 
+							</form:form> --%>
+								<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" onclick="goReport(${guestbook.id}, ${guestbook.writerId});">🚨</button>
 						</td>	
 					</tr>
 				</c:forEach>
@@ -60,8 +60,36 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 		</tbody>
 	</table>
 </div>
+
+<%--방명록 수정 모달 --%>
+	<div class="modal" id="guestbookUpdateModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">방명록 수정</h5>
+					<button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<p>수정할 내용을 입력해주세요</p>
+						<label for="content" class="col-sm-2 col-form-label">내용</label>
+						<div class="d-flex flex-row">
+							<input type="text" class="form-control" id="content" name="content" style="width:500px; margin-right:5px;">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary update" >수정하기</button>
+					<button type="button" class="btn btn-secondary close-modal"  data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 <script>
-document.querySelectorAll(".updateGuestbook").forEach(btn=>{
+	
+/* document.querySelectorAll(".updateGuestbook").forEach(btn=>{
 	btn.onclick = (e) =>{
 		const value = e.target.value;
 		const content = document.querySelector(".content").value;
@@ -88,6 +116,61 @@ document.querySelectorAll(".updateGuestbook").forEach(btn=>{
 				}
 				});
 	}
+}); */
+
+document.querySelectorAll(".updateGuestbook").forEach(btn => {
+    btn.onclick = (e) => {
+        const guestbookId = e.target.value; // 수정 버튼의 value 속성에 게시물의 id가 들어가도록 설정되어야 합니다.
+        const modal = document.getElementById("guestbookUpdateModal");
+        const contentInput = modal.querySelector("#content");
+        
+        // 모달 내용 초기화 및 기존 내용 채우기
+        contentInput.value = ""; // 모달 내용 초기화
+        const guestbookContent = e.target.parentElement.parentElement.querySelector("#originalContent").textContent;
+        contentInput.value = guestbookContent; // 기존 내용 채우기
+        
+        // 모달 열기
+        modal.style.display = "block";
+        modal.classList.add("show");
+        
+        const closeBtn = [...modal.querySelectorAll(".close-modal")]
+        for(let i = 0 ; i<closeBtn.length ; i++){
+        	closeBtn[i].onclick = ()=> {
+        		modal.style.display="none";
+        		modal.classList.remove("show");
+       	
+        	}
+        }
+        
+        // 모달의 수정 버튼 클릭 이벤트 핸들러
+        modal.querySelector(".update").onclick = () => {
+            const newContent = contentInput.value;
+            // Ajax 요청 등 수정 작업 수행
+            $.ajax({
+				url : "${pageContext.request.contextPath}/guestbook/update.do",
+				data : {
+					updateGuestbook : guestbookId,
+					content : newContent
+				},
+				beforeSend : function(xhr){
+					xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');
+				},
+				method:"POST",
+				dataType:"json",
+				success(responseData){
+					console.log(responseData);
+					const {updateGuestbook} = responseData;
+					const updateGuestbookCell = e.target.parentElement.parentElement.querySelector("#originalContent");
+					updateGuestbookCell.textContent = newContent;
+					location.reload();
+		            // 모달 닫기
+		            modal.style.display = "none";
+		            modal.classList.remove("show");
+				}
+				});
+            
+        };
+    };
 });
 
 document.querySelectorAll(".deleteGuestbook").forEach(btn => {
@@ -106,20 +189,44 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 				},
 				method : "POST",
 				dataType : "json",
-				success(responseData){
-					
-					console.log(responseData);
-					const {result} = responseData;
-					if(result>0){
-						const tr = e.target.parentElement.parentElement;
-	                    tr.remove(); 
-					}
-				}
+				success: function(responseData) {
+	                console.log(responseData);
+	                const { result } = responseData;
+	                if (result > 0) {
+	                    const tr = e.target.parentElement.parentElement;
+	                    tr.remove();
+	                } else {
+	                    console.error("Delete operation failed.");
+	                }
+	            },
+	            error: function(xhr, textStatus, errorThrown) {
+	            	 if (xhr.status === 403) {
+	                     const errorResponse = JSON.parse(xhr.responseText);
+	                     alert(errorResponse.result); // 실패한 경우 에러 메시지를 alert으로 띄움
+	                 } else {
+	                     console.error("AJAX request failed:", textStatus, errorThrown);
+	                 }
+	            }
 	    	}); 
        
       
     };
 });
+
+
+function goReport(guestbookId,reportedId) {
+    fetch("${pageContext.request.contextPath}/report/guestbookReport?guestbookId=" + guestbookId + "&reportedId=" + reportedId)
+        .then(response => {
+            if (response.ok) {
+                window.location.href = response.url;
+            } else {
+                console.error("Failed to fetch");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
 </script>
 
 

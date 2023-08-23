@@ -38,12 +38,13 @@
 			</div>
     	</div>
       </div>
-      <div class="modal-footer storyModalCreatedAt"></div>
+      <div class="modal-footer storyModalCreatedAt" id="storyModalCreatedAt"></div>
     </div>
   </div>
 </div>
 
 <input type='hidden' id='userId' value='${loginMember.id}' />
+<input type='hidden' id='currentCard' value=""/>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -53,6 +54,5 @@ document.querySelector('#storyMainUpdate').addEventListener('wheel', (e) => {
     e.preventDefault();
     document.querySelector('#storyMainUpdate').scrollLeft += e.deltaY; 
 });
-
 
 </script>

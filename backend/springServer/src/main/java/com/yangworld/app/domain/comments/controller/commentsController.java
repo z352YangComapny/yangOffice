@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +24,12 @@ import com.yangworld.app.domain.comments.dto.CommentCreateDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
 import com.yangworld.app.domain.photoFeed.controller.PhotoFeedController;
+import com.yangworld.app.domain.question.entity.Comment;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/feedDetails")
 public class commentsController {
 	
 	
@@ -34,38 +37,30 @@ public class commentsController {
 	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
 	
-	@GetMapping("/getComments")
-	public ResponseEntity<?> getComments(@RequestParam int photoFeedId) {
-	    List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
-	    
-	    if (comments != null && !comments.isEmpty()) {
-	        return ResponseEntity.ok(comments);
-	    } else {
-	        return ResponseEntity.ok("no");
-	    }
-	}
-
-	
-	// TODO 댓글 조회
+//	// 댓글 조회
+//	@GetMapping("/feed/feedDetail")
+//	public void getComments(
+//			@AuthenticationPrincipal PrincipalDetails principalDetails,
+//			@RequestParam int photoFeedId,
+//			Model model) {
+//	
+//		List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
+//    
+//		model.addAttribute("comments", comments);
+//	}
 	
 	// 댓글 작성
-	@PostMapping("/commentCreate")
-	public ResponseEntity<?> commentCreate(
+	@PostMapping("/feedDetails/commentCreate")
+	public String commentCreate(
 	        @AuthenticationPrincipal PrincipalDetails principalDetails,
-	        @RequestBody @Valid CommentCreateDto commentCreateDto,
-	        BindingResult bindingResult) {
-		
-		log.info("principalDetails = {}", principalDetails.getId());
-		
-		
-	    int result = commentService.insertComment(principalDetails, commentCreateDto);
-
-	    if (result > 0) {
-	        return ResponseEntity.ok("Comment inserted successfully.");
-	    } else {
-	        return ResponseEntity.badRequest().body("Failed to insert comment.");
-	    }
+	        @RequestParam String comment,
+	        @RequestParam int photoFeedId) {
+	    
+	    int result = commentService.insertComment(principalDetails, comment, photoFeedId);
+	    
+	    return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}
+
 	
 	
 	// 댓글 수정
@@ -83,17 +78,16 @@ public class commentsController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/comentDelete")
-	public ResponseEntity<?> commentDelete(
+	@PostMapping("/commentDelete")
+	public String commentDelete(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody @Valid CommentCreateDto commentDeleteDto,
-			BindingResult bindingResult
+			@RequestParam String comment,
+	        @RequestParam int photoFeedId
 			){
+		log.info("comment ={}", comment);
+		int result = commentService.deleteComment(principalDetails, photoFeedId, comment);
 		
-		int result = commentService.deleteComment(principalDetails, commentDeleteDto);
-		
-		
-		return ResponseEntity.ok().build();
+		return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}
 	
 	

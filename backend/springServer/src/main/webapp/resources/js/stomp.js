@@ -27,7 +27,7 @@ const renderStory = (payloads) => {
 
 	const view = document.querySelector('#storyMainUpdate');
 	view.innerHTML = '';
-	
+	let i = 0;
 	stories.forEach((story) => {
 		const html = `
 		<div class="card m-3">
@@ -36,8 +36,11 @@ const renderStory = (payloads) => {
 		    <li class="list-group-item content">${story.content}</li>
 		    <li class="list-group-item createdAt">${story.createdAt}</li>
 		  </ul>
+			<input type="hidden" id="cardIndex" value="${i + 1}"/>
 		</div>
 		`;
+		i = i + 1;
+//		console.log('i : ', i);
 		view.innerHTML += html;
 	});
 	
@@ -47,8 +50,35 @@ const renderStory = (payloads) => {
     storyElements.forEach((storyElement) => {
         storyElement.addEventListener('click', () => {
 			updateModal(storyElement);
-
+			
             storyModal.modal('show');
+            
+            $('#storyModal').on('wheel', (e) => {
+			    e.preventDefault();
+			    console.log('wheeeeeeeeeeeel');
+			    const currentCardIndex = parseInt(document.querySelector('#currentCard').value);
+			    console.log('currentCardIndex : ', currentCardIndex);
+			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
+			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
+			    console.log('nextCardIndex : ', nextCardIndex);
+			    	
+			    if (event.deltaY < 0){
+			    	if (beforeCardIndex) {
+				    	const beforeCard = beforeCardIndex.closest('.card');
+				        updateModal(beforeCard);
+				    }else{
+				    	storyModal.modal('hide');
+				    }
+			    }else if (event.deltaY > 0){
+				    if (nextCardIndex) {
+				    	const nextCard = nextCardIndex.closest('.card');
+				        updateModal(nextCard);
+				    }else{
+				    	storyModal.modal('hide');
+				    }
+			    }
+			    
+			});
 
         });
 	    
@@ -60,10 +90,12 @@ const updateModal = (e) => {
 	const writerId = e.querySelector('.writerId').textContent;
 	const content = e.querySelector('.content').textContent;
 	const createdAt = e.querySelector('.createdAt').textContent;
+	const currentCardIndex = e.querySelector('#cardIndex').value;
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+	document.querySelector('#currentCard').value = currentCardIndex;
 };
 
 const clearModal = () => {
@@ -107,3 +139,4 @@ const noticeDm = (notification) => {
    		 });
 	
 };
+
