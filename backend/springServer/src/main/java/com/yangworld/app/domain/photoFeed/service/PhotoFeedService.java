@@ -15,8 +15,6 @@ public interface PhotoFeedService {
 
 	int insertFeed(FeedDetails feed);
 
-	List<PhotoAttachmentFeedDto> selectFeed(int writerId);
-
 	int deleteFeed(int feedId);
 
 	int updateFeed(int feedId, String content);
@@ -31,6 +29,8 @@ public interface PhotoFeedService {
 
 
 	List<PhotoAttachmentFeedDto> selectFeedDetail(int writerId, int photoFeedId);
+
+	List<PhotoAttachmentFeedDto> selectFeed(int writerId);
 
 
 	

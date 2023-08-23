@@ -1,30 +1,26 @@
 package com.yangworld.app.domain.dm.controller;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.dm.dto.DmDetailsDto;
+import com.yangworld.app.domain.dm.dto.DmListDto;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.entity.DmRoom;
 import com.yangworld.app.domain.dm.service.DmService;
+import com.yangworld.app.domain.notification.service.NotificationService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,24 +32,24 @@ public class DmController {
 	@Autowired
 	private DmService dmService;
 	
+	@Autowired
+	private NotificationService notificationService;
+	
 	@GetMapping("/dmCreate")
 	public void dmCreate() {}
 
 	/**
 	 * DM 선택한 후 대화창 조회
 	 */
-	@GetMapping("/dmDetail")
-	public void findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId, Model model) {
-		
-		 int userId = principal.getId(); 
-		
-		// dmRoomId 로 찾기 -> 는 서버에서 id값 받아와서 보내야함
-		List<Dm> dmDetails = dmService.findDmDetails(dmRoomId);
-		
-		log.info("dmDetails={}" , dmDetails);
-		model.addAttribute("dmDetails", dmDetails);
-		model.addAttribute("userId", userId);
+	@GetMapping("/dmDetailList")
+	public ResponseEntity<List<DmDetailsDto>> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId) {
+	    int userId = principal.getId(); 
+	    List<DmDetailsDto> dmDetails = dmService.findDmDetails(dmRoomId, userId);
+	    return ResponseEntity.ok(dmDetails);
 	}
+	
+	@GetMapping("/dmDetail")
+	public void dmDetail() {}
 	
 	/**
 	 * 가장 최신 dm List 가져오기 
@@ -63,29 +59,12 @@ public class DmController {
 		
 	    int userId = principal.getId(); 
 	    
-	    List<Dm> myDms = dmService.findMyDmList(userId);
-	    Map<Integer, Dm> latestMessagesMap = new HashMap<>();
-
-	    log.info("myDms={}", myDms);
+	    List<DmListDto> dmList = dmService.findDmRoom(userId);
 	    
-	    for (Dm dm : myDms) {
-	        int dmRoomId = dm.getDmRoomId();
-	        if (!latestMessagesMap.containsKey(dmRoomId) || dm.getRegDate().isAfter(latestMessagesMap.get(dmRoomId).getRegDate())) {
-	            latestMessagesMap.put(dmRoomId, dm);
-	        }
-	    }
-
-	    // 가장 최신 메시지로 정렬 ( regDate )
-	    List<Dm> sortedMessages = new ArrayList<>(latestMessagesMap.values());
-	    sortedMessages.sort(Comparator.comparing(Dm::getRegDate).reversed());
+	    log.info("dmList={}", dmList);
 	    
-	    List<DmRoom> dmRoom = dmService.findDmRoom(userId);
+	    model.addAttribute("dmList",dmList);
 	    
-	    log.info("sortedMessages={}", sortedMessages);
-	    log.info("myDmRoom={}", dmRoom);
-	    model.addAttribute("myDms",myDms);
-	    model.addAttribute("dmRoom",dmRoom);
-	    model.addAttribute("myDmList", sortedMessages);
 	 }
 
 
@@ -93,7 +72,7 @@ public class DmController {
 	@PostMapping("/sendDm")
 	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam("dmRoomId") int dmRoomId, @RequestParam String content) {
 	    int senderId = principal.getId(); 
-	    List<DmRoom> dmRoomList = dmService.findDmRoom(dmRoomId);
+	    List<DmRoom> dmRoomList = dmService.findDmRoomById(dmRoomId);
 	    DmRoom targetDmRoom = null;
 
 	    for (DmRoom dm : dmRoomList) {
@@ -120,7 +99,9 @@ public class DmController {
 	        
 	        log.info("msg = {}", msg);
 	        // insert
-	        dmService.insertDm(msg);
+	        int result = dmService.insertDm(msg);
+	        
+	        result = notificationService.notifySendDm(msg);
 	    }
 
 	    return "redirect:/dm/dmDetail?dmRoomId=" + dmRoomId;
@@ -141,7 +122,7 @@ public class DmController {
 	    // insert
 	    dmService.insertDmRoom(participant1, participant2);
 
-	    List<DmRoom> dmRooms = dmService.findDmRoom(participant1); // DM Rooms 조회
+	    List<DmRoom> dmRooms = dmService.findDmRoomById(participant1); // DM Rooms 조회
 
 	    Dm newDm = _dmDto.toDm();
 

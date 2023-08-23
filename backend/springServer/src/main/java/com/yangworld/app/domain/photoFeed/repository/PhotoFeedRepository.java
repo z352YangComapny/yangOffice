@@ -51,8 +51,6 @@ public interface PhotoFeedRepository {
 	// attachment_photo_feed delete (link table)
 	@Delete("delete from attachment where id not in (select attachment_id from attachment_photo_feed)")
 	int deleteAttachment(int feedId);
-//delete from attachment where id not in (select attachment_id from attachment_photo_feed)
-
 
 	// attachment delete
 	@Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")
@@ -79,9 +77,17 @@ public interface PhotoFeedRepository {
 
 	@Select("select count(*) as comment_count from comments_feed where photo_feed_id = #{id}")
 	int getCommentCount(int id);
-
+	
+//	@Select("select * from photo_feed where id = #{photoFeedId}")
+	// 이거 가지고 조회하면 되겠따 ㅋ
 	@Select("select a.* from attachment a join attachment_photo_feed af on a.id = af.attachment_id where af.photo_feed_id = #{photoFeedId}")
 	List<PhotoAttachmentFeedDto> selectFeedDetail(int photoFeedId);
+
+	@Select("select * from attachment_photo_feed where photo_feed_id = #{id}")
+	List<AttachmentPhotoDto> selectAttachmentPhotoDetail(int id);
+	
+	@Select("select * from attachment where id = #{id}")
+	Attachment selectAttachmentDetail(int id);
 
 
 

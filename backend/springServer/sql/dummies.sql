@@ -426,6 +426,178 @@ INSERT INTO attachment_photo_feed (attachment_id, photo_feed_id)
 VALUES (20, 20);
 
 
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @profile table 테이블 테스트 데이터
+
+-- 어태치먼트 아이디 1-20, 포토 피드 아이디 1-20 모두 매칭
+
+
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 1, 'A', 'Introduction for Member 1');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 2, 'B', 'Introduction for Member 2');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 3, 'C', 'Introduction for Member 3');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 4, 'D', 'Introduction for Member 4');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 5, 'E', 'Introduction for Member 5');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 6, 'A', 'Introduction for Member 6');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 7, 'B', 'Introduction for Member 7');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 8, 'C', 'Introduction for Member 8');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 9, 'D', 'Introduction for Member 9');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 10, 'E', 'Introduction for Member 10');
+insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 11, 'A', 'Introduction for Member 11');
+
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @follow table 테이블 테스트 데이터
+
+-- 멤버 간의 팔로우 관계
+insert into follow (follower, followee) values (1, 2);
+insert into follow (follower, followee) values (1, 3);
+insert into follow (follower, followee) values (2, 3);
+insert into follow (follower, followee) values (2, 4);
+insert into follow (follower, followee) values (3, 1);
+insert into follow (follower, followee) values (3, 5);
+insert into follow (follower, followee) values (4, 2);
+insert into follow (follower, followee) values (5, 6);
+insert into follow (follower, followee) values (5, 1);
+insert into follow (follower, followee) values (6, 1);
+insert into follow (follower, followee) values (6, 3);
+insert into follow (follower, followee) values (7, 4);
+insert into follow (follower, followee) values (8, 2);
+insert into follow (follower, followee) values (8, 3);
+insert into follow (follower, followee) values (9, 1);
+insert into follow (follower, followee) values (9, 6);
+insert into follow (follower, followee) values (10, 3);
+insert into follow (follower, followee) values (10, 4);
+insert into follow (follower, followee) values (11, 1);
+insert into follow (follower, followee) values (11, 5);
+-- 멤버 간의 팔로우 관계가 아닌 경우 (추가 20개)
+insert into follow (follower, followee) values (1, 4);
+insert into follow (follower, followee) values (2, 5);
+insert into follow (follower, followee) values (3, 6);
+insert into follow (follower, followee) values (4, 1);
+insert into follow (follower, followee) values (5, 2);
+insert into follow (follower, followee) values (6, 4);
+insert into follow (follower, followee) values (7, 5);
+insert into follow (follower, followee) values (8, 6);
+insert into follow (follower, followee) values (9, 4);
+insert into follow (follower, followee) values (10, 5);
+insert into follow (follower, followee) values (11, 6);
+insert into follow (follower, followee) values (1, 7);
+insert into follow (follower, followee) values (2, 8);
+insert into follow (follower, followee) values (3, 9);
+insert into follow (follower, followee) values (4, 10);
+insert into follow (follower, followee) values (5, 11);
+insert into follow (follower, followee) values (6, 7);
+insert into follow (follower, followee) values (7, 8);
+insert into follow (follower, followee) values (8, 9);
+insert into follow (follower, followee) values (9, 10);
+insert into follow (follower, followee) values (10, 11);
+
+--=============================================================================
+--=============================================================================
+--=============================================================================
+--=============================================================================
+
+-- @follow table 테이블 테스트 데이터
+
+-- 프로필에 어태치먼트 연결
+insert into attachment_profile (attachment_id, profile_id) values (1, 1);
+insert into attachment_profile (attachment_id, profile_id) values (2, 2);
+insert into attachment_profile (attachment_id, profile_id) values (3, 3);
+insert into attachment_profile (attachment_id, profile_id) values (4, 4);
+insert into attachment_profile (attachment_id, profile_id) values (5, 5);
+insert into attachment_profile (attachment_id, profile_id) values (6, 6);
+insert into attachment_profile (attachment_id, profile_id) values (7, 7);
+insert into attachment_profile (attachment_id, profile_id) values (8, 8);
+insert into attachment_profile (attachment_id, profile_id) values (9, 9);
+insert into attachment_profile (attachment_id, profile_id) values (10, 10);
+insert into attachment_profile (attachment_id, profile_id) values (11, 11);
+
+-- 첫 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 2, 1, '안녕하세요!', 1, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 두 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 3, 2, '안녕하세요~', 2, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 세 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 4, 3, '반가워요!', 3, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 네 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 5, 4, '만나서 기뻐요!', 4, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 다섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 6, 5, '안녕하세요! 어떻게 지내세요?', 5, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 여섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 7, 6, '안녕하세요~ 잘 지내고 있어요!', 6, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 일곱 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 8, 7, '오늘 날씨가 좋네요!', 7, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 여덟 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 9, 8, '맞아요, 기분 좋아지네요!', 8, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 아홉 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 10, 9, '어디 가기 좋을까요?', 9, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 11, 10, '저는 공원이 좋아요!', 10, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열한 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 3, 1, '안녕하세요! 오랜만이네요~', 11, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열두 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 4, 2, '네, 오랜만이네요~', 12, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열세 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 5, 3, '어디 좋은 카페 아시나요?', 13, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열네 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 6, 4, '옆에 있는 커피숍이 좋아요!', 14, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열다섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 7, 5, '좋아요, 한번 가보겠습니다!', 15, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열여섯 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 8, 6, '기다리겠습니다~', 16, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열일곱 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 9, 7, '저녁에 뭐 드실까요?', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열여덟 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 10, 8, '피자 어때요?', 18, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 열아홉 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 11, 9, '저도 좋아요!', 19, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
+-- 스무 번째 dm 인서트 문
+INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+VALUES (seq_dm_id.NEXTVAL, 11, 1, '안녕하세요! 만나서 반가워요~', 20, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 
 
