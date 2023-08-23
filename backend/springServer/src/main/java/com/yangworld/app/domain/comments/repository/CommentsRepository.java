@@ -43,18 +43,22 @@ public interface CommentsRepository {
 	@Select("select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = #{photoFeedId}")
 	List<CommentFeed> getCommentsByPhotoFeedId(int photoFeedId);
 	
+	@Select("select * from comments where id = #{commentId}")
+	List<Comments> commentByPhotoFeedId(int commentId);
+	
 	//---------------------------------------------------------------------------------------------------------
 	
 	@Insert("insert into comments_question (comments_id, question_id) values (seq_comments_id.currval, #{questionId})")
 	int insertCommentQna(@Param(value = "commentId") int commentId, @Param(value = "questionId") int questionId);
 
-	@Select("select c.content from comments_question cq join comments c on cq.comments_id = c.id where cq.question_id = #{questionId}")
+	@Select("select * from comments_question cq join comments c on cq.comments_id = c.id where cq.question_id = #{questionId}")
 	List<Comments> getCommentsByQuestionId(int questionId);
 
+	@Update("update comments c set c.content = #{content} where c.id in (select cq.comments_id from comments_question cq where cq.question_id = #{questionId})")
+	int updateCommentQna(@Param("questionId")int questionId,@Param("content") String content);
 
 
-	@Select("select * from comments where id = #{commentId}")
-	List<Comments> commentByPhotoFeedId(int commentId);
+	
 	
 
 

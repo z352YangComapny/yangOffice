@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
-import com.yangworld.app.domain.comments.dto.QnaCommentCreateDto;
+import com.yangworld.app.domain.comments.dto.QnaCommentAllDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
 import com.yangworld.app.domain.profile.service.ProfileServiceImpl;
@@ -48,7 +48,7 @@ public class QnACommentsServiceImpl implements CommentsService{
 	
 	
 	@Override
-	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentCreateDto qnaCommentCreateDto) {
+	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentCreateDto) {
 		int result = 0;
 	    
 	    int writerId = principalDetails.getId();
@@ -71,6 +71,23 @@ public class QnACommentsServiceImpl implements CommentsService{
 	public List<Comments> getCommentsByQuestionId(int questionId) {
 		
 		return commentsRepository.getCommentsByQuestionId(questionId);
+	}
+	@Override
+	public int updateQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentUpdateDto) {
+		 int result = 0;
+		 
+		 int writerId = principalDetails.getId();
+		 String content = qnaCommentUpdateDto.getContent();
+		 int questionId = qnaCommentUpdateDto.getCommentQna().getQuestionId();
+		 
+		 log.info("writherId = {}", writerId);
+		 log.info("updateContent = {}", content);
+		 log.info("updateQuestionId = {}", questionId);
+		 
+		 result = commentsRepository.updateCommentQna(questionId, content);
+	
+		 
+		 return result;
 	}
 	
 }

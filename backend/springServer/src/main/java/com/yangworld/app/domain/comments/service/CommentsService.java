@@ -14,7 +14,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
 
-import com.yangworld.app.domain.comments.dto.QnaCommentCreateDto;
+import com.yangworld.app.domain.comments.dto.QnaCommentAllDto;
 
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 
@@ -40,17 +40,22 @@ public interface CommentsService {
 
 	int deleteComment(PrincipalDetails principalDetails, int photoFeedId, String comment);
 
+	int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto);
 
 
 	
 
-	int insertQnaComment(PrincipalDetails principalDetails, QnaCommentCreateDto qnaCommentCreateDto);
+	int insertQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentCreateDto);
 
 	List<Comments> getCommentsByQuestionId(int questionId);
 
 
 
 
-	int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto);
+	int updateQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentAllDto);
+
+
+
+
 
 }

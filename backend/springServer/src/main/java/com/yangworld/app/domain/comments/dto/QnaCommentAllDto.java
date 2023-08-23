@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QnaCommentCreateDto {
+public class QnaCommentAllDto {
 
 	private int id;
 	private int writerId;

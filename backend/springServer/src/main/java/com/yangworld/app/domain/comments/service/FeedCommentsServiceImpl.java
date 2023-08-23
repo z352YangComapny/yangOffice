@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
-import com.yangworld.app.domain.comments.dto.QnaCommentCreateDto;
+import com.yangworld.app.domain.comments.dto.QnaCommentAllDto;
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
@@ -144,7 +144,7 @@ public class FeedCommentsServiceImpl implements CommentsService{
 	
 	
 	@Override
-	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentCreateDto qnaCommentCreateDto) {
+	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentCreateDto) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -163,6 +163,15 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 	@Override
 	public int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
+	@Override
+	public int updateQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentAllDto) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

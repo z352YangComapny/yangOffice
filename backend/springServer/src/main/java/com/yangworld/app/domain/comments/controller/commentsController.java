@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
-import com.yangworld.app.domain.comments.dto.QnaCommentCreateDto;
+import com.yangworld.app.domain.comments.dto.QnaCommentAllDto;
 import com.yangworld.app.domain.comments.dto.QnaCommentDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
@@ -44,7 +44,7 @@ public class commentsController {
 
 	@Autowired
 	@Qualifier("QnACommentsServiceImpl")
-	private CommentsService qnacommentService;
+	private CommentsService qnaCommentService;
 	
 	@GetMapping("/getComments")
 	public ResponseEntity<?> getComments(@RequestParam int photoFeedId) {
@@ -121,18 +121,18 @@ public class commentsController {
 	@PostMapping("/qnaCommentCreate")
     public ResponseEntity<?> qnaCommentCreate(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
-            @RequestBody @Valid QnaCommentCreateDto qnaCommentCreateDto,
+            @RequestBody @Valid QnaCommentAllDto qnaCommentAllDto,
             BindingResult bindingResult,
             Model model) {
 		log.info("principalDetails = {}" , principalDetails);
 		
-		log.info("qnaComeentCreateDto = {}", qnaCommentCreateDto);
+		log.info("qnaComeentCreateDto = {}", qnaCommentAllDto);
         if (bindingResult.hasErrors()) {
             // 유효성 검사 오류가 있는 경우
             return ResponseEntity.badRequest().body("Invalid data");
         }
         
-        int result = qnacommentService.insertQnaComment(principalDetails, qnaCommentCreateDto);
+        int result = qnaCommentService.insertQnaComment(principalDetails, qnaCommentAllDto);
         log.info("result = {}", result);
         if (result > 0) {
         	return ResponseEntity.ok("{\"message\": \"Comment inserted successfully.\"}");
@@ -144,12 +144,37 @@ public class commentsController {
 	
 	@GetMapping("/getQnaComments")
 	public ResponseEntity<?> getQnaComments(@RequestParam int questionId) {
-	    List<Comments> qnaComments = qnacommentService.getCommentsByQuestionId(questionId);
+	    List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(questionId);
 	    
 	    if (qnaComments != null && !qnaComments.isEmpty()) {
 	        return ResponseEntity.ok(qnaComments);
 	    } else {
 	        return ResponseEntity.ok("no");
+	    }
+	}
+	@PostMapping("/qnaCommentUpdate")
+	public ResponseEntity<?> qnaCommentUpdate(
+	        @AuthenticationPrincipal PrincipalDetails principalDetails,
+	        @RequestBody @Valid QnaCommentAllDto qnaCommentAllDto,
+	        BindingResult bindingResult,
+	        Model model) {
+	    if (bindingResult.hasErrors()) {
+	        // 유효성 검사 오류가 있는 경우
+	        return ResponseEntity.badRequest().body("Invalid data");
+	    }
+	    
+	    log.info("principalDetails = {}", principalDetails);
+	    log.info("qnaCommentUpdateDto = {}", qnaCommentAllDto);
+
+
+
+	    int result = qnaCommentService.updateQnaComment(principalDetails, qnaCommentAllDto);
+	    log.info("result = {}", result);
+
+	    if (result > 0) {
+	        return ResponseEntity.ok("{\"message\": \"Comment updated successfully.\"}");
+	    } else {
+	        return ResponseEntity.badRequest().body("Failed to update comment.");
 	    }
 	}
 }

@@ -38,6 +38,7 @@
     div#board-container label.custom-file-label {
         text-align: left;
     }
+   
 </style>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
@@ -48,15 +49,16 @@
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         
-        <c:if test="${isAdmin && questionType eq 'Q'}">
-                <label for="commentContent"></label>
-                <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
-            <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+       <c:if test="${isAdmin && questionType eq 'Q'}">
+            <label for="commentContent"></label>
+            <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
+            <input type="hidden" id="commentId" value="">
+                    <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
         </c:if>
         
         
         
-        
+        <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment">댓글 수정</button>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
         
     </div>
@@ -64,7 +66,6 @@
 
 <script>
 const csrfToken = "${_csrf.token}";
-
 
 document.querySelector('#commentCreate').onclick = () => {
     const commentContent = document.getElementById('commentContent').value;
@@ -75,7 +76,7 @@ document.querySelector('#commentCreate').onclick = () => {
             questionId: ${questionId} 
         };
 
-        const qnaCommentCreateDto = {
+        const qnaCommentAllDto = {
             content: commentContent, 
             writerId: "${principalId}",
             commentQna: qnaCommentDto 
@@ -87,7 +88,7 @@ document.querySelector('#commentCreate').onclick = () => {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
             },
-            body: JSON.stringify(qnaCommentCreateDto)
+            body: JSON.stringify(qnaCommentAllDto)
         })
         .then(response => {
             if (!response.ok) {
@@ -98,6 +99,7 @@ document.querySelector('#commentCreate').onclick = () => {
         .then(data => {
             alert('댓글이 작성되었습니다.');
             location.reload();
+            
         })
         .catch(error => {
             console.error('댓글 작성 중 오류:', error);
@@ -108,7 +110,60 @@ document.querySelector('#commentCreate').onclick = () => {
     }
 };
 
+
+document.querySelector('#editComment').onclick = () => {
+    const commentContent = document.getElementById('commentContent').value;
+
+    if (commentContent.trim() !== '') {
+        const qnaCommentDto = {
+			commentId: 39,
+            questionId: ${questionId} 
+        };
+
+        const qnaCommentAllDto = {
+            content: commentContent, 
+            writerId: "${principalId}",
+            commentQna: qnaCommentDto 
+        };
+
+        fetch('/qnaCommentUpdate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
+            },
+            body: JSON.stringify(qnaCommentAllDto)
+        })
+        .then(response => {
+        	console.log(response)
+            if (!response.ok) {
+                throw new Error('댓글 수정 중 오류 발생');
+            }
+            return response.json();
+        })
+        .then(data => {
+        	console.log(data)
+            alert('댓글이 수정되었습니다.');
+            location.reload();
+        })
+        .catch(error => {
+            console.error('댓글 수정 중 오류:', error);
+            alert('댓글 수정 중 오류가 발생했습니다.');
+        });
+    } else {
+        alert('수정 내용을 입력해주세요.');
+    }
+};
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
+	
+
 	
     fetch('/getQnaComments?questionId=${questionId}', {
         method: 'GET',
@@ -126,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
         if (data !== "no") {
             // 댓글 데이터가 있는 경우
+            console.log(data);
             const comments = data;
             const commentContent = document.getElementById("commentContent");
             commentContent.value = comments[0].content; // 첫 번째 댓글의 내용을 가져와서 출력
@@ -139,7 +195,65 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(error => {
         console.error('댓글 가져오기 중 오류:', error);
     });
+    
+    
+    /* const commentContent = document.getElementById("commentContent");
+    const editButton = document.querySelector("#editComment");
+    
+    
+    editButton.onclick = () => {
+        if (editButton.textContent === "댓글 수정") {
+            // 수정 버튼 클릭 시 댓글 수정 가능 상태로 변경
+            commentContent.readOnly = false;
+            editButton.textContent = "수정 완료";
+        } else {
+            // 수정 완료 버튼 클릭 시 수정 내용 저장 및 수정 불가능 상태로 변경
+            const updatedComment = commentContent.value;
+
+            // 서버로 수정 내용 전송
+            const qnaCommentDto = {
+                commentId: comments[0].commentId, // 댓글 ID
+                questionId: ${questionId}
+            };
+
+            const qnaCommentAllDto = {
+                content: updatedComment,
+                writerId: "${principalId}",
+                commentQna: qnaCommentDto
+            };
+
+            fetch('/qnaCommentUpdate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify(qnaCommentAllDto)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('댓글 수정 중 오류 발생');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('댓글이 수정되었습니다.');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('댓글 수정 중 오류:', error);
+                alert('댓글 수정 중 오류가 발생했습니다.');
+            });
+
+            // 수정 완료 후 수정 불가능 상태로 변경
+            commentContent.readOnly = true;
+            commentContent.value = updatedComment; // 화면에 변경된 내용 표시
+            editButton.textContent = "댓글 수정";
+        }
+    }; */
 });
+
+
 
 /* function addComment() {
     const commentContent = document.getElementById('commentContent').value;
