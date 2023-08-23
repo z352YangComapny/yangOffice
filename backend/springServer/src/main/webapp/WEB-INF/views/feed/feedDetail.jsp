@@ -86,15 +86,22 @@
 	        <input type="hidden" name="feedId" value="${response.id}">
 	        <button type="submit" class="btn btn-danger">피드 삭제</button>
 	    </form:form>
-	    <!-- 여기! -->
+	        
 	</c:if>
-    
-    <div class="content-box">
-         <div>${response.content}</div>
-    </div>
-    <button>
-    	<img id="likes"src="${context.request.contextPage}/resources/images/like.png">
-    </button>
+   <div class="content-box">
+    <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
+    <div class="feed-content">${response.content}</div>
+   </div>
+
+<!-- 피드 수정 폼 -->
+	<div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
+	    <textarea class="form-control">${response.content}</textarea>
+	    <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+	</div>
+
+<button>
+    <img id="likes" src="${context.request.contextPage}/resources/images/like.png">
+</button>
 </div>
 <hr style="border: 3px">
 		<!-- 댓글 작성 폼 시작 -->
@@ -152,7 +159,43 @@
 
 		<!-- 댓글 목록 폼 끝 -->
 <script>
+// --------------피드 시작
+$(document).ready(function () {
 
+    // 피드 수정 버튼 클릭 시
+    $(".edit-feed-btn").click(function () {
+        var feedId = $(this).data("feed-id");
+        $("#edit-feed-form-" + feedId).toggle();
+    });
+
+    // 수정 완료 버튼 클릭 시
+    $(".update-feed-btn").click(function () {
+        var feedId = $(this).data("feed-id");
+        var newContent = $("#edit-feed-form-" + feedId + " textarea").val(); // 새로운 피드 내용 가져오기
+
+        // AJAX를 통해 서버로 데이터 전송
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/feedDetails/feedUpdate",
+            data: {
+                feedId: feedId,
+                content: newContent
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')
+            },
+            success: function (response) {
+                alert("피드가 변경이 완료되었습니다!"); // 서버의 응답 메시지를 알림으로 표시
+                location.reload(); // 페이지 새로고침
+            },
+            error: function (error) {
+                alert("Error updating feed: " + error.responseText);
+            }
+        });
+    });
+});
+
+// -------------------피드 끝
 $(document).ready(function () {
     // Edit button 클릭 시
     $(".edit-comment-btn").click(function () {

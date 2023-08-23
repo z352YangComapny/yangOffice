@@ -191,15 +191,15 @@ public class PhotoFeedController {
 		 return "redirect:/";
 	}
 	
-	@PostMapping("/feedUpdate")
-	public ResponseEntity<?> updateFeed(
+	@PostMapping("/feedDetails/feedUpdate")
+	public String updateFeed(
 			@RequestParam int feedId,
 			@RequestParam String content
 			){
 		
 		int result = photoFeedService.updateFeed(feedId, content);
 		
-		return null;
+		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
 	
 	// 좋아요 넣기 
