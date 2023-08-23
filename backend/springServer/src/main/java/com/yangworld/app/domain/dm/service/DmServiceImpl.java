@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.dm.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -119,6 +120,8 @@ public class DmServiceImpl implements DmService {
 			// content, regDate
 			List<Dm> dm = dmRepository.findDmContent(dmRoomId);
 			
+			dm.sort(Comparator.comparing(Dm::getRegDate).reversed());
+			
 			for(Dm msg : dm) {
 			
 			if(dms.getParticipant1() == userId) {
@@ -157,19 +160,14 @@ public class DmServiceImpl implements DmService {
 						.build();
 				
 				dmDtoList.add(dmListDto);
-				
 			
 				}
 		    }
 		    
+		dmDtoList.sort(Comparator.comparing(DmListDto::getRegDate).reversed());
+		
 		    return dmDtoList;
 		}
-
-
-
-
-
-
 	
 	@Override
 	public List<Map<String, Object>> findMemberId(int dmRoomId) {
@@ -177,9 +175,8 @@ public class DmServiceImpl implements DmService {
 	}
 
 	@Override
-	public DmListDto findDmList(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Dm findMyNewDm(int userId) {
+		return dmRepository.findMyNewDm(userId);
 	}
 
 }

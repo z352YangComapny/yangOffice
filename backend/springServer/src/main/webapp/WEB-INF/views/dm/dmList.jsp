@@ -20,23 +20,13 @@
 	          <!-- 채팅방 create, delete button -->
 	          <button type="button" class="btn btn-primary" id="btn-add" style="margin: 10px;"> NEW DM ROOM + </button>
 	       
-<!-- 	       DmListDto dmListDto = DmListDto.builder()
-		                .username(username)
-		                .renamedFileName(renamedFileName)
-		                .content(msg.getContent())
-		                .dmRoomId(dmRoomId)
-		                .participant1(dms.getParticipant1())
-		                .participant2(dms.getParticipant2())
-		                .regDate(msg.getRegDate()) // regDate를 dm에서 가져와야 함
-		                .build(); -->
-	       
 	           <!-- dm List 시작 -->
 	            <ul class="list-unstyled mb-0">
 				    <c:forEach items="${dmList}" var="dm" varStatus="loop">
 				                <li class="p-2 border-bottom" style="background-color: #fff;">
 				                    <a href="${pageContext.request.contextPath}/dm/dmDetail?dmRoomId=${dm.dmRoomId}" class="d-flex justify-content-between">
 				                        <div class="d-flex flex-row">
-				                            <img src="${pageConext.request.contextPath}/resource/upload/attachment/profile/${dm.renamedFileName}" 
+				                            <img src="${pageContext.request.contextPath}/resources/upload/attachment/profile/${dm.renamedFileName}" 
 				                                 class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
 				                            <div class="pt-1">
 				                                <p class="fw-bold mb-0">${dm.nickname} ( ${dm.name} )</p>
@@ -48,7 +38,7 @@
 				                                <fmt:parseDate value="${dm.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 				                                <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 				                            </p>
-				                            <span class="badge bg-danger float-end">1</span>
+				                            <!-- <span class="badge bg-light float-end" id="dmListSpan">🔵</span> -->
 				                        </div>
 				                    </a>
 				                </li>

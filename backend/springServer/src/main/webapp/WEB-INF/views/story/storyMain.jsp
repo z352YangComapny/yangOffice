@@ -48,7 +48,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    connect();
+    // connect();
 });
 document.querySelector('#storyMainUpdate').addEventListener('wheel', (e) => {
     e.preventDefault();
