@@ -78,6 +78,10 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.resetPassword(newPassword, username);
     }
 
+    @Override
+    public List<String> findAllMember() {
+        return memberRepository.findAllMember();
+    }
 
 
 }

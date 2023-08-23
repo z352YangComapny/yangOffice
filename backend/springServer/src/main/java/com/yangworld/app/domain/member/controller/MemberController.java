@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Validated
@@ -55,6 +56,21 @@ public class MemberController {
 
     @GetMapping("/memberCreate.do")
     public void memberCreate(){}
+
+    @GetMapping("/userPage")
+    public String userHome(@AuthenticationPrincipal PrincipalDetails principal){
+        log.info("dddddd");
+        return "redirect:/member/userPage/"+principal.getId();
+    }
+
+    @GetMapping("/userPage/{id}")
+    public String userPage(@PathVariable("id") int id, Model model){
+        Member member = memberService.findById(id);
+        log.info("member@Home={}", member);
+
+        return "member/userPage";
+    }
+
 
     @PostMapping("/memberCreate.do")
     public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr){
@@ -214,9 +230,6 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/memberHome.do")
-    public String memberHome(){ return "redirect:/member/memberHome.do";}
-
     @GetMapping("/memberDetail.do")
     public void memberDetail(@AuthenticationPrincipal PrincipalDetails principal, Authentication authentication){
 
@@ -226,6 +239,12 @@ public class MemberController {
 
     }
 
+    @GetMapping("/memberList")
+    public ResponseEntity<?> memberList(){
+
+
+        return ResponseEntity.ok().body(Map.of("msg", "뭐라도 가라"));
+    }
  }
 
 
