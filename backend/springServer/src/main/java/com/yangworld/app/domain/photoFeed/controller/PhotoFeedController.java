@@ -3,11 +3,13 @@ package com.yangworld.app.domain.photoFeed.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yangworld.app.commons.HelloSpringUtils;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
 import com.yangworld.app.domain.member.entity.Member;
@@ -55,7 +58,8 @@ public class PhotoFeedController {
 	private MemberService memberService;
 	
 	@Autowired
-	private CommentsService commentsService;
+	@Qualifier("FeedCommentsServiceImpl")
+	private CommentsService commentService;
 	
 	@GetMapping("/somePage")
 	public String somePage(Model model) {
@@ -80,32 +84,32 @@ public class PhotoFeedController {
 			@RequestParam int photoFeedId,
 			Model model) {
 		
-		// 피드번호를 받아서 피드 안에 있는 정보들을 model.addAttribute해줘야함. 근데 지금 List를했네시발
 	
 		int writerId = principalDetails.getId();
 		
-        // 데이터베이스에서 필요한 정보 조회
 		
         // 피드 조회
 		List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId); 
+		List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
 		
     	PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
 
         FeedDetails response = FeedDetails.builder()
                 .id(photoFeedId)
-                .attachments(null)
+                .content(photoFeed.getContent())
                 .build();
+        Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
+        log.info("commentList ={}",commentList);
         
-        
-        
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("response", response);
         model.addAttribute("photoDetail", photoDetail);
-
+        model.addAttribute("principalDetails", principalDetails);
 	}
 
 	
 	// 피드 만들기
 	@PostMapping("/feedCreated.do")
-	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String peedCreate(
 			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
 	        BindingResult bindingResult,
@@ -177,40 +181,7 @@ public class PhotoFeedController {
 
 	}
 	
-//	// 디테일
-//	@GetMapping("/feedDetails/{writer}/{photoFeedId}")
-//	public String findById(@PathVariable int writerId, @PathVariable int photoFeedId, Model model) {
-//	    try {
-//	        // 단계 2: 데이터베이스에서 필요한 정보 조회
-//	        Member member = memberService.findById(writerId);
-//	        PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
-//	        List<Comments> comments = commentsService.getCommentsByPhotoFeedId(photoFeedId);
-//	        List<Like> likesCount = photoFeedService.getLikesCountByPhotoFeedId(photoFeedId);
-//
-//	        log.info("member = {}", member);
-//	        log.info("photoFeed = {}", photoFeed);
-//	        log.info("comments = {}", comments);
-//	        log.info("likesCount = {}", likesCount);
-//
-//	        FeedDetails response = FeedDetails.builder()
-//	                .id(photoFeedId)
-//	                .member(member)
-//	                .like(likesCount)
-//	                .comments(comments)
-//	                .build();
-//
-//	        // 이미지 리스트를 모델에 추가
-////	        model.addAttribute("images", photoFeed.getImages());
-//
-//	        // 모델에 피드 디테일 정보 추가
-//	        model.addAttribute("feedDetails", response);
-//
-//	        return "/feedDetail.do"; 
-//	    } catch (Exception e) {
-//	        // 오류 처리
-//	        return "error"; // 오류 페이지 뷰 이름
-//	    }
-//	}
+
 
 
 	

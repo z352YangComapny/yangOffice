@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
 import com.yangworld.app.domain.comments.dto.QnaCommentCreateDto;
 import com.yangworld.app.domain.comments.entity.Comments;
@@ -35,8 +36,15 @@ public class QnACommentsServiceImpl implements CommentsService{
 	@Override
 	public int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto) {return 0;}
 	@Override
-	public List<Comments> getCommentsByPhotoFeedId(int photoFeedId) {return null;}
-	
+	public List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId) {return null;}
+	@Override
+	public int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId) {
+		return 0;
+	}
+	@Override
+	public int deleteComment(PrincipalDetails principalDetails, int photoFeedId, String comment) {
+		return 0;
+	}
 	
 	
 	@Override
@@ -64,4 +72,5 @@ public class QnACommentsServiceImpl implements CommentsService{
 		
 		return commentsRepository.getCommentsByQuestionId(questionId);
 	}
+	
 }

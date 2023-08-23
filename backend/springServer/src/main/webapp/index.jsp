@@ -14,8 +14,19 @@
 <jsp:include page ="/WEB-INF/views/common/header2.jsp">
     <jsp:param name = "title" value = "안녕 스프링"/>
 </jsp:include>
+<style>
+@keyframes waveAnimation {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(20px); }
+  75% { transform: translateX(-20px); }
+}
+
+.wave-image {
+  animation: waveAnimation 2s cubic-bezier(0.97, 0.71, 1, 1) infinite;
+}
+</style>
     <div class="index-container d-flex flex-column justify-content-center align-items-center" style="background-image: url('${pageContext.request.contextPath}/resources/images/index_bgc.jpg');">
-     <img src="${pageContext.request.contextPath}/resources/images/main.png" id="main-image" alt="main-img"/>
+     <img src="${pageContext.request.contextPath}/resources/images/main.png" id="main-image" alt="main-img" class="wave-image"/>
         <div class=" d-flex justify-content-center align-items-center row">
             <span style="font-weight : bold; font-size : 100px; text-align: center; color : black;">SSOY STORY</span>
             <span style="font-size : 30px; text-align: center; color: black">Yang Company</span>
@@ -53,7 +64,7 @@
                 <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
             </div>
             <div class="d-flex justify-content-end align-content-center flex-grow-1" style="height: 10vh; margin : 0;">
-                <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/guestbook/guestbook.do';">Guests Book</button>
+            <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/guestbook/guestbook.do';">Guests Book</button>
             </div>
         </div>
     </div>
