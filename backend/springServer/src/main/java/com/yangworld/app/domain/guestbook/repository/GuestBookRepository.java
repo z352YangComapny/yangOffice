@@ -8,10 +8,12 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 @Mapper
@@ -26,7 +28,7 @@ public interface GuestBookRepository {
 	@Update("update guestbook set content = #{content} where id = #{id}")
 	int updateGuestBook(GuestBookUpdateDto _guestBook);
 
-	@Select("select * from guestbook order by reg_date desc")
-	List<GuestBook> findAll(Map<String, Object> params);
+	
+	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int memberId);
 
 }

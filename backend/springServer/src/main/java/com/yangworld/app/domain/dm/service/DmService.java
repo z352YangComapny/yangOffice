@@ -30,5 +30,6 @@ public interface DmService {
 
 	List<Map<String, Object>> findMemberId(int dmRoomId);
 
-	DmListDto findDmList(int userId);
+	Dm findMyNewDm(int userId);
+
 }
