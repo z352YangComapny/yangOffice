@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Payload {
 	private PayloadType type;
+	private int to;
 	private String from;
 	private String content;
 	private LocalDateTime createdAt;

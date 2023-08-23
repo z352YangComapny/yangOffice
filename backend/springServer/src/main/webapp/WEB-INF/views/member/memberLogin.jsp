@@ -26,7 +26,9 @@
 </script>
 </head>
 <body>
-	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top : 50px" >
+
+	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top : 50px; ">
+
 	<form:form action="${pageContext.request.contextPath}/member/memberLogin.do"
 			   method="post">
 		<c:if test="${param.error ne null}">

@@ -52,6 +52,9 @@ public interface MemberRepository {
     @Select("select *from member where phone = #{phone}")
     Member findByPhone(String phone);
 
+    @Select("select username from member where id = #{userId}")
+	String findByIdForDm(int userId);
+    
     @Update("update member set password = #{newPassword} where username = #{username}")
     int resetPassword(@Param("newPassword")String newPassword, @Param("username")String username);
 

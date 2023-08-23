@@ -11,5 +11,5 @@ public interface KakaoService {
 
 	Map<String, Object> getTokens(String code);
 
-	Map<String, Object> getProfile(String string);
+	Map<String, Object> getProfile(String accessToken);
 }

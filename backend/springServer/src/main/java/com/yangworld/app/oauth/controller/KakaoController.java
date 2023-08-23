@@ -1,13 +1,17 @@
 package com.yangworld.app.oauth.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.yangworld.app.config.auth.PrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +21,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.SignUpDto;
-import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.oauth.service.KakaoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +37,9 @@ public class KakaoController{
 	@Autowired
 	private KakaoService kakaoService;
 	@Autowired
-	private MemberService memberService;
+	private PrincipalDetailsService principalDetailsService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 	@Autowired
 	private PrincipalDetailsService pricipalDetailsService;
 
@@ -44,11 +50,10 @@ public class KakaoController{
 	}
 	
 	@GetMapping("/callback.do")
-	public void callback(
+	public RedirectView callback(
 			@RequestParam String code,
 			Model model,
-			HttpServletRequest request,
-			@AuthenticationPrincipal PrincipalDetails principal
+			HttpServletRequest request
 			){
 		// 1. 토큰 발급
 		Map<String, Object> tokens = kakaoService.getTokens(code);
@@ -65,7 +70,7 @@ public class KakaoController{
 		String memberId = attributes.get("id")+"@kakao";
 		PrincipalDetails member = null;
 		try {
-			member = (PrincipalDetails) pricipalDetailsService.loadUserByUsername(memberId);
+			member = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberId);
 		}catch(UsernameNotFoundException ignore) {
 			// 회원이 아닌 경우 
 			Map<String, Object> kakaoAccount = (Map<String,Object>) attributes.get("kakao_account");
@@ -74,22 +79,32 @@ public class KakaoController{
 			String nickname = (String) profile.get("nickname");
 			String email = (String) kakaoAccount.get("email");
 			
-			//SignUpDto signUpDto = SignUpDto.builder()
-						//		.username(memberId)
-							//	.password("1234")
-								//.name("홍")
-							//	.nickname(nickname)
-						//		.gender("F")
-							//	.phone("010-1234-1234")
-								//.email(email)
-							//	.birthday("1999-09-09")
-						//		.build();
+			SignUpDto signUpDto = SignUpDto.builder()
+								.username(memberId)
+								.password(passwordEncoder.encode("1234"))
+								.name("홍")
+								.nickname(nickname)
+								.gender("F")
+								.phone("010-1234-1234")
+								.email(email)
+								.birthday(LocalDate.parse("1999-09-09"))
+								.build();
 			
-			//int result = memberService.insetMember(signUpDto);
+			int result = principalDetailsService.insertMember(signUpDto);
 			
-
-			//return new RedirectView(request.getContentPath()+"/");
+			member = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberId);
+			
 		}
+		
+		// 로그인 처리
+		Authentication authentication = new UsernamePasswordAuthenticationToken(
+					member,
+					member.getPassword(),
+					member.getAuthorities()
+				);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		return new RedirectView(request.getContextPath()+"/");
 	}
 
 	

@@ -21,6 +21,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
+import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import com.yangworld.app.domain.guestbook.service.GuestBookService;
 import com.yangworld.app.domain.member.entity.Member;
@@ -64,6 +65,9 @@ public class GuestbookController {
 			@Valid  GuestBookDeleteDto delete
 			) {
 		int id = member.getId();
+		if(id != delete.getWriterId()) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("result","권한이 없습니다."));
+		}
 		GuestBook guestBook = GuestBook.builder()
 							.id(id)
 							.writerId(member.getId())
@@ -99,7 +103,7 @@ public class GuestbookController {
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
-	@GetMapping("/guestbook")
+	@GetMapping("/guestbook.do")
 	public void guestBookList(
 			@RequestParam(defaultValue = "1") int page,
 			@AuthenticationPrincipal Member member,
@@ -108,10 +112,12 @@ public class GuestbookController {
 		int limit = 5;
 		Map<String, Object> params = Map.of(
 				"page",page,
-				"limit",limit
+				"limit",limit,
+				"id",member.getId()
 			);
 		log.info("member ={} ",member);
-		List<GuestBook> guestBooks = guestBookService.findAll(params);
+		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params);
+		log.info("guestBooks={}",guestBooks);
 		model.addAttribute("guestBooks",guestBooks);
 	}
 }

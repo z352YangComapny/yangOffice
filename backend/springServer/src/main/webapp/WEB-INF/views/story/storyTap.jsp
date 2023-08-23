@@ -21,15 +21,13 @@
 			<div id="story"  class="flex-grow-6" style=" height: 80vh;">
 				<c:forEach items="${stories}" var="story">
 					<div class="card m-3">
-					 	<button type="hidden" id="storyId" value="${story.id}"/>
+					 	<input type="hidden" id="storyId" value="${story.id}"/>
 					  <ul class="list-group list-group-flush">
-					    <li class="list-group-item writerId">${story.writerId}</li>
+					    <li class="list-group-item writerId">${loginMember.username}</li>
+					    <input type="hidden" class="writerId" value="${story.writerId}"/>
 					    <li class="list-group-item content">${story.content}</li>
 					    <li class="list-group-item createdAt">${story.regDate}</li>
 					  </ul>
-					</div>
-					<div>
-						<button class="btn btn-secondary" id="btnDelete">삭제</button>
 					</div>
 				</c:forEach>
 			</div>
@@ -39,7 +37,10 @@
 	<div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
-	      <div class="modal-header storyModalWriterId"></div>
+	      <div class="modal-header">
+	      	${loginMember.username}
+	      	<input type="hidden" class="storyModalWriterId" value=""/>
+	      </div>
 	      <div class="modal-body">
 	        <form>
 	          <div class="form-group">
@@ -48,8 +49,9 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer storyModalCreatedAt"></div>
-	       <button class="btn btn-primary" id="btnUpdateStory">수정</button>
-	       <button type="hidden" id="storyModalId" value=""/>
+			<button class="btn btn-primary" id="btnUpdateStory">수정</button>
+			<button class="btn btn-secondary" id="btnDelete">삭제</button>
+	       <input type="hidden" id="storyModalId" value=""/>
 	    </div>
 	  </div>
 	</div>
@@ -59,7 +61,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="createStoryWriterId">${loginMember.username}</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
@@ -111,12 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const updateModal2 = (e) => {
-	const writerId = e.querySelector('.writerId').textContent;
+	const writerId = e.querySelector('.writerId').value;
 	const content = e.querySelector('.content').textContent;
 	const createdAt = e.querySelector('.createdAt').textContent;
 	const id = e.querySelector("#storyId").value;
 	
-	document.querySelector('.storyModalWriterId').textContent = writerId;
+	document.querySelector('.storyModalWriterId').value = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
 	document.querySelector('#storyModalId').value = id;
@@ -137,7 +139,7 @@ document.querySelector("#btnCreateStory2").onclick = () => {
 
 document.querySelector("#btnUpdateStory").onclick = () => {
 	const id = document.querySelector("#storyId").value;
-	const writerId = document.querySelector(".storyModalWriterId").textContent;
+	const writerId = document.querySelector(".storyModalWriterId").value;
 	const content = document.querySelector('#message-text-modal-content').value;
 	
 	console.log(id, writerId, content);
@@ -152,7 +154,7 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 
 document.querySelector("#btnDelete").onclick = () => {
 	if(confirm('정말로 삭제함?')){
-		const id = document.querySelector("#storyId").value;
+		const id = document.querySelector("#storyModalId").value;
 		document.querySelector("#deleteModalId").value = id;
 		
 		const frm = document.querySelector("#deleteFrm");
