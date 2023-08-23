@@ -78,13 +78,10 @@ public class ProfileController {
 	    return "/profile/profileUpdate";
 	    
 	}
-	@GetMapping("/")
+	@GetMapping("/profileMain.do")
 	@PreAuthorize("isAuthenticated()")
-	public String mainFrm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+	public String profileMain(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 		
-		if (principal == null) {
-	        return "forward:/index.jsp";  
-	    }
 		
 		int memberId = principal.getId();
 		log.info("principal = {} ", principal.getId());
@@ -93,6 +90,7 @@ public class ProfileController {
 	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 	   
 	    model.addAttribute("profile", profile);
+	    
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
@@ -100,12 +98,9 @@ public class ProfileController {
 	    log.info("profile = {}", profile);
 	    log.info("profileAttachment = {}",profileAttachments);
 	    
-	    return "forward:/index.jsp"; 
+	    return "forward:/index.jsp";
 	}
 
-	
-	
-	
 
 	@PostMapping("/create.do")
 	public ResponseEntity<?> create(

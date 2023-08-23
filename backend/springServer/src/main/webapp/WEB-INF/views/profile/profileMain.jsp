@@ -1,8 +1,10 @@
+<%@page import="com.yangworld.app.domain.profile.entity.ProfileDetails"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <style>
     /* 이미지 최대 너비와 최대 높이 설정 */
     #selectedImage {
@@ -25,12 +27,13 @@
         font-size: 1.5rem;
     }
 </style>
-<body>
 <sec:authorize access="isAuthenticated()">
+<%-- 자바 코드를 사용하여 principalName 출력하기 --%>
+<% String principalName = (String) request.getAttribute("principalName"); %>
+<p>Principal Name: ${principalName}</p>
+<sec:authentication property="principal" var="loginMember"/>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
-        
-        <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/main.do" class="col-md-6">
 		    <div class="form-group">
 		        <label for="upFile"></label>
 		        <c:choose>
@@ -41,7 +44,7 @@
 		            </c:when>
 		            <c:otherwise>
 		                <!-- 프로필 사진이 없을 경우 기본 이미지 또는 아무것도 표시하거나 로직을 추가해주세요. -->
-		                <img id="selectedImage" src="<c:url value='/resources/upload/profile/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+		                <img id="selectedImage" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
 		            </c:otherwise>
 		        </c:choose>
 		    </div>
@@ -60,27 +63,13 @@
             <button type="submit" class="btn btn-primary">수정</button>
             	
             </div>
-            
-          	
-			
-
-        </form:form>
     </div>
-</sec:authorize>
-
-<script>
-
-</script>
-
-
-
-
-
-
-
-
-
-      
-</body>
-</html>
+ 
+    </sec:authorize>
+    
+    
+    
+    
+    
+    
 

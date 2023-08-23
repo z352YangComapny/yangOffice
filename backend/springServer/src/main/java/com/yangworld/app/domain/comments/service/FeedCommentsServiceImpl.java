@@ -24,10 +24,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 
 
-
-
-
-
 	@Override
 	public int insertComment(PrincipalDetails principalDetails, CommentCreateDto commentCreateDto) {
 	    int result = 0;
