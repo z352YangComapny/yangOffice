@@ -89,6 +89,10 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	            attachmentList.add(attachment);
 	        }
 	        photoFeed.setAttachments(attachmentList);
+	        // 좋아요 수 조회 및 photoFeed 객체에 추가
+	        int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
+	        photoFeed.setLikeCount(likeCount);
+	        
 	    }
 	    
 	    
@@ -145,6 +149,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	            
 	            
 	            photoFeed.setLikeCount(likeCount);
+	            photoFeed.setCommentCount(commentCount);
 	            
 	        }
 	        

@@ -90,6 +90,7 @@ public interface PhotoFeedRepository {
 	@Select("select count(*) from likes where photo_feed_id = #{id}")
 	int getLikeCount(int id);
 
+
 	
 
 
