@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.yangworld.app.domain.dm.dto.DmDetailsDto;
+import com.yangworld.app.domain.dm.dto.DmListDto;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.entity.DmRoom;
@@ -18,11 +20,15 @@ public interface DmService {
 
 	int deleteDmRoom(int dmRoomId);
 
-	List<Dm> findDmDetails(int dmRoomId);
+	List<DmDetailsDto> findDmDetails(int dmRoomId, int userId);
 
 	String getUsernameById(int Id);
 
-	List<DmRoom> findDmRoom(int dmRoomId);
+	List<DmListDto> findDmRoom(int userId);
+	
+	List<DmRoom> findDmRoomById(int userId);
 
 	List<Map<String, Object>> findMemberId(int dmRoomId);
+
+	DmListDto findDmList(int userId);
 }
