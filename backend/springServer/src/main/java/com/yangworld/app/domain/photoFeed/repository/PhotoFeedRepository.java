@@ -66,20 +66,9 @@ public interface PhotoFeedRepository {
 	@Select("select * from likes where photo_feed_id = #{photoFeedId}")
 	List<Like> findLikeById(int photoFeedId);
 
-	@Insert("insert into likes (photo_feed_id, member_id) values(#{photoFeedId}, #{memberId})")
-	int insertLike(@Param(value = "photoFeedId") int photoFeedId, @Param(value = "memberId") int memberId);
-
-	@Delete("delete from likes where photo_feed_id = #{photoFeedId} and member_id = #{memberId}")
-	int deleteLike(@Param(value = "photoFeedId")int photoFeedId,  @Param(value = "memberId")int memberId);
-
-	@Select("select count(*) from likes where photo_feed_id = #{id}")
-	int getLikeCount(int id);
-
 	@Select("select count(*) as comment_count from comments_feed where photo_feed_id = #{id}")
 	int getCommentCount(int id);
 	
-//	@Select("select * from photo_feed where id = #{photoFeedId}")
-	// 이거 가지고 조회하면 되겠따 ㅋ
 	@Select("select a.* from attachment a join attachment_photo_feed af on a.id = af.attachment_id where af.photo_feed_id = #{photoFeedId}")
 	List<PhotoAttachmentFeedDto> selectFeedDetail(int photoFeedId);
 
@@ -89,7 +78,17 @@ public interface PhotoFeedRepository {
 	@Select("select * from attachment where id = #{id}")
 	Attachment selectAttachmentDetail(int id);
 
+	@Select("select * from likes where photo_feed_id = #{feedId} and member_id = #{memberId}")
+	Like selectLikeCount(@Param(value = "feedId") int feedId, @Param(value = "memberId")int memberId);
 
+	@Insert("insert into likes (photo_feed_id, member_id) values(#{photoFeedId}, #{memberId})")
+	int insertLike(@Param(value = "photoFeedId") int photoFeedId, @Param(value = "memberId") int memberId);
+
+	@Delete("delete from likes where photo_feed_id = #{photoFeedId} and member_id = #{memberId}")
+	int deleteLike(@Param(value = "photoFeedId")int photoFeedId,  @Param(value = "memberId")int memberId);
+
+	@Select("select count(*) from likes where photo_feed_id = #{id}")
+	int getLikeCount(int id);
 
 	
 

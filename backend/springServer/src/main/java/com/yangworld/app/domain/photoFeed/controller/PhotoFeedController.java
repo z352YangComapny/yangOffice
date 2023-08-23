@@ -202,28 +202,54 @@ public class PhotoFeedController {
 		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
 	
-	// 좋아요 넣기 
-	@PostMapping("/feedLikeUpdate")
-	public ResponseEntity<?> insertLike(
-			@RequestParam int photoFeedId,
-			@RequestParam int memberId
-			){
+	@PostMapping("/feedDetails/feedLikeUpdate")
+	public ResponseEntity<?> feedLikeUpdate(
+			@RequestParam int feedId,
+			PrincipalDetails principalDetails) {
 		
-		int result = photoFeedService.insertLike(photoFeedId, memberId);
-			
-		return null;
+		
+		int memberId = principalDetails.getId();
+		log.info("feedId = {}", feedId);
+		log.info("memberId = {}", memberId);
+		
+		Like likeCount = photoFeedService.getLikeCount(feedId, memberId);
+		
+		
+		String responseMessage = "";
+		
+		if (likeCount != null) {
+	        photoFeedService.deleteLike(feedId, memberId);
+	        responseMessage = "좋아요가 취소되었습니다.";
+	    } else {
+	    	photoFeedService.insertLike(feedId, memberId);
+	        responseMessage = "좋아요가 추가되었습니다.";
+	    }
+		
+		return ResponseEntity.ok(responseMessage);
 	}
 	
-	@PostMapping("/feedLikeDelete")
-	public ResponseEntity<?> deleteLike(
-			@RequestParam int photoFeedId,
-			@RequestParam int memberId
-			){
-		
-		int result = photoFeedService.deleteLike(photoFeedId, memberId);
-		
-		return null;
-	}
+//	// 좋아요 넣기 
+//	@PostMapping("/feedLikeUpdate")
+//	public ResponseEntity<?> insertLike(
+//			@RequestParam int photoFeedId,
+//			@RequestParam int memberId
+//			){
+//		
+//		int result = photoFeedService.insertLike(photoFeedId, memberId);
+//			
+//		return null;
+//	}
+//	
+//	@PostMapping("/feedLikeDelete")
+//	public ResponseEntity<?> deleteLike(
+//			@RequestParam int photoFeedId,
+//			@RequestParam int memberId
+//			){
+//		
+//		int result = photoFeedService.deleteLike(photoFeedId, memberId);
+//		
+//		return null;
+//	}
 	
 	
 	

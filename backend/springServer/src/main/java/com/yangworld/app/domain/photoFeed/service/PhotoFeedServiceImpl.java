@@ -201,6 +201,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 		return photoFeedRepository.deleteLike(photoFeedId, memberId);
 	}
 
+	@Override
+	public Like getLikeCount(int feedId, int memberId) {
+		return photoFeedRepository.selectLikeCount(feedId, memberId);
+	}
+
 
 
 	
