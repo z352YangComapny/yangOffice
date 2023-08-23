@@ -64,6 +64,9 @@ public class GuestbookController {
 			@Valid  GuestBookDeleteDto delete
 			) {
 		int id = member.getId();
+		if(id != delete.getWriterId()) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("result","권한이 없습니다."));
+		}
 		GuestBook guestBook = GuestBook.builder()
 							.id(id)
 							.writerId(member.getId())
