@@ -38,6 +38,7 @@ const renderStory = (payloads) => {
 		  </ul>
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
 			<input type="hidden" id="storyAttach" value="${story.attach}"/>
+			<input type="hidden" id="storyCardId" value="${story.id}"/>
 		</div>
 		`;
 		i = i + 1;
@@ -63,14 +64,14 @@ const renderStory = (payloads) => {
 			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
 //			    console.log('nextCardIndex : ', nextCardIndex);
 			    	
-			    if (event.deltaY < 0){
+			    if (e.deltaY < 0){
 			    	if (beforeCardIndex) {
 				    	const beforeCard = beforeCardIndex.closest('.card');
 				        updateModal(beforeCard);
 				    }else{
 				    	storyModal.modal('hide');
 				    }
-			    }else if (event.deltaY > 0){
+			    }else if (e.deltaY > 0){
 				    if (nextCardIndex) {
 				    	const nextCard = nextCardIndex.closest('.card');
 				        updateModal(nextCard);
@@ -93,12 +94,14 @@ const updateModal = (e) => {
 	const createdAt = e.querySelector('.createdAt').textContent;
 	const storyAttach = e.querySelector('#storyAttach').value;
 	const currentCardIndex = e.querySelector('#cardIndex').value;
-	
+	const storyCardId = e.querySelector('#storyCardId').value;
+
 //	console.log(storyAttach);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+	document.querySelector('#reportStoryId').value = storyCardId;
 	
 	const imgElement = document.createElement('img');
 	imgElement.id = 'storyModalProfile';

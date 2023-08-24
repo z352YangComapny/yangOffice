@@ -2,9 +2,11 @@ package com.yangworld.app.domain.report.repository;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.data.repository.query.Param;
 
+import com.yangworld.app.domain.report.dto.ReportStoryDto2;
 import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.entity.ReportCommentsFeed;
 import com.yangworld.app.domain.report.entity.ReportDm;
@@ -41,6 +43,12 @@ public interface ReportRepository {
 	
 	@Insert("insert into report_comments_feed(report_id, comments_id) values(#{reportId}, #{commentsId})")
 	int insertReportComments(ReportCommentsFeed reportCommentsFeed);
+	
+	@Insert("insert into report_story(report_id, story_id) values(#{reportId}, #{storyId})")
+	void insertReportStory(ReportStoryDto2 reportStory);
+
+	@Select("select max(id) from report")
+	int findLastReportId();
 
 
 

@@ -65,11 +65,12 @@
   </div>
 </div>
 
-<form:form id="reportStory" action="${pageContext.request.contextPath}/report/createStoryReport" method="POST">
-<input type='hidden' id='userId' value='${loginMember.id}' />
 <input type='hidden' id='currentCard' value=""/>
-<input type="hidden" id="currentWriter" value=""/>
-<input type="hidden" id="reportStoryReason" value=""/>
+<form:form id="reportStory" action="${pageContext.request.contextPath}/report/createStoryReport" method="POST">
+<input type='hidden' id='userId' name='reporterId' value='${loginMember.id}' />
+<input type='hidden' id='reportStoryId' name='storyId' value=""/>
+<input type="hidden" id="currentWriter" name='reportedName' value=""/>
+<input type="hidden" id="reportStoryReason" name='content' value=""/>
 </form:form>
 
 <script>
