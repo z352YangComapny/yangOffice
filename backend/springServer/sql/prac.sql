@@ -108,5 +108,5 @@ select * from comments;
 select  * from user_role_privs;
 select * from member ;
 select * from authorities;
-
+select * from profile;
 select * from comments;
