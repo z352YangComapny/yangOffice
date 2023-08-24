@@ -86,26 +86,36 @@
                <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
                <span style = "font-size : 30px; font-weight: bold; color: white;">SSOY STORY<span>
             </a>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-               <ul class="navbar-nav me-auto">
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">월드에 놀러가기</a></li>
+            <div class="collapse navbar-collapse d-flex justify-content-evenly" id="navbarColor01">
+               <div>
+                  <ul class="navbar-nav me-auto">
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">월드에 놀러가기</a></li>
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>
 
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>
-
-               </ul>
-               <form class="d-flex">
-                  <sec:authorize access="isAuthenticated()">
+                  </ul>
+               </div>
+               <div style="width:500px;">
+                  <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
+               </div>
+               <div>
+                  <form class="d-flex ml-5">
+                     <sec:authorize access="isAuthenticated()">
                             <span class="align-middle" style="font-weight: bold; color : white; font-size : 15px;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
-                     title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
-                     &nbsp;
-                     <button
-                           class="btn btn-secondary my-2 my-sm-0 ml-10"
-                           type="button"
-                           onclick="document.memberLogoutFrm.submit();">로그아웃</button>
-                  </sec:authorize>
-               </form>
+                            title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
+                        &nbsp;
+                        <button
+                                class="btn btn-secondary my-2 my-sm-0 ml-10"
+                                type="button"
+                                onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+                     </sec:authorize>
+                  </form>
+               </div>
+               <div>
+
+               </div>
+
             </div>
          </div>
       </nav>

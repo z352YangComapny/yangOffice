@@ -5,6 +5,9 @@ import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Member;
 
+import java.util.List;
+import java.util.Map;
+
 public interface MemberService {
     int insertMember(SignUpDto signUpDto);
 
@@ -26,4 +29,10 @@ public interface MemberService {
 
     int resetPassword(String newPassword, String username);
 
+
+    List<Member> findAllMember();
+
+    List<Member> findMemberByText(String inputText);
+
+    List<FollowDto> findFollowee(int id);
 }

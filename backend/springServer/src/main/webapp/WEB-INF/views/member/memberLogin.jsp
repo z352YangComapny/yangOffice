@@ -15,8 +15,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
 <!-- bootstrap css -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
@@ -30,6 +28,7 @@
 <body>
 
 	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top : 50px; ">
+
 	<form:form action="${pageContext.request.contextPath}/member/memberLogin.do"
 			   method="post">
 		<c:if test="${param.error ne null}">
@@ -92,7 +91,7 @@
 
 	<div class="d-flex flex-column justify-content-center align-items-center mt-5">
 		<p>아직 회원이 아니신가요?</p>
-		<button type = "submit" id = "login" class="btn btn-primary" style="border-radius: 50px; width : 20vw;" onclick="location.href='${pageContext.request.contextPath}/member/memberCreate.do';">
+		<button type = "submit" id = "memberCreate" class="btn btn-primary" style="border-radius: 50px; width : 20vw;" onclick="location.href='${pageContext.request.contextPath}/member/memberCreate.do';">
 			회원가입</button>
 	</div>
 
@@ -159,7 +158,7 @@
 				<div id = "modalContent1">
 					<div class="modal-body">
 						<div class="form-group row">
-							<p>༼ つ ◕_◕ ༽つ 이메일 인증 후에 비밀번호 재설정을 하실 수 있습니다.</p>
+							<p>༼ つ ◕_◕ ༽つ 이메일과 아이디를 확인 후 비밀번호 재설정을 하실 수 있습니다.</p>
 							<label for="email" class="col-sm-2 col-form-label">Email</label>
 							<div class="d-flex flex-row">
 								<input type="text" class="form-control" id="email2" name="email" style="width:250px; margin-right:5px;">
@@ -181,29 +180,31 @@
 								<div class="valid-feedback" id="mailValid2" >인증번호가 확인되었습니다.</div>
 								<div class="invalid-feedback" id="mailInvalid2">인증번호가 일치하지 않습니다. 다시 확인해주세요.</div>
 							</div>
-							<label class="form-label mt-4" for="username">아이디</label>
-							<input type="text" value="" class="form-control" id="usernameId" name="username" placeholder="아이디 입력">
+							<div class="mt-2">
+								<label class="form-label mt-4" for="username">아이디</label>
+								<input type="text" value="" class="form-control" id="usernameId" name="username" placeholder="아이디 입력">
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id = "next-btn" onclick = "nextStep()">Next</button>
-						<button type="button" class="btn btn-secondary close-modal"  data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-secondary close-modal"  id="close1" data-bs-dismiss="modal">Close</button>
 					</div>
 				</div>
 				<div id="modalContent2">
 					<div class="column">
 						<div class="col-md-12">
 							<div class="form-group">
-								<label class="form-label mt-4" for="password">비밀번호</label>
-								<input type="password" value="" class="form-control" id="password" name="password" placeholder="6~12글자의 영소문자+ 숫자 + 특수문자(!,@,#)포함">
+								<label class="form-label mt-4" for="password2">비밀번호</label>
+								<input type="password" value="" class="form-control" id="password2" name="password" placeholder="6~12글자의 영소문자+ 숫자 + 특수문자(!,@,#)포함">
 								<div class="valid-feedback" id="pwdValid">입력하신 비밀번호는 사용 가능합니다.</div>
 								<div class="invalid-feedback" id="pwdInvalid">비밀번호는 6~12자, 1개 이상의 숫자와 특수문자 ! @ # 중 하나를 포함해야합니다.</div>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
-								<label class="form-label mt-4" for="pwdConfirmation">비밀번호 확인</label>
-								<input type="password" value="" class="form-control" id="pwdConfirmation">
+								<label class="form-label mt-4" for="pwdConfirmation2">비밀번호 확인</label>
+								<input type="password" value="" class="form-control" id="pwdConfirmation2">
 								<div class="valid-feedback" id="pwdCfmValid">비밀번호 확인 되었습니다.</div>
 								<div class="invalid-feedback" id="pwdCfmInvalid">비밀번호가 일치하지 않습니다.</div>
 							</div>
@@ -211,7 +212,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary searchId" onclick="resetPassword()">Reset Password</button>
-						<button type="button" class="btn btn-secondary close-modal"  data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-secondary close-modal" id="close2"  data-bs-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
@@ -245,12 +246,12 @@
 			});
 
 			// 모달 창 외부를 클릭하면 모달이 닫히도록 설정
-			modal.addEventListener("click", function(event) {
+		/*	modal.addEventListener("click", function(event) {
 				if (event.target === modal) {
 					modal.style.display = "none";
 					modal.classList.remove("show");
 				}
-			});
+			});*/
 			const $searchedID =  $("#searchedID");
 			// 모달 내부의 확인 버튼 클릭 이벤트
 			searchButton.addEventListener("click", function() {
@@ -408,7 +409,53 @@
 				resetPwdModal.style.display = "none";
 				resetPwdModal.classList.remove("show");
 			});
+
+
+
 		});
+
+
+		$(document).ready(function () {
+			$("#close1").click(function (event) {
+				event.stopPropagation(); // 이벤트 전파 중지
+
+				// 모달 초기화
+				$("#email2").val("");
+				$("#emailDomain2").val("메일주소 선택");
+				$("#mailAuth2").val(""); // 인증번호 입력 필드 초기화
+				$("#mailValid2").hide(); // 인증번호 유효성 표시 초기화
+				$("#mailInvalid2").hide(); // 인증번호 무효성 표시 초기화
+
+				// 모달을 닫는 함수 호출
+				closeModal();
+			});
+
+			$("#close2").click(function (event) {
+				event.stopPropagation(); // 이벤트 전파 중지
+				// 모달을 닫는 함수 호출
+				$("#email2").val("");
+				$("#emailDomain2").val("메일주소 선택");
+				$("#mailAuth2").val(""); // 인증번호 입력 필드 초기화
+				$("#mailValid2").hide(); // 인증번호 유효성 표시 초기화
+				$("#mailInvalid2").hide(); // 인증번호 무효성 표시 초기화
+				$("#password2").val("");
+				$("#pwdConfirmation2").val("");
+
+				closeModal();
+			});
+		});
+
+		// 모달을 닫는 함수
+		function closeModal() {
+			const resetPwdModal = document.getElementById("resetPwdModal");
+			resetPwdModal.style.display = "none";
+			resetPwdModal.classList.remove("show");
+		}
+
+
+
+
+
 
 		// 비밀번호 재설정의 이메일 인증
 		let code2;
@@ -505,8 +552,6 @@
 		});
 		// 비밀번호 재설정의 이메일 인증 끝!
 
-
-
 			// 비밀번호 재설정 모달 화면 전환 관련 JS
 			// 초기 설정: modalContent1만 보이게 하고 next 버튼 비활성화
 			document.getElementById("modalContent2").style.display = "none";
@@ -569,6 +614,68 @@
 				}
 				});
 			}
+	</script>
+
+<%--비밀번호 유효성 검사 --%>
+	<script>
+		const $pwdInvalid = $("#pwdInvalid");
+		const $pwdValid = $("#pwdValid");
+		const $pwdCfmValid = $("#pwdCfmValid");
+		const $pwdCfmInvalid = $("#pwdCfmInvalid");
+		const $password = $("#password");
+		const $pwdConfirmation =$("#pwdConfirmation");
+
+		$password.on("input", function(){
+
+		const password = $(this).val();
+
+		if(!/^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#])[a-z0-9!@#]+$/.test(password)){
+		$(this).addClass('is-invalid');
+		$(this).removeClass('is-valid');
+		$pwdInvalid.show();
+		$pwdValid.hide();
+		$pwdCfmInvalid.hide();
+
+		if(password.trim() === ''){
+		$pwdInvalid.hide();
+		$pwdValid.hide();
+		$(this).removeClass('is-invalid');
+		}
+
+		} else{
+		$(this).removeClass('is-invalid');
+		$(this).addClass('is-valid');
+		$pwdInvalid.hide();
+		$pwdValid.show();
+		$pwdCfmValid.hide();
+
+		$pwdConfirmation.on("input", function () {
+		const password = $password.val();
+		const pwdConfirmation = $(this).val();
+
+		if (password !== pwdConfirmation) {
+		if (pwdConfirmation.trim() === '') {
+		$pwdCfmValid.hide();
+		$pwdCfmInvalid.hide();
+		$(this).removeClass('is-invalid');
+		$(this).removeClass('is-valid');
+		} else {
+		$(this).addClass('is-invalid');
+		$(this).removeClass('is-valid');
+		$pwdCfmValid.hide();
+		$pwdCfmInvalid.show();
+		}
+		} else {
+		$(this).removeClass('is-invalid');
+		$(this).addClass('is-valid');
+		$pwdCfmValid.show();
+		$pwdCfmInvalid.hide();
+		}
+		});
+
+		}
+		});
+
 	</script>
 
 
