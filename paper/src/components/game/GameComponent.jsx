@@ -4,17 +4,18 @@ import GameConfig from '../../games/config';
 import "../../assets/css/Game.css"
 import { MemberContext } from 'contexts/MembetContextProvider';
 import Game from 'games/scene/Game';
+import { Button, Input } from 'reactstrap';
 
 
 const GameComponent = () => {
     const {
-        states:{
+        states: {
             isLogin,
             accessToken,
             userProfile
         },
-        actions:{
-          setUserProfile,
+        actions: {
+            setUserProfile,
             setIsLogin,
             setAccessToken,
             LogOut,
@@ -24,43 +25,55 @@ const GameComponent = () => {
     const gameContainerRef = useRef(null);
     let game = null;
 
-    useEffect(() => {
-        if(isLogin){
+
+    const handleOnClickSocket = () => {
         window.userProfile = userProfile;
-        if(accessToken)
-        window.token = accessToken;
+        if (accessToken)
+            window.token = accessToken;
         game = new Phaser.Game({
             ...GameConfig,
-            parent: gameContainerRef.current,
-            scene: [Game],
+            parent: gameContainerRef.current
         });
+        if (isLogin && game) {
+            window.addEventListener('keydown', handleKeyDown);
 
-        
-        const handleKeyDown = (event) => {
-            if (event.keyCode === 38 || event.keyCode === 40)
-              event.preventDefault();
-          }
-      
-          window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            game.destroy(true);
-        };
+        }
     }
-    }, [isLogin]);
+    const handleKeyDown = (event) => {
+        if (event.keyCode === 38 || event.keyCode === 40 || event.keyCode === 13 || event.keyCode === 32)
+            event.preventDefault();
+    }
+    
 
     useEffect(() => {
+        if (isLogin && game) {
+
+            const handleKeyDown = (event) => {
+                if (event.keyCode === 38 || event.keyCode === 40)
+                    event.preventDefault();
+            }
+            window.addEventListener('keydown', handleKeyDown);
+        }
         if (game && gameContainerRef.current) {
             game.canvas.parentElement.removeChild(game.canvas);
             gameContainerRef.current.appendChild(game.canvas);
             game.scale.refresh();
         }
-    }, []);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            if (game)
+                game.destroy(true);
+        };
+    }, [game]);
 
     return (
-        <div className="game-container" ref={gameContainerRef}>
+        <>
+            <div className="game-container" ref={gameContainerRef}>
             
-        </div>
+            </div>
+            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"1120px"}}></Input>
+            <Button onClick={handleOnClickSocket} style={{margin:"20px"}}>Online 접속하기</Button>
+        </>
     );
 };
 

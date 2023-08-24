@@ -4,29 +4,31 @@ import { createCharacterAnims } from "../anims/CharacterAnims";
 import PlayerController from "../characters/PlayerController";
 import MyPlayer from "../characters/Myplayer";
 import Network from "../network/NetWork";
+import OtherPlayers from "games/characters/OhterPlayer";
 
 export default class Game extends Scene {
     constructor() {
         super({ key: 'Game' });
-        this.userProfile=window.userProfile;
-        delete window.userProfile;
+        this.collidableObject = [];
+        this.userProfile = window.userProfile;
         this.map = null;
         this.network = null;
         this.cursors = null;
         this.keyA = null;
         this.keyS = null;
+        this.keyEnter = null;
         this.myPlayer = null;
         this.controller = null;
         this.otherPlayers = null;
         this.otherPlayerMap = new Map();
-        this.computerMap = new Map();
-        this.whiteboardMap = new Map();
         this.playerTexture = 'adam'
-        this.network = new Network();
+        this.network = new Network(this.userProfile.username);
+
     }
 
 
     preload() {
+        this.registry.set('network', this.network)
         this.load.tilemapTiledJSON('map', 'assets/maps/fianl.json')
         this.load.spritesheet('basement', 'assets/tilesets/Basement.png', {
             frameWidth: 32,
@@ -67,7 +69,7 @@ export default class Game extends Scene {
     }
 
     create() {
-        if(!this.network.token){
+        if (!this.network.access) {
             console.log(this.network)
             return
         }
@@ -82,9 +84,18 @@ export default class Game extends Scene {
         this.registerKeys()
 
         // , this.network.mySessionId
-        this.myPlayer = new MyPlayer(this, 800, 500, 'adam' , this.cursors , this.network);
+        this.myPlayer = new MyPlayer(this, 800, 500, 'adam', this.cursors, this.network);
+
         this.myPlayer.setPlayerName(this.userProfile.username);
-        this.controller = new PlayerController(this, 0, 0, 16, 16 , this.cursors , this.myPlayer);
+        console.log(this.myPlayer)
+        this.controller = new PlayerController(this, 0, 0, 16, 16, this.cursors, this.myPlayer);
+
+        this.otherPlayers = this.add.group({
+            classType: OtherPlayers
+        });
+
+        // 알림 메세지 칸
+
 
         // Object Layer
         this.addGroupFromTiled('carpet', 'generic', 'Generic', false);
@@ -98,28 +109,99 @@ export default class Game extends Scene {
         this.addGroupFromTiled('basement', 'basement', 'Basement', false);
         this.addGroupFromTiled('basementOnCollides', 'basement', 'Basement', true);
         // Loader Player
-        
+
         this.cameras.main.zoom = 1.3
         this.cameras.main.startFollow(this.myPlayer, true);
-        
+
+        // this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update() {
         if (this.myPlayer) {
             this.myPlayer.update()
-            
+            this.handleNotifications();
         }
     }
+
+    handleNotifications() {
+        while (this.network.pendingNotification.length > 0) {
+            const notification = this.network.pendingNotification.shift();
+            console.log(notification)
+            switch (notification.message.msgType) {
+                case "joinNotification":
+                    // this.showNotification(notification.message, 3500);
+                    this.addOtherPlayer(notification.message.name);
+                    break;
+                case "chat":
+                    console.log(notification.message);
+
+                    break;
+                case "position":
+                    console.log(notification.message);
+                    this.handleOtherPlayerPostion(notification.message);
+                    break;
+                case "connectedList":
+                    console.log(notification.message.connectedList);
+
+                    this.handleConectedPlayer(notification.message.connectedList);
+                    break;
+                case "leaveNotification":
+                    console.log(notification.message);
+                    this.handleLeavePlayer(notification.message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    handleLeavePlayer(leavePlayer){
+        if (this.otherPlayerMap.has(leavePlayer.name)) {
+            const leavingPlayer = this.otherPlayerMap.get(leavePlayer.name);
+            this.otherPlayerMap.delete(leavePlayer.name);
+    
+            // Remove the leaving player from the otherPlayers group
+            leavingPlayer.destroy();
+            leavingPlayer.playerContainer.destroy();
+        }
+
+    }
+
+    handleOtherPlayerPostion(otherPlayerPostion) {
+        this.otherPlayers.getChildren().forEach((player) => {
+            if (player.name !== otherPlayerPostion.name) {
+                return;
+            }
+            console.log(player)
+            player.update(otherPlayerPostion);
+        })
+
+
+    }
+
+    handleConectedPlayer(connectedList) {
+        if (connectedList)
+            connectedList.map((player) => {
+                this.addOtherPlayer(player);
+            })
+    }
+
+    addOtherPlayer(name) {
+        if (this.myPlayer.name === name || name === '') return;
+        const otherPlayer = new OtherPlayers(this, 800, 500, 'adam', name, this.otherPlayers);
+        this.physics.add.collider([otherPlayer, otherPlayer.playerContainer], this.collidableObject);
+        console.log(otherPlayer)
+        this.otherPlayers.add(otherPlayer, true);
+        this.otherPlayerMap.set(name, otherPlayer);
+    }
+
 
     registerKeys() {
         this.cursors = {
             ...this.input.keyboard.createCursorKeys()
         }
-
         // maybe we can have a dedicated method for adding keys if more keys are needed in the future
-        this.keyA = this.input.keyboard.addKey('A')
-        this.keyS = this.input.keyboard.addKey('S')
         this.input.keyboard.disableGlobalCapture()
+        
         // this.input.keyboard.on('keydown-ENTER', (event) => {
         //     store.dispatch(setShowChat(true))
         //     store.dispatch(setFocused(true))
@@ -127,6 +209,7 @@ export default class Game extends Scene {
         // this.input.keyboard.on('keydown-ESC', (event) => {
         //     store.dispatch(setShowChat(false))
         // })
+
     }
 
     addGroupFromTiled(objectLayerName, key, tilesetName, collidable) {
@@ -151,6 +234,7 @@ export default class Game extends Scene {
 
         if (this.myPlayer && collidable) {
             this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], group);
+            this.collidableObject = [...this.collidableObject, group]
         }
     }
 
@@ -161,6 +245,9 @@ export default class Game extends Scene {
     enableKeys() {
         this.input.keyboard.enabled = true
     }
-
+    destroy() {
+        this.network.disconnect();
+        super.destroy();
+    }
 }
 

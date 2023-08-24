@@ -9,25 +9,27 @@ const SignIn = () => {
   const {
     states: {
       isLogin,
-      accessToken
+      userProfile
     },
     actions: {
+      setUserProfile,
       setIsLogin,
-      setAccessToken,
-      signin,
-      LogOut
+      LogOut,
+      signin
     },
   } = useContext(MemberContext);
 
   const [signInFrm, setSignInFrm] = useState({
-    username: "",
-    password: "",
+    username: "user1",
+    password: "1234",
   })
 
 
   useEffect(()=>{
     if(isLogin&&localStorage.getItem('token')){
       alert('로그인 성공 환영합니다.')
+      setUserProfile({...userProfile,username:signInFrm.username})
+      
     } else { 
       setIsLogin(false);
     }

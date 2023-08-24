@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StoryServiceImpl implements StoryService{
+public class  StoryServiceImpl implements StoryService{
 
 	@Autowired
 	private StoryRepository storyRepository;

@@ -9,12 +9,15 @@ class MyPlayer extends Player {
     this.phaserEvents = new Phaser.Events.EventEmitter();
     this.cursors = cursors;
     this.network = network;
-    
+    this.name = '';
+    this.ContainerBody = this.playerContainer.body;
+
     scene.add.existing(this);
     scene.physics.add.existing(this);
   }
 
   setPlayerName(name) {
+    this.name = name;
     this.playerName.setText(name);
     this.phaserEvents.emit('setMyPlayerName', name)
   }
@@ -51,31 +54,41 @@ class MyPlayer extends Player {
       vy += speed
       this.setDepth(this.y)
     }
-    
-    
+
+
     // console.log(this)
     this.setVelocity(vx, vy)
     this.body.velocity.setLength(speed);
     this.playerContainer.setPosition(this.x, this.y - 30);
-    // this.playContainer.setVelocity(vx , vy)
-    // this.playContainer.setLength(speed)
+    this.ContainerBody.setVelocity(vx,vy);
+    this.ContainerBody.velocity.setLength(speed);
 
-    let animKey = "idle_down";
 
+    
     if (vx > 0) {
-      animKey = "run_right";
+      this.play(`${this.playerTexture}_run_right`, true)
+      this.network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.name)
     } else if (vx < 0) {
-      animKey = "run_left";
+      this.play(`${this.playerTexture}_run_left`, true)
+      this.network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.name)
     } else if (vy > 0) {
-      animKey = "run_down";
+      this.play(`${this.playerTexture}_run_down`, true)
+      this.network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.name)
     } else if (vy < 0) {
-      animKey = "run_up";
-    }
-  
-    if (this.anims.currentAnim.key !== `${this.playerTexture}_${animKey}`) {
-      this.play(`${this.playerTexture}_${animKey}`, true);
-      // send new location and anim to server
-      this.network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+      this.play(`${this.playerTexture}_run_up`, true)
+      this.network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.name)
+    } else {
+      if (this.anims.currentAnim) {
+        const parts = this.anims.currentAnim.key.split('_')
+        parts[1] = 'idle'
+        const newAnim = parts.join('_')
+        // this prevents idle animation keeps getting called
+        if (this.anims.currentAnim.key !== newAnim) {
+          this.play(parts.join('_'), true)
+          // send new location and anim to server
+          this.network.updatePlayer(this.x, this.y, this.anims.currentAnim.key, this.name)
+        }
+      }
     }
 
   }

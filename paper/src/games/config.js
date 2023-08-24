@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Game from './scene/Game';
+import UI from './scene/UI';
 
 const GameConfig = {
   type: Phaser.AUTO,
@@ -19,7 +20,7 @@ const GameConfig = {
     },
   },
   autoFocus: true,
-  scene: [Game],
+  scene: [Game, UI],
 };
 
 export default GameConfig;

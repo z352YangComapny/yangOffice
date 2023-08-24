@@ -23,16 +23,14 @@ const sittingShiftData = {
         //WebCam Setting
         this.videoConnected = false;
 
+
         //players character view Setting
         this.playerName = this.scene.add.text(0, 0, '').setFontFamily('Arial').setFontSize(12).setColor('#000000').setOrigin(0.5);
-        this.playerContainer = this.scene.add.container(this.x, this.y - 30).setDepth(5000);
+        this.playerContainer = this.scene.add.container(x,y-30).setDepth(5000);
         this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(5000);
         this.playerContainer.add(this.playerDialogBubble);
         this.playerContainer.add(this.playerName);
     
-        //Sitting Motion Setting
-        this.setDepth(this.y);
-        this.anims.play(`${this.playerTexture}_idle_down`, true);
 
         //Collides & add to World
         this.scene.physics.world.enable(this.playerContainer);
@@ -41,6 +39,7 @@ const sittingShiftData = {
         const collisionScale = [0.5, 0.2];
         playContainerBody.setSize(this.width * collisionScale[0], this.height * collisionScale[1]).setOffset(-8, this.height * (1 - collisionScale[1]) + 6);
       }
+
 
       updateDialogBubble(content) {
         this.clearDialogBubble();
@@ -62,10 +61,10 @@ const sittingShiftData = {
         this.playerDialogBubble.add(this.scene.add.graphics().fillStyle(0xffffff, 1).fillRoundedRect(dialogBoxX, dialogBoxY, dialogBoxWidth, dialogBoxHeight, 3).lineStyle(1, 0x000000, 1).strokeRoundedRect(dialogBoxX, dialogBoxY, dialogBoxWidth, dialogBoxHeight, 3));
         this.playerDialogBubble.add(innerText);
 
-        //채팅창 지속 6초
+        //채팅창 지속 5초
         this.timeoutID = window.setTimeout(() => {
           this.clearDialogBubble();
-        }, 6000);
+        }, 5000);
     }
   }
   export default Player;
