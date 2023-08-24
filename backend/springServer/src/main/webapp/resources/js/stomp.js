@@ -4,10 +4,10 @@ const connect = () => {
 	
     // 구독신청 
     stompClient.connect({}, () => {
-//        console.log('WebSocket 연결 성공');
+        console.log('WebSocket 연결 성공');
         stompClient.subscribe('/storyMain', (payloads) => {
-//            console.log('구독됨');
-//            console.log('/story : ', payloads);
+            console.log('구독됨');
+            console.log('/story : ', payloads);
 
             renderStory(payloads);
         });
@@ -21,8 +21,8 @@ const connect = () => {
 };
 
 const renderStory = (payloads) => {
-//	console.log('renderStory 호출 성공');
-//	console.log('payloads = ', payloads);
+	console.log('renderStory 호출 성공');
+	console.log('payloads = ', payloads);
 	const stories = JSON.parse(payloads.body);
 
 	const view = document.querySelector('#storyMainUpdate');
@@ -37,6 +37,7 @@ const renderStory = (payloads) => {
 		    <li class="list-group-item createdAt">${story.createdAt}</li>
 		  </ul>
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
+			<input type="hidden" id="storyAttach" value="${story.attach}"/>
 		</div>
 		`;
 		i = i + 1;
@@ -90,11 +91,26 @@ const updateModal = (e) => {
 	const writerId = e.querySelector('.writerId').textContent;
 	const content = e.querySelector('.content').textContent;
 	const createdAt = e.querySelector('.createdAt').textContent;
+	const storyAttach = e.querySelector('#storyAttach').value;
 	const currentCardIndex = e.querySelector('#cardIndex').value;
+	
+	console.log(storyAttach);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+	
+	const imgElement = document.createElement('img');
+	imgElement.id = 'storyModalProfile';
+	imgElement.src = `http://localhost:8080/resources/upload/attachment/profile/${storyAttach}`;
+	
+	imgElement.style.maxWidth = '100px';
+	imgElement.style.height = 'auto';
+
+
+	document.querySelector('.storyProfileAttach').innerHTML = '';
+	document.querySelector('.storyProfileAttach').appendChild(imgElement);
+
 	document.querySelector('#currentCard').value = currentCardIndex;
 };
 
