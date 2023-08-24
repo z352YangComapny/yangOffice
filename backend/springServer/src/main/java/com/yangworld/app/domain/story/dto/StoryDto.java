@@ -3,8 +3,7 @@ package com.yangworld.app.domain.story.dto;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
-
-import org.springframework.validation.annotation.Validated;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StoryDto {
 	private int writerId;
+	@NotBlank(message = "내용을 입력해주세요")
+	@Pattern(regexp = "^.{1,100}$", message = "100글자 이하로 작성해주세요")
 	private String content;
 }

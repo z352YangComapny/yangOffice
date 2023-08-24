@@ -59,7 +59,7 @@
             <div class="carousel-inner">
                 <c:forEach items="${photoDetail}" var="photo" varStatus="status">
                     <div class="carousel-item ${status.first ? 'active' : ''}">
-                        <img src="${pageContext.request.contextPath}/resources/upload/attachment/feed/${photo.attachments[0].renamedFilename}" class="d-block" alt="Image ${status.index + 1}">
+                        <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.attachments[0].renamedFilename}" class="d-block" alt="Image ${status.index + 1}">
                     </div>
                 </c:forEach>
             </div>

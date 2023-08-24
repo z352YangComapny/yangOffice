@@ -1,21 +1,14 @@
 #story {
 	display: flex;
 	flex-wrap: wrap;
-	width: 100%;
 	overflow-y: auto;
 }
-
 .card {
 	display: inline-block;
-	width: 300px;
-	height: 200px;
+	width: 250px;
+	height: 160px;
 	margin-right: 20px;
 	background-color: #E0E0E0;
-}
-.list-group-item {
-	padding: 10px;
-	display: flex;
-	align-items: center;
 }
 .writerId{
 	height: 40px;
@@ -30,7 +23,7 @@
 	background-color: #FFFFFF;
 }
 .createdAt{
-	height: 20px;
+	height: 40px;
 	background-color: #E0E0E0;
 }
 .modal{

@@ -12,27 +12,30 @@
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
-    <div class="d-flex flex-row">
-        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
-        <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
-        	<div>
-        		<button class="btn btn-success mt-3 mx-3 " id="btnStoryCreate">추가</button>
+        <div class="containerStoryTap d-flex flex-row">
+            <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
+            	<jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
         	</div>
-			<div id="story"  class="flex-grow-6" style=" height: 80vh;">
-				<c:forEach items="${stories}" var="story">
-					<div class="card m-3">
-					 	<input type="hidden" id="storyId" value="${story.id}"/>
-					  <ul class="list-group list-group-flush">
-					    <li class="list-group-item writerId">${loginMember.username}</li>
-					    <input type="hidden" class="writerId" value="${story.writerId}"/>
-					    <li class="list-group-item content">${story.content}</li>
-					    <li class="list-group-item createdAt">${story.regDate}</li>
-					  </ul>
-					</div>
-				</c:forEach>
-			</div>
+        	<div id="storyDiv">
+	        	<div>
+	        		<button class="btn btn-success mt-3 mx-3 " id="btnStoryCreate">추가</button>
+	        	</div>
+				<div id="story">
+					<c:forEach items="${stories}" var="story">
+						<div class="card m-3">
+						 	<input type="hidden" id="storyId" value="${story.id}"/>
+						  <ul class="list-group list-group-flush">
+						    <li class="list-group-item writerId">${loginMember.username}</li>
+						    <input type="hidden" class="writerId" value="${story.writerId}"/>
+						    <li class="list-group-item content">${story.content}</li>
+						    <li class="list-group-item createdAt">${story.regDate}</li>
+						  </ul>
+						</div>
+					</c:forEach>
+				</div>
+        	</div>
         </div>
-    </div>
+
 	    
 	<div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
@@ -61,9 +64,6 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="createStoryWriterId">${loginMember.username}</h5>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
 	      </div>
 	      <div class="modal-body">
 	      	<form>
@@ -131,6 +131,11 @@ document.querySelector("#btnStoryCreate").onclick = () => {
 
 document.querySelector("#btnCreateStory2").onclick = () => {
 	const content = document.querySelector('#message-text-create').value;
+	if(!/^.{1,100}$/.test(content)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
+	
 	console.log('content = ', content);
 	document.querySelector(".createModalContent").value = content;
 	console.log(document.querySelector(".createModalContent").value);
@@ -141,6 +146,11 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 	const id = document.querySelector("#storyId").value;
 	const writerId = document.querySelector(".storyModalWriterId").value;
 	const content = document.querySelector('#message-text-modal-content').value;
+	
+	if(!/^.{1,100}$/.test(content)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
 	
 	console.log(id, writerId, content);
 	
@@ -153,7 +163,7 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 };
 
 document.querySelector("#btnDelete").onclick = () => {
-	if(confirm('정말로 삭제함?')){
+	if(confirm('정말로 삭제하시겠습니까?')){
 		const id = document.querySelector("#storyModalId").value;
 		document.querySelector("#deleteModalId").value = id;
 		
