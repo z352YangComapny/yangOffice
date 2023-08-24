@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.story.dto.Payload;
@@ -34,7 +35,7 @@ public class StoryController {
 	@GetMapping("/storyTap")
 	public void storyTap(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		List<StoryMainDto> stories = storyService.findStoryByIdOnly(principal.getId());
-		log.info("stories = {}", stories);
+//		log.info("stories = {}", stories);
 		model.addAttribute("stories", stories);
 	}
 	
@@ -43,14 +44,14 @@ public class StoryController {
 
 	@PostMapping("/create")
 	public String create(StoryDto storyDto){
-		log.info("storyDto = {}", storyDto);
+//		log.info("storyDto = {}", storyDto);
 		int result = storyService.createStory(storyDto);
 		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/update")
 	public String update(StoryMainDto storyDto){
-		log.info("storyDto = {}", storyDto);
+//		log.info("storyDto = {}", storyDto);
 		int result = storyService.updateStory(storyDto);
 		return "redirect:/story/storyTap";
 	}

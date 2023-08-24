@@ -43,6 +43,7 @@ import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
 import com.yangworld.app.domain.profile.service.ProfileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -91,18 +92,25 @@ public class MemberController {
         // 프로필 정보 가져오기
         ProfileDetails profile = profileService.getProfileByMemberId(id);
         log.info("profile={}", profile);
-        // 프로필 사진 가져오기
-        List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-        log.info("profileAttachments={}", profileAttachments);
-        model.addAttribute("profile", profile);
-        model.addAttribute("profileAttachments", profileAttachments);
-        model.addAttribute("principalBday", member.getBirthday());
-        model.addAttribute("principalName", member.getName());
-        log.info("profile = {}", profile);
-        log.info("profileAttachment = {}", profileAttachments);
-        
 		
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id); 
+		
+        if(profile !=null){
+            // 프로필 사진 가져오기
+            List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            log.info("profileAttachments={}", profileAttachments);
+            model.addAttribute("profile", profile);
+            model.addAttribute("profileAttachments", profileAttachments);
+            model.addAttribute("principalBday", member.getBirthday());
+            model.addAttribute("principalName", member.getName());
+            log.info("profile = {}", profile);
+            log.info("profileAttachment = {}", profileAttachments);
+        } else{
+            ProfileDetails.builder()
+                    .attachments(null)
+                    .state(State.A)
+                    .id(0).build();
+        }
 
 		log.info("photoList={}", photoList);
 	    model.addAttribute("photoList", photoList);
@@ -125,7 +133,7 @@ public class MemberController {
         log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
         redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
-        return "redirect:/";
+        return "profile/profileCreate";
     }
 
     @PostMapping("/memberUpdate.do")
