@@ -52,7 +52,7 @@ public class ProfileController {
 	    // 필요한 필드들을 설정
 	    profile.getState();
 	    profile.getIntroduction();
-
+	    
 	    model.addAttribute("profile", profile);
 	    return "/profile/profileCreate";
 	}
@@ -155,12 +155,15 @@ public class ProfileController {
 			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model) 
+			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model
+			) 
 					throws IllegalStateException, IOException {
 		 	int memberId = principal.getId();
 	    
 		    ProfileDetails profileId = profileService.getProfileByMemberId(memberId);
-		    log.info("profile = {}", profileId);
+		    log.info("profileㅇㅇ = {}", profileId);
+		    
+		    
 		    
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
@@ -177,7 +180,9 @@ public class ProfileController {
 						.build();
 				attachments.add(attach);
 			}
+		
 		}
+		
 		ProfileDetails profile = ProfileDetails.builder()
 				.id(profileId.getId())
 				.memberId(principal.getId())
@@ -195,8 +200,17 @@ public class ProfileController {
 		
 		
 		model.addAttribute("profile", profile);
+		
+		
 		return "redirect:/member/userPage/" + principal.getId();
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	@PostMapping("/defaultcreate.do")
 	public ResponseEntity<?> createDefaultProfile(@AuthenticationPrincipal PrincipalDetails principal) {
