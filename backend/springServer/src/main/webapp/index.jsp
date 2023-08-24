@@ -36,7 +36,7 @@
         </div>
     </div>
 
-<sec:authorize access = "isAuthenticated()">
+<%--<sec:authorize access = "isAuthenticated()">
 <sec:authentication property="principal" var="dmMember"/>
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
@@ -66,7 +66,7 @@
             </div>
         </div>
     </div>
-</sec:authorize>
+</sec:authorize>--%>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
     
