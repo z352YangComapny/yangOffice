@@ -62,9 +62,6 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="createStoryWriterId">${loginMember.username}</h5>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
 	      </div>
 	      <div class="modal-body">
 	      	<form>
@@ -132,6 +129,11 @@ document.querySelector("#btnStoryCreate").onclick = () => {
 
 document.querySelector("#btnCreateStory2").onclick = () => {
 	const content = document.querySelector('#message-text-create').value;
+	if(!/^.{1,100}$/.test(content)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
+	
 	console.log('content = ', content);
 	document.querySelector(".createModalContent").value = content;
 	console.log(document.querySelector(".createModalContent").value);
@@ -142,6 +144,11 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 	const id = document.querySelector("#storyId").value;
 	const writerId = document.querySelector(".storyModalWriterId").value;
 	const content = document.querySelector('#message-text-modal-content').value;
+	
+	if(!/^.{1,100}$/.test(content)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
 	
 	console.log(id, writerId, content);
 	
