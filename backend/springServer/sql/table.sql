@@ -91,7 +91,7 @@ create table dm_room
     participant1 number not null,
     participant2 number not null,
     reg_date     date default sysdate,
-    constraints  p_dm_room_id primary key( id),
+    constraints  p_dm_room_id primary key(id),
     constraints  f_dm_room_p1 foreign key (participant1) references member (id) on delete cascade,
     constraints  f_dm_room_p2 foreign key (participant2) references member (id) on delete cascade,
     constraints  u_dm_room_participants UNIQUE (participant1, participant2)
@@ -309,8 +309,8 @@ BEGIN
             SYSDATE);
 END;
 /
---
---
+
+
 --
 -- -- 계정에 속한 모든 테이블를 삭제합니다.
 -- BEGIN

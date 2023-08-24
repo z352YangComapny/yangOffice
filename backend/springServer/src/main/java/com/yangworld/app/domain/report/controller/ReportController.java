@@ -183,6 +183,8 @@ public class ReportController {
 			.build();
 		log.info("reportStory = {}", reportStory);
 		reportService.insertReportStory2(reportStory);
+		
+		redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
 		return "redirect:/";
 	}
 	
