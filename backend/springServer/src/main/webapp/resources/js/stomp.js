@@ -6,8 +6,8 @@ const connect = () => {
     stompClient.connect({}, () => {
         console.log('WebSocket 연결 성공');
         stompClient.subscribe('/storyMain', (payloads) => {
-            console.log('구독됨');
-            console.log('/story : ', payloads);
+//            console.log('구독됨');
+//            console.log('/story : ', payloads);
 
             renderStory(payloads);
         });
@@ -21,8 +21,8 @@ const connect = () => {
 };
 
 const renderStory = (payloads) => {
-	console.log('renderStory 호출 성공');
-	console.log('payloads = ', payloads);
+//	console.log('renderStory 호출 성공');
+//	console.log('payloads = ', payloads);
 	const stories = JSON.parse(payloads.body);
 
 	const view = document.querySelector('#storyMainUpdate');
@@ -56,12 +56,12 @@ const renderStory = (payloads) => {
             
             $('#storyModal').on('wheel', (e) => {
 			    e.preventDefault();
-			    console.log('wheeeeeeeeeeeel');
+//			    console.log('wheeeeeeeeeeeel');
 			    const currentCardIndex = parseInt(document.querySelector('#currentCard').value);
-			    console.log('currentCardIndex : ', currentCardIndex);
+//			    console.log('currentCardIndex : ', currentCardIndex);
 			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
 			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
-			    console.log('nextCardIndex : ', nextCardIndex);
+//			    console.log('nextCardIndex : ', nextCardIndex);
 			    	
 			    if (event.deltaY < 0){
 			    	if (beforeCardIndex) {
@@ -94,7 +94,7 @@ const updateModal = (e) => {
 	const storyAttach = e.querySelector('#storyAttach').value;
 	const currentCardIndex = e.querySelector('#cardIndex').value;
 	
-	console.log(storyAttach);
+//	console.log(storyAttach);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
@@ -106,7 +106,6 @@ const updateModal = (e) => {
 	
 	imgElement.style.maxWidth = '100px';
 	imgElement.style.height = 'auto';
-
 
 	document.querySelector('.storyProfileAttach').innerHTML = '';
 	document.querySelector('.storyProfileAttach').appendChild(imgElement);
