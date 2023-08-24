@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yangworld.app.domain.report.entity.Report;
+import com.yangworld.app.domain.report.entity.ReportCommentsFeed;
 import com.yangworld.app.domain.report.entity.ReportDm;
 import com.yangworld.app.domain.report.entity.ReportGuestBook;
-
+import com.yangworld.app.domain.report.entity.ReportPhotoFeed;
 import com.yangworld.app.domain.report.entity.ReportProfile;
 
 import com.yangworld.app.domain.report.repository.ReportRepository;
@@ -24,16 +25,21 @@ public class ReportDmServiceImpl implements ReportService {
 
 
 	@Override
-	public int insertReportGuestBook(Report report, int reportGuestbook) {
+	public int insertReportGuestBook(Report report, int guestbookId) {
 		int result = reportRepository.insertReport(report);
 		int reportId = report.getId();
+		log.info("reportId@guest = {}", reportId);
 		
 		ReportGuestBook reportGuestBook = ReportGuestBook.builder()
-											.id(reportId)
-											.guestBookId(reportGuestbook)
-											.build();
+										.id(reportId)
+										.guestBookId(guestbookId)
+										.build();
 		
-		return reportRepository.insertReportGuestBook(reportGuestBook);
+		log.info("reportGuestBook@repo = {}", reportGuestBook);
+		
+		int resultReportGuestBook= reportRepository.insertReportGuestBook(reportGuestBook);
+		
+		return resultReportGuestBook;
 	}
 
     @Override
@@ -75,6 +81,34 @@ public class ReportDmServiceImpl implements ReportService {
 
     }
 
+	@Override
+	public int insertReportFeed(Report report, int feedId) {
+		
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		ReportPhotoFeed reportFeed = ReportPhotoFeed.builder()
+				.id(reportId)
+				.photoFeedId(feedId)
+				.build();
+		int feedReport = reportRepository.insertReportFeed(reportFeed);
+		
+		
+		return feedReport;
+	}
+
+	@Override
+	public int insertReportComments(Report report, int commentsId) {
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		ReportCommentsFeed reportCommentsFeed = ReportCommentsFeed.builder()
+				.id(reportId)
+				.commentsId(commentsId)
+				.build();
+		int commentsReport = reportRepository.insertReportComments(reportCommentsFeed);
+		
+		
+		return commentsReport;
+	}
 
 //	@Override
 //	public int insertReportDm(ReportDm reportDm) {

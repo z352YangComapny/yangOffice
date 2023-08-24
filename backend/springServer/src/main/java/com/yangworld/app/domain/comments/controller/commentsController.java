@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
+import com.yangworld.app.domain.comments.dto.CommentUpdateDto;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.service.CommentsService;
 import com.yangworld.app.domain.photoFeed.controller.PhotoFeedController;
@@ -63,29 +65,33 @@ public class commentsController {
 
 	
 	
-	// 댓글 수정
-	@PostMapping("/commentUpdate")
-	public ResponseEntity<?> commentUpdate(
-			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody @Valid CommentCreateDto commentUpdateDto,
-			BindingResult bindingResult
-			){
-		
-		int result = commentService.updateComment(principalDetails, commentUpdateDto);
-		
-		
-		
-		return ResponseEntity.ok().build();
-	}
+	 // 	댓글 수정
+	 @PostMapping("/feedDetails/commentUpdate")
+	 public ResponseEntity<String> commentUpdate(
+	         @AuthenticationPrincipal PrincipalDetails principalDetails,
+	         @RequestParam int commentId,
+	         @RequestParam String content
+	 ){
+	 
+	  log.info("commentId = {}", commentId);
+	  log.info("newContent = {}", content);
+	 
+	     int result = commentService.updateComment(principalDetails, content,commentId);
 	
-	@PostMapping("/commentDelete")
+	     if (result > 0) {
+	         return ResponseEntity.ok("댓글이 수정되었습니다.");
+	 } else {
+	     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 수정에 실패하였습니다.");
+	     }
+	 }
+	
+	@PostMapping("/feedDetails/commentDelete")
 	public String commentDelete(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestParam String comment,
+			@RequestParam int commentId,
 	        @RequestParam int photoFeedId
 			){
-		log.info("comment ={}", comment);
-		int result = commentService.deleteComment(principalDetails, photoFeedId, comment);
+		int result = commentService.deleteComment(commentId);
 		
 		return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}

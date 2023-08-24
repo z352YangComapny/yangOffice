@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/member/checkEmail.do", "/member/checkEmailSearch.do",
                             "/member/resetPassword.do").anonymous()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/story/storyMain").permitAll()
+                .antMatchers("/story/storyMain","/feedDetails/commentUpdate").permitAll()
                 .antMatchers("/stomp").permitAll()
                 .anyRequest().authenticated();
                 

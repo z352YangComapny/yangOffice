@@ -21,7 +21,7 @@ public class FeedDetails extends PhotoFeed{
 
 	private Member member;
 	private int attachCount;
-	private List<Like> like;
+	private int likeCount;
 	private List<Comments> comments;
 	private List<Attachment> attachments;
 	

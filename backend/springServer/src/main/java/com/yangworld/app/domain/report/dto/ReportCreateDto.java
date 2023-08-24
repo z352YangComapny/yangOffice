@@ -9,9 +9,10 @@ import lombok.Data;
 @Data
 public class ReportCreateDto {
 	private int id;
-	
+
 	@NotBlank(message="신고사유 입력")
 	private String content;
+	
 	
 	public Report toReport() {
 		return Report.builder()

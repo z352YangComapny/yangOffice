@@ -32,6 +32,8 @@ public interface PhotoFeedService {
 
 	List<PhotoAttachmentFeedDto> selectFeed(int writerId);
 
+	Like getLikeCount(int feedId, int memberId);
+
 
 	
 
