@@ -59,7 +59,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="reportThisStoryReal();">신고</button>
-        <button type="button" class="btn btn-warning" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="reportModalHide();">닫기</button>
       </div>
     </div>
   </div>
@@ -98,4 +98,8 @@ const reportThisStoryReal = () => {
 	
 	document.querySelector('#reportStory').submit();
 };
+
+const reportModalHide = () => {
+	$('#reportModal').modal('hide');
+}
 </script>
