@@ -6,6 +6,7 @@ import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import org.apache.ibatis.annotations.*;
 import com.yangworld.app.domain.member.entity.Member;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -57,5 +58,15 @@ public interface MemberRepository {
     
     @Update("update member set password = #{newPassword} where username = #{username}")
     int resetPassword(@Param("newPassword")String newPassword, @Param("username")String username);
+
+
+    @Select("select * from member")
+    List<Member> findAllMember();
+
+    @Select("SELECT * FROM member WHERE username LIKE '%' || #{inputText} || '%'")
+    List<Member> findMemberByText(@Param("inputText") String inputText);
+
+    @Select("select * from follow where follower = #{id}")
+    List<FollowDto> findFollowee(int id);
 }
 
