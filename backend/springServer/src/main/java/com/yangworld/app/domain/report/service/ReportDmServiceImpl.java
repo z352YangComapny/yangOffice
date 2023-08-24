@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yangworld.app.domain.report.dto.ReportStoryDto2;
 import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.entity.ReportCommentsFeed;
 import com.yangworld.app.domain.report.entity.ReportDm;
@@ -115,4 +116,17 @@ public class ReportDmServiceImpl implements ReportService {
 //		int result = reportRepository.insertReportDm(reportDm);
 //		return result;
 //	}
+	
+	@Override
+	public void insertReportStory(Report report) {
+		reportRepository.insertReport(report);
+	}
+	@Override
+	public void insertReportStory2(ReportStoryDto2 reportStory) {
+		reportRepository.insertReportStory(reportStory);
+	}
+	@Override
+	public int findLastReportId() {
+		return reportRepository.findLastReportId();
+	}
 }
