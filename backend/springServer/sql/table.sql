@@ -343,3 +343,27 @@ END;
 -- /
 
 commit;
+
+create table chat(
+  id number,
+  member_id number,
+  chat_content varchar(4000) not null,
+  send_date date default sysdate,
+  report_YN char(1),
+  constraints p_chat_id primary key (id),
+  constraints f_chat_member_id foreign key (member_id) references member(id),
+  constraints c_chat_report_yn check(report_YN in('Y', 'N'))
+);
+create sequence seq_chat_id;
+
+create table report_chat(
+  report_id number,
+  chat_id number,
+  constraints p_rep_chat_id primary key(report_id),
+  constraints f_rep_chat_report_id foreign key (report_id) references report(id),
+  constraints f_rep_chat_chat_id foreign key(chat_id) references chat(id)
+);
+
+select * from chat;
+select * from report_chat;
+commit;
