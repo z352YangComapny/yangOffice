@@ -33,15 +33,10 @@ public class StoryController {
 	private StoryService storyService;
 	
 	@GetMapping("/storyTap")
-	public String storyTap(@RequestParam int id,  @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		if(principal.getId() != id) {
-			return "forward:/index.jsp";
-		}
+	public void storyTap(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		List<StoryMainDto> stories = storyService.findStoryByIdOnly(principal.getId());
-		log.info("stories = {}", stories);
+//		log.info("stories = {}", stories);
 		model.addAttribute("stories", stories);
-		
-		return "forward:/story/storyTap.jsp";
 	}
 	
 	@GetMapping("/storyMain")
