@@ -36,12 +36,12 @@ public class StoryStompController {
 	@SendTo("/storyMain")
 	public List<Payload> story(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
-	    log.info("Received ID: {}", id);
+//	    log.info("Received ID: {}", id);
 		List<StoryMainDto> stories = storyService.findStoryById(id);
-		log.info("stories : {}", stories);
+//		log.info("stories : {}", stories);
 		
 		List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(id);
-		log.info("attachProfs = {}", attachProfs);
+//		log.info("attachProfs = {}", attachProfs);
 		
 		String attach = "default.jpg";
  		
