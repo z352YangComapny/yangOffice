@@ -179,7 +179,7 @@ public class ReportController {
 		int reportId = reportService.findLastReportId();
 		ReportStoryDto2 reportStory = ReportStoryDto2.builder()
 			.reportId(reportId)
-			.storyId(story.getStoryId()) // 값 안들어옴 수정해야함
+			.storyId(story.getStoryId())
 			.build();
 		log.info("reportStory = {}", reportStory);
 		reportService.insertReportStory2(reportStory);
