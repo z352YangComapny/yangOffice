@@ -8,7 +8,7 @@
 .card {
 	display: inline-block;
 	width: 300px;
-	height: 200px;
+	height: 140px;
 	margin-right: 20px;
 	background-color: #E0E0E0;
 }
@@ -30,7 +30,7 @@
 	background-color: #FFFFFF;
 }
 .createdAt{
-	height: 20px;
+	height: 40px;
 	background-color: #E0E0E0;
 }
 .modal{

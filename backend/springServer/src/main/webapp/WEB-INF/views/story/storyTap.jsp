@@ -12,13 +12,11 @@
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
-    <div class="d-flex flex-row">
-        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
-        <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
+        <div>
         	<div>
         		<button class="btn btn-success mt-3 mx-3 " id="btnStoryCreate">추가</button>
         	</div>
-			<div id="story"  class="flex-grow-6" style=" height: 80vh;">
+			<div id="story">
 				<c:forEach items="${stories}" var="story">
 					<div class="card m-3">
 					 	<input type="hidden" id="storyId" value="${story.id}"/>
@@ -32,7 +30,7 @@
 				</c:forEach>
 			</div>
         </div>
-    </div>
+
 	    
 	<div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
