@@ -163,7 +163,7 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 };
 
 document.querySelector("#btnDelete").onclick = () => {
-	if(confirm('정말로 삭제함?')){
+	if(confirm('정말로 삭제하시겠습니까?')){
 		const id = document.querySelector("#storyModalId").value;
 		document.querySelector("#deleteModalId").value = id;
 		

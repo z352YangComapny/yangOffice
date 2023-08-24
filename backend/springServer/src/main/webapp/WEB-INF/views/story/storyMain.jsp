@@ -91,6 +91,11 @@ const reportThisStoryReal = () => {
 	const reason = document.querySelector('.reportReason').value;
 	document.querySelector('#reportStoryReason').value = reason;
 	
+	if(!/^.{1,100}$/.test(reason)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
+	
 	document.querySelector('#reportStory').submit();
 };
 </script>
