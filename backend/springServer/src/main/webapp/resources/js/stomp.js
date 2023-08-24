@@ -159,3 +159,45 @@ const noticeDm = (notification) => {
 	
 };
 
+// ---------------------------------------------------------------------------------
+
+const ChatConnect = () => {
+	const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
+	const stompClient = Stomp.over(ws);
+	
+    // 구독신청 
+    stompClient.connect({}, () => {
+    	 console.log('챗구독챗구독챗구독');
+	    const memberId = document.getElementById('memberId').value;
+	    
+	   stompClient.subscribe(`/chat/chatting/${memberId}`, (chat) => {
+	   console.log(chat);
+	       chatting(chat);
+	    });
+	    
+	  });
+};
+
+const chatting = (chat) => {
+	console.log('chatting 호출호출호ㅜㄹ');
+	const chatDiv = $("#chat-div");
+
+    const chatMessageDiv = $("<div>").addClass('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
+
+    const chatContentDiv = $("<div>");
+    const chatContentText = $("<p>")
+        .addClass("small p-2 me-3 mb-1 text-white rounded-3 bg-primary")
+        .text(chat.content);
+
+    const chatRegDateText = $("<p>")
+        .addClass("small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end")
+        .text(formatDate(chat.regDate)); 
+
+    chatContentDiv.append(chatContentText, chatRegDateText);
+
+    chatMessageDiv.append(chatContentDiv);
+    chatDiv.append(chatMessageDiv);
+
+};
+
+

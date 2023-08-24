@@ -1,17 +1,23 @@
 package com.yangworld.app.domain.chat.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.chat.SendChatDto;
 import com.yangworld.app.domain.chat.entity.Chat;
 import com.yangworld.app.domain.chat.service.ChatService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.yangworld.app.domain.notification.service.NotificationService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/chat")
@@ -21,8 +27,38 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
+	@Autowired
+	private NotificationService notificationService;
 
-
+	/*
+	 * @GetMapping("/chatting") public void chatting () { }
+	 */
+    
+    @GetMapping("/chatting")
+    public void chatList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+    	
+    	List<Chat> chatList = chatService.findChatList();
+    	
+    	log.info("chatList = {}", chatList);
+    	
+    	model.addAttribute("chatList", chatList);
+    }
+    
+    @PostMapping("/sendChat") 
+    public String sendChat(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute SendChatDto _sendChatDto) {
+    	
+    	int memberId = principal.getId();
+    	Chat chat = _sendChatDto.toChat();
+    	chat.setMemberId(memberId);
+    	
+    	int result = chatService.sendChat(chat);
+    	
+    	result = notificationService.sendChat(chat);
+    	
+    	return "redirect:/chat/chatting";
+    }
+    
+    
 
 
 }

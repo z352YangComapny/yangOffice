@@ -1,483 +1,183 @@
+<%@page import="com.yangworld.app.domain.question.entity.Question" %>
+<%@page import="java.util.List" %>
+<%@page import="java.text.SimpleDateFormat" %>
+<%@page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<fmt:requestEncoding value="utf-8" />
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
-<!-- moment()함수 -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<!-- modal()함수 -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
--->
-<!-- modal / bootstrap -->
-<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  -->
-<!-- socket -->
-<script
-        src="${pageContext.request.contextPath }/resources/dist/sockjs.min.js"></script>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<style>
-    /* .chatcontent {
-        overflow: auto;
-        height: 100%;
-        position: relative;
-    }   */
-    .chat-containerK {
-        /* overflow: hidden; */
-        width : 100%;
-        /* max-width : 200px; */
-    }
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+    <jsp:param value="게시판" name="title"/>
+</jsp:include>
+ <sec:authentication property="principal" var="dmMember"/>
+  <input type='hidden' id='memberId' value='${dmMember.id}' />
+<section style="background-color: #eee;">
+    <div class="container py-5">
 
-    .chatcontent {
-        height: 700px;
-        width : 100%;
-        /* width:300px; */
-        overflow-y: scroll;
-    }
+        <div class="row d-flex justify-content-center" style="height: 690px; width:1300px;">
+            <div class="col-md-10 col-lg-8 col-xl-6" style="height: 500px; width:900px;">
 
-    .chat-fix {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-
-    #alertK{
-        display : none;
-    }
-    #msgi{
-        resize: none;
-    }
-    .myChat{
-        background-color : #E0B1D0;
-        display:inline-block;
-        /* position: absolute;*/
-        /* right: 0px; */
-        /* float: right; */
-        max-width : 200px;
-        /* width : 100%; */
-    }
-    li{
-        list-style-type:none;
-    }
-    .chatBox{
-        display : inline-block;
-    }
-    .chatBox dateK{
-        vertical-align: text-bottom;
-    }
-    .me{
-        text-align : right;
-        /* text-align:center; */
-    }
-    .otherChat{
-        max-width : 200px;
-    }
-</style>
-
-<div id="chat-containerK" class="border border-secondary">
-
-    <div class="chatWrap">
-        <!-- The Report Modal -->
-
-        <div class="modal" id="reportModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">신고하기</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="card" id="chat2" style="top:10%;">
+                    <div class="card-header d-flex justify-content-between align-items-center p-3">
+                        <h5 class="mb-0">SSOY WOLRD</h5>
                     </div>
+                    
+                    <div class="card-body" data-mdb-perfect-scrollbar="true"
+                         style="position: relative; height: 400px; overflow-y: auto;">
+                        <div id="chat-div"></div>
+                    </div> <!--  카드바디 끝 !  -->
 
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <input type="hidden" id="contentIdK" value=""/>
-                        <div class="form-group">
-                            <label for="reportCategK">신고 카테고리</label>
-                            <select class="form-control" id="reportCategK" name="reportCategK">
-                                <option value="1">음담패설</option>
-                                <option value="2">부적절한 홍보</option>
-                                <option value="3">비방 또는 욕설</option>
-                            </select>
+                    <!--  dm 전송 인풋 시작 -->
+                    <form:form id="sendChatForm" action="${pageContext.request.contextPath}/chat/sendChat" method="post">
+                        <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                            <div class="input-group mb-0">
+                                <input type="text" id="messageInput" name="chatContent" class="form-control"
+                                       placeholder="메세지를 입력하세요." aria-label="Recipient's username"
+                                       aria-describedby="button-addon2" path="chatContent"/>
+                                <button class="btn btn-secondary" type="submit" id="button-addon2"
+                                        style="padding-top: .55rem;">전송
+                                </button>
+                            </div>
                         </div>
-                        <hr />
-                        <h5>신고 대상 : <strong id="reportIdK"></strong></h5>
-                        <hr />
-                        <h5>신고 내용</h5>
-                        <div id="reportContents" class="text-center p-5">
-
-                        </div>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="doReport();">신고하기</button>
-                        <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">Close</button>
-                    </div>
+                    </form:form>
                 </div>
             </div>
         </div>
-        <%-- 		<div class="main_tit">
-                    <h1>방 이름 [ ${roomNo}번 ] 아이디[${loginMember.memberId}]</h1>
-                </div> --%>
-        <div class="content chatcontent " data-room-no="${roomNo}"
-             data-member="${loginMember}">
-            <div id="list-guestbook" class="">
-                <c:forEach items="${firstList}" var="chat">
-                    <!-- 내 채팅일 경우 -->
-                    <c:if test="${loginMember.memberId eq chat.memberId}">
-
-                        <li data-no="${chat.no}" class="me pr-2">
-                            <strong class="">${chat.memberId}</strong>
-                            <div class="me ">
-
-                                <strong style="display : inline;" class="align-self-end"><fmt:formatDate value="${chat.sendDate }" pattern="yy/MM/dd HH:mm" /></strong>
-                                <c:if test="${chat.vaildYN eq 'Y'}">
-
-                                    <p class=" myChat text-muted p-2" ><b>신고된 채팅입니다.</b></p>
-
-                                </c:if>
-                                <c:if test="${chat.vaildYN ne 'Y'}">
-
-                                    <p class="myChat text-left p-2" >${chat.chatContent }</p>
-
-                                </c:if>
-                            </div>
-                        </li>
-
-                    </c:if>
-                    <!-- 다른사람의 채팅일 경우 -->
-                    <c:if test="${loginMember.memberId ne chat.memberId}">
-
-                        <li data-no="${chat.no}" class="pl-2">
-                            <strong>${chat.memberId}</strong>
-                            <div class="row ml-0">
-                                <c:if test="${chat.vaildYN eq 'Y'}">
-                                    <p class="otherChat bg-light text-muted p-2"><b>신고된 채팅입니다.</b></p>
-                                </c:if>
-                                <c:if test="${chat.vaildYN ne 'Y'}">
-                                    <p class="otherChat bg-light p-2">${chat.chatContent }</p>
-                                    <strong class="align-self-center"><fmt:formatDate value="${chat.sendDate }" pattern="yy/MM/dd HH:mm" />
-                                        <a href='#' class='reportModalK'>신고</a></strong>
-                                </c:if>
-                            </div></li>
-                    </c:if>
-                </c:forEach>
-            </div>
-
-        </div>
-        <div class="chat-fixK">
-            <div id="alertK" onclick="moveDown();" class="alert alert-success" role="alert">
-                <strong></strong>
-            </div>
-            <div class="fix_btn row">
-                <textarea name="msg" id="msgi" rows="2" class="form-control col-sm-8"></textarea>
-                <!-- <input type="text" id="msgi" name="msg" placeholder="메세지를 입력하세요" /> -->
-                <button type="button"  class="send col-sm-4 btn btn-secondary">보내기</button>
-            </div>
-        </div>
-
-    </div>
-</div>
+</section>
 <script>
-    var client;
-    //채팅 저장
-    function insertChat(){
-        $.ajax({
-            url : "${pageContext.request.contextPath}/chat/insertChat.do",
-            type : "POST",
-            data :
-                {
-                    memberId : "${loginMember.memberId}",
-                    srNo : "${roomNo}",
-                    chatContent : $("#msgi").val()
 
-                } ,
-            dataType : "json",
-            success : function(result) {
-                sendmsg();
-            },
-            error : function(xhr, status, err) {
-                console.log("처리실패!");
-                console.log(xhr);
-                console.log(status);
-                console.log(err);
-            }
-        });
+<c:choose>
+<c:when test="${not empty dmMember}">
+    const memberId = ${dmMember.id}; // 인증된 멤버의 ID를 가져옵니다.
+    document.addEventListener('DOMContentLoaded', () => {
+    	console.log("챗연결함니다");
+    	loadDmDetails();
+        ChatConnect(memberId);
+    });
+</c:when>
+<c:otherwise>
+console.log("로그인되지 않았습니다. Chat을 구독하지 않습니다.");
+</c:otherwise>
+</c:choose>
+
+    // Helper function to format date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = {year: '2-digit', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric'};
+        return date.toLocaleString('en-US', options);
     }
-    //생성된 메시지로 가기//맨 아래로 가기
-    function moveDown(){
-        $(".chatcontent").scrollTop($(".chatcontent")[0].scrollHeight);
-        $('#alertK').css('display','none');
 
-    }
-    //신고하기 버튼
-    function doReport(){
-        if(confirm("신고 하시겠습니까?")) {
-            $.ajax({
-                url : "${pageContext.request.contextPath}/report/insertReport.do",
-                type : "POST",
-                data :
-                    {
-                        contentCategory : "C",
-                        contentId : $("#contentIdK").val(),
-                        reporter : "${loginMember.memberId}",
-                        reportedMember : $("#reportIdK").text(),
-                        category : $("#reportCategK").val()
-
-                    } ,
-                dataType : "json",
-                success : function(result) {
-                    if(result > 0){
-                        alert("신고가 완료되었습니다.");
-                        //$('[data-no='+$("#contentIdK").val()+']').find("p").html("<b>신고된 채팅입니다.</b>");
-                        //$('[data-no='+$("#contentIdK").val()+']').find("p").addClass("text-muted");
-                        //$('[data-no='+$("#contentIdK").val()+']').find("a").html("");
-                        client.send('/app/report/' + "${roomNo}", {}, JSON
-                            .stringify({
-                                contentId : $("#contentIdK").val()
-
-                            }));
-                    }
-                },
-                error : function(xhr, status, err) {
-                    console.log("처리실패!");
-                    console.log(xhr);
-                    console.log(status);
-                    console.log(err);
-                }
-            });
-
-        }
-    }
-    $(document).ready(function() {
-        //시작할때 스크롤 내리기
-        $(".chatcontent").scrollTop($(".chatcontent")[0].scrollHeight);
-        //신고 클릭시 모달창 열기
-        $(document).on("click",".reportModalK",function(){
-            $("#reportModal").modal('show');
-            var content = $(this).closest("strong").prev();
-            $("#reportContents").html(content.text());
-            var id = content.closest("div").prev();
-            $("#reportIdK").html(id.text());
-            var contentId = $(this).closest("li");
-            $("#contentIdK").val(contentId.attr("data-no"));
-
-
-        });
-        var isEnd = false;
-        var isScrolled = false;
-        var fetchList = function() {
-            if (isEnd == true) {
-                return;
-            }
-
-            // 채팅 리스트를 가져올 때 시작 번호
-            // renderList 함수에서 html 코드의 <li> 태그에 data-no 속성으로
-            // data- 속성의 값을 가져오기 위해 data() 함수 사용
-            var endNo = $("#list-guestbook li").first().data("no") || 0;
-            console.log("endNo" + endNo);
-            $.ajax({
-                url : "${pageContext.request.contextPath}/chat/chatList.do?endNo="+endNo,
-                type : "GET",
-                dataType : "json",
-                success : function(result) {
-
-                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담김
-                    var length = result.size;
-                    if (length < 10) {
-                        isEnd = true;
-                    }
-                    $.each(result, function(index, vo) {
-                        var html = renderList(vo,0);
-                        $("#list-guestbook").prepend(html);
-
-                    })
-                    var position = $('[data-no='+endNo+']').prev().offset();//위치값
-                    console.log(position);
-                    document.querySelector('.chatcontent').scrollTo({top : position.top,behavior : 'auto'});
-                    isScrolled = false;
-                },
-                error : function(xhr, status, err) {
-                    console.log("처리실패!");
-                    console.log(xhr);
-                    console.log(status);
-                    console.log(err);
-                }
-            });
-        }
-
-        var renderList = function(vo,endNo) {
-            //alert("아뭐냐구");
-            // 리스트 html을 정의
-            var date = moment(vo.sendDate).format('YY/MM/DD HH:mm');
-            var html = "";
-            if(endNo==0) endNo = vo.no;
-
-            //내가 보낸 채팅일 경우
-            if(vo.memberId=="${loginMember.memberId}"){
-                //신고된 채팅일 경우
-                var content ="";
-                if(vo.vaildYN == 'Y'){
-                    content = "<p class='myChat text-muted p-2'><b>신고된 채팅입니다.</b></p>";
-                }
-                if(vo.vaildYN != 'Y'){
-                    content = "<p class='myChat text-left p-2'>"+vo.chatContent+"</p>";
-                }
-
-                html = 	"<li class='me pr-2' data-no='"+ endNo +"'>"
-                    + "<strong>" + vo.memberId + "</strong>"
-                    +"<div class='me'>"
-                    + "<strong style='display : inline;' class='align-self-end'>" + date + "</strong>"
-                    + content
-                    +"</div>"
-                    + "</li>";
-
-
-            }
-            //남이 보낸 채팅일 경우
-            else{
-                //신고된 채팅일 경우
-                var content ="";
-                var report ="";
-                if(vo.vaildYN == 'Y'){
-                    content = "<p class='otherChat bg-light text-muted p-2'><b>신고된 채팅입니다.</b></p>";
-                }
-                if(vo.vaildYN != 'Y'){
-                    content = "<p class='otherChat bg-light p-2'>"+vo.chatContent+"</p>";
-                    report = "신고";
-                }
-                html = "<li class='pl-2' data-no='"+ vo.no +"'>"
-                    + "<strong>" + vo.memberId + "</strong>"
-                    +"<div class='row ml-0'>"
-                    + content
-                    + "<strong class='align-self-center'>" + date + "<a href='#' class='reportModalK'>"+report+"</a></strong>"
-                    +"</div>"
-                    + "</li>";
-
-            }
-            return html;
-
-
-
-        }
-        //무한 스크롤
-        $(".chatcontent").scroll(function() {
-            var $window = $(this);
-            var scrollTop = $window.scrollTop();
-            var windowHeight = $window.height();
-            var documentHeight = $(document).height();
-
-            // scrollbar의 thumb가 위의1px까지 도달 하면 리스트를 가져옴
-            if (scrollTop < 1 && isScrolled == false) {
-                isScrolled = true;
-                fetchList();
-
-            }
-        })
-
-        ////////////////////socket
-        //새로운 메시지 알림
-        function newAlerts(content,endNo) {
-            $('#alertK').css('display','block');
-            $('#alertK').html("<strong>"+content.memberId+"</strong>님이 메시지를 보냈습니다.");
-        }
-
-        $(function() {
-            var chatBox = $('.box');
-            var messageInput = $('textarea[name="msg"]');
-            var roomNo = "${roomNo}";
-            var member = $('.content').data('member');
-            var sock = new SockJS(
-                "${pageContext.request.contextPath}/endpoint");
-            client = Stomp.over(sock);
-
-            function sendmsg() {
-                var message = messageInput.val();
-                //alert("메시지"+message);
-                if (message == "") {
-                    return false;
-                }
-                //insertChat();
-                client.send('/app/hello/' + roomNo, {}, JSON
-                    .stringify({
-                        chatContent : message,
-                        memberId : "${loginMember.memberId}",
-                        srNo : "${roomNo}"
-
-                    }));
-
-                messageInput.val('');
-            }
-
-            client.connect({},function() {
-                // 여기는 입장시
-                //	           일반메세지 들어오는곳
-                client.subscribe('/subscribe/chat/'+ roomNo,function(chat) {
-                    //받은 데이터
-                    var content = JSON.parse(chat.body);
-                    var endNo = content.no;
-                    /*var endNo = $("#list-guestbook li").last().data("no");
-                    if(isNaN(endNo))
-                        endNo = 1;
-                    else
-                        endNo = endNo+1;
-                    */
-                    var html = renderList(content,endNo);
-                    $("#list-guestbook").append(html);
-                    newAlerts(content,endNo);
-
-                });
-                //신고내용 들어오는곳
-                client.subscribe('/subscribe/report/'+ roomNo,function(report) {
-                    //받은 데이터
-                    var content = JSON.parse(report.body);
-                    //console.log("content=!!!!"+content.contentId);
-                    $('[data-no='+content.contentId+']').find("p").html("<b>신고된 채팅입니다.</b>");
-                    $('[data-no='+content.contentId+']').find("p").addClass("text-muted");
-                    $('[data-no='+content.contentId+']').find("a").html("");
-
-                });
-
-            });
-            //	         대화시
-            $('.send').click(function() {
-                //alert("눌리나?");
-                sendmsg();
-            });
-
-            //채팅창 떠날시에
-            function disconnect() {
-                if (client != null) {
-                    client.disconnect();
-                }
-            }
-            window.onbeforeunload = function(e) {
-                disconnect();
-            }
-
-            function closeConnection() {
-                sock.close();
-            }
-
-            function viewList() {
-
-                alert('viewList');
-                var url = "/chat/chatList?page=" + page
-                    + "&perPageNum=" + perPageNum;
-                location.replace(url);
-            }
-
-        });
+    $(document).ready(function () {
+        // 페이지 로딩 시 dmDetails 데이터 받아오기
 
     });
-    //여기 위에까지가 방 입장하자마자
+    
+    function showButton(container) {
+        const button = container.querySelector('.btn');
+        button.classList.remove('d-none');
+    }
+
+    function hideButton(container) {
+        const button = container.querySelector('.btn');
+        button.classList.add('d-none'); 
+    }
+
+
+function loadDmDetails() {
+        const url = '${pageContext.request.contextPath}/chat/chatting';
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            dataType: "json",
+            success: function (data) {
+                const chatContainer = document.getElementById('chat-div');
+
+                // Clear existing content
+                chatContainer.innerHTML = '';
+
+                // Loop through the data and generate HTML
+                data.forEach(chat => {
+                    const chatDiv = document.createElement('div');
+                    if (chat.memberId != id) {
+                        console.log("왼짝")
+                        // If the receiver ID is not the logged-in user, place on the left
+                        chatDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
+                        chatDiv.innerHTML = `
+					            <img src="${pageContext.request.contextPath}/resources/upload/attachment/profile/\${dm.renamedFileName}"
+					                 alt="avatar 1" style="width: 45px; height: 100%;">
+					            <div class="d-flex flex-column">
+					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 10px">\${chat.memberId}</p>
+					                <div class="d-flex align-items-center" onmouseover="showButton(this)" onmouseout="hideButton(this)">
+					                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+					                        \${chat.chatContent}
+					                    </p>
+					                    <button class="btn btn-sm btn-light d-none btn-toggle" style="margin-left: 10px; font-size:20px;"  onclick="goReport(\${dm.id}, \${dm.senderId});">🚨</button>
+					                </div>
+					                <p class="small ms-3 mb-3 rounded-3 text-muted">\${formatDate(chat.sendDate)}</p>
+					            </div>
+					        `;
+					        
+                    } else {
+                        console.log("오른짝")
+                        // If the receiver ID is the logged-in user, place on the right
+                        chatDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
+                        chatDiv.innerHTML = `
+			            <div>
+			                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">\${dm.content}</p>
+			                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">\${formatDate(dm.regDate)}</p>
+			            </div>
+			        `;
+                    }
+
+                    chatContainer.appendChild(chatDiv);
+                });
+                scrollToBottom(chatContainer);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function scrollToBottom(element) {
+        element.scrollTop = element.scrollHeight;
+    }
+
+    function goReport(chatId, reportedId) {
+        fetch("${pageContext.request.contextPath}/report/createDmReport?dmId=" + dmId + "&reportedId=" + reportedId)
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;
+                } else {
+                    console.error("Failed to fetch");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+
+    function goBack() {
+        fetch("${pageContext.request.contextPath}/dm/dmList")
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;
+                } else {
+                    console.error("Failed to fetch");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
 </script>
-
-
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
