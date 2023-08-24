@@ -83,9 +83,6 @@ public class MemberController {
     private ProfileService profileService;
     
     @Autowired
-    private PhotoFeedService photoFeedService;
-
-    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -120,7 +117,6 @@ public class MemberController {
             List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
             
             // 피드리스트 가져오기
-            List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
 
     	    model.addAttribute("photoList", photoList);
             log.info("profileAttachments={}", profileAttachments);
