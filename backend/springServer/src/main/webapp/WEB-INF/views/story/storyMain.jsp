@@ -32,10 +32,12 @@
       </div>
       <div class="modal-body">
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-2">.col-md-4</div>
-				<div class="col-md-9 ml-auto storyModalContent" style="word-wrap: break-word;"></div>
-			</div>
+
+          <div class="row">
+            <div class="col-md-4 storyProfileAttach"></div>
+            <div class="col-md-8 storyModalContent" style="word-wrap: break-word;"></div>
+          </div>
+
     	</div>
       </div>
       <div class="modal-footer storyModalCreatedAt" id="storyModalCreatedAt"></div>

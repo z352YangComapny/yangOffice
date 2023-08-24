@@ -12,6 +12,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.story.dto.AttachmentProfileDto;
 import com.yangworld.app.domain.story.dto.Payload;
 import com.yangworld.app.domain.story.dto.PayloadType;
 import com.yangworld.app.domain.story.dto.StoryMainDto;
@@ -34,10 +36,13 @@ public class StoryStompController {
 	@SendTo("/storyMain")
 	public List<Payload> story(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
-//	    log.info("Received ID: {}", id);
+	    log.info("Received ID: {}", id);
 		List<StoryMainDto> stories = storyService.findStoryById(id);
 //		log.info("stories : {}", stories);
 		
+		List<AttachmentProfileDto> attachProf = storyService.findAttachProf(id);
+		log.info("attachProf = {}", attachProf);
+ 		
 		List<Payload> payloads = new ArrayList<>();
 		for(StoryMainDto story : stories) {
 			String username = storyService.findMemberUsername(story.getWriterId());
@@ -46,6 +51,7 @@ public class StoryStompController {
 				    .from(username)
 				    .content(story.getContent())
 				    .createdAt(story.getRegDate())
+
 				    .build();
 			payloads.add(tmp);
 		}
