@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangworld.app.domain.comments.repository.CommentsRepository">
+
+<!-- <select id="getCommentsByQuestionId" resultMap="Comments">
+	select 
+		*
+	 from comments_question cq join comments c
+	 on cq.comments_id = c.id
+	 where cq.qeustion_id = #{questionId}
+</select>
+<resultMap id="Comments" type="Comments">
+	<id column="id" property="id"/>
+	<result column="writer_id" property="writerId"/>
+	<result column="content" property="content"/>
+	<result column="reg_date" property="regDate"/>
+</resultMap>	
+ --></mapper>
+
+
+

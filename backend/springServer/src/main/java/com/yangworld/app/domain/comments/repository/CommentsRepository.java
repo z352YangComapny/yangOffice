@@ -57,6 +57,9 @@ public interface CommentsRepository {
 	@Update("update comments c set c.content = #{content} where c.id in (select cq.comments_id from comments_question cq where cq.question_id = #{questionId})")
 	int updateCommentQna(@Param("questionId")int questionId,@Param("content") String content);
 
+	@Delete("delete comments where id = #{id}")
+	int deleteCommentQna(int commentId);
+
 
 	
 	

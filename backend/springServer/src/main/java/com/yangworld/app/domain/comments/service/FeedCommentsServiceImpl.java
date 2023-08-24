@@ -145,7 +145,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
 	
 	@Override
 	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentCreateDto) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -154,7 +153,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 	@Override
 	public List<Comments> getCommentsByQuestionId(int questionId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -163,7 +161,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 	@Override
 	public int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -172,7 +169,14 @@ public class FeedCommentsServiceImpl implements CommentsService{
 
 	@Override
 	public int updateQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentAllDto) {
-		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
+	@Override
+	public int deleteQnaComment(int commentId) {
 		return 0;
 	}
 }

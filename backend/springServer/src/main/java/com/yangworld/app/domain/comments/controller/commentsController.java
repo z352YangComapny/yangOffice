@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.comments.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
@@ -35,58 +37,58 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class commentsController {
-	
-	
+
+
 	@Autowired
-//	@Qualifier("FeedCommentsServiceImpl")
+	//	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
-	
+
 
 	@Autowired
 	@Qualifier("QnACommentsServiceImpl")
 	private CommentsService qnaCommentService;
-	
+
 	@GetMapping("/getComments")
 	public ResponseEntity<?> getComments(@RequestParam int photoFeedId) {
-	    List<CommentAllDto> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
-	    
-	    if (comments != null && !comments.isEmpty()) {
-	        return ResponseEntity.ok(comments);
-	    } else {
-	        return ResponseEntity.ok("no");
-	    }
+		List<CommentAllDto> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
+
+		if (comments != null && !comments.isEmpty()) {
+			return ResponseEntity.ok(comments);
+		} else {
+			return ResponseEntity.ok("no");
+		}
 	}
 
-	
+
 	// TODO 댓글 조회
 
-//	// 댓글 조회
-//	@GetMapping("/feed/feedDetail")
-//	public void getComments(
-//			@AuthenticationPrincipal PrincipalDetails principalDetails,
-//			@RequestParam int photoFeedId,
-//			Model model) {
-//	
-//		List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
-//    
-//		model.addAttribute("comments", comments);
-//	}
+	//	// 댓글 조회
+	//	@GetMapping("/feed/feedDetail")
+	//	public void getComments(
+	//			@AuthenticationPrincipal PrincipalDetails principalDetails,
+	//			@RequestParam int photoFeedId,
+	//			Model model) {
+	//	
+	//		List<Comments> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
+	//    
+	//		model.addAttribute("comments", comments);
+	//	}
 
-	
+
 	// 댓글 작성
 	@PostMapping("/feedDetails/commentCreate")
 	public String commentCreate(
-	        @AuthenticationPrincipal PrincipalDetails principalDetails,
-	        @RequestParam String comment,
-	        @RequestParam int photoFeedId) {
-	    
-	    int result = commentService.insertComment(principalDetails, comment, photoFeedId);
-	    
-	    return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestParam String comment,
+			@RequestParam int photoFeedId) {
+
+		int result = commentService.insertComment(principalDetails, comment, photoFeedId);
+
+		return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}
 
-	
-	
+
+
 	// 댓글 수정
 	@PostMapping("/commentUpdate")
 	public ResponseEntity<?> commentUpdate(
@@ -94,94 +96,123 @@ public class commentsController {
 			@RequestBody @Valid CommentCreateDto commentUpdateDto,
 			BindingResult bindingResult
 			){
-		
+
 		int result = commentService.updateComment(principalDetails, commentUpdateDto);
-		
-		
-		
+
+
+
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@PostMapping("/commentDelete")
 	public String commentDelete(
 			@AuthenticationPrincipal PrincipalDetails principalDetails,
 			@RequestParam String comment,
-	        @RequestParam int photoFeedId
+			@RequestParam int photoFeedId
 			){
 		log.info("comment ={}", comment);
 		int result = commentService.deleteComment(principalDetails, photoFeedId, comment);
-		
+
 		return "redirect:/feed/feedDetail?photoFeedId=" + photoFeedId;
 	}
-	
-	
+
+
 
 	//----------------------------
-	
-	@PostMapping("/qnaCommentCreate")
-    public ResponseEntity<?> qnaCommentCreate(
-            @AuthenticationPrincipal PrincipalDetails principalDetails,
-            @RequestBody @Valid QnaCommentAllDto qnaCommentAllDto,
-            BindingResult bindingResult,
-            Model model) {
-		log.info("principalDetails = {}" , principalDetails);
-		
-		log.info("qnaComeentCreateDto = {}", qnaCommentAllDto);
-        if (bindingResult.hasErrors()) {
-            // 유효성 검사 오류가 있는 경우
-            return ResponseEntity.badRequest().body("Invalid data");
-        }
-        
-        int result = qnaCommentService.insertQnaComment(principalDetails, qnaCommentAllDto);
-        log.info("result = {}", result);
-        if (result > 0) {
-        	return ResponseEntity.ok("{\"message\": \"Comment inserted successfully.\"}");
 
-        } else {
-            return ResponseEntity.badRequest().body("Failed to insert comment.");
-        }
-    }
-	
+	@PostMapping("/qnaCommentCreate")
+	public ResponseEntity<?> qnaCommentCreate(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody @Valid QnaCommentAllDto qnaCommentAllDto,
+			BindingResult bindingResult,
+			Model model) {
+		log.info("principalDetails = {}" , principalDetails);
+
+		log.info("qnaComeentCreateDto = {}", qnaCommentAllDto);
+		if (bindingResult.hasErrors()) {
+			// 유효성 검사 오류가 있는 경우
+			return ResponseEntity.badRequest().body("Invalid data");
+		}
+
+		int result = qnaCommentService.insertQnaComment(principalDetails, qnaCommentAllDto);
+		log.info("result = {}", result);
+		if (result > 0) {
+			return ResponseEntity.ok("{\"message\": \"Comment inserted successfully.\"}");
+
+		} else {
+			return ResponseEntity.badRequest().body("Failed to insert comment.");
+		}
+	}
+
 	@GetMapping("/getQnaComments")
 	public ResponseEntity<?> getQnaComments(@RequestParam int questionId) {
-	    List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(questionId);
-	    
-	    if (qnaComments != null && !qnaComments.isEmpty()) {
-	        return ResponseEntity.ok(qnaComments);
-	    } else {
-	        return ResponseEntity.ok("no");
-	    }
+		List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(questionId);
+		log.info("coomentsList={}", qnaComments);
+		
+		if (qnaComments != null && !qnaComments.isEmpty()) {
+			return ResponseEntity.ok(qnaComments);
+		} else {
+			return ResponseEntity.ok("no");
+		}
 	}
 	@PostMapping("/qnaCommentUpdate")
 	public ResponseEntity<?> qnaCommentUpdate(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody @Valid QnaCommentAllDto qnaCommentAllDto,
+			BindingResult bindingResult,
+			Model model) {
+		if (bindingResult.hasErrors()) {
+			// 유효성 검사 오류가 있는 경우
+			return ResponseEntity.badRequest().body("Invalid data");
+		}
+		
+		log.info("principalDetails = {}", principalDetails);
+		log.info("qnaCommentUpdateDto = {}", qnaCommentAllDto);
+
+		
+		
+		int result = qnaCommentService.updateQnaComment(principalDetails, qnaCommentAllDto);
+		log.info("result = {}", result);
+		if (result > 0) {
+			return ResponseEntity.ok("{\"message\": \"Comment updated successfully.\"}");
+		} else {
+			return ResponseEntity.badRequest().body("Failed to update comment.");
+		}
+	}
+	
+	@PostMapping("/qnaCommentDelete")
+	public ResponseEntity<?> qnaCommentDelete(
 	        @AuthenticationPrincipal PrincipalDetails principalDetails,
 	        @RequestBody @Valid QnaCommentAllDto qnaCommentAllDto,
-	        BindingResult bindingResult,
-	        Model model) {
+	        BindingResult bindingResult) {
+
 	    if (bindingResult.hasErrors()) {
-	        // 유효성 검사 오류가 있는 경우
 	        return ResponseEntity.badRequest().body("Invalid data");
 	    }
 	    
-	    log.info("principalDetails = {}", principalDetails);
-	    log.info("qnaCommentUpdateDto = {}", qnaCommentAllDto);
-
-
-
-	    int result = qnaCommentService.updateQnaComment(principalDetails, qnaCommentAllDto);
-	    log.info("result = {}", result);
+	    int questionId = qnaCommentAllDto.getCommentQna().getQuestionId(); // questionId를 가져옵니다.
+	    log.info("qnaCommentDeleteDto = {}", qnaCommentAllDto);
+	    log.info("questionId = {}", questionId);
+	    List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(questionId);
+	    int commentId = qnaComments.get(0).getId();
+	    log.info("commentId = {} ", commentId);
+	    // 댓글 삭제 로직
+	    int result = qnaCommentService.deleteQnaComment(commentId);
 
 	    if (result > 0) {
-	        return ResponseEntity.ok("{\"message\": \"Comment updated successfully.\"}");
+	        return ResponseEntity.ok("{\"message\": \"Comment delete successfully.\"}");
 	    } else {
-	        return ResponseEntity.badRequest().body("Failed to update comment.");
+	        return ResponseEntity.badRequest().body("Failed to delete comment.");
 	    }
 	}
+
+		
+	
 }
 
-	
 
 
-	
-	
-	
+
+
+
+

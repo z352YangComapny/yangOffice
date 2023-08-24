@@ -55,6 +55,14 @@ public interface CommentsService {
 	int updateQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentAllDto);
 
 
+	int deleteQnaComment(int commentId);
+
+
+
+
+	
+
+
 
 
 

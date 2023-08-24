@@ -14,4 +14,5 @@ public class QnaCommentDto {
 
 	private int commentId;
 	private int questionId;
+
 }

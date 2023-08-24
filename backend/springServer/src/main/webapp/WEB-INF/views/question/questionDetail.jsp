@@ -53,12 +53,13 @@
             <label for="commentContent"></label>
             <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
             <input type="hidden" id="commentId" value="">
-                    <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+            <button type="button" class="btn btn-danger btn-lg" id="commentDelete" >X</button>
+            <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+       		<button type="button" class="btn btn-primary btn-lg edit-button" id="editComment">댓글 수정</button>
         </c:if>
         
         
         
-        <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment">댓글 수정</button>
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
         
     </div>
@@ -66,10 +67,16 @@
 
 <script>
 const csrfToken = "${_csrf.token}";
+const commentId = document.getElementById('commentId').value;
+
+function goBack() {
+    window.history.back();
+}
+
 
 document.querySelector('#commentCreate').onclick = () => {
     const commentContent = document.getElementById('commentContent').value;
-
+	
     if (commentContent.trim() !== '') {
         const qnaCommentDto = {
             commentId: 0,
@@ -116,7 +123,7 @@ document.querySelector('#editComment').onclick = () => {
 
     if (commentContent.trim() !== '') {
         const qnaCommentDto = {
-			commentId: 39,
+			commentId: 0,
             questionId: ${questionId} 
         };
 
@@ -145,17 +152,57 @@ document.querySelector('#editComment').onclick = () => {
         	console.log(data)
             alert('댓글이 수정되었습니다.');
             location.reload();
+            
         })
         .catch(error => {
             console.error('댓글 수정 중 오류:', error);
             alert('댓글 수정 중 오류가 발생했습니다.');
+            
         });
     } else {
         alert('수정 내용을 입력해주세요.');
     }
 };
 
-
+document.querySelector('#commentDelete').onclick = () => {
+	const commentContent = document.getElementById('commentContent').value;
+	
+	if (commentContent.trim() !== '') {
+    const qnaCommentDto = {
+		commentId: 0,
+        questionId: ${questionId} 
+     };
+	
+    const qnaCommentAllDto = {
+        content: commentContent, 
+        writerId: "${principalId}",
+        commentQna: qnaCommentDto 
+    };
+    fetch('/qnaCommentDelete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify(qnaCommentAllDto) 
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('댓글 삭제 중 오류 발생');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('댓글이 삭제되었습니다.');
+        location.reload();
+        console.log(qnaCommentAllDto);
+    })
+    .catch(error => {
+        console.error('댓글 삭제 중 오류:', error);
+        alert('댓글 삭제 중 오류가 발생했습니다.');
+    });
+	}
+};
 
 
 
@@ -182,10 +229,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data !== "no") {
             // 댓글 데이터가 있는 경우
             console.log(data);
-            const comments = data;
-            const commentContent = document.getElementById("commentContent");
-            commentContent.value = comments[0].content; // 첫 번째 댓글의 내용을 가져와서 출력
-            
+            const [{id}] = data;
+	        const comments = data;
+	        const commentContent = document.getElementById("commentContent");
+	        const commentIdInput = document.getElementById("commentId"); // Get the hidden input
+	        if (comments.length > 0) {
+	            commentContent.value = comments[0].content;
+	            commentIdInput.value = comments[0].commentId; // commentId 업데이트
+	            
+	        }
+	        commentIdInput.value = id;
+	        console.log(commentIdInput.value);
         } else {
             // 댓글 데이터가 없는 경우
             const commentContent = document.getElementById("commentContent");

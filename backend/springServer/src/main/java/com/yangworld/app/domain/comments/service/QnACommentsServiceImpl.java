@@ -89,5 +89,11 @@ public class QnACommentsServiceImpl implements CommentsService{
 		 
 		 return result;
 	}
+	@Override
+	public int deleteQnaComment(int commentId) {
+		log.info("commentId = {}", commentId);
+		return commentsRepository.deleteCommentQna(commentId);
+		
+	}
 	
 }
