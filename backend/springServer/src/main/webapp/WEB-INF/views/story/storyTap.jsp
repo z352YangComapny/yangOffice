@@ -12,26 +12,28 @@
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
-        <div class="containerStoryTap">
-            <div class ="" id="profileStoryTap" style="width: 30vw; height: 80vh; margin : 0 0;">
+        <div class="containerStoryTap d-flex flex-row">
+            <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
             	<jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
         	</div>
-        	<div>
-        		<button class="btn btn-success mt-3 mx-3 " id="btnStoryCreate">추가</button>
+        	<div id="storyDiv">
+	        	<div>
+	        		<button class="btn btn-success mt-3 mx-3 " id="btnStoryCreate">추가</button>
+	        	</div>
+				<div id="story">
+					<c:forEach items="${stories}" var="story">
+						<div class="card m-3">
+						 	<input type="hidden" id="storyId" value="${story.id}"/>
+						  <ul class="list-group list-group-flush">
+						    <li class="list-group-item writerId">${loginMember.username}</li>
+						    <input type="hidden" class="writerId" value="${story.writerId}"/>
+						    <li class="list-group-item content">${story.content}</li>
+						    <li class="list-group-item createdAt">${story.regDate}</li>
+						  </ul>
+						</div>
+					</c:forEach>
+				</div>
         	</div>
-			<div id="story">
-				<c:forEach items="${stories}" var="story">
-					<div class="card m-3">
-					 	<input type="hidden" id="storyId" value="${story.id}"/>
-					  <ul class="list-group list-group-flush">
-					    <li class="list-group-item writerId">${loginMember.username}</li>
-					    <input type="hidden" class="writerId" value="${story.writerId}"/>
-					    <li class="list-group-item content">${story.content}</li>
-					    <li class="list-group-item createdAt">${story.regDate}</li>
-					  </ul>
-					</div>
-				</c:forEach>
-			</div>
         </div>
 
 	    
