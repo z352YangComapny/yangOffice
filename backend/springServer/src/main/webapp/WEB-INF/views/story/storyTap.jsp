@@ -12,7 +12,10 @@
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
-        <div>
+        <div class="containerStoryTap">
+            <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
+            	<jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
+        	</div>
         	<div>
         		<button class="btn btn-success mt-3 mx-3 " id="btnStoryCreate">추가</button>
         	</div>

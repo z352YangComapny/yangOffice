@@ -1,3 +1,7 @@
+.containerStoryTap{
+	display: flex;
+    flex-direction: row;
+}
 #story {
 	display: flex;
 	flex-wrap: wrap;
@@ -7,7 +11,7 @@
 
 .card {
 	display: inline-block;
-	width: 300px;
+	width: 250px;
 	height: 140px;
 	margin-right: 20px;
 	background-color: #E0E0E0;
