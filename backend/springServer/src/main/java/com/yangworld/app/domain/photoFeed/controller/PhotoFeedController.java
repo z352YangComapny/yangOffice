@@ -69,31 +69,33 @@ public class PhotoFeedController {
 	// 피드 디테일
 	@GetMapping("/feed/feedDetail")
 	public void feedDetails(@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestParam int photoFeedId,
-			Model model) {
-		
-	
-		int writerId = principalDetails.getId();
-		
-		
-        // 피드 조회
-		List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId); 
-		List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
-    	PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+	        @RequestParam int photoFeedId,
+	        Model model) {
+	    int writerId = principalDetails.getId();
 
-        FeedDetails response = FeedDetails.builder()
-                .id(photoFeedId)
-                .writerId(writerId)
-                .content(photoFeed.getContent())
-                .build();
-        Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
-        log.info("commentList ={}",commentList);
-        
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("response", response);
-        model.addAttribute("photoDetail", photoDetail);
-        model.addAttribute("principalDetails", principalDetails);
+	    // 피드 조회
+	    List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId);
+	    log.info("photoDetail = {}", photoDetail);
+	    List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
+	    PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+
+	    int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
+
+	    FeedDetails response = FeedDetails.builder()
+	            .id(photoFeedId)
+	            .writerId(writerId)
+	            .likeCount(likeCount) 
+	            .content(photoFeed.getContent())
+	            .build();
+
+	    Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
+
+	    model.addAttribute("commentList", commentList);
+	    model.addAttribute("response", response);
+	    model.addAttribute("photoDetail", photoDetail);
+	    model.addAttribute("principalDetails", principalDetails);
 	}
+
 
 	
 	// 피드 만들기
@@ -101,7 +103,7 @@ public class PhotoFeedController {
 	public String peedCreate(
 			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
 	        BindingResult bindingResult,
-	        @AuthenticationPrincipal Member member,
+	        @AuthenticationPrincipal PrincipalDetails member,
 	        @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
 	        throws IllegalStateException, IOException {
 
@@ -137,9 +139,7 @@ public class PhotoFeedController {
 		
 		if (result > 0) {
 
-			return "redirect:/member/userPage" + member.getId();
-
-
+			return "redirect:/member/userPage/" + member.getId();
 
 	    } else {
 	        return "forward:/index.do";
@@ -148,11 +148,13 @@ public class PhotoFeedController {
 
 	
 	@PostMapping("/feedDetails/feedDelete")
-	public String deleteFeed(@RequestParam int feedId){
+	public String deleteFeed(
+			@RequestParam int feedId,
+			@AuthenticationPrincipal PrincipalDetails member){
 		
 		 int result = photoFeedService.deleteFeed(feedId);
 		
-		 return "redirect:/";
+		 return "redirect:/member/userPage/" + member.getId();
 	}
 	
 	@PostMapping("/feedDetails/feedUpdate")

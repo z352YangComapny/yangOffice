@@ -102,7 +102,9 @@ public class MemberController {
     }
 
     @GetMapping("/userPage/{id}")
-    public String userPage(@PathVariable("id") int id, Model model) {
+    public String userPage(
+		@AuthenticationPrincipal PrincipalDetails principal,
+		@PathVariable("id") int id, Model model) {
         Member member = memberService.findById(id);
         log.info("member@Home={}", member);
         model.addAttribute("member", member);
@@ -117,13 +119,14 @@ public class MemberController {
             List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
             
             // 피드리스트 가져오기
-
+            
     	    model.addAttribute("photoList", photoList);
             log.info("profileAttachments={}", profileAttachments);
             model.addAttribute("profile", profile);
             model.addAttribute("profileAttachments", profileAttachments);
             model.addAttribute("principalBday", member.getBirthday());
             model.addAttribute("principalName", member.getName());
+            model.addAttribute("PrincipalDetails", principal);
             log.info("profile = {}", profile);
             log.info("profileAttachment = {}", profileAttachments);
         } else{

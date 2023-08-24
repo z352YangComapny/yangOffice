@@ -103,10 +103,20 @@ delete from comments where ;
 select * from comments;
 
 select * from report_photo_feed;
-
+select * from photo_feed;
+select * from attachment;
+select * from attachment_photo_feed;
 select * from comments;
 select  * from user_role_privs;
 select * from member ;
 select * from authorities;
 select * from profile;
 select * from comments;
+select * from likes;
+
+
+select * from photo_feed;
+
+select * from attachment_photo_feed;
+select * from attachment_photo_feed where photo_feed_Id = 50;
+select * from attachment where id = 54;
