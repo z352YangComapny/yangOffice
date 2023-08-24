@@ -4,7 +4,7 @@ const connect = () => {
 	
     // 구독신청 
     stompClient.connect({}, () => {
-//        console.log('WebSocket 연결 성공');
+        console.log('WebSocket 연결 성공');
         stompClient.subscribe('/storyMain', (payloads) => {
 //            console.log('구독됨');
 //            console.log('/story : ', payloads);
@@ -37,6 +37,8 @@ const renderStory = (payloads) => {
 		    <li class="list-group-item createdAt">${story.createdAt}</li>
 		  </ul>
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
+			<input type="hidden" id="storyAttach" value="${story.attach}"/>
+			<input type="hidden" id="storyCardId" value="${story.id}"/>
 		</div>
 		`;
 		i = i + 1;
@@ -55,21 +57,21 @@ const renderStory = (payloads) => {
             
             $('#storyModal').on('wheel', (e) => {
 			    e.preventDefault();
-			    console.log('wheeeeeeeeeeeel');
+//			    console.log('wheeeeeeeeeeeel');
 			    const currentCardIndex = parseInt(document.querySelector('#currentCard').value);
-			    console.log('currentCardIndex : ', currentCardIndex);
+//			    console.log('currentCardIndex : ', currentCardIndex);
 			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
 			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
-			    console.log('nextCardIndex : ', nextCardIndex);
+//			    console.log('nextCardIndex : ', nextCardIndex);
 			    	
-			    if (event.deltaY < 0){
+			    if (e.deltaY < 0){
 			    	if (beforeCardIndex) {
 				    	const beforeCard = beforeCardIndex.closest('.card');
 				        updateModal(beforeCard);
 				    }else{
 				    	storyModal.modal('hide');
 				    }
-			    }else if (event.deltaY > 0){
+			    }else if (e.deltaY > 0){
 				    if (nextCardIndex) {
 				    	const nextCard = nextCardIndex.closest('.card');
 				        updateModal(nextCard);
@@ -90,12 +92,29 @@ const updateModal = (e) => {
 	const writerId = e.querySelector('.writerId').textContent;
 	const content = e.querySelector('.content').textContent;
 	const createdAt = e.querySelector('.createdAt').textContent;
+	const storyAttach = e.querySelector('#storyAttach').value;
 	const currentCardIndex = e.querySelector('#cardIndex').value;
+	const storyCardId = e.querySelector('#storyCardId').value;
+
+//	console.log(storyAttach);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
+	document.querySelector('#reportStoryId').value = storyCardId;
+	
+	const imgElement = document.createElement('img');
+	imgElement.id = 'storyModalProfile';
+	imgElement.src = `http://localhost:8080/resources/upload/attachment/${storyAttach}`;
+	
+	imgElement.style.maxWidth = '100px';
+	imgElement.style.height = 'auto';
+
+	document.querySelector('.storyProfileAttach').innerHTML = '';
+	document.querySelector('.storyProfileAttach').appendChild(imgElement);
+
 	document.querySelector('#currentCard').value = currentCardIndex;
+	document.querySelector('#currentWriter').value = writerId;
 };
 
 const clearModal = () => {

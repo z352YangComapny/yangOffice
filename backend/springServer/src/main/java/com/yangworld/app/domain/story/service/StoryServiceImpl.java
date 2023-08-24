@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.story.dto.AttachmentProfileDto;
 import com.yangworld.app.domain.story.dto.StoryDto;
 import com.yangworld.app.domain.story.dto.StoryMainDto;
 import com.yangworld.app.domain.story.repository.StoryRepository;
@@ -43,5 +45,15 @@ public class StoryServiceImpl implements StoryService{
 	@Override
 	public List<StoryMainDto> findStoryByIdOnly(int writerId) {
 		return storyRepository.findStoryByIdOnly(writerId);
+	}
+	
+	@Override
+	public List<AttachmentProfileDto> findAttachProf(int id) {
+		return storyRepository.findAttachProf(id);
+	}
+	
+	@Override
+	public int findIdByUsername(String from) {
+		return storyRepository.findIdByUsername(from);
 	}
 }

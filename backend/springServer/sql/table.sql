@@ -39,7 +39,7 @@ create table attachment
     constraints       p_attachment_id primary key( id)
 );
 create sequence seq_attachment_id;
-
+select * from attachment;
 create table report
 (
     id          number,
@@ -335,3 +335,4 @@ END;
 -- /
 
 commit;
+

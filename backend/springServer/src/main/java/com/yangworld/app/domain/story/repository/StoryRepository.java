@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.story.dto.AttachmentProfileDto;
 import com.yangworld.app.domain.story.dto.StoryDto;
 import com.yangworld.app.domain.story.dto.StoryMainDto;
 
@@ -32,5 +34,13 @@ public interface StoryRepository {
 	
 	@Select("select * from story where writer_id = #{wirterId} order by reg_date")
 	List<StoryMainDto> findStoryByIdOnly(int writerId);
+
+	@Select("select renamed_filename from attachment where id = (select attachment_id from attachment_profile where profile_id = 1)")
+	String findAttach(int id);
+
+	List<AttachmentProfileDto> findAttachProf(int id);
+	
+	@Select("select id from member where username = #{from}")
+	int findIdByUsername(String from);
 	
 }

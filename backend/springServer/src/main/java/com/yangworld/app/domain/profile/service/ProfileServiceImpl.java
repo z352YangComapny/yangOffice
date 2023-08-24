@@ -102,8 +102,8 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	@Override
-    public ProfileDetails getProfileByMemberId(int id) {
-        return profileRepository.getProfileByMemberId(id);
+    public ProfileDetails getProfileByMemberId(int memberId) {
+        return profileRepository.getProfileByMemberId(memberId);
     }
 	@Override
 	public int resetProfile(int memberId) {
