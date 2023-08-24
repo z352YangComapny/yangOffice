@@ -3,15 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param value="프로필 메인" name="title"/>
-</jsp:include>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>프로필 메인</title>
-</head>
+
 <style>
     /* 이미지 최대 너비와 최대 높이 설정 */
     #selectedImage {

@@ -7,18 +7,20 @@
 <fmt:requestEncoding value = "utf-8"/> <!-- 한글로 제목을 변경할 경우에는 인코딩이 깨질 수 있으니 해당 설정 잡아주기 -->
 
 <sec:authorize access = "isAuthenticated()">
+    <sec:authentication property="principal" var="dmMember"/>
     <jsp:include page ="/WEB-INF/views/common/header.jsp"/>
     <h1>새로운 userPage</h1>
     <div class="d-flex flex-row">
-        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;"></div>
+        <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
+            <jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
+        </div>
         <div class="d-flex justify-content-center row" id="member_content" style="width: 70vw; margin:0 0;">
             <div class="d-flex justify-content-center column align-items-center">
-                <div class="flex-grow-1 mt-4" style="width:50vw;">
-                    <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
-                </div>
-                <div id ="dm"  class="flex-grow-1" style="width :20vw; height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
+                <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
+                    <div id="notification-div"> </div>
+                    <input type='hidden' id='userId' value='${dmMember.id}' />
                     <a href="${pageContext.request.contextPath}/dm/dmList">
-                        <img src="${pageContext.request.contextPath}/resources/images/dm_logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/dm-pixel-logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>
                     </a>
                 </div>
             </div>
@@ -29,9 +31,23 @@
                 <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
             </div>
             <div class="d-flex justify-content-end align-content-center flex-grow-1" style="height: 10vh; margin : 0;">
-                <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/';">Guests Book</button>
+                <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/guestbook/guestbook.do';">Guests Book</button>
             </div>
         </div>
     </div>
 </sec:authorize>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
+<script>
+    <c:choose>
+    <c:when test="${not empty dmMember}">
+    const userId = ${dmMember.id}; // 인증된 멤버의 ID를 가져옵니다.
+    document.addEventListener('DOMContentLoaded', () => {
+        notifyConnect(userId);
+    });
+    </c:when>
+    <c:otherwise>
+    console.log("로그인되지 않았습니다. DM 알림을 구독하지 않습니다.");
+    </c:otherwise>
+    </c:choose>
+</script>
