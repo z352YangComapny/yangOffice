@@ -195,7 +195,7 @@ public class ProfileController {
 		
 		
 		model.addAttribute("profile", profile);
-		return "redirect:/";
+		return "redirect:/member/userPage/" + principal.getId();
 	}
 	
 	@PostMapping("/defaultcreate.do")

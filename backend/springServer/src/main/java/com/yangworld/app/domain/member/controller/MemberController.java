@@ -106,7 +106,7 @@ public class MemberController {
         log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
         redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
-        return "redirect:/";
+        return "redirect:/profile/create.do";
     }
 
     @PostMapping("/memberUpdate.do")
