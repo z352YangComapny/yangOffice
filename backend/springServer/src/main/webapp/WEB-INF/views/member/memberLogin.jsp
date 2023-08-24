@@ -591,8 +591,8 @@
 
 			// 비밀번호 재설정 버튼 클릭 시 Ajax 요청 수행
 			function resetPassword() {
-			const newPassword = document.getElementById("password").value;
-
+			const newPassword = document.getElementById("password2").value;
+				console.log(newPassword);
 				// 여기서 Ajax 요청을 수행하고 서버에 newPassword 전송 등의 동작을 추가
 				// 예시: jQuery를 사용한 Ajax 요청
 				$.ajax({
@@ -622,8 +622,8 @@
 		const $pwdValid = $("#pwdValid");
 		const $pwdCfmValid = $("#pwdCfmValid");
 		const $pwdCfmInvalid = $("#pwdCfmInvalid");
-		const $password = $("#password");
-		const $pwdConfirmation =$("#pwdConfirmation");
+		const $password = $("#password2");
+		const $pwdConfirmation =$("#pwdConfirmation2");
 
 		$password.on("input", function(){
 

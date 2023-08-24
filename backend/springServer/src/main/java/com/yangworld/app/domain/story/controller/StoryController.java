@@ -44,14 +44,14 @@ public class StoryController {
 
 	@PostMapping("/create")
 	public String create(StoryDto storyDto){
-		log.info("storyDto = {}", storyDto);
+//		log.info("storyDto = {}", storyDto);
 		int result = storyService.createStory(storyDto);
 		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/update")
 	public String update(StoryMainDto storyDto){
-		log.info("storyDto = {}", storyDto);
+//		log.info("storyDto = {}", storyDto);
 		int result = storyService.updateStory(storyDto);
 		return "redirect:/story/storyTap";
 	}
