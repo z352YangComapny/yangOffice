@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Payload {
 	private PayloadType type;
 	private int id;
+	private int to;
 	private String from;
 	private String content;
 	private LocalDateTime createdAt;
