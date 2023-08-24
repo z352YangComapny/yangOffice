@@ -98,19 +98,20 @@ public class MemberController {
         if(profile !=null){
             // 프로필 사진 가져오기
             List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-            log.info("profileAttachments={}", profileAttachments);
-            model.addAttribute("profile", profile);
+           // log.info("profileAttachments={}", profileAttachments);
             model.addAttribute("profileAttachments", profileAttachments);
-            model.addAttribute("principalBday", member.getBirthday());
-            model.addAttribute("principalName", member.getName());
-            log.info("profile = {}", profile);
-            log.info("profileAttachment = {}", profileAttachments);
+            //log.info("profile = {}", profile);
+           // log.info("profileAttachment = {}", profileAttachments);
         } else{
-            ProfileDetails.builder()
+            profile = ProfileDetails.builder()
                     .attachments(null)
                     .state(State.A)
-                    .id(0).build();
+                    .introduction("새롭게 작성해주세요")
+                    .build();
         }
+        model.addAttribute("profile", profile);
+        model.addAttribute("principalBday", member.getBirthday());
+        model.addAttribute("principalName", member.getName());
 
 		log.info("photoList={}", photoList);
 	    model.addAttribute("photoList", photoList);
