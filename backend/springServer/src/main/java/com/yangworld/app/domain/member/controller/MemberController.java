@@ -1,17 +1,12 @@
 package com.yangworld.app.domain.member.controller;
 
 
-import com.yangworld.app.commons.MailSender;
-import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.config.auth.PrincipalDetailsService;
-import com.yangworld.app.domain.attachment.entity.Attachment;
-import com.yangworld.app.domain.member.dto.*;
-import com.yangworld.app.domain.member.entity.Member;
-import com.yangworld.app.domain.member.service.MemberService;
-import com.yangworld.app.domain.profile.entity.ProfileDetails;
-import com.yangworld.app.domain.profile.service.ProfileService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +23,29 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import com.yangworld.app.commons.MailSender;
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.dto.FollowDto;
+import com.yangworld.app.domain.member.dto.SignUpDto;
+import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.service.ProfileService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Validated
 @Controller
@@ -50,6 +60,9 @@ public class MemberController {
 
     @Autowired
     private ProfileService profileService;
+    
+    @Autowired
+    private PhotoFeedService photoFeedService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -87,7 +100,13 @@ public class MemberController {
         model.addAttribute("principalName", member.getName());
         log.info("profile = {}", profile);
         log.info("profileAttachment = {}", profileAttachments);
+        
+		
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id); 
 
+		log.info("photoList={}", photoList);
+	    model.addAttribute("photoList", photoList);
+	    
 
         return "member/userPage";
     }

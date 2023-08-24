@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<jsp:include page ="/WEB-INF/views/common/header.jsp"></jsp:include>
+<jsp:include page ="/WEB-INF/views/common/header2.jsp"></jsp:include>
 <title>로그인</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -27,7 +27,7 @@
 </head>
 <body>
 
-	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top : 50px; ">
+	<div class="d-flex justify-content-center align-items-center" style = "min-width: 100vw; margin-top: 200px; ">
 
 	<form:form action="${pageContext.request.contextPath}/member/memberLogin.do"
 			   method="post">

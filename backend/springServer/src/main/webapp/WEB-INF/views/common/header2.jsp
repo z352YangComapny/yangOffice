@@ -22,6 +22,12 @@
    <!-- 사용자작성 css -->
 
 </head>
+<style>
+#loginContent {
+    margin-top: 50px;
+    height: 800px;
+}
+</style>
 <body>
 <div id="container">
    <header>
@@ -35,5 +41,5 @@
          </div>
       </nav>
 </header>
-   <section id="content">
+   <section id="loginContent">
 
