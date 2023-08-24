@@ -6,9 +6,10 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.data.repository.query.Param;
 
 import com.yangworld.app.domain.report.entity.Report;
+import com.yangworld.app.domain.report.entity.ReportCommentsFeed;
 import com.yangworld.app.domain.report.entity.ReportDm;
 import com.yangworld.app.domain.report.entity.ReportGuestBook;
-
+import com.yangworld.app.domain.report.entity.ReportPhotoFeed;
 import com.yangworld.app.domain.report.entity.ReportProfile;
 
 
@@ -34,6 +35,13 @@ public interface ReportRepository {
 
 	@Insert("insert into report_profile(report_id, profile_id) values(#{reportId}, #{profileId})")
 	int insertReportProfile(ReportProfile reportProfile);
+
+	@Insert("insert into report_photo_feed(report_id, photo_feed_id) values(#{reportId}, #{photoFeedId})")
+	int insertReportFeed(ReportPhotoFeed reportFeed);
+	
+	@Insert("insert into report_comments_feed(report_id, comments_id) values(#{reportId}, #{commentsId})")
+	int insertReportComments(ReportCommentsFeed reportCommentsFeed);
+
 
 
 }

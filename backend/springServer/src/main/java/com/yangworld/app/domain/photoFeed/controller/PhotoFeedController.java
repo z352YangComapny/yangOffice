@@ -91,11 +91,11 @@ public class PhotoFeedController {
         // 피드 조회
 		List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId); 
 		List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
-		
     	PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
 
         FeedDetails response = FeedDetails.builder()
                 .id(photoFeedId)
+                .writerId(writerId)
                 .content(photoFeed.getContent())
                 .build();
         Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
@@ -181,58 +181,47 @@ public class PhotoFeedController {
 
 	}
 	
-
-
-
 	
-	
-	
-	
-	@PostMapping("/feedDelete")
-	public ResponseEntity<?> deleteFeed(@RequestParam int feedId){
-//		DELETE FROM attachment_photo_feed WHERE photo_feed_id = [피드의 ID];
-//		DELETE FROM photo_feed WHERE id = [피드의 ID];
-//		DELETE FROM attachment
-//		WHERE id NOT IN (SELECT attachment_id FROM attachment_photo_feed);
+	@PostMapping("/feedDetails/feedDelete")
+	public String deleteFeed(@RequestParam int feedId){
 		
 		 int result = photoFeedService.deleteFeed(feedId);
 		
-		return ResponseEntity.ok().build();
+		 return "redirect:/";
 	}
 	
-	@PostMapping("/feedUpdate")
-	public ResponseEntity<?> updateFeed(
+	@PostMapping("/feedDetails/feedUpdate")
+	public String updateFeed(
 			@RequestParam int feedId,
 			@RequestParam String content
 			){
 		
 		int result = photoFeedService.updateFeed(feedId, content);
 		
-		return null;
+		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
 	
-	// 좋아요 넣기 
-	@PostMapping("/feedLikeUpdate")
-	public ResponseEntity<?> insertLike(
-			@RequestParam int photoFeedId,
-			@RequestParam int memberId
-			){
+	@PostMapping("/feedDetails/feedLikeUpdate")
+	public String feedLikeUpdate(
+			@RequestParam int feedId,
+			@RequestParam int memberId) {
 		
-		int result = photoFeedService.insertLike(photoFeedId, memberId);
-			
-		return null;
+		
+		log.info("feedId = {}", feedId);
+		log.info("memberId = {}", memberId);
+		
+		Like likeCount = photoFeedService.getLikeCount(feedId, memberId);
+		
+		if (likeCount != null) {
+	        photoFeedService.deleteLike(feedId, memberId);
+	    } else {
+	    	photoFeedService.insertLike(feedId, memberId);
+	    }
+		
+		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
 	
-	@PostMapping("/feedLikeDelete")
-	public ResponseEntity<?> deleteLike(
-			@RequestParam int photoFeedId,
-			@RequestParam int memberId
-			){
-		
-		int result = photoFeedService.deleteLike(photoFeedId, memberId);
-		
-		return null;
-	}
+
 	
 	
 	

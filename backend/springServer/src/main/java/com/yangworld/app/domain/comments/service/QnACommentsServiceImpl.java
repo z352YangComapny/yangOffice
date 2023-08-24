@@ -29,22 +29,7 @@ public class QnACommentsServiceImpl implements CommentsService{
 	@Autowired
 	CommentsRepository commentsRepository;
 
-	@Override
-	public int insertComment(PrincipalDetails principalDetails, CommentCreateDto commentCreateDto) {return 0;}
-	@Override
-	public int updateComment(PrincipalDetails principalDetails, CommentCreateDto commentUpdateDto) {return 0;}
-	@Override
-	public int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto) {return 0;}
-	@Override
-	public List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId) {return null;}
-	@Override
-	public int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId) {
-		return 0;
-	}
-	@Override
-	public int deleteComment(PrincipalDetails principalDetails, int photoFeedId, String comment) {
-		return 0;
-	}
+	
 	
 	
 	@Override
@@ -95,5 +80,36 @@ public class QnACommentsServiceImpl implements CommentsService{
 		return commentsRepository.deleteCommentQna(commentId);
 		
 	}
+	
+	
+	
+	
+	
+	@Override
+	public int deleteComment(int commentId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int updateComment(PrincipalDetails principalDetails, String newContent, int commentId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int insertComment(PrincipalDetails principalDetails, CommentCreateDto commentCreateDto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	
 }

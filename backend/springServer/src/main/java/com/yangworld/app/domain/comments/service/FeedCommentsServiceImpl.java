@@ -15,6 +15,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.dto.CommentCreateDto;
 import com.yangworld.app.domain.comments.dto.QnaCommentAllDto;
+import com.yangworld.app.domain.comments.dto.CommentUpdateDto;
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
@@ -30,37 +31,10 @@ public class FeedCommentsServiceImpl implements CommentsService{
 	private CommentsRepository commentsRepository;
 
 
-
-
-
 	@Override
-	public int insertComment(PrincipalDetails principalDetails, CommentCreateDto commentCreateDto) {
-	    int result = 0;
-	    
-	    int writerId = principalDetails.getId();
-	    String content = commentCreateDto.getContent();
-	    int photoFeedId = commentCreateDto.getPhotoFeed().getId();
-	    
-	    // 댓글 삽입
-	    result = commentsRepository.insertComment(writerId, content);
-	    
-	    if (result > 0) {
-	        // 댓글 피드 삽입
-	        int commentId = result; // 이전 삽입에서 얻은 댓글 아이디
-	        result = commentsRepository.insertCommentFeed(commentId, photoFeedId);
-	    }
-	    
-	    return result; 
-	}
-
-
-
-
-    @Override
     public List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId) {
     	
 		 List<CommentFeed> comments = commentsRepository.getCommentsByPhotoFeedId(photoFeedId);
-		 log.info("comments ={}",comments);
 		 
 		 List<CommentAllDto> commentList = new ArrayList<>();
 		 
@@ -74,7 +48,7 @@ public class FeedCommentsServiceImpl implements CommentsService{
 				 
 			 
 			 CommentAllDto commentAllDto = CommentAllDto.builder()
-					 .id(photoFeedId)
+					 .id(cmt.getId())
 					 .writerId(cmt.getWriterId())
 					 .content(cmt.getContent())
 					 .regDate(cmt.getRegDate())
@@ -86,20 +60,6 @@ public class FeedCommentsServiceImpl implements CommentsService{
     	 
         return commentList;
     }
-
-
-	@Override
-	public int updateComment(PrincipalDetails principalDetails, CommentCreateDto commentUpdateDto) {
-		int result = 0;
-		
-		int writerId = principalDetails.getId();
-		String content = commentUpdateDto.getContent();
-		
-		result = commentsRepository.updateComment(writerId, content);
-		
-		return result;
-	}
-
 	@Override
 	public int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId) {
 		
@@ -114,15 +74,12 @@ public class FeedCommentsServiceImpl implements CommentsService{
 		
 		return result;
 	}
-
-
 	@Override
-	public int deleteComment(PrincipalDetails principalDetails, int photoFeedId, String comment) {
+	public int deleteComment(int commentId) {
 		
 		int result = 0;
 		
-		int commentId = principalDetails.getId();
-		
+		log.info("commentId ={}", commentId);
 		result = commentsRepository.deleteComment(commentId);
 		
 		if(result > 0) {
@@ -131,54 +88,48 @@ public class FeedCommentsServiceImpl implements CommentsService{
 		
 		return result;
 	}
+	@Override
+	public int updateComment(PrincipalDetails principalDetails, String newContent, int commentId) {
 
+		int result = 0;
 
+		result = commentsRepository.updateComment(commentId, newContent); 
 
-
+		
+		return result;
+	}
 	
 	
 	
 	
 	
-	
-	
-	
+	@Override
+	public int insertComment(PrincipalDetails principalDetails, CommentCreateDto commentCreateDto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	@Override
 	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentCreateDto) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
-
 	@Override
 	public List<Comments> getCommentsByQuestionId(int questionId) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-
-	@Override
-	public int deleteComment(PrincipalDetails principalDetails, CommentCreateDto commentDeleteDto) {
-		return 0;
-	}
-
-
-
-
 	@Override
 	public int updateQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentAllDto) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
-
 	@Override
 	public int deleteQnaComment(int commentId) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 }
 
 

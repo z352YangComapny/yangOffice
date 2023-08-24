@@ -61,8 +61,11 @@ FROM comments c
 INNER JOIN comments_feed cf ON c.id = cf.comments_id
 WHERE cf.photo_feed_id = 2;
 
+select * from photo_feed;
 select * from comments_feed;
-
+select * from member;
+insert into likes values(25, 12);
+select * from likes;
 
 select 
     cm.*
@@ -95,6 +98,15 @@ select * from attachment_photo_feed;
 
 select c.id, c.writer_id, c.content, c.reg_date from comments_feed cf join comments c on cf.comments_id = c.id where cf.photo_feed_id = 2;
 
+delete from comments where ;
 
+select * from comments;
+
+select * from report_photo_feed;
+
+select * from comments;
+select  * from user_role_privs;
+select * from member ;
+select * from authorities;
 
 select * from comments;
