@@ -42,12 +42,12 @@ public class commentsController {
 
 
 	@Autowired
-//	@Qualifier("FeedCommentsServiceImpl")
+	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
 
 
 	@Autowired
-	@Qualifier("QnACommentsServiceImpl")
+//	@Qualifier("QnACommentsServiceImpl")
 	private CommentsService qnaCommentService;
 
 	@GetMapping("/getComments")
