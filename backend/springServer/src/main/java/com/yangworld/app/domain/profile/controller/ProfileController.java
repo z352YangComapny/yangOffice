@@ -61,10 +61,10 @@ public class ProfileController {
 	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
 	    
-	    log.info("principal = {} ", principal.getId());
+	    log.info("upPrincipalId = {} ", principal.getId());
 	    // 프로필 정보 가져오기
 	    ProfileDetails profile = profileService.getProfileByMemberId(memberId);
-	    
+	    log.info("profile = {}", profile);
 	    // 프로필 사진 가져오기
 	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 	   
@@ -151,13 +151,17 @@ public class ProfileController {
 	}
 	
 	@PostMapping("/update.do")
-	public ResponseEntity<?> update(
+	public String update(
 			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails principal,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model) 
 					throws IllegalStateException, IOException {
-		
+		 	int memberId = principal.getId();
+	    
+		    ProfileDetails profileId = profileService.getProfileByMemberId(memberId);
+		    log.info("profile = {}", profileId);
+		    
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) { 
@@ -175,16 +179,15 @@ public class ProfileController {
 			}
 		}
 		ProfileDetails profile = ProfileDetails.builder()
-				.id(_profile.getId())
+				.id(profileId.getId())
 				.memberId(principal.getId())
 				.state(_profile.getState())
 				.introduction(_profile.getIntroduction())
 				.attachments(attachments)
 				.build();
 		
-		log.info("_profile = {}", _profile);
-		log.info("principal = {}",principal); 
-		log.info("upFiles = {}", upFiles); 
+		log.info("profile = {}", profile);
+		log.info("principalId = {}",principal.getId()); 
 		
 		int result = profileService.updateProfile(profile);
 		log.debug("profile ={}", profile);
@@ -192,13 +195,7 @@ public class ProfileController {
 		
 		
 		model.addAttribute("profile", profile);
-		if (result > 0) {
-			
-			return ResponseEntity.ok().build();
-	    } else {
-	    	
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update profile");
-	    }
+		return "redirect:/";
 	}
 	
 	@PostMapping("/defaultcreate.do")

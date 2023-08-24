@@ -60,7 +60,7 @@
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
             ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/profile/update.do';">수정</button>
             	
             </div>
     </div>

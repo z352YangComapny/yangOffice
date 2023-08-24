@@ -2,6 +2,7 @@ package com.yangworld.app.domain.profile.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,16 +69,26 @@ public class ProfileServiceImpl implements ProfileService {
 	@Transactional
 	public int updateProfile(ProfileDetails profile) {
 	    int result = 0;
-
+	    int profileId = profile.getId();
+	    
+	    List<Attachment> profileAttachments = profileRepository.getAttachmentsByProfileId(profileId);
+		int attachId = profileAttachments.get(0).getId();
+	    
+	    
 	    result = profileRepository.updateProfile(profile);
 	    log.info("profileId={}", profile.getId());
-
+	    
+	    log.info("ProfileDetails={}", profile);
+	    log.info("profileId={}", profile.getId());
+	    
+	    profileRepository.getAttachmentsProfileByProfileId(profileId);
+	    log.info("attachId = {}", attachId);
 	    List<Attachment> attachments = ((ProfileDetails) profile).getAttachments();
 	    if (attachments != null && !attachments.isEmpty()) {
 	        for (Attachment attach : attachments) {
-	            attach.setId(profile.getId());
+	            attach.setId(attachId);
 	            result = profileRepository.updateAttachment(attach);
-	            log.info("profileId={}", profile.getId());
+	            log.info("profileId={}",attachId);
 	            log.info("attach = {}", attach);
 	            
 	            AttachmentProfile attachmentProfile = new AttachmentProfile();

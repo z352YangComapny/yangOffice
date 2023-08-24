@@ -18,6 +18,7 @@
         max-width: 350px; /* 최대 너비 */
         max-height: 350px; /* 최대 높이 */
     }
+   
 </style>
 <body>
        <div class="container mt-5" style="margin-left: 300px;">
@@ -37,7 +38,7 @@
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <img id="selectedImage" src="<c:url value='/resources/upload/profile/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+                            <img id="selectedImage" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
                         </c:otherwise>
                     </c:choose>
                     <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
@@ -68,7 +69,7 @@
                 <div class="row">
                     <div class="col-md-4">
                     	<br><br><br><br><br><br>
-                        <label for="introduction" style="font-size:17px;">소개글</label>
+                        <label for="introduction" style="font-size:17px;">간단 소개</label>
                     </div>
                     <div class="col-md-8">
                     	<br><br>
@@ -97,13 +98,13 @@ $(document).ready(function() {
             reader.readAsDataURL(selectedFile);
         } else {
             // 선택된 파일이 없을 때 기본 이미지 표시
-            $('#selectedImage').attr('src', '<c:url value="/resources/upload/profile/default.jpg" />');
+            $('#selectedImage').attr('src', '<c:url value="/resources/upload/attachment/default.jpg" />');
         }
     });
 
     $('#resetButton').click(function() {
         $('#upFile').val('');
-        $('#selectedImage').attr('src', '<c:url value="/resources/upload/profile/default.jpg" />');
+        $('#selectedImage').attr('src', '<c:url value="/resources/upload/attachment/default.jpg" />');
         $('input[name="state"][value="A"]').prop('checked', true);
         $('#introduction').val('안녕하세요.${pageContext.request.userPrincipal.name}입니다.');
     });
