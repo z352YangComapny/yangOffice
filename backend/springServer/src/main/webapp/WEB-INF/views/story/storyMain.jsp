@@ -59,7 +59,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="reportThisStoryReal();">신고</button>
-        <button type="button" class="btn btn-warning" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="reportModalHide();">닫기</button>
       </div>
     </div>
   </div>
@@ -91,6 +91,15 @@ const reportThisStoryReal = () => {
 	const reason = document.querySelector('.reportReason').value;
 	document.querySelector('#reportStoryReason').value = reason;
 	
+	if(!/^.{1,100}$/.test(reason)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
+	
 	document.querySelector('#reportStory').submit();
 };
+
+const reportModalHide = () => {
+	$('#reportModal').modal('hide');
+}
 </script>

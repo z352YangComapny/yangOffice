@@ -21,8 +21,6 @@ public interface PhotoFeedService {
 
 	PhotoFeed findById(int photoFeedId);
 
-	List<Like> getLikesCountByPhotoFeedId(int photoFeedId);
-
 	int insertLike(int photoFeedId, int memberId);
 
 	int deleteLike(int photoFeedId, int memberId);
@@ -33,6 +31,8 @@ public interface PhotoFeedService {
 	List<PhotoAttachmentFeedDto> selectFeed(int writerId);
 
 	Like getLikeCount(int feedId, int memberId);
+
+	int getLikeCountForFeed(int photoFeedId);
 
 
 	

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yangworld.app.commons.HelloSpringUtils;
+import com.yangworld.app.commons.FileUploadUtils;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
@@ -61,18 +61,6 @@ public class PhotoFeedController {
 	@Qualifier("FeedCommentsServiceImpl")
 	private CommentsService commentService;
 	
-	@GetMapping("/somePage")
-	public String somePage(Model model) {
-	    // 실제 값을 설정하여 모델에 추가
-	    String writer = "some_writer_value";
-	    int photoFeedId = 123; // 실제 값으로 변경
-
-	    model.addAttribute("writer", writer);
-	    model.addAttribute("photoFeedId", photoFeedId);
-
-	    return "your_html_page"; // 실제 페이지의 이름으로 변경
-	}
-
 
 	// 페이지 이동
 	@GetMapping("/feed/feedCreate.do")
@@ -81,31 +69,33 @@ public class PhotoFeedController {
 	// 피드 디테일
 	@GetMapping("/feed/feedDetail")
 	public void feedDetails(@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestParam int photoFeedId,
-			Model model) {
-		
-	
-		int writerId = principalDetails.getId();
-		
-		
-        // 피드 조회
-		List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId); 
-		List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
-    	PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+	        @RequestParam int photoFeedId,
+	        Model model) {
+	    int writerId = principalDetails.getId();
 
-        FeedDetails response = FeedDetails.builder()
-                .id(photoFeedId)
-                .writerId(writerId)
-                .content(photoFeed.getContent())
-                .build();
-        Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
-        log.info("commentList ={}",commentList);
-        
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("response", response);
-        model.addAttribute("photoDetail", photoDetail);
-        model.addAttribute("principalDetails", principalDetails);
+	    // 피드 조회
+	    List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId);
+	    log.info("photoDetail = {}", photoDetail);
+	    List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
+	    PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+
+	    int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
+
+	    FeedDetails response = FeedDetails.builder()
+	            .id(photoFeedId)
+	            .writerId(writerId)
+	            .likeCount(likeCount) 
+	            .content(photoFeed.getContent())
+	            .build();
+
+	    Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
+
+	    model.addAttribute("commentList", commentList);
+	    model.addAttribute("response", response);
+	    model.addAttribute("photoDetail", photoDetail);
+	    model.addAttribute("principalDetails", principalDetails);
 	}
+
 
 	
 	// 피드 만들기
@@ -113,22 +103,19 @@ public class PhotoFeedController {
 	public String peedCreate(
 			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
 	        BindingResult bindingResult,
-	        @AuthenticationPrincipal Member member,
+	        @AuthenticationPrincipal PrincipalDetails member,
 	        @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
 	        throws IllegalStateException, IOException {
 
 		
 		
-		if(member == null) {
-			return "forward:/index.jsp";
-		}
 		
 		List<Attachment> attachments = new ArrayList<>();
 		
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) { 
 				String originalFilename = upFile.getOriginalFilename(); 
-				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); 
+				String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename); 
 				File destFile = new File(renamedFilename); 
 				upFile.transferTo(destFile);
 				
@@ -151,44 +138,23 @@ public class PhotoFeedController {
 		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
-			return "redirect:/";
+
+			return "redirect:/member/userPage/" + member.getId();
+
 	    } else {
-	        // 생성 중 오류가 발생한 경우
 	        return "forward:/index.do";
 	    }
 	}
-	/**
-	 * 회원 조회
-	 */
-	@GetMapping("/userPage/{id}")
-	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
-	public String selectFeed(
-			@PathVariable("id") int id,
-			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
-			Model model
-			) {
-		
-		if (principalDetails == null) {
-	        return "forward:/index.jsp";  
-	    }
-		
-		int writerId = principalDetails.getId();
-		
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
 
-	    model.addAttribute("photoList", photoList);
-	    
-		return "forward:/index.jsp"; 
-
-	}
-	
 	
 	@PostMapping("/feedDetails/feedDelete")
-	public String deleteFeed(@RequestParam int feedId){
+	public String deleteFeed(
+			@RequestParam int feedId,
+			@AuthenticationPrincipal PrincipalDetails member){
 		
 		 int result = photoFeedService.deleteFeed(feedId);
 		
-		 return "redirect:/";
+		 return "redirect:/member/userPage/" + member.getId();
 	}
 	
 	@PostMapping("/feedDetails/feedUpdate")
