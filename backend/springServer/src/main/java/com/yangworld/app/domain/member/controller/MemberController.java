@@ -8,6 +8,8 @@ import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
 import com.yangworld.app.domain.profile.entity.State;
 import com.yangworld.app.domain.profile.service.ProfileService;
@@ -50,6 +52,9 @@ public class MemberController {
     private PrincipalDetailsService principalDetailsService;
 
     @Autowired
+    private PhotoFeedService photoFeedService; 
+    
+    @Autowired
     private ProfileService profileService;
 
     @Autowired
@@ -82,6 +87,11 @@ public class MemberController {
         if(profile !=null){
             // 프로필 사진 가져오기
             List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            
+            // 피드리스트 가져오기
+            List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
+
+    	    model.addAttribute("photoList", photoList);
             log.info("profileAttachments={}", profileAttachments);
             model.addAttribute("profile", profile);
             model.addAttribute("profileAttachments", profileAttachments);

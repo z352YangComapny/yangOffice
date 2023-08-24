@@ -117,14 +117,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        	// 검색 결과 id를 가지고 연결 테이블 검색
 	            List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());
 	            
-	            // list만들어주기
 	            List<Attachment> attachmentList = new ArrayList<>();
 	            
 	            
-	            // photoFeed에 attachmentPhotoDto 라는 List<AttachmentPhotoDto>에 1번째 검색결과 넣기
 	            photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
 	            
-//	            log.info("photo feed check: {}", photoFeed);
 	            
 	            for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
 	            	// 두번째 검색 결과를 받음
