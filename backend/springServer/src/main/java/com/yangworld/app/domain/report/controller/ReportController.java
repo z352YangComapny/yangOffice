@@ -179,13 +179,13 @@ public class ReportController {
 		int reportId = reportService.findLastReportId();
 		ReportStoryDto2 reportStory = ReportStoryDto2.builder()
 			.reportId(reportId)
-			.storyId(story.getStoryId()) // 값 안들어옴 수정해야함
+			.storyId(story.getStoryId())
 			.build();
 		log.info("reportStory = {}", reportStory);
 		reportService.insertReportStory2(reportStory);
 		
 		redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
-		return "redirect:/";
+		return "redirect:/member/userPage/" + story.getReporterId();
 	}
 	
 	

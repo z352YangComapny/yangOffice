@@ -3,6 +3,8 @@ package com.yangworld.app.domain.story.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,14 +45,14 @@ public class StoryController {
 	public void storyMain() {}
 
 	@PostMapping("/create")
-	public String create(StoryDto storyDto){
+	public String create(@Valid StoryDto storyDto){
 //		log.info("storyDto = {}", storyDto);
 		int result = storyService.createStory(storyDto);
 		return "redirect:/story/storyTap";
 	}
 	
 	@PostMapping("/update")
-	public String update(StoryMainDto storyDto){
+	public String update(@Valid StoryMainDto storyDto){
 //		log.info("storyDto = {}", storyDto);
 		int result = storyService.updateStory(storyDto);
 		return "redirect:/story/storyTap";
