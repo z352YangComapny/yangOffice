@@ -159,7 +159,8 @@ public class ReportController {
 		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
 	
-	
+	@PostMapping("/createStoryReport")
+	private String insertReportStory()
 	
 	
 }

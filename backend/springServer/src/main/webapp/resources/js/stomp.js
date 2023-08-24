@@ -111,6 +111,7 @@ const updateModal = (e) => {
 	document.querySelector('.storyProfileAttach').appendChild(imgElement);
 
 	document.querySelector('#currentCard').value = currentCardIndex;
+	document.querySelector('#currentWriter').value = writerId;
 };
 
 const clearModal = () => {
