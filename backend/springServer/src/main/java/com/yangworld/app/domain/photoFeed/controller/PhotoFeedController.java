@@ -160,9 +160,10 @@ public class PhotoFeedController {
 	/**
 	 * 회원 조회
 	 */
-	@GetMapping("/")
+	@GetMapping("/userPage/{id}")
 	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
 	public String selectFeed(
+			@PathVariable("id") int id,
 			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
 			Model model
 			) {
@@ -173,7 +174,7 @@ public class PhotoFeedController {
 		
 		int writerId = principalDetails.getId();
 		
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(writerId); 
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
 
 	    model.addAttribute("photoList", photoList);
 	    
