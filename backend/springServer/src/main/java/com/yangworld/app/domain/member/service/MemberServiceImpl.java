@@ -7,12 +7,14 @@ import com.yangworld.app.domain.member.entity.Authority;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -78,6 +80,34 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.resetPassword(newPassword, username);
     }
 
+    @Override
+    public List<Member> findAllMember() {
+//        int limit = (int)params.get("limit");
+//        int page = (int)params.get("page");
+//        int offset = (page-1)*limit;
+//
+//        RowBounds rowBounds = new RowBounds(offset,limit);
+
+
+        return memberRepository.findAllMember();
+    }
+
+    @Override
+    public List<Member> findMemberByText(String inputText) {
+
+//        int limit = (int)params.get("limit");
+//        int page = (int)params.get("page");
+//        int offset = (page-1)*limit;
+//
+//        RowBounds rowBounds = new RowBounds(offset,limit);
+
+        return memberRepository.findMemberByText(inputText);
+    }
+
+    @Override
+    public List<FollowDto> findFollowee(int id) {
+        return memberRepository.findFollowee(id);
+    }
 
 
 }

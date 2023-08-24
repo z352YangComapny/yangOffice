@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
 
 <fmt:requestEncoding value = "utf-8"/> <!-- 한글로 제목을 변경할 경우에는 인코딩이 깨질 수 있으니 해당 설정 잡아주기 -->
-<sec:authorize access="isAnonymous()">
 <jsp:include page ="/WEB-INF/views/common/header2.jsp">
     <jsp:param name = "title" value = "안녕 스프링"/>
 </jsp:include>
@@ -35,10 +34,7 @@
             <button type="button" class="index-button btn btn-primary mt-4" onclick="location.href='${pageContext.request.contextPath}/member/memberCreate.do';">
                 <span class="btn-index">회원가입</span></button>
         </div>
-
-
     </div>
-</sec:authorize>
 
 <sec:authorize access = "isAuthenticated()">
 <sec:authentication property="principal" var="dmMember"/>
@@ -57,7 +53,7 @@
             	 <a href="${pageContext.request.contextPath}/dm/dmList">
 			        <img src="${pageContext.request.contextPath}/resources/images/dm-pixel-logo.png" id="dm-image" alt="dm-img" style="width: 140px;"/>
 			    </a>
-            </div> 
+            </div>
             <div id="story"  class="flex-grow-1" style="height : 20vh; margin : 0;">
             	<a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton" style="color: MediumSeaGreen; font-size: 40px; font-family: 'Kalam', cursive; text-decoration: none;">Story</a>
             	<jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
@@ -70,6 +66,9 @@
             </div>
         </div>
     </div>
+</sec:authorize>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
     
 <script>
 <c:choose>
@@ -84,6 +83,6 @@
     </c:otherwise>
 </c:choose>
 </script>
-</sec:authorize>
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
+
