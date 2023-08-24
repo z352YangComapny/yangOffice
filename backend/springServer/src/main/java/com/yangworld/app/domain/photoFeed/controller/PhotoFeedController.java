@@ -136,37 +136,16 @@ public class PhotoFeedController {
 		int result = photoFeedService.insertFeed(feed);
 		
 		if (result > 0) {
+
 			return "redirect:/member/userPage" + member.getId();
+
+
+
 	    } else {
 	        return "forward:/index.do";
 	    }
 	}
-//	/**
-//	 * 회원 조회
-//	 */
-//	@GetMapping("/userPage/{id}")
-//	@PreAuthorize("isAuthenticated()") // 인증된 사용자만 접근 가능
-//	public String selectFeed(
-//			@PathVariable("id") int id,
-//			@AuthenticationPrincipal @Valid PrincipalDetails principalDetails,
-//			Model model
-//			) {
-//		
-//		if (principalDetails == null) {
-//	        return "forward:/index.jsp";  
-//	    }
-//		
-//		int writerId = principalDetails.getId();
-//		
-//		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
-//
-//	    model.addAttribute("photoList", photoList);
-//	    
-//		return "forward:/index.jsp"; 
-//
-//	}
 
-	
 	
 	@PostMapping("/feedDetails/feedDelete")
 	public String deleteFeed(@RequestParam int feedId){

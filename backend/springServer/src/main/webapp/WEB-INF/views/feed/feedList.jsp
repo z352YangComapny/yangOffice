@@ -56,7 +56,7 @@
 		                    <c:choose>
 		                        <c:when test="${not empty photo.attachments}">
 		                            <a href="${pageContext.request.contextPath}/feed/feedDetail?photoFeedId=${photo.id}">
-		                                <img src="${pageContext.request.contextPath}/resources/upload/attachment/feed/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image 1">
+		                                <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image 1">
 		                            </a>
 		                        </c:when>
 		                    </c:choose>
