@@ -38,10 +38,12 @@ public class StoryStompController {
 	    int id = Integer.parseInt(message.get("userId"));
 	    log.info("Received ID: {}", id);
 		List<StoryMainDto> stories = storyService.findStoryById(id);
-//		log.info("stories : {}", stories);
+		log.info("stories : {}", stories);
 		
-		List<AttachmentProfileDto> attachProf = storyService.findAttachProf(id);
-		log.info("attachProf = {}", attachProf);
+		List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(id);
+		log.info("attachProfs = {}", attachProfs);
+		
+		String attach = "default.png";
  		
 		List<Payload> payloads = new ArrayList<>();
 		for(StoryMainDto story : stories) {
@@ -51,9 +53,21 @@ public class StoryStompController {
 				    .from(username)
 				    .content(story.getContent())
 				    .createdAt(story.getRegDate())
-
 				    .build();
 			payloads.add(tmp);
+		}
+		for(Payload payload : payloads) {
+			int payloadId = storyService.findIdByUsername(payload.getFrom());
+			for(AttachmentProfileDto attachProf : attachProfs) {
+				if(payloadId == attachProf.getProfileId()) {
+					payload.setAttach(attachProf.getRenamedFilename());
+				}
+			}
+		}
+		for(Payload payload : payloads) {
+			if(payload.getAttach() == null) {
+				payload.setAttach(attach);
+			}
 		}
 //		log.info("payloads : {}", payloads);
 		return payloads;

@@ -40,4 +40,7 @@ public interface StoryRepository {
 
 	List<AttachmentProfileDto> findAttachProf(int id);
 	
+	@Select("select id from member where username = #{from}")
+	int findIdByUsername(String from);
+	
 }

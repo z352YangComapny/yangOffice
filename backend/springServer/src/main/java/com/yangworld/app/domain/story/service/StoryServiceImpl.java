@@ -51,4 +51,9 @@ public class StoryServiceImpl implements StoryService{
 	public List<AttachmentProfileDto> findAttachProf(int id) {
 		return storyRepository.findAttachProf(id);
 	}
+	
+	@Override
+	public int findIdByUsername(String from) {
+		return storyRepository.findIdByUsername(from);
+	}
 }

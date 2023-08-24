@@ -24,4 +24,6 @@ public interface StoryService {
 
 	List<AttachmentProfileDto> findAttachProf(int id);
 
+	int findIdByUsername(String from);
+
 }
