@@ -102,7 +102,7 @@ const updateModal = (e) => {
 	
 	const imgElement = document.createElement('img');
 	imgElement.id = 'storyModalProfile';
-	imgElement.src = `http://localhost:8080/resources/upload/attachment/profile/${storyAttach}`;
+	imgElement.src = `http://localhost:8080/resources/upload/attachment/${storyAttach}`;
 	
 	imgElement.style.maxWidth = '100px';
 	imgElement.style.height = 'auto';
