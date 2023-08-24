@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HelloSpringUtils {
+public class FileUploadUtils {
 
 	
 	public static String getRenameFilename(String originalFilename) {

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yangworld.app.commons.HelloSpringUtils;
+import com.yangworld.app.commons.FileUploadUtils;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
@@ -128,7 +128,7 @@ public class PhotoFeedController {
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) { 
 				String originalFilename = upFile.getOriginalFilename(); 
-				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); 
+				String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename); 
 				File destFile = new File(renamedFilename); 
 				upFile.transferTo(destFile);
 				
