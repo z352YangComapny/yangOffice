@@ -344,7 +344,6 @@ VALUES (seq_photo_feed_id.NEXTVAL, 9, 'Content 20', SYSDATE - INTERVAL '20' DAY)
 
 
 -- @attachment table 테이블 테스트 데이터
-
 BEGIN
     FOR i IN 1..10 LOOP
             -- 첫 번째 테스트 케이스
@@ -505,7 +504,6 @@ insert into follow (follower, followee) values (10, 11);
 --=============================================================================
 
 -- @follow table 테이블 테스트 데이터
-
 -- 프로필에 어태치먼트 연결
 insert into attachment_profile (attachment_id, profile_id) values (1, 1);
 insert into attachment_profile (attachment_id, profile_id) values (2, 2);
