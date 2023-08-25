@@ -63,17 +63,19 @@ const renderStory = (payloads) => {
 			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
 			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
 //			    console.log('nextCardIndex : ', nextCardIndex);
-			    	
-			    if (e.deltaY < 0){
+//			    console.log('beforeCardIndex : ', beforeCardIndex);
+			    if (event.deltaY < 0){
 			    	if (beforeCardIndex) {
 				    	const beforeCard = beforeCardIndex.closest('.card');
+//				    	console.log('beforeCard = ', beforeCard);
 				        updateModal(beforeCard);
 				    }else{
 				    	storyModal.modal('hide');
 				    }
-			    }else if (e.deltaY > 0){
+			    }else if (event.deltaY > 0){
 				    if (nextCardIndex) {
 				    	const nextCard = nextCardIndex.closest('.card');
+//				    	console.log('nextCard = ', nextCard);
 				        updateModal(nextCard);
 				    }else{
 				    	storyModal.modal('hide');
@@ -97,6 +99,8 @@ const updateModal = (e) => {
 	const storyCardId = e.querySelector('#storyCardId').value;
 
 //	console.log(storyAttach);
+	console.log('currentCardIndex = ', currentCardIndex);
+	console.log('storyCardId =', storyCardId);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
