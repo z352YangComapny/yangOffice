@@ -89,9 +89,6 @@ public class MemberController {
     @Autowired
     private MailSender mailSender;
 
-    @Autowired
-    private PhotoFeedService photoFeedService;
-
     @GetMapping("/memberLogin.do")
     public void memberLogin() {
     }
@@ -116,11 +113,11 @@ public class MemberController {
         ProfileDetails profile = profileService.getProfileByMemberId(id);
         log.info("profile={}", profile);
 
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id); 
-		
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
+        List<Attachment> profileAttachments =null;
         if(profile !=null){
             // 프로필 사진 가져오기
-            List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 
             // 피드리스트 가져오기
             
