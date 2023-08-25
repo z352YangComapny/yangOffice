@@ -77,7 +77,7 @@ from
 where
     pf.id = 2;    
 
-
+select * from member where id = 12;
 
 SELECT c.*
 FROM comments c

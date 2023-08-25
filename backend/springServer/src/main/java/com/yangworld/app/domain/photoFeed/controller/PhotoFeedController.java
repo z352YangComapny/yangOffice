@@ -71,25 +71,37 @@ public class PhotoFeedController {
 	public void feedDetails(@AuthenticationPrincipal PrincipalDetails principalDetails,
 	        @RequestParam int photoFeedId,
 	        Model model) {
+		
 	    int writerId = principalDetails.getId();
-
+	    
 	    // 피드 조회
+	    
+	    
 	    List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId);
+	    
 	    log.info("photoDetail = {}", photoDetail);
+	    
 	    List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
+	    
 	    PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
-
+	    
+	    
+	    Member member = memberService.findById(writerId);
+	    
+	    log.info("member = {}", member );
+	    
 	    int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
-
+	    
 	    FeedDetails response = FeedDetails.builder()
 	            .id(photoFeedId)
-	            .writerId(writerId)
+	            .writerId(photoFeed.getWriterId())
+	            .nickName(member.getNickname())
 	            .likeCount(likeCount) 
 	            .content(photoFeed.getContent())
 	            .build();
-
+	    
 	    Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
-
+	    
 	    model.addAttribute("commentList", commentList);
 	    model.addAttribute("response", response);
 	    model.addAttribute("photoDetail", photoDetail);
@@ -187,24 +199,6 @@ public class PhotoFeedController {
 		
 		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
-	
-
-	
-	
-	
-	
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

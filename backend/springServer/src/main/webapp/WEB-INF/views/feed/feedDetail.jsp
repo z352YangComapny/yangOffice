@@ -89,7 +89,11 @@
 	        
 	</c:if>
    <div class="content-box">
+   
+   <c:if test="${response.writerId eq principalDetails.id }">
     <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
+   </c:if>
+   
     <div class="feed-content">${response.content}</div>
    </div>
 
@@ -134,10 +138,10 @@
 				            <li class="list-group-item">
 				                <div class="d-flex justify-content-between">
 				                    <div class="comment-content" id="comment-${comment.id}">
-				                        ${comment.writerId} : <span class="comment-text">${comment.content}</span>
+				                        ${response.nickName} : <span class="comment-text">${comment.content}</span>
 				                    </div>
 				                    <div class="comment-info">
-				                    	<c:if test="${comment.writerId ne principalDetails.id}">
+				                    	<c:if test="${comment.writerId eq principalDetails.id}">
 				                    		<button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;" onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">🚨</button>
 				                    	</c:if>
 				                        <c:if test="${comment.writerId eq principalDetails.id}">
@@ -148,9 +152,11 @@
 				                                <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
 				                                <button type="submit" class="btn btn-secondary">삭제</button>
 				                            </form:form>
+			                            </c:if>
 				                            <!-- Edit button -->
-				                            <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">수정</button>
-				                        </c:if>
+			                            <c:if test="${comment.writerId eq principalDetails.id}">
+			                            	<button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">수정</button>
+			                        	</c:if>
 				                        ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
 				                    </div>
 				                </div>

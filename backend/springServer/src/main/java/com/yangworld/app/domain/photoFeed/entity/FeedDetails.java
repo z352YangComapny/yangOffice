@@ -20,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 public class FeedDetails extends PhotoFeed{
 
 	private Member member;
+	private String nickName;
 	private int attachCount;
 	private int likeCount;
 	private List<Comments> comments;
