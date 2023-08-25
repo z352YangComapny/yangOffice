@@ -197,15 +197,17 @@ create table report_comments_feed
     constraints f_rep_cmt_feed_comments_id foreign key (comments_id) references comments (id) on delete cascade
 );
 
-create table follow
-(
+create table follow(
+    id number,
     follower    number,
     followee    number,
-    reg_date    date default sysdate,
-    constraints p_follow_id primary key(follower, followee),
+    reg_date   date default sysdate,
+    constraints p_follow_id primary key(id),
+    constraints u_follow_follow unique (follower, followee),
     constraints f_follow_follower foreign key (follower) references member (id) on delete cascade,
     constraints f_follow_followee foreign key (followee) references member (id) on delete cascade
 );
+create sequence seq_follow_id;
 
 create table story
 (
@@ -349,13 +351,12 @@ create table chat(
   member_id number,
   chat_content varchar(4000) not null,
   send_date date default sysdate,
-  report_YN char(1),
+  report_YN char(1) default 'N',
   constraints p_chat_id primary key (id),
   constraints f_chat_member_id foreign key (member_id) references member(id),
   constraints c_chat_report_yn check(report_YN in('Y', 'N'))
 );
 create sequence seq_chat_id;
-
 create table report_chat(
   report_id number,
   chat_id number,

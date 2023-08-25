@@ -4,6 +4,7 @@ import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.entity.MemberDetails;
 
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,15 @@ public interface MemberService {
     int resetPassword(String newPassword, String username);
 
 
-    List<Member> findAllMember();
+    List<Member> findAllMember(Map<String, Object> params);
 
-    List<Member> findMemberByText(String inputText);
+    List<Member> findMemberByText(String inputText,  Map<String, Object> params);
 
     List<FollowDto> findFollowee(int id);
+
+    Member findMemberbyUsername(String username);
+
+    int findTotalMemberCount();
+
+    int findTotalMemberCountByInput(String inputText);
 }

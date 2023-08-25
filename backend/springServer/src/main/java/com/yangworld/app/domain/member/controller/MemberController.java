@@ -7,7 +7,10 @@ import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.attachment.entity.Attachment;
 import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.entity.MemberDetails;
 import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
 import com.yangworld.app.domain.profile.entity.State;
 import com.yangworld.app.domain.profile.service.ProfileService;
@@ -58,6 +61,9 @@ public class MemberController {
     @Autowired
     private MailSender mailSender;
 
+    @Autowired
+    private PhotoFeedService photoFeedService;
+
     @GetMapping("/memberLogin.do")
     public void memberLogin() {
     }
@@ -79,11 +85,14 @@ public class MemberController {
         // 프로필 정보 가져오기
         ProfileDetails profile = profileService.getProfileByMemberId(id);
         log.info("profile={}", profile);
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
+        List<Attachment> profileAttachments =null;
+
         if(profile !=null){
             // 프로필 사진 가져오기
-            List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-           // log.info("profileAttachments={}", profileAttachments);
-            model.addAttribute("profileAttachments", profileAttachments);
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            //log.info("profileAttachments={}", profileAttachments);
+
             //log.info("profile = {}", profile);
            // log.info("profileAttachment = {}", profileAttachments);
         } else{
@@ -93,6 +102,8 @@ public class MemberController {
                     .introduction("새롭게 작성해주세요")
                     .build();
         }
+       // log.info("profileAttachment={}", profileAttachments);
+        model.addAttribute("profileAttachments", profileAttachments);
         model.addAttribute("profile", profile);
         model.addAttribute("principalBday", member.getBirthday());
         model.addAttribute("principalName", member.getName());
@@ -114,7 +125,7 @@ public class MemberController {
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
-        redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
+        //redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
         return "profile/profileCreate";
     }
 
@@ -235,16 +246,21 @@ public class MemberController {
     }
 
     //follow 하기
-    @PostMapping("/follow")
-    public ResponseEntity<?> follow(@AuthenticationPrincipal PrincipalDetails principal,
-                                    @RequestBody FollowDto followDto) {
-        log.info("followDto = {}", followDto);
+    @PostMapping("/addFollowee")
+    public ResponseEntity<?>addFollowee(@AuthenticationPrincipal PrincipalDetails principal,
+                                    @RequestParam String memberId) {
+
+        Member member = memberService.findMemberbyUsername(memberId);
+
+        FollowDto followDto = new FollowDto();
         followDto.setFollower(principal.getId());
-        log.info("followDto={}", followDto);
+        followDto.setFollowee(member.getId());
+        log.info("followDto = {}", followDto);
+
 
         memberService.insertFollowee(followDto);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("msg", "follow 완료 되었습니다."));
     }
 
     //unfollow 하기
@@ -273,16 +289,25 @@ public class MemberController {
                                         @AuthenticationPrincipal PrincipalDetails principal) {
         //pagination
         Map<String, Object> params = Map.of("page", page, "limit", limit);
-        List<Member> memberList = null;
+        List<Member>  memberList = null;
+        int totalMemberCount = 0;
         if (inputText.equals("")) {
-            memberList = memberService.findAllMember();
+            memberList = memberService.findAllMember(params);
+            totalMemberCount = memberService.findTotalMemberCount();
            // log.info("memberList@no ={}", memberList);
+            log.info("totalMemberCount={}", totalMemberCount);
         } else {
-            memberList = memberService.findMemberByText(inputText);
+            memberList = memberService.findMemberByText(inputText, params);
+            totalMemberCount = memberService.findTotalMemberCountByInput(inputText);
+            log.info("totalMember@input={}", totalMemberCount);
            // log.info("memberList@input={}", memberList);
         }
         List<FollowDto> followList = memberService.findFollowee(principal.getId());
         //log.info("followeeList={}", followList);
-        return ResponseEntity.ok().body(Map.of("memberList", memberList,"followList", followList));
+        int principalId = principal.getId();
+        log.info("limit={}", limit);
+        int totalPages = (int)Math.ceil((double)totalMemberCount/limit);
+        log.info("totalPages={}", totalPages);
+        return ResponseEntity.ok().body(Map.of("memberList", memberList,"followList", followList, "principal", principalId, "totalPages", totalPages));
     }
 }
