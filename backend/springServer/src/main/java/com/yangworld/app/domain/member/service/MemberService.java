@@ -20,7 +20,7 @@ public interface MemberService {
     int deleteFollowee(FollowDto unfollow);
 
 	Member findById(int writerId);
-
+	
     Member findByNickname(String nickname);
 
     Member findByPhone(String phone);

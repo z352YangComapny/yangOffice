@@ -597,6 +597,37 @@ VALUES (seq_dm_id.NEXTVAL, 11, 9, '저도 좋아요!', 19, SYSDATE - DBMS_RANDOM
 INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
 VALUES (seq_dm_id.NEXTVAL, 11, 1, '안녕하세요! 만나서 반가워요~', 20, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
+----------------- chat 더미데이터 --------------------
+-- Chat 테이블에 더미 데이터 10개 생성
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 1, '더미 채팅 메시지 1', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 2, '더미 채팅 메시지 2', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 3, '더미 채팅 메시지 3', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 3, '더미 채팅 메시지 4', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 5, '더미 채팅 메시지 5', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 2, '더미 채팅 메시지 6', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 7, '더미 채팅 메시지 7', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 6, '더미 채팅 메시지 8', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 9, '더미 채팅 메시지 9', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 10, '더미 채팅 메시지 10', 'N');
 
 
 commit;

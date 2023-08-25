@@ -18,6 +18,7 @@
         max-width: 350px; /* 최대 너비 */
         max-height: 350px; /* 최대 높이 */
     }
+   
 </style>
 <body>
        <div class="container mt-5" style="margin-left: 300px;">
@@ -33,11 +34,12 @@
                     <c:choose>
                         <c:when test="${not empty profileAttachments}">
                             <c:forEach items="${profileAttachments}" var="attachment">
-                                <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+                            	<%-- <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${not empty profileAttachments ? profileAttachments[0].renamedFilename : 'default.jpg'}" alt="프로필 사진" style="width: 350px; height: 350px;"> --%>
+                                <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;"> 
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <img id="selectedImage" src="<c:url value='/resources/upload/profile/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+                            <img id="selectedImage" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
                         </c:otherwise>
                     </c:choose>
                     <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
@@ -68,7 +70,7 @@
                 <div class="row">
                     <div class="col-md-4">
                     	<br><br><br><br><br><br>
-                        <label for="introduction" style="font-size:17px;">소개글</label>
+                        <label for="introduction" style="font-size:17px;">간단 소개</label>
                     </div>
                     <div class="col-md-8">
                     	<br><br>
@@ -86,6 +88,8 @@
 
 <script>
 $(document).ready(function() {
+    var selectedImageChanged = false; // 이미지가 변경되었는지 여부
+
     // 파일 선택(input 변경) 이벤트 핸들러
     $('#upFile').on('change', function() {
         var selectedFile = this.files[0];
@@ -93,21 +97,42 @@ $(document).ready(function() {
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('#selectedImage').attr('src', e.target.result);
+                selectedImageChanged = true;
             };
             reader.readAsDataURL(selectedFile);
+            console.log(selectedFile);
         } else {
             // 선택된 파일이 없을 때 기본 이미지 표시
-            $('#selectedImage').attr('src', '<c:url value="/resources/upload/profile/default.jpg" />');
+            $('#selectedImage').attr('src', '<c:url value="/resources/upload/attachment/default.jpg" />');
+            selectedImageChanged = false;
         }
     });
 
     $('#resetButton').click(function() {
-        $('#upFile').val('');
-        $('#selectedImage').attr('src', '<c:url value="/resources/upload/profile/default.jpg" />');
-        $('input[name="state"][value="A"]').prop('checked', true);
-        $('#introduction').val('안녕하세요.${pageContext.request.userPrincipal.name}입니다.');
+        $('#upFile').val(''); // 파일 선택 input 초기화
+        $('#selectedImage').attr('src', '<c:url value="/resources/upload/attachment/default.jpg" />');
+        $('select[name="state"]').val('A');
+        $('#introduction').val('안녕하세요.${pageContext.request.userPrincipal.name}입니다.'); 
+        /* $("#upFile").append('<input type="hidden" name="default.jpg" value="default.jpg">'); */
+        
+        selectedImageChanged = false; // 이미지 초기화
+    });
+
+    // 수정 버튼 클릭 시
+    $('form[name="profileForm"]').submit(function(event) {
+        if (!selectedImageChanged) {
+            // 이미지가 변경되지 않았으면 기본 이미지 파일을 선택한 것으로 간주하여 FormData에 추가
+            var defaultImageBlob = new Blob(['default.jpg'], { type: 'image/jpeg' });
+            var formData = new FormData();
+            formData.append('upFile', defaultImageBlob, 'default.jpg');
+            $(this).append(formData);
+        }
     });
 });
+
+
+
+
 </script>
 
 
