@@ -42,7 +42,6 @@ public class NotificationServiceImpl implements NotificationService {
             String username = sender.getNickname();
             
             Payload payload = Payload.builder()
-                    .to(to)
                     .content(username + "님이 새로운 DM을 보냈습니다.")
                     .build();
 

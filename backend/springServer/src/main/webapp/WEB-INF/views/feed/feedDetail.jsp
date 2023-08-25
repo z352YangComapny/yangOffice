@@ -59,7 +59,7 @@
             <div class="carousel-inner">
                 <c:forEach items="${photoDetail}" var="photo" varStatus="status">
                     <div class="carousel-item ${status.first ? 'active' : ''}">
-                        <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.attachments[0].renamedFilename}" class="d-block" alt="Image ${status.index + 1}">
+                        <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.renamedFilename}" class="d-block" alt="Image ${status.index + 1}">
                     </div>
                 </c:forEach>
             </div>
@@ -99,17 +99,15 @@
 	    <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
 	</div>
 	<form:form action="${pageContext.request.contextPath}/feedDetails/feedLikeUpdate" method="post">
-	    <input type="hidden" name="feedId" value="${response.id}">
-	    <input type="hidden" name="memberId" value="${principalDetails.id}">
-	    <button type="submit">
-	        <img id="likes" src="${context.request.contextPage}/resources/images/like.png">
-	        <c:forEach items="${photoDetail}" var="photo" varStatus="status">
-				<!-- 각 photo 객체에서 좋아요 수와 댓글 수를 가져옴 -->
-				<div>좋아요 수: ${photo.likeCount}</div>
-			</c:forEach>
-	        
-	    </button>
-	</form:form>
+    <input type="hidden" name="feedId" value="${response.id}">
+    <input type="hidden" name="memberId" value="${principalDetails.id}">
+    <button type="submit">
+        <img id="likes" src="${pageContext.request.contextPath}/resources/images/like.png">
+        <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
+        <div>좋아요 수: ${response.likeCount}</div>
+    </button>
+</form:form>
+
 </div>
 <hr style="border: 3px">
 		<!-- 댓글 작성 폼 시작 -->

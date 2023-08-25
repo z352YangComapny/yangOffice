@@ -89,6 +89,11 @@ public interface ProfileRepository {
 
 
 
+	@Select("select * from attachment_profile where profile_id = #{profileId}")
+	ProfileDetails getAttachmentsProfileByProfileId(@Param("profileId") int profileId);
+
+
+
 	
 	
 	

@@ -1,11 +1,28 @@
 package com.yangworld.app.domain.member.controller;
 
 
+
+import com.yangworld.app.commons.MailSender;
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.dto.*;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
+import com.yangworld.app.domain.profile.service.ProfileService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,11 +77,11 @@ public class MemberController {
     private PrincipalDetailsService principalDetailsService;
 
     @Autowired
-    private ProfileService profileService;
+    private PhotoFeedService photoFeedService; 
     
     @Autowired
-    private PhotoFeedService photoFeedService;
-
+    private ProfileService profileService;
+    
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -85,7 +102,9 @@ public class MemberController {
     }
 
     @GetMapping("/userPage/{id}")
-    public String userPage(@PathVariable("id") int id, Model model) {
+    public String userPage(
+		@AuthenticationPrincipal PrincipalDetails principal,
+		@PathVariable("id") int id, Model model) {
         Member member = memberService.findById(id);
         log.info("member@Home={}", member);
         model.addAttribute("member", member);
@@ -98,10 +117,21 @@ public class MemberController {
         if(profile !=null){
             // 프로필 사진 가져오기
             List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-           // log.info("profileAttachments={}", profileAttachments);
+
+            
+            // 피드리스트 가져오기
+            
+    	    model.addAttribute("photoList", photoList);
+            log.info("profileAttachments={}", profileAttachments);
+            model.addAttribute("profile", profile);
             model.addAttribute("profileAttachments", profileAttachments);
-            //log.info("profile = {}", profile);
-           // log.info("profileAttachment = {}", profileAttachments);
+            model.addAttribute("principalBday", member.getBirthday());
+            model.addAttribute("principalName", member.getName());
+            model.addAttribute("PrincipalDetails", principal);
+            log.info("profile = {}", profile);
+            log.info("profileAttachment = {}", profileAttachments);
+
+
         } else{
             profile = ProfileDetails.builder()
                     .attachments(null)
