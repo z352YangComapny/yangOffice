@@ -29,6 +29,7 @@ public interface CommentsService {
 	int insertComment(PrincipalDetails principalDetails,  CommentCreateDto commentCreateDto);
 	
 	List<CommentAllDto> getCommentsByPhotoFeedId(int photoFeedId);
+	
 	int insertComment(PrincipalDetails principalDetails, String comment, int photoFeedId);
 
 	int deleteComment(int commentId);

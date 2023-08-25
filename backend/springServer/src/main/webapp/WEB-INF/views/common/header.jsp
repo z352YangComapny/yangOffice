@@ -90,6 +90,7 @@
             <div class="collapse navbar-collapse d-flex justify-content-evenly" id="navbarColor01">
                <div>
                   <ul class="navbar-nav me-auto">
+
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">Home</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatList.do">월드에 놀러가기</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>

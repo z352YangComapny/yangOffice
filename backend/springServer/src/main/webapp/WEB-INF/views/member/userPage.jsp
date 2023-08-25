@@ -25,6 +25,7 @@
                 </div>
             </div>
             <div id="story"  class="flex-grow-1" style="height : 20vh; margin : 0;">
+            	<a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton" style="color: MediumSeaGreen; font-size: 40px; font-family: 'Kalam', cursive; text-decoration: none;">Story</a>
                 <jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
             </div>
             <div id="photoFeed" class="flex-grow-1" style="border: 1px solid #000; height: 40vh; margin : 0;">
@@ -50,4 +51,5 @@
     console.log("로그인되지 않았습니다. DM 알림을 구독하지 않습니다.");
     </c:otherwise>
     </c:choose>
+    
 </script>

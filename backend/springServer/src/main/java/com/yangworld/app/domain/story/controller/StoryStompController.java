@@ -53,6 +53,7 @@ public class StoryStompController {
 				    .from(username)
 				    .content(story.getContent())
 				    .createdAt(story.getRegDate())
+				    .id(story.getId())
 				    .build();
 			payloads.add(tmp);
 		}

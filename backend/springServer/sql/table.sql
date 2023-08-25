@@ -84,14 +84,6 @@ create table attachment_profile
     constraints   f_att_profile_attachment_id foreign key (attachment_id) references attachment(id) on delete cascade,
     constraints   f_att_profile_profile_id foreign key (profile_id) references profile (id) on delete cascade
 );
-select * from attachment_profile;
-select renamed_filename from attachment where id = (select attachment_id from attachment_profile);
--- 나와 내가 팔로우한 사람들
-select writer_id from story where writer_id = 1 union select s.writer_id from story s join follow f on s.writer_id = f.followee where f.follower = 1;
--- 나와 내가 팔로우한 사람들의 attachmentId
-select * from attachment_profile where profile_id in (select writer_id from story where writer_id = 1 union select s.writer_id from story s join follow f on s.writer_id = f.followee where f.follower = 1);
--- 나와 내가 팔로우한 사람들의 attachment
-select p.profile_id, a.original_filename, a.renamed_filename from attachment a right join attachment_profile p on a.id = p.attachment_id  where a.id in (select attachment_id from (select * from attachment_profile where profile_id in (select writer_id from story where writer_id = #{id} union select s.writer_id from story s join follow f on s.writer_id = f.followee where f.follower = #{id})));
 
 create table dm_room
 (
@@ -368,3 +360,4 @@ create table report_chat(
 select * from chat;
 select * from report_chat;
 commit;
+

@@ -24,11 +24,9 @@
 <div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header storyModalWriterId">
-        <h5 class="modal-title" id="storyModalTitle"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-header">
+        <h5 class="modal-title storyModalWriterId" id="storyModalTitle"></h5>
+        <button class="btn btn-sm btn-outline-secondary" style="flex: start-end;" onclick="reportThisStory();">🚨</button>
       </div>
       <div class="modal-body">
 		<div class="container-fluid">
@@ -45,8 +43,35 @@
   </div>
 </div>
 
-<input type='hidden' id='userId' value='${loginMember.id}' />
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="border: 1px solid red;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color: red;">신고하기</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label" style="color: red;">신고 사유</label>
+            <textarea class="form-control reportReason" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="reportThisStoryReal();">신고</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="reportModalHide();">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <input type='hidden' id='currentCard' value=""/>
+<form:form id="reportStory" action="${pageContext.request.contextPath}/report/createStoryReport" method="POST">
+<input type='hidden' id='userId' name='reporterId' value='${loginMember.id}' />
+<input type='hidden' id='reportStoryId' name='storyId' value=""/>
+<input type="hidden" id="currentWriter" name='reportedName' value=""/>
+<input type="hidden" id="reportStoryReason" name='content' value=""/>
+</form:form>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -57,4 +82,24 @@ document.querySelector('#storyMainUpdate').addEventListener('wheel', (e) => {
     document.querySelector('#storyMainUpdate').scrollLeft += e.deltaY; 
 });
 
+const reportThisStory = () => {
+	$('#storyModal').modal('hide');
+	$('#reportModal').modal('show');
+};
+
+const reportThisStoryReal = () => {
+	const reason = document.querySelector('.reportReason').value;
+	document.querySelector('#reportStoryReason').value = reason;
+	
+	if(!/^.{1,100}$/.test(reason)){
+		alert('글자 수는 1 - 100글자 사이입니다');
+		return false;
+	}
+	
+	document.querySelector('#reportStory').submit();
+};
+
+const reportModalHide = () => {
+	$('#reportModal').modal('hide');
+}
 </script>

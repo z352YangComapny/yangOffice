@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.member.controller;
 
 
+
 import com.yangworld.app.commons.MailSender;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.config.auth.PrincipalDetailsService;
@@ -16,6 +17,14 @@ import com.yangworld.app.domain.profile.entity.State;
 import com.yangworld.app.domain.profile.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +41,30 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import com.yangworld.app.commons.MailSender;
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.dto.FollowDto;
+import com.yangworld.app.domain.member.dto.SignUpDto;
+import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
+import com.yangworld.app.domain.profile.service.ProfileService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Validated
 @Controller
@@ -53,8 +78,11 @@ public class MemberController {
     private PrincipalDetailsService principalDetailsService;
 
     @Autowired
+    private PhotoFeedService photoFeedService; 
+    
+    @Autowired
     private ProfileService profileService;
-
+    
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -78,23 +106,34 @@ public class MemberController {
     }
 
     @GetMapping("/userPage/{id}")
-    public String userPage(@PathVariable("id") int id, Model model) {
+    public String userPage(
+		@AuthenticationPrincipal PrincipalDetails principal,
+		@PathVariable("id") int id, Model model) {
         Member member = memberService.findById(id);
         log.info("member@Home={}", member);
         model.addAttribute("member", member);
         // 프로필 정보 가져오기
         ProfileDetails profile = profileService.getProfileByMemberId(id);
         log.info("profile={}", profile);
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
-        List<Attachment> profileAttachments =null;
 
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id); 
+		
         if(profile !=null){
             // 프로필 사진 가져오기
-            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-            //log.info("profileAttachments={}", profileAttachments);
+            List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 
-            //log.info("profile = {}", profile);
-           // log.info("profileAttachment = {}", profileAttachments);
+            // 피드리스트 가져오기
+            
+    	    model.addAttribute("photoList", photoList);
+            log.info("profileAttachments={}", profileAttachments);
+            model.addAttribute("profile", profile);
+            model.addAttribute("profileAttachments", profileAttachments);
+            model.addAttribute("principalBday", member.getBirthday());
+            model.addAttribute("principalName", member.getName());
+            model.addAttribute("PrincipalDetails", principal);
+            log.info("profile = {}", profile);
+            log.info("profileAttachment = {}", profileAttachments);
+
         } else{
             profile = ProfileDetails.builder()
                     .attachments(null)
@@ -108,6 +147,9 @@ public class MemberController {
         model.addAttribute("principalBday", member.getBirthday());
         model.addAttribute("principalName", member.getName());
 
+		log.info("photoList={}", photoList);
+	    model.addAttribute("photoList", photoList);
+	    
 
         return "member/userPage";
     }

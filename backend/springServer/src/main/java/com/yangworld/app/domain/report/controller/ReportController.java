@@ -14,8 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.report.dto.ReportCreateDto;
+import com.yangworld.app.domain.report.dto.ReportStoryDto;
+import com.yangworld.app.domain.report.dto.ReportStoryDto2;
 import com.yangworld.app.domain.report.entity.Report;
 import com.yangworld.app.domain.report.service.ReportService;
+import com.yangworld.app.domain.story.service.StoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +29,9 @@ public class ReportController {
 	
 	@Autowired
 	private ReportService reportService;
+	
+	@Autowired
+	private StoryService storyService;
 	
 	// insert 하실때 .insertReport 사용하시면 insert 됩니다. !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
@@ -159,7 +165,28 @@ public class ReportController {
 		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
 	}
 	
-	
+	@PostMapping("/createStoryReport")
+	private String insertReportStory(ReportStoryDto story, RedirectAttributes redirectAttributes) {
+		log.info("story = {}", story);
+		int reportedId = storyService.findIdByUsername(story.getReportedName());
+		Report report = Report.builder()
+			.reporterId(story.getReporterId())
+			.reportedId(reportedId)
+			.content(story.getContent())
+			.build();
+		log.info("report = {}", report);
+		reportService.insertReportStory(report);
+		int reportId = reportService.findLastReportId();
+		ReportStoryDto2 reportStory = ReportStoryDto2.builder()
+			.reportId(reportId)
+			.storyId(story.getStoryId())
+			.build();
+		log.info("reportStory = {}", reportStory);
+		reportService.insertReportStory2(reportStory);
+		
+		redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
+		return "redirect:/member/userPage/" + story.getReporterId();
+	}
 	
 	
 }
