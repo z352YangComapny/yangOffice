@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 
+import com.yangworld.app.domain.chat.dto.ChatListDto;
 import com.yangworld.app.domain.chat.entity.Chat;
 
 @Mapper
@@ -23,7 +24,10 @@ public interface ChatRepository {
 	int sendChat(Chat chat);
 
 	@Select("SELECT * FROM CHAT")
-	List<Chat> findChatList();
+	List<ChatListDto> findChatList();
+
+	@Select("SELECT username FROM member WHERE id=#{memberId}")
+	String findById(int memberId);
 
 	
 }

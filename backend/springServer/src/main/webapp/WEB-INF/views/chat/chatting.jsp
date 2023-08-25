@@ -31,142 +31,30 @@
                     </div> <!--  카드바디 끝 !  -->
 
                     <!--  dm 전송 인풋 시작 -->
-                    <form:form id="sendChatForm" action="${pageContext.request.contextPath}/chat/sendChat" method="post">
+                    <form id="sendChatForm">
                         <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
                             <div class="input-group mb-0">
-                                <input type="text" id="messageInput" name="chatContent" class="form-control"
+                                <input type="text" id="messageInput" class="form-control"
                                        placeholder="메세지를 입력하세요." aria-label="Recipient's username"
-                                       aria-describedby="button-addon2" path="chatContent"/>
-                                <button class="btn btn-secondary" type="submit" id="button-addon2"
+                                       aria-describedby="button-addon2"/>
+                                <button class="btn btn-secondary" type="button" id="sendButton"
                                         style="padding-top: .55rem;">전송
                                 </button>
                             </div>
                         </div>
-                    </form:form>
+                    </form>
                 </div>
             </div>
         </div>
 </section>
 <script>
-
-<c:choose>
-<c:when test="${not empty dmMember}">
-    const memberId = ${dmMember.id}; // 인증된 멤버의 ID를 가져옵니다.
-    document.addEventListener('DOMContentLoaded', () => {
-    	console.log("챗연결함니다");
-    	loadDmDetails();
-        ChatConnect(memberId);
-    });
-</c:when>
-<c:otherwise>
-console.log("로그인되지 않았습니다. Chat을 구독하지 않습니다.");
-</c:otherwise>
-</c:choose>
-
-    // Helper function to format date
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const options = {year: '2-digit', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric'};
-        return date.toLocaleString('en-US', options);
-    }
-
-    $(document).ready(function () {
-        // 페이지 로딩 시 dmDetails 데이터 받아오기
-
-    });
-    
-    function showButton(container) {
-        const button = container.querySelector('.btn');
-        button.classList.remove('d-none');
-    }
-
-    function hideButton(container) {
-        const button = container.querySelector('.btn');
-        button.classList.add('d-none'); 
-    }
-
-
-function loadDmDetails() {
-        const url = '${pageContext.request.contextPath}/chat/chatting';
-
-        $.ajax({
-            url: url,
-            method: 'GET',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-            },
-            dataType: "json",
-            success: function (data) {
-                const chatContainer = document.getElementById('chat-div');
-
-                // Clear existing content
-                chatContainer.innerHTML = '';
-
-                // Loop through the data and generate HTML
-                data.forEach(chat => {
-                    const chatDiv = document.createElement('div');
-                    if (chat.memberId != id) {
-                        console.log("왼짝")
-                        // If the receiver ID is not the logged-in user, place on the left
-                        chatDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
-                        chatDiv.innerHTML = `
-					            <img src="${pageContext.request.contextPath}/resources/upload/attachment/profile/\${dm.renamedFileName}"
-					                 alt="avatar 1" style="width: 45px; height: 100%;">
-					            <div class="d-flex flex-column">
-					                	<p style="font-size : 14px; margin-bottom:5px; font-weight: bold; margin-left: 10px">\${chat.memberId}</p>
-					                <div class="d-flex align-items-center" onmouseover="showButton(this)" onmouseout="hideButton(this)">
-					                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
-					                        \${chat.chatContent}
-					                    </p>
-					                    <button class="btn btn-sm btn-light d-none btn-toggle" style="margin-left: 10px; font-size:20px;"  onclick="goReport(\${dm.id}, \${dm.senderId});">🚨</button>
-					                </div>
-					                <p class="small ms-3 mb-3 rounded-3 text-muted">\${formatDate(chat.sendDate)}</p>
-					            </div>
-					        `;
-					        
-                    } else {
-                        console.log("오른짝")
-                        // If the receiver ID is the logged-in user, place on the right
-                        chatDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
-                        chatDiv.innerHTML = `
-			            <div>
-			                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">\${dm.content}</p>
-			                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">\${formatDate(dm.regDate)}</p>
-			            </div>
-			        `;
-                    }
-
-                    chatContainer.appendChild(chatDiv);
-                });
-                scrollToBottom(chatContainer);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-    function scrollToBottom(element) {
-        element.scrollTop = element.scrollHeight;
-    }
-
+document.addEventListener('DOMContentLoaded', () => {
+	ChatConnect();
+});
+  
+  
     function goReport(chatId, reportedId) {
         fetch("${pageContext.request.contextPath}/report/createDmReport?dmId=" + dmId + "&reportedId=" + reportedId)
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = response.url;
-                } else {
-                    console.error("Failed to fetch");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    }
-
-
-    function goBack() {
-        fetch("${pageContext.request.contextPath}/dm/dmList")
             .then(response => {
                 if (response.ok) {
                     window.location.href = response.url;

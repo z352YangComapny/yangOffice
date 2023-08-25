@@ -54,23 +54,6 @@ public class NotificationServiceImpl implements NotificationService {
         return 0;
 	}
 	
-	@Override
-	public int sendChat(Chat chat) {
-	    int to = chat.getMemberId();
-	    
-	    LocalDateTime currentLocalDateTime = LocalDateTime.now();
-	    
-	    Payload payload = Payload.builder()
-	            .to(to)
-	            .content("새로운 채팅 메세지가 도착했습니다.")
-	            .createdAt(currentLocalDateTime)
-	            .build();
-	    
-	    simpMessagingTemplate.convertAndSend("/chat/chatting/" + to, payload);
-	    
-	    return 0;
-	}
-
 
 
 }

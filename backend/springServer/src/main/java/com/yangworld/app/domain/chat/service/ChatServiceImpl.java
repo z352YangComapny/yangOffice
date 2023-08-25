@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yangworld.app.domain.chat.dto.ChatListDto;
 import com.yangworld.app.domain.chat.entity.Chat;
 import com.yangworld.app.domain.chat.repository.ChatRepository;
 
@@ -22,8 +23,13 @@ public class ChatServiceImpl implements ChatService{
 	}
 	
 	@Override
-	public List<Chat> findChatList() {
+	public List<ChatListDto> findChatList() {
 		return chatRepository.findChatList();
+	}
+	
+	@Override
+	public String findById(int memberId) {
+		return chatRepository.findById(memberId);
 	}
 	
 }

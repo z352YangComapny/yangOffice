@@ -7,6 +7,5 @@ public interface NotificationService {
 
 	int notifySendDm(Dm msg);
 
-	int sendChat(Chat chat);
 	
 }
