@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useContext, useState } from "react";
 // nodejs library that concatenates strings
 import classnames from "classnames";
 // reactstrap components
@@ -29,11 +29,31 @@ import {
   NavLink,
   Nav,
   Container,
+  Input,
 } from "reactstrap";
+import '../../assets/css/style.css'
+import { MemberContext } from "contexts/MembetContextProvider";
+import { useNavigate } from "react-router-dom";
 
 function IndexNavbar() {
+  const {
+    states: {
+      isLogin,
+      userProfile
+    },
+    actions: {
+      setUserProfile,
+      setIsLogin,
+      LogOut,
+      signin
+    },
+  } = useContext(MemberContext)
+
+
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
@@ -67,11 +87,9 @@ function IndexNavbar() {
         <div className="navbar-translate">
           <NavbarBrand
             data-placement="bottom"
-            href="/index"
-            target="_blank"
-            title="Coded by Creative Tim"
+            href="/"
           >
-            Paper Kit React
+            Yang World
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
@@ -90,27 +108,31 @@ function IndexNavbar() {
           navbar
           isOpen={navbarCollapse}
         >
+          {isLogin? 
           <Nav navbar>
+            
             <NavItem>
               <NavLink
                 data-placement="bottom"
                 href="https://twitter.com/CreativeTim?ref=creativetim"
                 target="_blank"
-                title="Follow us on Twitter"
+                title="내 정보 보기"
               >
-                <i className="fa fa-twitter" />
-                <p className="d-lg-none">Twitter</p>
+                <i className="fa nc-icon nc-circle-10" />
+                <p style={{fontSize:"14px", fontStyle:"italic"}}>username</p>
+                {/* <p className="d-lg-none">내 정보 보기</p> */}
               </NavLink>
             </NavItem>
+             
             <NavItem>
               <NavLink
                 data-placement="bottom"
                 href="https://www.facebook.com/CreativeTim?ref=creativetim"
                 target="_blank"
-                title="Like us on Facebook"
+                title="내 피드 보기"
               >
-                <i className="fa fa-facebook-square" />
-                <p className="d-lg-none">Facebook</p>
+                <i className="fa nc-icon nc-layout-11" />
+                <p className="d-lg-none">내 피드 보기</p>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -118,10 +140,10 @@ function IndexNavbar() {
                 data-placement="bottom"
                 href="https://www.instagram.com/CreativeTimOfficial?ref=creativetim"
                 target="_blank"
-                title="Follow us on Instagram"
+                title="World 접속하기"
               >
-                <i className="fa fa-instagram" />
-                <p className="d-lg-none">Instagram</p>
+                <i className="fa nc-icon nc-world-2" />
+                <p className="d-lg-none">World 접속하기</p>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -129,31 +151,65 @@ function IndexNavbar() {
                 data-placement="bottom"
                 href="https://www.github.com/CreativeTimOfficial/paper-kit-react?ref=creativetim"
                 target="_blank"
-                title="Star on GitHub"
+                title="DM"
               >
-                <i className="fa fa-github" />
-                <p className="d-lg-none">GitHub</p>
+                <i className="fa nc-icon nc-chat-33" />
+                <p className="d-lg-none">DM</p>
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                href="https://demos.creative-tim.com/paper-kit-react/#/documentation?ref=pkr-index-navbar"
+                data-placement="bottom"
+                href="https://www.github.com/CreativeTimOfficial/paper-kit-react?ref=creativetim"
                 target="_blank"
+                title="알림"
               >
-                <i className="nc-icon nc-book-bookmark" /> Documentation
+                <i className="fa nc-icon nc-bell-55" />
+                <p className="d-lg-none">알림</p>
               </NavLink>
             </NavItem>
+            <NavItem>
+              <div className="sreach-container">
+                <Input className="memberSearchBar" placeholder="검색 할 회원 정보 "></Input>
+                <Button
+                className="btn-round"
+                color="warning"
+                href="https://www.creative-tim.com/product/paper-kit-pro-react?ref=pkr-index-navbar"
+                target="_blank"
+              > <i className="nc-icon nc-zoom-split" /></Button>
+              </div>
+            </NavItem>
+
+
+
+            
             <NavItem>
               <Button
                 className="btn-round"
                 color="danger"
                 href="https://www.creative-tim.com/product/paper-kit-pro-react?ref=pkr-index-navbar"
                 target="_blank"
+                style={{marginLeft:"10px"}}
               >
-                <i className="nc-icon nc-spaceship"></i> Upgrade to Pro
+                <i className="nc-icon nc-spaceship" style={{marginRight:"10px"}}></i> LogOut
               </Button>
             </NavItem>
           </Nav>
+          : 
+          <Nav navbar>
+          <NavItem>
+          <Button
+            className="btn-round"
+            color="danger"
+            target="_blank"
+            style={{marginLeft:"10px"}}
+            onClick={()=>{navigate('/signin')}}
+          >
+            <i className="nc-icon nc-spaceship" style={{marginRight:"10px"}}></i> LogIn
+          </Button>
+        </NavItem>
+        </Nav>
+          }
         </Collapse>
       </Container>
     </Navbar>

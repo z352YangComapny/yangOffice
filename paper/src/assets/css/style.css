@@ -1,0 +1,60 @@
+.sreach-container{
+    display: flex;
+}
+
+.memberSearchBar{
+    margin-top: 15px;
+    margin-right: 10px;
+    height: 10px;
+    width: 13vw;
+}
+
+.yangMain{
+    min-height: 70vh;
+}
+
+.signInFrm{
+    border: 2px solid white;
+    display: flex;
+    font-family: 'Orbit', sans-serif;
+}
+.signInFrmDetail{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255, 0.15);
+    
+    color: white;
+    width: 45vw;
+}
+.signInLeft{
+    width: 25vw;
+    background-color: rgba(255, 103, 32, 0.5);
+    padding: 10px;
+    border-right: solid 2px rgb(255, 255, 255);
+}
+.signInFrmInputs{
+    width: 90%;
+}
+.TermsOfUse{
+    max-height: 350px; /* 적절한 높이 설정 */
+    overflow-y: scroll;
+    border: 1px solid #cccccc;
+    padding: 10px;
+}
+
+.signInLeft * {
+    color: white;
+}
+
+.proccess{
+    list-style-type: none;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.proccess li {
+    display: inline; /* 항목을 인라인으로 표시 */
+    margin-right: 60px; /* 항목 사이의 간격 설정 */
+  }
