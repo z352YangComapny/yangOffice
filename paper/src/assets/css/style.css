@@ -16,7 +16,9 @@
 .signInFrm{
     border: 2px solid white;
     display: flex;
-    font-family: 'Orbit', sans-serif;
+    /* font-family: 'Orbit', sans-serif; */
+    font-family: 'Dongle', sans-serif;
+    border-radius: 12px;
 }
 .signInFrmDetail{
     display: flex;

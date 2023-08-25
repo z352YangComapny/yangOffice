@@ -127,7 +127,7 @@ import Check_box_outline_blank from "components/Icons/icons/check_box_outline_bl
 function SignUp() {
     const [isSignIn, setIsSignIn] = useState(false)
     const [hasError, setHasError] = useState("아이디를 입력해주세요.")
-    const [procedure, setProcedure] = useState(1)
+    const [procedure, setProcedure] = useState(2)
 
     const handleChangeSignUpFrm = (e) => {
         e.preventDefault();
@@ -166,7 +166,6 @@ function SignUp() {
             case 3:
                 return (
                     <ul className="proccess">
-                        <li><i className="fa nc-icon nc-minimal-left" onClick={() => { setProcedure(2) }} /></li>
                         <li style={{ color: "#11ff11" }}><Check_box width={25} height={25} />필수정보 입력</li>
                         <li style={{ color: "#11ff11" }}><Check_box width={25} height={25} />선택정보 입력</li>
                         <li style={{ textDecoration: "underline" }}><Check_box_outline_blank width={25} height={25} />프로필 입력</li>
