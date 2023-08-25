@@ -23,6 +23,7 @@ export default class Game extends Scene {
         this.otherPlayerMap = new Map();
         this.playerTexture = 'adam'
         this.network = new Network(this.userProfile.username);
+        this.dialogueBubble=null;
 
     }
 
@@ -120,6 +121,11 @@ export default class Game extends Scene {
         if (this.myPlayer) {
             this.myPlayer.update()
             this.handleNotifications();
+
+
+            this.dialogueBubble = this.registry.get("bubble")
+            if(this.dialogueBubble.length>0)
+                this.handleMyDialogueBubble();
         }
     }
 
@@ -134,7 +140,7 @@ export default class Game extends Scene {
                     break;
                 case "chat":
                     console.log(notification.message);
-
+                    this.handleOhterPlayerBubble(notification.message)
                     break;
                 case "position":
                     console.log(notification.message);
@@ -154,6 +160,27 @@ export default class Game extends Scene {
             }
         }
     }
+
+    handleOhterPlayerBubble(message){
+        console.log(message)
+        const text = message.text
+        const name = text.split(' ')[0];
+        if(name === this.myPlayer.name) return;
+        this.otherPlayerMap.get(name).updateDialogBubble(text)
+    }
+
+    handleMyDialogueBubble(){
+        while(this.dialogueBubble.length>0)
+        {
+            const textVal = this.dialogueBubble.shift();
+            
+            this.myPlayer.updateDialogBubble(textVal);
+            this.network.handleSendChatMsg(textVal);
+            
+            this.registry.set('bubble',this.dialogueBubble);
+        }
+    }
+
     handleLeavePlayer(leavePlayer){
         if (this.otherPlayerMap.has(leavePlayer.name)) {
             const leavingPlayer = this.otherPlayerMap.get(leavePlayer.name);

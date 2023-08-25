@@ -6,6 +6,7 @@ class UI extends Phaser.Scene {
         this.userPofile = window.userProfile;
         delete window.userProfile;
         this.network = null;
+        this.dialogueBubbleText=[];
     }
 
     create() {
@@ -47,7 +48,7 @@ class UI extends Phaser.Scene {
         this.notificationText.setVisible(false);
 
 
-
+        this.registry.set('bubble', this.dialogueBubbleText);
     }
 
     update() {
@@ -69,10 +70,18 @@ class UI extends Phaser.Scene {
                 case "leaveNotification":
                     this.showNotification(notification, 3500, '떠나셨습니다.');
                     break;
+                case "chat":
+                    this.handleOtherPlayerLog(notification.message)
+                    break;
                 default:
                     break;
             }
         }
+    }
+
+    handleOtherPlayerLog({msgType,text}){
+        if(text.split(' ')[0] !== this.userPofile.username)
+        this.addToChatLog(text)
     }
 
     showNotification(message, duration, mode) {
@@ -92,12 +101,12 @@ class UI extends Phaser.Scene {
         if(event.key == 'Enter'){
         // 외부 HTML 입력 요소의 값 가져와서 채팅 로그에 추가
         const inputValue = this.externalInputElement.value;
+        const textValue = this.userPofile.username+" : "+inputValue;
 
-        this.addToChatLog(this.userPofile.username+" : "+inputValue);
-        // 입력값 초기화
+        this.addToChatLog(textValue);
+        this.dialogueBubbleText.push(textValue);
         this.externalInputElement.value = '';
 
-        // 이벤트 전파 중지
         event.preventDefault();
         }
     }

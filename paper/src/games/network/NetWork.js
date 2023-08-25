@@ -40,13 +40,10 @@ class Network {
     }
     handleSocketMessage(event) {
         const message = JSON.parse(event.data);
-        if (message.msgType === "joinNotification") {
-            this.uiEnqueueNotification(message)
-
-        } else if (message.msgType === "leaveNotification") {
+        if (message.msgType === "joinNotification"||message.msgType === "leaveNotification"||message.msgType === "chat") {
             this.uiEnqueueNotification(message);
         }
-        this.mainEnqueueNotification(message)
+        this.mainEnqueueNotification(message);
     }
 
     mainEnqueueNotification(message) {
@@ -56,6 +53,13 @@ class Network {
         this.uiNotification.push({ message });
     }
 
+    handleSendChatMsg(message){
+        const msg = {
+            msgType:"chat",
+            text:message
+        }
+        this.socket.send(JSON.stringify(msg))
+    }
 
 
     updatePlayer(x, y, animkey, name) {

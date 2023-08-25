@@ -49,6 +49,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
 
         log.info("loginDto = {} ",loginDto);
+
         if((loginDto.getUsername().startsWith("user")||loginDto.getUsername().startsWith("admin")) && loginDto.getPassword().equals("1234"))
             memberRepository.updatePassword(loginDto.getUsername(), passwordEncoder.encode("1234"));
 

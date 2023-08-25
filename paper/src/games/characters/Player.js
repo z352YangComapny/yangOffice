@@ -9,6 +9,7 @@ const sittingShiftData = {
 
   class Player extends Phaser.Physics.Arcade.Sprite{
     // , frame
+    timeoutID
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
     
@@ -65,6 +66,10 @@ const sittingShiftData = {
         this.timeoutID = window.setTimeout(() => {
           this.clearDialogBubble();
         }, 5000);
+    }
+    clearDialogBubble() {
+      clearTimeout(this.timeoutID)
+      this.playerDialogBubble.removeAll(true)
     }
   }
   export default Player;

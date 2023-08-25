@@ -40,7 +40,8 @@ const GameComponent = () => {
         }
     }
     const handleKeyDown = (event) => {
-        if (event.keyCode === 38 || event.keyCode === 40 || event.keyCode === 13 || event.keyCode === 32)
+        // || event.keyCode === 32
+        if (event.keyCode === 38 || event.keyCode === 40 || event.keyCode === 13 )
             event.preventDefault();
     }
     
@@ -71,7 +72,7 @@ const GameComponent = () => {
             <div className="game-container" ref={gameContainerRef}>
             
             </div>
-            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"1120px"}}></Input>
+            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"1105px"}}></Input>
             <Button onClick={handleOnClickSocket} style={{margin:"20px"}}>Online 접속하기</Button>
         </>
     );
