@@ -48,6 +48,7 @@ public class StoryStompController {
 		List<Payload> payloads = new ArrayList<>();
 		for(StoryMainDto story : stories) {
 			String username = storyService.findMemberUsername(story.getWriterId());
+//			log.info("username = {}", username);
 			Payload tmp = Payload.builder()
 				    .type(PayloadType.STORY)
 				    .from(username)
