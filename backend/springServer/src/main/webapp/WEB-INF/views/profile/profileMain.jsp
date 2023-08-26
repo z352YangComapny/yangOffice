@@ -13,7 +13,6 @@
         max-height: 300px; /* 최대 높이 */
     }
     
-    /* 박스 스타일 설정 */
     .profile-box {
         border: 2px solid #ccc;
         padding: 10px;
