@@ -13,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
@@ -30,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/guestbook")
+@RequestMapping("/member/userPage/{id}/guestbook")
 public class GuestbookController {
 		
 	@Autowired
@@ -40,15 +42,17 @@ public class GuestbookController {
 	public String guestBookCreate(
 			@Valid GuestBookCreateDto guestBook,
 			BindingResult bindingResult,
+			RedirectAttributes redirectAttr,
+			@PathVariable int id,
 			@AuthenticationPrincipal PrincipalDetails member
 			) {
 //		if (member == null) {
 //	        return "redirect:/member/memberLogin.do";
 //	    }
 		
-		log.info("memberid={}",member.getId());
+		log.info("memberid={}",id);
 		//GuestBook guestBook = _guestBook.guestBook();
-		guestBook.setMemberId(member.getId());
+		guestBook.setMemberId(id);
 	
 		log.info("guestBook={}",guestBook);
 		guestBook.setWriterId(member.getId());
@@ -56,7 +60,8 @@ public class GuestbookController {
 		log.info("guestbook={}", guestBook.getWriterId());
 		
 		int result = guestBookService.insertGuestBook(guestBook);
-		return "redirect:/guestbook/guestbook.do";
+		redirectAttr.addFlashAttribute("msg","방명록을 성공적으로 등록하였습니다");
+		return "redirect:member/userPage/{id}/guestbook";
 	}
 	
 	@PostMapping("/delete.do")
@@ -79,7 +84,7 @@ public class GuestbookController {
 		log.info("delete={}",delete);
 		int result = guestBookService.deleteGuestBook(delete);
 		log.info("result={}",result);
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg","댓글이 성공적으로 삭제되었습니다.","result", result));
 	}
 	
 	@PostMapping("/update.do")
@@ -101,13 +106,14 @@ public class GuestbookController {
 		int result = guestBookService.updateGuestBook(updateDto);
 		
 		log.info("result={}",result);
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg","댓글이 성공적으로 수정되었습니다.","result", result));
 	}
 	
-	@GetMapping("/guestbook.do")
-	public void guestBookList(
+	@GetMapping("/guestbook")
+	public String guestBookList(
 			@RequestParam(defaultValue = "1") int page,
 			@AuthenticationPrincipal Member member,
+			@PathVariable int id,
 			Model model
 			){
 		int limit = 5;
@@ -131,5 +137,6 @@ public class GuestbookController {
 		model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
 	
+	    return "redirect:member/userPage/{id}/guestbook";
 	}
 }

@@ -15,12 +15,21 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <br><br>
 <div id="guestbook-container">
 <h6>✨방명록 남기기✨</h6>
-	<form:form action="${pageContext.request.contextPath}/guestbook/create.do" class="form-inline" method="post">
-		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;
+	<form:form action="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/create.do" class="form-inline" method="post">
 		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
-	<br><br>
+	<br>
+	<div class="d-flex flex-row">
+		<div style="width:100px;">
+			<select class="form-control" name="writerOption" id="writerOption" >
+				<option>전체</option>
+				<option>내가 쓴 글</option>
+				<option>남이 쓴 글</option>
+			</select>
+		</div>
+	</div>
+	<br>
 	<table class="table">
 		<thead>
 			<tr>
@@ -42,7 +51,8 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						<td>${guestbook.id}</td>
 						<td>${guestbook.nickname}</td>
 						<td id="originalContent">${guestbook.content}</td>
-						<td>${guestbook.regDate}</td>
+						 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
+				         <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 						<td>
 						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
 						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}">수정</button>
@@ -104,7 +114,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/guestbook/guestbook.do?page=${pageStatus.index}">${pageStatus.index}</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook.do?page=${pageStatus.index}">${pageStatus.index}</a>
                     </li>
                 </c:otherwise>
             </c:choose>

@@ -32,7 +32,7 @@
                 <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
             </div>
             <div class="d-flex justify-content-end align-content-center flex-grow-1" style="height: 10vh; margin : 0;">
-                <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/guestbook/guestbook.do';">Guests Book</button>
+                <button type="button" class="btn btn-primary mt-4 mb-4" style="width:500px; height : 50px;" onclick="location.href='${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook';">Guests Book</button>
             </div>
         </div>
     </div>
