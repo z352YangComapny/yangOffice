@@ -51,4 +51,5 @@
     console.log("로그인되지 않았습니다. DM 알림을 구독하지 않습니다.");
     </c:otherwise>
     </c:choose>
+    
 </script>

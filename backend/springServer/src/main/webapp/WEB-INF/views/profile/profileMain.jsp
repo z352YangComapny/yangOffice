@@ -40,7 +40,7 @@
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" class="preview-image rounded-circle" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+		                    <img id="selectedImage" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
