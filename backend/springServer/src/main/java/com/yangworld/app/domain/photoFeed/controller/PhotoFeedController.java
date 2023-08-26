@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-//@RequestMapping("/feed")
+@RequestMapping("/feed")
 public class PhotoFeedController {
 	
 	@Autowired
