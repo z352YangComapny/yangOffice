@@ -1,11 +1,11 @@
-import MainLayout from 'Layouts/MainLayout'
+
 import IndexHeader from 'components/Headers/IndexHeader'
-import Home from 'components/common/Home'
+import MainLayout from 'layouts/MainLayout'
 import SignIn from 'pages/SignIn'
-import SignUp from 'pages/SignUp'
+import UserPage from 'pages/UserPage'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import RegisterPage from 'views/examples/RegisterPage'
+import Index from 'views/Index'
 
 const RouterComponent = () => {
   return (
@@ -13,7 +13,10 @@ const RouterComponent = () => {
         <Route path="/" element={<MainLayout/>}>
           <Route path='' element={<IndexHeader/>}/>
           <Route path='signin' element={<SignIn/>}/>
-          <Route path='signup' element={<SignUp/>}/>
+          <Route path='/docs' element={<Index/>}/>
+          <Route path='/user/:id' element={<UserPage/>}>
+
+          </Route>
         </Route>
       </Routes>
   )

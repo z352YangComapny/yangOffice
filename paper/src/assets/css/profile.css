@@ -1,0 +1,40 @@
+.line{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(0, 0, 0 , 0.5);
+  }
+
+  .profile-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .nickname{
+    font-size: 3.5vh;
+    text-align: center;
+  }
+  .state{
+    display: flex;
+    margin: 15px;
+    min-height: 30px;
+    
+    justify-content: center;
+  }
+  .introduction{
+    border: 1px solid black;
+    border-radius: 1vw;
+    padding: 1vw;
+    min-height: 200px;
+    font-size: 20px;
+  }
+  
+.profile-img{
+    border: 1px solid rgb(0, 0, 0 , 0.9);
+    border-radius: 30% !important;
+    width: 75%;
+    height: 75%;
+    max-width: 300px;
+    max-height: 300px;
+}
+  

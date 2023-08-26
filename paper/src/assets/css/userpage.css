@@ -1,0 +1,43 @@
+/* 스타일을 적용할 최상위 부모 클래스 */
+.user-body {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  /* user-content 영역에 적용할 클래스 */
+  .user-content {
+    width: 1313px !important;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto; /* 가로 스크롤 표시 */
+  }
+  
+  /* user-blank 영역에 적용할 클래스 */
+  .user-blank {
+    height: 9vh;
+  }
+  
+  .user-left{
+    /* background-color: rgba(0, 0, 255, 0.1); */
+    min-height: 100%;
+  }
+  .user-right{
+    /* background-color: rgba(255, 0, 0, 0.1); */
+    min-height: 100%;
+  }
+
+  .profile-card-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+

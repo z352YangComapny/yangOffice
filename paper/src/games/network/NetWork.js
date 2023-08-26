@@ -1,7 +1,7 @@
 class Network {
     constructor(name, notification) {
         this.name = name;
-        this.token = localStorage.getItem('token');
+        this.token = sessionStorage.getItem('token');
         this.socket = new WebSocket("ws://localhost:7070/ws");
         this.socket.onopen = this.handleSocketOpen.bind(this);
         this.socket.onclose = this.handleSocketClose.bind(this);

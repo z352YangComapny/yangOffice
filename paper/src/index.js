@@ -9,16 +9,21 @@ import "assets/demo/demo.css";
 import reportWebVitals from './reportWebVitals';
 import MembetContextProvider from 'contexts/MembetContextProvider';
 import { BrowserRouter } from 'react-router-dom';
+import NotificationContextProvider from 'contexts/NotificationContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
-    <MembetContextProvider>
-    <App />
-    </MembetContextProvider>
+      <NotificationContextProvider>
+        <MembetContextProvider>
+
+          <App />
+
+        </MembetContextProvider>
+      </NotificationContextProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

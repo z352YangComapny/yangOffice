@@ -1,0 +1,78 @@
+
+
+@keyframes rollAndFade {
+    0% {
+      transform: translateY(33%);
+      opacity: 1;
+    }
+    25% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-33%);
+      opacity: 1;
+    }
+  }
+
+  .story-btns{
+    display: flex;
+    justify-content: end;
+    padding: 12px;
+  }
+
+  .add-btn{
+    margin-left: 15px;
+  }
+  
+  .story-card-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75%;
+    margin-left: 2%;
+    width: 90%;
+    height: 80%;
+    animation: rollAndFade 3.8s infinite;
+    transform-origin: center bottom;
+    transform: translateY(33%);
+    opacity: 1;
+    position: absolute;
+    /* box-shadow: 3px 3px 6px rgb(0, 0, 0 , 0.5) !important; */
+  }
+
+  .story-text {
+    margin-top: 15px;
+    margin-left: 20px;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .story-modal{
+    display: flex;
+    justify-content: center;
+    height: 225px;
+  }
+
+  .story-create{
+    flex: auto;
+  }
+
+  .story-create-header{
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .story-btn{
+    width: 30%;
+    opacity: 0.5;
+  }
+  .story-create-body{
+    margin-left: 5%;
+    width: 90%;
+    display: flex;
+    justify-self: center;
+  }

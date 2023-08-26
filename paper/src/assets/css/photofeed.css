@@ -1,0 +1,12 @@
+.feed-detail{
+    border-right: 2px rgb(0, 0, 0, 0.5) solid;
+}
+
+.feed-total{
+    /* min-height: 100%; */
+}
+
+.feed{
+    padding : 1%;
+    min-height: 98%;
+}
