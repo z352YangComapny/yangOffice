@@ -45,11 +45,12 @@
 
 <div class="container">
     <h1>피드</h1>
-	 <c:forEach items="${photoList}" var="photo">
-	    <c:if test="${photo.writerId eq principal.id}">
-	        <a href="${pageContext.request.contextPath}/feed/feedCreate.do" class="btn btn-primary">피드작성하기</a>
-	    </c:if>
-	</c:forEach>
+
+		<c:forEach items="${photoList}" var="photo">
+		    <c:if test="${photo.writerId ne principal.id}">
+		            <a href="${pageContext.request.contextPath}/feed/feedCreate.do" class="btn btn-primary">피드작성하기</a>
+	        </c:if>
+		</c:forEach>
 
     <sec:authorize access="isAuthenticated()">
        <c:choose>
