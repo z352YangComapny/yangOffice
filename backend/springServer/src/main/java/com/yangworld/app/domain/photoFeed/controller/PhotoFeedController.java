@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-//@RequestMapping("/member/userPage")
+@RequestMapping("/member/userPage/{id}")
 public class PhotoFeedController {
 	
 	@Autowired
@@ -63,39 +63,34 @@ public class PhotoFeedController {
 	
 
 	// 페이지 이동
-	@GetMapping("/feed/feedCreate.do")
-	public void feedCreate() {}
+	@GetMapping("/feedCreate")
+	public String feedCreate(@PathVariable("id") int id,
+			Model model) {
+		model.addAttribute("id",id);
+		return "feed/feedCreate";
+	}
 	
-	// 피드 디테일
 	@GetMapping("/feed/feedDetail")
-	public void feedDetails(@AuthenticationPrincipal PrincipalDetails principalDetails,
+	public String feedDetails(
+			@PathVariable("id") int id,
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
 	        @RequestParam int photoFeedId,
 	        Model model) {
 		
 	    int writerId = principalDetails.getId();
 	    
 	    // 피드 조회
-	    
-	    
 	    List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId);
-	    
-	    log.info("photoDetail = {}", photoDetail);
 	    
 	    List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
 	    
 	    PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
-	    
-	    
-	    Member member = memberService.findById(writerId);
-	    
-	    log.info("member = {}", member );
 	    
 	    int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
 	    
 	    FeedDetails response = FeedDetails.builder()
 	            .id(photoFeedId)
 	            .writerId(photoFeed.getWriterId())
-	            .nickName(member.getNickname())
 	            .likeCount(likeCount) 
 	            .content(photoFeed.getContent())
 	            .build();
@@ -106,12 +101,13 @@ public class PhotoFeedController {
 	    model.addAttribute("response", response);
 	    model.addAttribute("photoDetail", photoDetail);
 	    model.addAttribute("principalDetails", principalDetails);
+	    return "feed/feedDetail";
 	}
 
 
 	
 	// 피드 만들기
-	@PostMapping("/feedCreated.do")
+	@PostMapping("/feedCreated")
 	public String peedCreate(
 			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
 	        BindingResult bindingResult,

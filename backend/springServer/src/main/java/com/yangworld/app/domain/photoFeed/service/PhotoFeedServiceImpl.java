@@ -23,15 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class PhotoFeedServiceImpl implements PhotoFeedService{
 	
 	@Autowired
 	private PhotoFeedRepository photoFeedRepository;
-
+	
 	@Autowired
 	private CommentsRepository commentsRepository;
+	
 	@Override
-	@Transactional
 	public int insertFeed(FeedDetails feed) {
 		int result = 0;
 		
@@ -70,8 +71,6 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        throw new IllegalArgumentException("피드 ID가 유효하지 않습니다.");
 	    }
 	    // 피드 디테일 조회
-	    // 단 한번 조회 시발
-	    // 그리고 얘가 조회 결과가 두개여도 마지막 한개만 조회한 결과를 줌 그래서 향for를 돌려야하는데 어떻게 하면 좋을까  
 	    List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
 	    
 	    // 몇장 있는지 조회

@@ -138,7 +138,7 @@
 				            <li class="list-group-item">
 				                <div class="d-flex justify-content-between">
 				                    <div class="comment-content" id="comment-${comment.id}">
-				                        ${response.nickName} : <span class="comment-text">${comment.content}</span>
+				                        ${comment.nickName} : <span class="comment-text">${comment.content}</span>
 				                    </div>
 				                    <div class="comment-info">
 				                    	<c:if test="${comment.writerId eq principalDetails.id}">

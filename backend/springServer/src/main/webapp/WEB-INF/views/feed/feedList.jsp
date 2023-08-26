@@ -45,12 +45,9 @@
 
 <div class="container">
     <h1>피드</h1>
-
-		<c:forEach items="${photoList}" var="photo">
-		    <c:if test="${photo.writerId ne principal.id}">
-		            <a href="${pageContext.request.contextPath}/feed/feedCreate.do" class="btn btn-primary">피드작성하기</a>
+		    <c:if test="${id eq PrincipalDetails.id}">
+		            <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate" class="btn btn-primary">피드작성하기</a>
 	        </c:if>
-		</c:forEach>
 
     <sec:authorize access="isAuthenticated()">
        <c:choose>
@@ -60,7 +57,7 @@
 		                <div class="feed-item">
 		                    <c:choose>
 		                        <c:when test="${not empty photo.attachments}">
-		                            <a href="${pageContext.request.contextPath}/feed/feedDetail?photoFeedId=${photo.id}">
+		                            <a href="${pageContext.request.contextPath}/member/userPage/${photo.writerId}/feed/feedDetail?photoFeedId=${photo.id}">
 		                                <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.attachments[0].renamedFilename}" class="feed-img" alt="Image 1">
 		                            </a>
 		                        </c:when>
