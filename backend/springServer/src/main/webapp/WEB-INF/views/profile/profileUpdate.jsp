@@ -81,6 +81,7 @@
                         <br><hr style="border-top: 5px solid silver; margin-right: -330px;">
             </div>
         </div>
+        
         <button type="submit" class="btn btn-primary">수정</button>
         <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
     </form:form>
@@ -100,7 +101,8 @@ $(document).ready(function() {
                 xhr.setRequestHeader("X-CSRF-TOKEN", "${_csrf.token}");
             },
             success: function(data) {
-				alert("초기화 되었습니다.");                
+				alert("초기화 되었습니다.");
+				location.reload();
             },
             error: function(error) {
                 console.error('Error during profile reset:', error);

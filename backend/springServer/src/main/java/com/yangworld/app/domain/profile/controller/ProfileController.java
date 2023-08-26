@@ -72,8 +72,7 @@ public class ProfileController {
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
-	    log.info("profile = {}", profile);
-	    log.info("profileAttachment = {}",profileAttachments);
+	    
 	    
 	    return "/profile/profileUpdate";
 	    
@@ -95,10 +94,15 @@ public class ProfileController {
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
 	    model.addAttribute("principalGender", principal.getGender());
-//	    log.info("profile = {}", profile);
+	    model.addAttribute("principalId", principal.getId());
+	    model.addAttribute("profileId", profile.getId());
+	    log.info("profile = {}", profile);
+	    log.info("principalId ={}", principal.getId());
 //	    log.info("profileAttachment = {}",profileAttachments);
 	    
+	    
 	    return "forward:/index.jsp";
+
 	}
 
 
@@ -155,7 +159,6 @@ public class ProfileController {
 	    @Valid ProfileDto _profile,
 	    BindingResult bindingResult,
 	    @AuthenticationPrincipal PrincipalDetails principal,
-	    @RequestParam(value = "defaultImageChanged", defaultValue = "false") boolean defaultImageChanged,
 	    @RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model
 	) throws IllegalStateException, IOException {
 	    int memberId = principal.getId();
@@ -165,14 +168,7 @@ public class ProfileController {
 	    log.info("upfiles = {}", upFiles);
 	    
 	    List<Attachment> attachments = new ArrayList<>();
-	    if (defaultImageChanged) {
-	        Attachment defaultAttachment = Attachment.builder()
-	            .originalFilename("default.jpg")
-	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
-	            .build();
-	        attachments.add(defaultAttachment);
-	    } else {
-	        // 기존 첨부 파일 유지 or 새로운 파일 추가
+	    
 	        for (MultipartFile upFile : upFiles) {
 	            if (!upFile.isEmpty()) {
 	                String originalFilename = upFile.getOriginalFilename();
@@ -188,9 +184,7 @@ public class ProfileController {
 	                attachments.add(attach);
 	            }
 	        }
-	    }
 	    
-	    // 기존 정보를 복사하여 새로운 프로필 정보 객체 생성
 	    ProfileDetails updatedProfile = ProfileDetails.builder()
 	        .id(originalProfile.getId())
 	        .memberId(principal.getId())
@@ -211,9 +205,6 @@ public class ProfileController {
 	    return "redirect:/member/userPage/" + principal.getId();
 	}
 
-	
-	
-	
 	
 	
 	
@@ -254,7 +245,9 @@ public class ProfileController {
     		Model model) {
 		
 		int memberId = principal.getId();
+		ProfileDetails _profile = profileService.getProfileByMemberId(memberId);
 	    ProfileDetails profile = ProfileDetails.builder()
+	    		.id(_profile.getId())
 	            .memberId(memberId)
 	            .state(State.A)
 	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
@@ -265,13 +258,15 @@ public class ProfileController {
 	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
 	            .build();
 	    List<Attachment> attachments = new ArrayList<>();
+	    attachments.clear();
 	    attachments.add(defaultAttachment);
 	    profile.setAttachments(attachments);
+	    log.info("defaultprofile = {}", profile);
 
 	    int result = profileService.updateProfile(profile);
 
         // 수정 페이지로 리다이렉트
-        return "redirect:/profile/update";
+        return "redirect:/profile/update.do";
     }
 	
 	
