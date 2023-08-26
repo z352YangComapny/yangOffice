@@ -95,6 +95,7 @@
    </c:if>
    
     <div class="feed-content">${response.content}</div>
+    
    </div>
 
 <!-- 피드 수정 폼 -->
@@ -108,7 +109,7 @@
     <button type="submit">
         <img id="likes" src="${pageContext.request.contextPath}/resources/images/like.png">
         <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
-        <div>좋아요 수: ${response.likeCount}</div>
+        <div>${response.likeCount}</div>
     </button>
 </form:form>
 

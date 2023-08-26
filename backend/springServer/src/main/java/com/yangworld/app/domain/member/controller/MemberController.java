@@ -119,7 +119,7 @@ public class MemberController {
         	
             // 프로필 사진 가져오기
 
-            List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
             
             model.addAttribute("id",id);
 
