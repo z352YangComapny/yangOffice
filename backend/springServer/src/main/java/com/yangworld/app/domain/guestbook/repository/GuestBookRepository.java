@@ -14,7 +14,6 @@ import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
-import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 @Mapper
 public interface GuestBookRepository {
@@ -30,5 +29,8 @@ public interface GuestBookRepository {
 
 	
 	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int memberId);
+
+	@Select("select count(*) from guestbook where member_id = #{member_id}")
+	int countAllGuestbook(int memberId);
 
 }

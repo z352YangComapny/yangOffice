@@ -13,7 +13,6 @@
         max-height: 300px; /* 최대 높이 */
     }
     
-    /* 박스 스타일 설정 */
     .profile-box {
         border: 2px solid #ccc;
         padding: 10px;
@@ -35,12 +34,12 @@
 <sec:authentication property="principal" var="loginMember"/>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
-		    <div class="form-group">
+		    <div class="form-group" style="height: 230px;">
 		        <label for="upFile"></label>
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" class="preview-image rounded-circle" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+		                    <img id="selectedImage" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
@@ -61,8 +60,9 @@
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
             ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
+            <c:if test="${principalId eq profileId}"> 
             <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/profile/update.do';">수정</button>
-            	
+           	</c:if> 
             </div>
     </div>
  

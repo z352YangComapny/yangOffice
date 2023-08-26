@@ -10,14 +10,17 @@
 
 <style>
 div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
+.form-inline{display:block;}
 </style>
+<br><br>
 <div id="guestbook-container">
+<h6>✨방명록 남기기✨</h6>
 	<form:form action="${pageContext.request.contextPath}/guestbook/create.do" class="form-inline" method="post">
 		<input type="text" class="form-control col-sm-10 ml-1" name="memberId" placeholder="memberId" required/>&nbsp;
 		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
-	
+	<br><br>
 	<table class="table">
 		<thead>
 			<tr>
@@ -87,36 +90,31 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 			</div>
 		</div>
 	</div>
+		<div style="display: flex; justify-content: center; margin:80px">
+    <ul class="pagination">
+        <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+        </li>
+        <c:forEach begin="1" end="${totalPages}" varStatus="pageStatus">
+            <c:choose>
+                <c:when test="${page eq pageStatus.index}">
+                    <li class="page-item active">
+                        <a class="page-link" href="#">${pageStatus.index}</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a class="page-link" href="${pageContext.request.contextPath}/guestbook/guestbook.do?page=${pageStatus.index}">${pageStatus.index}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <li class="page-item">
+            <a class="page-link" href="#">&raquo;</a>
+        </li>
+    </ul>
+</div>
 <script>
-	
-/* document.querySelectorAll(".updateGuestbook").forEach(btn=>{
-	btn.onclick = (e) =>{
-		const value = e.target.value;
-		const content = document.querySelector(".content").value;
-		console.log(value);
-		console.log(content);
-		
-			$.ajax({
-				url : "${pageContext.request.contextPath}/guestbook/update.do",
-				data : {
-					updateGuestbook : value,
-					content : content
-				},
-				beforeSend : function(xhr){
-					xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');
-				},
-				method:"POST",
-				dataType:"json",
-				success(responseData){
-					console.log(responseData);
-					const {updateGuestbook} = responseData;
-					const updateGuestbookCell = e.target.closest("tr").querySelector(".content");
-					updateGuestbookCell.textContent = content;
-					location.reload();
-				}
-				});
-	}
-}); */
 
 document.querySelectorAll(".updateGuestbook").forEach(btn => {
     btn.onclick = (e) => {

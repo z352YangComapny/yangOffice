@@ -29,7 +29,7 @@ public interface StoryRepository {
 	@Select("select * from (select * from story where writer_id = #{id} union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = #{id}) order by reg_date")
 	List<StoryMainDto> findStoryById(int id);
 	
-	@Select("select username from member where id = #{writerId}")
+	@Select("select nickname from member where id = #{writerId}")
 	String findMemberUsername(int writerId);
 	
 	@Select("select * from story where writer_id = #{wirterId} order by reg_date")
@@ -40,7 +40,7 @@ public interface StoryRepository {
 
 	List<AttachmentProfileDto> findAttachProf(int id);
 	
-	@Select("select id from member where username = #{from}")
+	@Select("select id from member where nickname = #{from}")
 	int findIdByUsername(String from);
 	
 }
