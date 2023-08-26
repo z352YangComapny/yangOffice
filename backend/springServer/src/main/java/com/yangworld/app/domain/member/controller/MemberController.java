@@ -205,7 +205,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/checkNicknameDuplicate.do")
+    @GetMapping({"/checkNicknameDuplicate.do", "/checkNicknameDuplicate2.do"})
     public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname) {
         boolean available = false;
         Member member = memberService.findByNickname(nickname);
@@ -221,7 +221,7 @@ public class MemberController {
      * @param phone
      * @return
      */
-    @GetMapping("/checkPhoneDuplicate.do")
+    @GetMapping({"/checkPhoneDuplicate.do", "/checkPhoneDuplicate2.do"})
     public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone) {
         boolean available = false;
         Member member = memberService.findByPhone(phone);
@@ -232,7 +232,7 @@ public class MemberController {
     }
 
     // 회원가입시 이메일 인증요청
-    @GetMapping("/checkEmail.do")
+    @GetMapping({"/checkEmail.do", "/checkEmail2.do"})
     public ResponseEntity<?> checkEmail(@RequestParam String email) {
         log.info("email={}", email);
 
@@ -269,6 +269,20 @@ public class MemberController {
 
         return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
 
+    }
+
+    @PostMapping("/resetPassword2.do")
+    public ResponseEntity<?> resetPassword2(@RequestParam String password, @RequestParam String username) {
+
+        log.info("password ={}", password);
+        log.info("username={}", username);
+        String newPassword = passwordEncoder.encode(password);
+        log.info("newPwd={}", newPassword);
+
+        int result = memberService.resetPassword(newPassword, username);
+        log.info("result@reset = {}", result);
+
+        return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
 
     }
 

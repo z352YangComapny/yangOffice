@@ -35,7 +35,7 @@
 <sec:authentication property="principal" var="loginMember"/>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
-		    <div class="form-group">
+		    <div class="form-group" style="height: 230px;">
 		        <label for="upFile"></label>
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">

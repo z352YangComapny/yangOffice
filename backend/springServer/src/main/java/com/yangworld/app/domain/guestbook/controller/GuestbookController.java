@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/guestbook")
+@RequestMapping("/member/userPage/{id}/guestbook")
 public class GuestbookController {
 		
 	@Autowired
@@ -103,8 +103,8 @@ public class GuestbookController {
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
-	@GetMapping("/guestbook.do")
-	public void guestBookList(
+	@GetMapping("/guestbook")
+	public String guestBookList(
 			@RequestParam(defaultValue = "1") int page,
 			@AuthenticationPrincipal Member member,
 			Model model
@@ -119,5 +119,7 @@ public class GuestbookController {
 		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params);
 		log.info("guestBooks={}",guestBooks);
 		model.addAttribute("guestBooks",guestBooks);
+
+		return "member/userPage";
 	}
 }
