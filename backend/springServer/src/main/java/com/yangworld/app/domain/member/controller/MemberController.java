@@ -305,11 +305,18 @@ public class MemberController {
     //unfollow 하기
     @PostMapping("/unfollow")
     public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
-                                      @RequestBody FollowDto unfollow) {
-        unfollow.setFollower(principal.getId());
-        memberService.deleteFollowee(unfollow);
+                                      @RequestParam String memberId) {
 
-        return ResponseEntity.ok().build();
+        Member member = memberService.findMemberbyUsername(memberId);
+
+        FollowDto unfollowDto = new FollowDto();
+        unfollowDto.setFollower(principal.getId());
+        unfollowDto.setFollowee(member.getId());
+        log.info("followDto = {}", unfollowDto);
+
+        memberService.deleteFollowee(unfollowDto);
+
+        return ResponseEntity.ok().body(Map.of("msg", "unfollow 완료 되었습니다."));
     }
 
     //member 상세정보
