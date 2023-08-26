@@ -49,13 +49,17 @@
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         
+        
+        <%-- <c:if test="${qnaComments}">
+        	<textarea class="form-control" id="commentContent1" rows="1" placeholder="관리자 확인중 . ."></textarea>
+        </c:if> --%>
        <c:if test="${isAdmin && questionType eq 'Q'}">
             <label for="commentContent"></label>
             <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
             <input type="hidden" id="commentId" value="">
-            <button type="button" class="btn btn-danger btn-lg" id="commentDelete" >X</button>
             <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
        		<button type="button" class="btn btn-primary btn-lg edit-button" id="editComment">댓글 수정</button>
+            <button type="button" class="btn btn-danger btn-lg" id="commentDelete" >X</button>
         </c:if>
         
         
