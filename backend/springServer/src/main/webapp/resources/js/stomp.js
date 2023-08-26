@@ -63,17 +63,19 @@ const renderStory = (payloads) => {
 			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
 			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
 //			    console.log('nextCardIndex : ', nextCardIndex);
-			    	
-			    if (e.deltaY < 0){
+//			    console.log('beforeCardIndex : ', beforeCardIndex);
+			    if (event.deltaY < 0){
 			    	if (beforeCardIndex) {
 				    	const beforeCard = beforeCardIndex.closest('.card');
+//				    	console.log('beforeCard = ', beforeCard);
 				        updateModal(beforeCard);
 				    }else{
 				    	storyModal.modal('hide');
 				    }
-			    }else if (e.deltaY > 0){
+			    }else if (event.deltaY > 0){
 				    if (nextCardIndex) {
 				    	const nextCard = nextCardIndex.closest('.card');
+//				    	console.log('nextCard = ', nextCard);
 				        updateModal(nextCard);
 				    }else{
 				    	storyModal.modal('hide');
@@ -97,6 +99,8 @@ const updateModal = (e) => {
 	const storyCardId = e.querySelector('#storyCardId').value;
 
 //	console.log(storyAttach);
+	console.log('currentCardIndex = ', currentCardIndex);
+	console.log('storyCardId =', storyCardId);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
@@ -157,5 +161,71 @@ const noticeDm = (notification) => {
         notificationDiv.empty();
    		 });
 	
+};
+
+// ---------------------------------------------------------------------------------
+const ChatConnect = () => {
+    const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
+    const stompClient = Stomp.over(ws);
+
+    // 구독신청 
+    stompClient.connect({}, () => {
+        console.log('챗구독챗구독챗구독');
+
+        stompClient.subscribe('/chatting', (payloads) => {
+        	console.log('구독구독');
+            chatting(payloads);
+            console.log(payloads);
+        });
+        
+		const memberId = document.getElementById('memberId').value;
+         const sendInterval = setInterval(() => {
+			stompClient.send(`/chat/${memberId}`, {}, JSON.stringify({ memberId: memberId }));
+        }, 1000);
+    });
+};
+
+const chatting = (payloads) => {
+	const chats = JSON.parse(payloads.body);
+	console.log('chats = ' , chats);
+    console.log('chatting 호출호출호ㅜㄹ');
+    
+    const chatDiv = document.querySelector('#chat-div');
+    chatDiv.innerHTML = '';
+    
+	chats.forEach((chat) => {
+		const memberId = document.getElementById('userId').value;
+	    const chatMessageDiv = document.createElement('div');
+	
+	    if (chat.from === memberId) {
+	        chatMessageDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
+	        chatMessageDiv.innerHTML = `
+	            <div>
+	                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${chat.content}</p>
+	                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${formatDate(chat.createdAt)}</p>
+	            </div>
+	        `;
+	    } else {
+	        chatMessageDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
+	        chatMessageDiv.innerHTML = `
+	            <div class="d-flex flex-column">
+	                <p style="font-size: 14px; margin-bottom: 5px; font-weight: bold; margin-left: 10px">${chat.from}</p>
+	                <div class="d-flex align-items-center" onmouseover="showButton(this)" onmouseout="hideButton(this)">
+	                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+	                        ${chat.content}
+	                    </p>
+	                    <button class="btn btn-sm btn-light d-none btn-toggle" style="margin-left: 10px; font-size:20px;"  onclick="goReport(${chat.from});">🚨</button>
+	                </div>
+	                <p class="small ms-3 mb-3 rounded-3 text-muted">${formatDate(chat.createdAt)}</p>
+	            </div>
+	        `;
+	    }
+	
+	    chatDiv.appendChild(chatMessageDiv);
+	});
+	
+	// 스크롤 아래로 이동
+	const chatContainer = document.getElementById('chat-div');
+	chatContainer.scrollTop = chatContainer.scrollHeight;
 };
 

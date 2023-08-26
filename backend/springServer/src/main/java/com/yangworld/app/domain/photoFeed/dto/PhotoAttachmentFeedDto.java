@@ -21,11 +21,15 @@ public class PhotoAttachmentFeedDto {
 	private int id;
 	private int writerId;
 	private String content;
-	private int likeCount;
 	private int commentCount;
-	private List<Like> like;
-	private List<Comment> comments;
+	private int attachmentId;
+	private int photoFeedId;
+	private int likeCount;
+	private String originalFilename;
+	private String renamedFilename;
 	private List<AttachmentPhotoDto> attachmentPhotoDto;
+	private List<Comment> comments;
+	private List<Like> like;
 	private List<Attachment> attachments;
 	private LocalDateTime regDate;
 	

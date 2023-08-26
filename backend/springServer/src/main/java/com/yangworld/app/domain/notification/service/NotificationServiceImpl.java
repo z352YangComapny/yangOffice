@@ -1,9 +1,15 @@
 package com.yangworld.app.domain.notification.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import com.yangworld.app.domain.chat.entity.Chat;
+import com.yangworld.app.domain.chat.repository.ChatRepository;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
@@ -21,6 +27,9 @@ public class NotificationServiceImpl implements NotificationService {
 	@Autowired
     MemberRepository memberRepository;
 	
+	 @Autowired
+	 ChatRepository chatRepository; 
+	
 	@Override
 	public int notifySendDm(Dm msg) {
 		
@@ -33,7 +42,6 @@ public class NotificationServiceImpl implements NotificationService {
             String username = sender.getNickname();
             
             Payload payload = Payload.builder()
-                    .to(to)
                     .content(username + "님이 새로운 DM을 보냈습니다.")
                     .build();
 
@@ -44,5 +52,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         return 0;
 	}
+	
+
 
 }

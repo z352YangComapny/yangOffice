@@ -30,8 +30,8 @@
 </style>
 <sec:authorize access="isAuthenticated()">
 <%-- 자바 코드를 사용하여 principalName 출력하기 --%>
-<% String principalName = (String) request.getAttribute("principalName"); %>
-<p>Principal Name: ${principalName}</p>
+<%-- <% String principalName = (String) request.getAttribute("principalName"); %>
+<p>Principal Name: ${principalName}</p> --%>
 <sec:authentication property="principal" var="loginMember"/>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
@@ -40,12 +40,12 @@
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+		                    <img id="selectedImage" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
 		                <!-- 프로필 사진이 없을 경우 기본 이미지 또는 아무것도 표시하거나 로직을 추가해주세요. -->
-		                <img id="selectedImage" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+		                <img id="selectedImage" class="preview-image rounded-circle" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
 		            </c:otherwise>
 		        </c:choose>
 		    </div>
@@ -57,11 +57,11 @@
            
             <div class="form-group">
                 <label for="introduction"></label>
-                <textarea class="form-control" id="introduction" name="introduction" rows="4" required style="width: 350px; height: 200px;" disabled>${profile.introduction} </textarea>
+                <textarea class="form-control" id="introduction" name="introduction" rows="4" required style="width: 350px; height: 200px; resize: none; " disabled>${profile.introduction} </textarea>
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
             ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/profile/update.do';">수정</button>
             	
             </div>
     </div>

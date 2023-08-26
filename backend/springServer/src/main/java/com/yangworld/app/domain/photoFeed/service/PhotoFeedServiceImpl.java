@@ -69,10 +69,14 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        log.error("photoFeedId is null");
 	        throw new IllegalArgumentException("피드 ID가 유효하지 않습니다.");
 	    }
-	    // 피드 조회
+	    // 피드 디테일 조회
+	    // 단 한번 조회 시발
+	    // 그리고 얘가 조회 결과가 두개여도 마지막 한개만 조회한 결과를 줌 그래서 향for를 돌려야하는데 어떻게 하면 좋을까  
 	    List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
 	    
+	    // 몇장 있는지 조회
 	    log.info("List size: [{}]", photoFeedDetail.size());
+	    
 	    for (PhotoAttachmentFeedDto photoFeed : photoFeedDetail) {
 	        // 사진 첨부 정보 조회
 	        List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhotoDetail(photoFeed.getId());
@@ -82,16 +86,20 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
 	        
 	        for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
-	            // 사진 첨부 파일의 ID로 상세 정보 조회
-	            int id = attachments.getAttachmentId();
-	            Attachment attachment = photoFeedRepository.selectAttachmentDetail(id);
+	        	photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
+	            int attachmentId = attachments.getAttachmentId();
 	            
-	            attachmentList.add(attachment);
+	            Attachment attachment = photoFeedRepository.selectAttachmentDetail(attachmentId);
+	            
+	            if (attachment != null) {
+	                attachmentList.add(attachment);
+	            }
 	        }
-	        photoFeed.setAttachments(attachmentList);
 	        // 좋아요 수 조회 및 photoFeed 객체에 추가
 	        int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
 	        photoFeed.setLikeCount(likeCount);
+	        photoFeed.setAttachments(attachmentList);
+	     
 	        
 	    }
 	    
@@ -117,14 +125,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	        	// 검색 결과 id를 가지고 연결 테이블 검색
 	            List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());
 	            
-	            // list만들어주기
 	            List<Attachment> attachmentList = new ArrayList<>();
 	            
 	            
-	            // photoFeed에 attachmentPhotoDto 라는 List<AttachmentPhotoDto>에 1번째 검색결과 넣기
 	            photoFeed.setAttachmentPhotoDto(attachmentPhotoDto);
 	            
-//	            log.info("photo feed check: {}", photoFeed);
 	            
 	            for (AttachmentPhotoDto attachments : attachmentPhotoDto) {
 	            	// 두번째 검색 결과를 받음
@@ -192,11 +197,6 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	}
 
 	@Override
-	public List<Like> getLikesCountByPhotoFeedId(int photoFeedId) {
-		return photoFeedRepository.findLikeById(photoFeedId);
-	}
-
-	@Override
 	public int insertLike(int photoFeedId, int memberId) {
 		return photoFeedRepository.insertLike(photoFeedId, memberId);
 	}
@@ -209,6 +209,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	@Override
 	public Like getLikeCount(int feedId, int memberId) {
 		return photoFeedRepository.selectLikeCount(feedId, memberId);
+	}
+
+	@Override
+	public int getLikeCountForFeed(int photoFeedId) {
+		return photoFeedRepository.getLikeCount(photoFeedId);
 	}
 
 

@@ -54,6 +54,7 @@
 </script>
 <!-- 인증되었을 때에만 해당 폼이 나오도록! -->
 <sec:authorize access = "isAuthenticated()">
+   <sec:authentication property="principal" var="loginMember"/>
 <!-- Modal -->
 <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
@@ -82,18 +83,18 @@
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
       <nav class="navbar navbar-expand-lg bg-primary">
          <div class="container-fluid">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
                <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
                <span style = "font-size : 30px; font-weight: bold; color: white;">SSOY STORY<span>
             </a>
             <div class="collapse navbar-collapse d-flex justify-content-evenly" id="navbarColor01">
                <div>
                   <ul class="navbar-nav me-auto">
-                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
+
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">Home</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatList.do">월드에 놀러가기</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>
-
                   </ul>
                </div>
                <div style="width:500px;">
