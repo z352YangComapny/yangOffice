@@ -1,6 +1,8 @@
-package com.yangworld.app.domain.story.dto;
+package com.yangworld.app.domain.chat.dto;
 
 import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,16 +10,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payload {
-	private PayloadType type;
+@Builder
+public class ChatListDto {
+
 	private int id;
-	private int to;
-	private String from;
+	private int memberId;
+	@NotBlank(message = "채팅 내용 입력.")
 	private String content;
-	private LocalDateTime createdAt;
-	
-	private String attach = null;
+	private LocalDateTime sendDate;
 }

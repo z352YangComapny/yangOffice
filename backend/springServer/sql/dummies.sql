@@ -455,49 +455,48 @@ insert into profile (id, member_id, state, introduction) values (seq_profile_id.
 -- @follow table 테이블 테스트 데이터
 
 -- 멤버 간의 팔로우 관계
-insert into follow (follower, followee) values (1, 2);
-insert into follow (follower, followee) values (1, 3);
-insert into follow (follower, followee) values (2, 3);
-insert into follow (follower, followee) values (2, 4);
-insert into follow (follower, followee) values (3, 1);
-insert into follow (follower, followee) values (3, 5);
-insert into follow (follower, followee) values (4, 2);
-insert into follow (follower, followee) values (5, 6);
-insert into follow (follower, followee) values (5, 1);
-insert into follow (follower, followee) values (6, 1);
-insert into follow (follower, followee) values (6, 3);
-insert into follow (follower, followee) values (7, 4);
-insert into follow (follower, followee) values (8, 2);
-insert into follow (follower, followee) values (8, 3);
-insert into follow (follower, followee) values (9, 1);
-insert into follow (follower, followee) values (9, 6);
-insert into follow (follower, followee) values (10, 3);
-insert into follow (follower, followee) values (10, 4);
-insert into follow (follower, followee) values (11, 1);
-insert into follow (follower, followee) values (11, 5);
+insert into follow values (SEQ_FOLLOW_ID.nextval,1, 2, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,1, 3, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,2, 3, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,2, 4, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,3, 1, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,3, 5, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,4, 2, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,5, 6, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,5, 1, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,6, 1, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,6, 3, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,7, 4, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,8, 2, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,8, 3, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,9, 1, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,9, 6, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,10, 3, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,10, 4, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,11, 1, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,11, 5, default);
 -- 멤버 간의 팔로우 관계가 아닌 경우 (추가 20개)
-insert into follow (follower, followee) values (1, 4);
-insert into follow (follower, followee) values (2, 5);
-insert into follow (follower, followee) values (3, 6);
-insert into follow (follower, followee) values (4, 1);
-insert into follow (follower, followee) values (5, 2);
-insert into follow (follower, followee) values (6, 4);
-insert into follow (follower, followee) values (7, 5);
-insert into follow (follower, followee) values (8, 6);
-insert into follow (follower, followee) values (9, 4);
-insert into follow (follower, followee) values (10, 5);
-insert into follow (follower, followee) values (11, 6);
-insert into follow (follower, followee) values (1, 7);
-insert into follow (follower, followee) values (2, 8);
-insert into follow (follower, followee) values (3, 9);
-insert into follow (follower, followee) values (4, 10);
-insert into follow (follower, followee) values (5, 11);
-insert into follow (follower, followee) values (6, 7);
-insert into follow (follower, followee) values (7, 8);
-insert into follow (follower, followee) values (8, 9);
-insert into follow (follower, followee) values (9, 10);
-insert into follow (follower, followee) values (10, 11);
-
+insert into follow values (SEQ_FOLLOW_ID.nextval,1, 4, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,2, 5, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,3, 6, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,4, 1, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,5, 2, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,6, 4, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,7, 5, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,8, 6, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,9, 4, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,10, 5, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,11, 6, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,1, 7, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,2, 8, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,3, 9, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,4, 10, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,5, 11, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,6, 7, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,7, 8, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,8, 9, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,9, 10, default);
+insert into follow values (SEQ_FOLLOW_ID.nextval,10, 11, default);
 --=============================================================================
 --=============================================================================
 --=============================================================================
@@ -597,6 +596,37 @@ VALUES (seq_dm_id.NEXTVAL, 11, 9, '저도 좋아요!', 19, SYSDATE - DBMS_RANDOM
 INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
 VALUES (seq_dm_id.NEXTVAL, 11, 1, '안녕하세요! 만나서 반가워요~', 20, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
+----------------- chat 더미데이터 --------------------
+-- Chat 테이블에 더미 데이터 10개 생성
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 1, '더미 채팅 메시지 1', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 2, '더미 채팅 메시지 2', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 3, '더미 채팅 메시지 3', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 3, '더미 채팅 메시지 4', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 5, '더미 채팅 메시지 5', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 2, '더미 채팅 메시지 6', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 7, '더미 채팅 메시지 7', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 6, '더미 채팅 메시지 8', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 9, '더미 채팅 메시지 9', 'N');
+
+insert into chat (id, member_id, chat_content, report_YN)
+values (seq_chat_id.nextval, 10, '더미 채팅 메시지 10', 'N');
 
 
 commit;

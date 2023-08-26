@@ -7,4 +7,5 @@ public class FollowDto {
 
     private int follower;
     private int followee;
+
 }

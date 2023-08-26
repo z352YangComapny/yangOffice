@@ -4,6 +4,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.entity.MemberDetails;
 import org.apache.ibatis.annotations.*;
 import com.yangworld.app.domain.member.entity.Member;
 import org.apache.ibatis.session.RowBounds;
@@ -34,7 +35,7 @@ public interface MemberRepository {
     @Delete("delete from member where username = #{username}")
     int deleteMember(String username);
 
-    @Insert("insert into follow values (#{follower}, #{followee}, default)")
+    @Insert("insert into follow values (seq_follow_id.nextval ,#{follower}, #{followee}, default)")
     int insertFollowee(FollowDto followDto);
 
     @Delete("delete from follow where follower = #{follower} and followee = #{followee}")
@@ -61,12 +62,21 @@ public interface MemberRepository {
 
 
     @Select("select * from member")
-    List<Member> findAllMember();
+    List<Member> findAllMember(RowBounds rowBounds);
 
-    @Select("SELECT * FROM member WHERE username LIKE '%' || #{inputText} || '%'")
-    List<Member> findMemberByText(@Param("inputText") String inputText);
+    @Select("select * from member where username like '%' || #{inputText} || '%'")
+    List<Member> findMemberByText(@Param("inputText") String inputText, @Param("rowBounds")RowBounds rowBounds);
 
     @Select("select * from follow where follower = #{id}")
     List<FollowDto> findFollowee(int id);
+
+    @Select("select * from member where username = #{username}")
+    Member findMemberbyUsername(String username);
+
+    @Select("select count(*) from member")
+    int findTotalMemberCount();
+
+    @Select("select count(*) from member where username like '%' || #{inputText} || '%'")
+    int findTotalMemberCountByInput(String inputText);
 }
 
