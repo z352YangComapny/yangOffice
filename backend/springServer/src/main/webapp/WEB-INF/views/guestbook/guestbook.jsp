@@ -15,7 +15,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <br><br>
 <div id="guestbook-container">
 <h6>✨방명록 남기기✨</h6>
-	<form:form action="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/create.do" class="form-inline" method="post">
+	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" method="post">
 		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
@@ -23,9 +23,10 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 	<div class="d-flex flex-row">
 		<div style="width:100px;">
 			<select class="form-control" name="writerOption" id="writerOption" >
-				<option>전체</option>
-				<option>내가 쓴 글</option>
-				<option>남이 쓴 글</option>
+				<option value="all">전체</option>
+				<option value="mine">내가 쓴 글</option>
+				<option value="other">남이 쓴 글</option>
+				<input type="button" value="검색" onclick="search();">
 			</select>
 		</div>
 	</div>
@@ -234,6 +235,13 @@ function goReport(guestbookId,reportedId) {
         .catch(error => {
             console.error("Error:", error);
         });
+}
+
+function search(){
+	var writerOption = document.getElementById("#writerOption");
+	var writerOptionIndex = document.getElementById("#writerOption").options.selectedIndex;
+	
+	console.log("writerOption value : " + writerOption.options[writerOptionIndex].value);
 }
 </script>
 
