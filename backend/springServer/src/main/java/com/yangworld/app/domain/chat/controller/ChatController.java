@@ -46,6 +46,11 @@ public class ChatController {
     	
     	return "redirect:/chat/chatting";
     }
+
+	@GetMapping("/chatList.do")
+	public String chatList (){
+		return "/chat/chatting";
+	}
     
     
 
