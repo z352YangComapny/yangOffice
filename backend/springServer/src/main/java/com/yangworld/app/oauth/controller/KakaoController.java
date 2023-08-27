@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yangworld.app.config.auth.PrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.SignUpDto;
+import com.yangworld.app.domain.profile.service.ProfileService;
 import com.yangworld.app.oauth.service.KakaoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class KakaoController{
     @Autowired
     PasswordEncoder passwordEncoder;
 	@Autowired
-	private PrincipalDetailsService pricipalDetailsService;
+	private ProfileService profileService;
 
 	@GetMapping("/login.do")
 	public RedirectView login() {
@@ -94,6 +94,7 @@ public class KakaoController{
 			
 			member = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberId);
 			
+			
 		}
 		
 		// 로그인 처리
@@ -104,7 +105,7 @@ public class KakaoController{
 				);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-		return new RedirectView(request.getContextPath()+"/");
+		return new RedirectView(request.getContextPath()+"/member/userPage/"+member.getId());
 	}
 
 	

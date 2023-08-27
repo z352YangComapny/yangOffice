@@ -52,8 +52,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int deleteFollowee(FollowDto unfollow) {
-        return memberRepository.deleteFollowee(unfollow);
+    public int deleteFollowee(FollowDto unfollowDto) {
+        return memberRepository.deleteFollowee(unfollowDto);
     }
 
 	@Override

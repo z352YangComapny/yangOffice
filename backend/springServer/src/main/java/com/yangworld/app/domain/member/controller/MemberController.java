@@ -116,10 +116,13 @@ public class MemberController {
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
         List<Attachment> profileAttachments =null;
         if(profile !=null){
+        	
             // 프로필 사진 가져오기
-            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 
-            // 피드리스트 가져오기
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            
+            model.addAttribute("id",id);
+
             
     	    model.addAttribute("photoList", photoList);
             log.info("profileAttachments={}", profileAttachments);
@@ -143,10 +146,9 @@ public class MemberController {
         model.addAttribute("profile", profile);
         model.addAttribute("principalBday", member.getBirthday());
         model.addAttribute("principalName", member.getName());
-
-		log.info("photoList={}", photoList);
+        model.addAttribute("PrincipalDetails", principal);
 	    model.addAttribute("photoList", photoList);
-	    
+	    model.addAttribute("id",id);
 
         return "member/userPage";
     }
@@ -205,7 +207,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/checkNicknameDuplicate.do")
+    @GetMapping({"/checkNicknameDuplicate.do", "/checkNicknameDuplicate2.do"})
     public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname) {
         boolean available = false;
         Member member = memberService.findByNickname(nickname);
@@ -221,7 +223,7 @@ public class MemberController {
      * @param phone
      * @return
      */
-    @GetMapping("/checkPhoneDuplicate.do")
+    @GetMapping({"/checkPhoneDuplicate.do", "/checkPhoneDuplicate2.do"})
     public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone) {
         boolean available = false;
         Member member = memberService.findByPhone(phone);
@@ -232,7 +234,7 @@ public class MemberController {
     }
 
     // 회원가입시 이메일 인증요청
-    @GetMapping("/checkEmail.do")
+    @GetMapping({"/checkEmail.do", "/checkEmail2.do"})
     public ResponseEntity<?> checkEmail(@RequestParam String email) {
         log.info("email={}", email);
 
@@ -269,6 +271,20 @@ public class MemberController {
 
         return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
 
+    }
+
+    @PostMapping("/resetPassword2.do")
+    public ResponseEntity<?> resetPassword2(@RequestParam String password, @RequestParam String username) {
+
+        log.info("password ={}", password);
+        log.info("username={}", username);
+        String newPassword = passwordEncoder.encode(password);
+        log.info("newPwd={}", newPassword);
+
+        int result = memberService.resetPassword(newPassword, username);
+        log.info("result@reset = {}", result);
+
+        return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
 
     }
 
@@ -305,11 +321,18 @@ public class MemberController {
     //unfollow 하기
     @PostMapping("/unfollow")
     public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
-                                      @RequestBody FollowDto unfollow) {
-        unfollow.setFollower(principal.getId());
-        memberService.deleteFollowee(unfollow);
+                                      @RequestParam String memberId) {
 
-        return ResponseEntity.ok().build();
+        Member member = memberService.findMemberbyUsername(memberId);
+
+        FollowDto unfollowDto = new FollowDto();
+        unfollowDto.setFollower(principal.getId());
+        unfollowDto.setFollowee(member.getId());
+        log.info("followDto = {}", unfollowDto);
+
+        memberService.deleteFollowee(unfollowDto);
+
+        return ResponseEntity.ok().body(Map.of("msg", "unfollow 완료 되었습니다."));
     }
 
     //member 상세정보

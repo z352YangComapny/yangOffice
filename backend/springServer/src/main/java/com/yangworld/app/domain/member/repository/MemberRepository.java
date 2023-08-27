@@ -39,7 +39,7 @@ public interface MemberRepository {
     int insertFollowee(FollowDto followDto);
 
     @Delete("delete from follow where follower = #{follower} and followee = #{followee}")
-    int deleteFollowee(FollowDto unfollow);
+    int deleteFollowee(FollowDto unfollowDto);
 
     @Select("select * from member where email = #{email}")
     Member findMemberByEmail(String email);

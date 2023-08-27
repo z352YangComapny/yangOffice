@@ -61,10 +61,10 @@ public class ProfileController {
 	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
 	    
-	    log.info("upPrincipalId = {} ", principal.getId());
+//	    log.info("upPrincipalId = {} ", principal.getId());
 	    // 프로필 정보 가져오기
 	    ProfileDetails profile = profileService.getProfileByMemberId(memberId);
-	    log.info("profile = {}", profile);
+//	    log.info("profile = {}", profile);
 	    // 프로필 사진 가져오기
 	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 	   
@@ -72,8 +72,7 @@ public class ProfileController {
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
-	    log.info("profile = {}", profile);
-	    log.info("profileAttachment = {}",profileAttachments);
+	    
 	    
 	    return "/profile/profileUpdate";
 	    
@@ -84,7 +83,7 @@ public class ProfileController {
 		
 		
 		int memberId = principal.getId();
-		log.info("principal = {} ", principal.getId());
+//		log.info("principal = {} ", principal.getId());
 		ProfileDetails profile = profileService.getProfileByMemberId(memberId);
 	    
 	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
@@ -95,10 +94,15 @@ public class ProfileController {
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
 	    model.addAttribute("principalGender", principal.getGender());
+	    model.addAttribute("principalId", principal.getId());
+	    model.addAttribute("profileId", profile.getId());
 	    log.info("profile = {}", profile);
-	    log.info("profileAttachment = {}",profileAttachments);
+	    log.info("principalId ={}", principal.getId());
+//	    log.info("profileAttachment = {}",profileAttachments);
+	    
 	    
 	    return "forward:/index.jsp";
+
 	}
 
 
@@ -110,10 +114,10 @@ public class ProfileController {
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
 		
-		log.info("_profile = {}", _profile);
-		log.info("principal = {}",principal); 
-		log.info("upFiles = {}", upFiles); 
-		log.info("principal = {}", principal.getId());
+//		log.info("_profile = {}", _profile);
+//		log.info("principal = {}",principal); 
+//		log.info("upFiles = {}", upFiles); 
+//		log.info("principal = {}", principal.getId());
 		
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
@@ -152,61 +156,55 @@ public class ProfileController {
 	
 	@PostMapping("/update.do")
 	public String update(
-			@Valid ProfileDto _profile,
-			BindingResult bindingResult,
-			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model
-			) 
-					throws IllegalStateException, IOException {
-		 	int memberId = principal.getId();
+	    @Valid ProfileDto _profile,
+	    BindingResult bindingResult,
+	    @AuthenticationPrincipal PrincipalDetails principal,
+	    @RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles, Model model
+	) throws IllegalStateException, IOException {
+	    int memberId = principal.getId();
 	    
-		    ProfileDetails profileId = profileService.getProfileByMemberId(memberId);
-		    log.info("profileㅇㅇ = {}", profileId);
-		    
-		    
-		    
-		List<Attachment> attachments = new ArrayList<>(); 
-		for(MultipartFile upFile : upFiles){
-			if(!upFile.isEmpty()) { 
-				String originalFilename = upFile.getOriginalFilename(); 
-				String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename);  
-				File destFile = new File(renamedFilename); 
-				upFile.transferTo(destFile);
-				
-				Attachment attach =  
-						Attachment.builder()
-						.originalFilename(originalFilename)
-						.renamedFilename(renamedFilename)
-						.build();
-				attachments.add(attach);
-			}
-		
-		}
-		
-		ProfileDetails profile = ProfileDetails.builder()
-				.id(profileId.getId())
-				.memberId(principal.getId())
-				.state(_profile.getState())
-				.introduction(_profile.getIntroduction())
-				.attachments(attachments)
-				.build();
-		
-		log.info("profile = {}", profile);
-		log.info("principalId = {}",principal.getId()); 
-		
-		int result = profileService.updateProfile(profile);
-		log.debug("profile ={}", profile);
-		log.debug("result ={}", result);
-		
-		
-		model.addAttribute("profile", profile);
-		
-		
-		return "redirect:/member/userPage/" + principal.getId();
+	    ProfileDetails originalProfile = profileService.getProfileByMemberId(memberId);
+	    log.info("profile = {}", _profile);
+	    log.info("upfiles = {}", upFiles);
+	    
+	    List<Attachment> attachments = new ArrayList<>();
+	    
+	        for (MultipartFile upFile : upFiles) {
+	            if (!upFile.isEmpty()) {
+	                String originalFilename = upFile.getOriginalFilename();
+	                String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename);
+	                File destFile = new File(renamedFilename);
+	                upFile.transferTo(destFile);
+	                
+	                Attachment attach =  
+	                    Attachment.builder()
+	                    .originalFilename(originalFilename)
+	                    .renamedFilename(renamedFilename)
+	                    .build();
+	                attachments.add(attach);
+	            }
+	        }
+	    
+	    ProfileDetails updatedProfile = ProfileDetails.builder()
+	        .id(originalProfile.getId())
+	        .memberId(principal.getId())
+	        .state(_profile.getState())
+	        .introduction(_profile.getIntroduction())
+	        .attachments(attachments)
+	        .build();
+	    
+	    log.info("updatedProfile = {}", updatedProfile);
+	    log.info("principalId = {}", principal.getId()); 
+	    
+	    int result = profileService.updateProfile(updatedProfile);
+	    log.debug("updatedProfile = {}", updatedProfile);
+	    log.debug("result = {}", result);
+	    
+	    model.addAttribute("profile", updatedProfile);
+	    
+	    return "redirect:/member/userPage/" + principal.getId();
 	}
-	
-	
-	
+
 	
 	
 	
@@ -241,7 +239,35 @@ public class ProfileController {
 
 
 
-	
+	@PostMapping("/defaultupdate")
+    public String defaultUpdateProfile(
+    		@AuthenticationPrincipal PrincipalDetails principal,
+    		Model model) {
+		
+		int memberId = principal.getId();
+		ProfileDetails _profile = profileService.getProfileByMemberId(memberId);
+	    ProfileDetails profile = ProfileDetails.builder()
+	    		.id(_profile.getId())
+	            .memberId(memberId)
+	            .state(State.A)
+	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
+	            .build();
+	    
+	    Attachment defaultAttachment = Attachment.builder()
+	            .originalFilename("default.jpg")
+	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
+	            .build();
+	    List<Attachment> attachments = new ArrayList<>();
+	    attachments.clear();
+	    attachments.add(defaultAttachment);
+	    profile.setAttachments(attachments);
+	    log.info("defaultprofile = {}", profile);
+
+	    int result = profileService.updateProfile(profile);
+
+        // 수정 페이지로 리다이렉트
+        return "redirect:/profile/update.do";
+    }
 	
 	
 	

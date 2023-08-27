@@ -80,6 +80,7 @@
 </sec:authorize>
 <div id="container">
    <header>
+      <sec:authentication property="principal" var="dmMember"/>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
       <nav class="navbar navbar-expand-lg bg-primary">
          <div class="container-fluid">
@@ -100,6 +101,17 @@
                <div style="width:500px;">
                   <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
                </div>
+               <div class="d-flex justify-content-center column align-items-center">
+                  <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
+                     <div id="notification-div"> </div>
+                     <input type='hidden' id='userId' value='${dmMember.id}' />
+                     <a href="${pageContext.request.contextPath}/dm/dmList">
+                        <img src="${pageContext.request.contextPath}/resources/images/send-message-w.png" id="dm-image" alt="dm-img" style="width: 70px;"/>
+                     </a>
+                  </div>
+               </div>
+
+
                <div>
                   <form class="d-flex ml-5">
                      <sec:authorize access="isAuthenticated()">

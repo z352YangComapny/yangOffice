@@ -6,7 +6,7 @@
 <select id="findAll" resultMap="guestBookWithNickname">
 	select * 
 	from member m join guestbook g
-    on m.id = g.member_id
+    on m.id = g.writer_id
     where g.member_id = #{memberId}
 </select>
 

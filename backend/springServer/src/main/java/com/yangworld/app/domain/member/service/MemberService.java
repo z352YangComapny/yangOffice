@@ -18,7 +18,7 @@ public interface MemberService {
 
     int insertFollowee(FollowDto followDto);
 
-    int deleteFollowee(FollowDto unfollow);
+    int deleteFollowee(FollowDto unfollowDto);
 
 	Member findById(int writerId);
 	
