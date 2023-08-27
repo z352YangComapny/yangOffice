@@ -50,151 +50,148 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/member/userPage/{id}")
 public class PhotoFeedController {
-	
-	@Autowired
-	private PhotoFeedService photoFeedService;
-	
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	@Qualifier("FeedCommentsServiceImpl")
-	private CommentsService commentService;
-	
 
-	// 페이지 이동
-	@GetMapping("/feedCreate")
-	public String feedCreate(@PathVariable("id") int id,
-			Model model) {
-		model.addAttribute("id",id);
-		return "feed/feedCreate";
-	}
-	
-	@GetMapping("/feed/feedDetail")
-	public String feedDetails(
-			@PathVariable("id") int id,
-			@AuthenticationPrincipal PrincipalDetails principalDetails,
-	        @RequestParam int photoFeedId,
-	        Model model) {
-		
-	    int writerId = principalDetails.getId();
-	    
-	    // 피드 조회
-	    List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId);
-	    
-	    List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
-	    
-	    PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
-	    
-	    int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
-	    
-	    FeedDetails response = FeedDetails.builder()
-	            .id(photoFeedId)
-	            .writerId(photoFeed.getWriterId())
-	            .likeCount(likeCount) 
-	            .content(photoFeed.getContent())
-	            .build();
-	    
-	    Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
-	    
-	    model.addAttribute("commentList", commentList);
-	    model.addAttribute("response", response);
-	    model.addAttribute("photoDetail", photoDetail);
-	    model.addAttribute("principalDetails", principalDetails);
-	    return "feed/feedDetail";
-	}
+    @Autowired
+    private PhotoFeedService photoFeedService;
+
+    @Autowired
+    @Qualifier("FeedCommentsServiceImpl")
+    private CommentsService commentService;
 
 
-	
-	// 피드 만들기
-	@PostMapping("/feedCreated")
-	public String peedCreate(
-			@ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
-	        BindingResult bindingResult,
-	        @AuthenticationPrincipal PrincipalDetails member,
-	        @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
-	        throws IllegalStateException, IOException {
+    // 페이지 이동
+    @GetMapping("/feedCreate")
+    public String feedCreate(@PathVariable("id") int id,
+                             Model model) {
+        model.addAttribute("id", id);
+        return "feed/feedCreate";
+    }
 
-		
-		
-		
-		List<Attachment> attachments = new ArrayList<>();
-		
-		for(MultipartFile upFile : upFiles){
-			if(!upFile.isEmpty()) { 
-				String originalFilename = upFile.getOriginalFilename(); 
-				String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename); 
-				File destFile = new File(renamedFilename); 
-				upFile.transferTo(destFile);
-				
-				Attachment attach =  
-						Attachment.builder()
-						.originalFilename(originalFilename)
-						.renamedFilename(renamedFilename)
-						.build();
-				attachments.add(attach);
-			}
-		}
-		
-		FeedDetails feed = FeedDetails.builder()
-				.writerId(member.getId())
-				.content(_feed.getContent())
-				.attachments(attachments)
-				.build();
-		
-		 
-		int result = photoFeedService.insertFeed(feed);
-		
-		if (result > 0) {
+    @GetMapping("/feed/feedDetail")
+    public String feedDetails(
+            @PathVariable("id") int id,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @RequestParam int photoFeedId,
+            Model model) {
 
-			return "redirect:/member/userPage/" + member.getId();
+        int writerId = principalDetails.getId();
 
-	    } else {
-	        return "forward:/index.do";
-	    }
-	}
+        // 피드 조회
+        List<PhotoAttachmentFeedDto> photoDetail = photoFeedService.selectFeedDetail(writerId, photoFeedId);
 
-	
-	@PostMapping("/feedDetails/feedDelete")
-	public String deleteFeed(
-			@RequestParam int feedId,
-			@AuthenticationPrincipal PrincipalDetails member){
-		
-		 int result = photoFeedService.deleteFeed(feedId);
-		
-		 return "redirect:/member/userPage/" + member.getId();
-	}
-	
-	@PostMapping("/feedDetails/feedUpdate")
-	public String updateFeed(
-			@RequestParam int feedId,
-			@RequestParam String content
-			){
-		
-		int result = photoFeedService.updateFeed(feedId, content);
-		
-		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
-	}
-	
-	@PostMapping("/feedDetails/feedLikeUpdate")
-	public String feedLikeUpdate(
-			@RequestParam int feedId,
-			@RequestParam int memberId) {
-		
-		
-		log.info("feedId = {}", feedId);
-		log.info("memberId = {}", memberId);
-		
-		Like likeCount = photoFeedService.getLikeCount(feedId, memberId);
-		
-		if (likeCount != null) {
-	        photoFeedService.deleteLike(feedId, memberId);
-	    } else {
-	    	photoFeedService.insertLike(feedId, memberId);
-	    }
-		
-		return "redirect:/feed/feedDetail?photoFeedId=" + feedId;
-	}
-	
-	
+        List<CommentAllDto> commentList = commentService.getCommentsByPhotoFeedId(photoFeedId);
+
+        PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
+
+        int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
+
+        FeedDetails response = FeedDetails.builder()
+                .id(photoFeedId)
+                .writerId(photoFeed.getWriterId())
+                .likeCount(likeCount)
+                .content(photoFeed.getContent())
+                .build();
+
+        Collections.sort(commentList, (c1, c2) -> c2.getRegDate().compareTo(c1.getRegDate()));
+        model.addAttribute("id", id);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("response", response);
+        model.addAttribute("photoDetail", photoDetail);
+        model.addAttribute("principalDetails", principalDetails);
+        return "feed/feedDetail";
+    }
+
+
+    // 피드 만들기
+    @PostMapping("/feedCreated")
+    public String peedCreate(
+            @ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
+            BindingResult bindingResult,
+            @AuthenticationPrincipal PrincipalDetails member,
+            @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
+            throws IllegalStateException, IOException {
+
+
+        List<Attachment> attachments = new ArrayList<>();
+
+        for (MultipartFile upFile : upFiles) {
+            if (!upFile.isEmpty()) {
+                String originalFilename = upFile.getOriginalFilename();
+                String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename);
+                File destFile = new File(renamedFilename);
+                upFile.transferTo(destFile);
+
+                Attachment attach =
+                        Attachment.builder()
+                                .originalFilename(originalFilename)
+                                .renamedFilename(renamedFilename)
+                                .build();
+                attachments.add(attach);
+            }
+        }
+
+        FeedDetails feed = FeedDetails.builder()
+                .writerId(member.getId())
+                .content(_feed.getContent())
+                .attachments(attachments)
+                .build();
+
+
+        int result = photoFeedService.insertFeed(feed);
+
+        if (result > 0) {
+
+            return "redirect:/member/userPage/" + member.getId();
+
+        } else {
+            return "forward:/index.do";
+        }
+    }
+
+
+    @PostMapping("/feedDetails/feedDelete")
+    public String deleteFeed(
+            @RequestParam int feedId,
+            @AuthenticationPrincipal PrincipalDetails member,
+            @PathVariable("id") int id
+    ) {
+
+        int result = photoFeedService.deleteFeed(feedId);
+
+        return "redirect:/member/userPage/" + id;
+    }
+
+    @PostMapping("/feedDetails/feedUpdate")
+    public String updateFeed(
+            @RequestParam int feedId,
+            @RequestParam String content,
+            @PathVariable("id") int id
+    ) {
+
+        int result = photoFeedService.updateFeed(feedId, content);
+
+        return "redirect:/member/userPage/" + id + "/feed/feedDetail?photoFeedId=" + feedId;
+    }
+
+    @PostMapping("/feedDetails/feedLikeUpdate")
+    public String feedLikeUpdate(
+            @RequestParam int feedId,
+            @RequestParam int memberId,
+            @PathVariable("id") int id
+    ) {
+
+        log.info("id = {}", id);
+
+        Like likeCount = photoFeedService.getLikeCount(feedId, memberId);
+
+        if (likeCount != null) {
+            photoFeedService.deleteLike(feedId, memberId);
+        } else {
+            photoFeedService.insertLike(feedId, memberId);
+        }
+
+        return "redirect:/member/userPage/" + id + "/feed/feedDetail?photoFeedId=" + feedId;
+    }
+
+
 }
