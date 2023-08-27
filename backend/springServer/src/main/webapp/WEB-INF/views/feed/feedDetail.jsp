@@ -22,11 +22,17 @@
         justify-content: center;
     }
 
+    .feedContent-box {
+        width: 30vw;
+        height: 30vw;
+    }
+
     /* 이미지 크기 및 정렬 조절 */
     .carousel-inner .carousel-item img {
         width: 500px; /* 이미지 최대 너비 */
         height: 500px;
     }
+
 
     /* 사진 박스 스타일 조절 */
     .carousel-box {
@@ -40,6 +46,12 @@
         padding: 20px;
         background-color: #f5f5f5;
         border-radius: 5px;
+        height: 25vw;
+        width: 30vw;
+    }
+
+    .likes-box {
+        margin-top: 30vw;
     }
 
     #likes {
@@ -78,48 +90,58 @@
         </div>
     </div>
 
+    <%-- feed report --%>
     <c:if test="${response.writerId ne principalDetails.id }">
-
-        <button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;"
-                onclick="goReport(${response.id}, ${response.writerId});">🚨
-        </button>
-
+        <div class="feedReport-box">
+            <button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;"
+                    onclick="goReport(${response.id}, ${response.writerId});">🚨
+            </button>
+        </div>
     </c:if>
-
-    <!-- 피드 삭제 버튼 -->
+    
+    <!-- feed delete  -->
     <c:if test="${response.writerId eq principalDetails.id}">
-        <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedDelete"
-                   method="post">
-            <input type="hidden" name="feedId" value="${response.id}">
-            <button type="submit" class="btn btn-danger">피드 삭제</button>
-        </form:form>
-
+        <div class="feedDelete-box">
+            <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedDelete"
+                       method="post">
+                <input type="hidden" name="feedId" value="${response.id}">
+                <button type="submit" class="btn btn-danger">피드 삭제</button>
+            </form:form>
+        </div>
     </c:if>
+
+    <%--  feed update button--%>
+    <c:if test="${response.writerId eq principalDetails.id }">
+        <div class="feedUpdate-box">
+            <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
+        </div>
+    </c:if>
+
+    <%--  feed content  --%>
     <div class="content-box">
 
-        <c:if test="${response.writerId eq principalDetails.id }">
-            <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
-        </c:if>
+        <div class="feedContent-box">${response.content}</div>
 
-        <div class="feed-content">${response.content}</div>
-
+        <%--    feed update form   --%>
+        <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
+            <textarea class="form-control">${response.content}</textarea>
+            <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+        </div>
     </div>
 
-    <!-- 피드 수정 폼 -->
-    <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
-        <textarea class="form-control">${response.content}</textarea>
-        <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+
+    <div class="likes-box">
+        <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedLikeUpdate"
+                   method="post">
+            <input type="hidden" name="feedId" value="${response.id}">
+            <input type="hidden" name="memberId" value="${principalDetails.id}">
+            <button type="submit">
+                <img id="likes" src="${pageContext.request.contextPath}/resources/images/like.png">
+                <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
+                <div>${response.likeCount}</div>
+            </button>
+        </form:form>
     </div>
-    <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedLikeUpdate"
-               method="post">
-        <input type="hidden" name="feedId" value="${response.id}">
-        <input type="hidden" name="memberId" value="${principalDetails.id}">
-        <button type="submit">
-            <img id="likes" src="${pageContext.request.contextPath}/resources/images/like.png">
-            <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
-            <div>${response.likeCount}</div>
-        </button>
-    </form:form>
 
 </div>
 <hr style="border: 3px">
