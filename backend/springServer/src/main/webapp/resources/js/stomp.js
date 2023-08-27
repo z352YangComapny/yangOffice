@@ -34,7 +34,7 @@ const renderStory = (payloads) => {
 		  <ul class="list-group list-group-flush">
 		    <li class="list-group-item writerId">${story.from}</li>
 		    <li class="list-group-item content">${story.content}</li>
-		    <li class="list-group-item createdAt">${story.createdAt}</li>
+		    <li class="list-group-item createdAt">${story.formattedCreatedAt}</li>
 		  </ul>
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
 			<input type="hidden" id="storyAttach" value="${story.attach}"/>
