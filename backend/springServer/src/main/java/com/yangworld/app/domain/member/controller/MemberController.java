@@ -147,10 +147,8 @@ public class MemberController {
 		log.info("photoList={}", photoList);
 	    model.addAttribute("photoList", photoList);
 	    
-
         return "member/userPage";
     }
-
 
     @PostMapping("/memberCreate.do")
     public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr) {
