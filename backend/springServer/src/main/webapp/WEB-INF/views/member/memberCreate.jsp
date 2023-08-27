@@ -364,9 +364,9 @@
 					<div class="invalid-feedback" id="nicknameChkInvalid">이미 존재하는 별명입니다.</div>
 				</div>
 				<div>
-					<label class="form-label mt-4" for="gender">성별</label>
+					<label class="form-label mt-4">성별</label>
 					<div class="form-check">
-						<input class="form-check-input" type="radio" name="gender" id="M" value="M" checked/>
+						<input class="form-check-input" id="M" type="radio" name="gender" value="M" checked/>
 						<label class="form-check-label" for="M">🧑 Male</label>
 					</div>
 					<div class="form-check">

@@ -75,11 +75,15 @@
 		&nbsp;
 		<a href="#" id="openModalLink2">비밀번호찾기</a>
 	</div>
-	<div class="sns-icon d-flex justify-content-center align-items-center"  style ="margin-top : 30px;" >
-
-		<a href=""><img src="${pageContext.request.contextPath}/resources/images/google.png"></a>
-		<a href="${pageContext.request.contextPath}/oauth/kakao/login.do"><img src="${pageContext.request.contextPath}/resources/images/instagrampng.png" /></a>&nbsp;
-		<a href="${pageContext.request.contextPath}/oauth/naver/login"><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
+	<div class="sns-icon d-flex flex-column justify-content-center align-items-center mt-4" >
+		<p>간편하게 소셜로그인을 이용하세요.(단, 자동으로 회원가입이 진행됩니다.)</p>
+		<div>
+			<a href=""><img src="${pageContext.request.contextPath}/resources/images/google_login.png"></a>
+			&nbsp;
+			<a href="${pageContext.request.contextPath}/oauth/kakao/login.do"><img src="${pageContext.request.contextPath}/resources/images/kakao.png" /></a>&nbsp;
+			&nbsp;
+			<a href="${pageContext.request.contextPath}/oauth/naver/login"><img src="${pageContext.request.contextPath}/resources/images/btnG_icon_square.png"></a>
+		</div>
 		&nbsp;
 	</div>
 
