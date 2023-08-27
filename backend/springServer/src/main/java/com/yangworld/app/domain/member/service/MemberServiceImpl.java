@@ -5,6 +5,7 @@ import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
 import com.yangworld.app.domain.member.entity.Authority;
 import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.entity.MemberDetails;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -51,8 +52,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int deleteFollowee(FollowDto unfollow) {
-        return memberRepository.deleteFollowee(unfollow);
+    public int deleteFollowee(FollowDto unfollowDto) {
+        return memberRepository.deleteFollowee(unfollowDto);
     }
 
 	@Override
@@ -81,27 +82,27 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public List<Member> findAllMember() {
-//        int limit = (int)params.get("limit");
-//        int page = (int)params.get("page");
-//        int offset = (page-1)*limit;
-//
-//        RowBounds rowBounds = new RowBounds(offset,limit);
+    public List<Member>  findAllMember( Map<String, Object> params) {
+        int limit = (int)params.get("limit");
+        int page = (int)params.get("page");
+        int offset = (page-1)*limit;
+
+        RowBounds rowBounds = new RowBounds(offset,limit);
 
 
-        return memberRepository.findAllMember();
+        return memberRepository.findAllMember(rowBounds);
     }
 
     @Override
-    public List<Member> findMemberByText(String inputText) {
+    public List<Member>  findMemberByText(String inputText, Map<String, Object> params) {
 
-//        int limit = (int)params.get("limit");
-//        int page = (int)params.get("page");
-//        int offset = (page-1)*limit;
-//
-//        RowBounds rowBounds = new RowBounds(offset,limit);
+        int limit = (int)params.get("limit");
+        int page = (int)params.get("page");
+        int offset = (page-1)*limit;
 
-        return memberRepository.findMemberByText(inputText);
+        RowBounds rowBounds = new RowBounds(offset,limit);
+
+        return memberRepository.findMemberByText(inputText, rowBounds);
     }
 
     @Override
@@ -109,5 +110,19 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findFollowee(id);
     }
 
+    @Override
+    public Member findMemberbyUsername(String username) {
+        return memberRepository.findMemberbyUsername(username);
+    }
+
+    @Override
+    public int findTotalMemberCount() {
+        return memberRepository.findTotalMemberCount();
+    }
+
+    @Override
+    public int findTotalMemberCountByInput(String inputText) {
+        return memberRepository.findTotalMemberCountByInput(inputText);
+    }
 
 }

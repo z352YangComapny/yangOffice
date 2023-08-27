@@ -20,13 +20,15 @@ import com.yangworld.app.domain.question.entity.Comment;
 
 @Mapper
 public interface PhotoFeedRepository {
-    // 피드 create
+
+	// 피드 create
 	@Insert("insert into photo_feed (id, writer_id, content) values (seq_photo_feed_id.nextval, #{writerId}, #{content})")
 	int insertFeed(FeedDetails peed);
 
     // 피드 create
     @Insert("insert into attachment (id, original_filename, renamed_filename) values (seq_attachment_id.nextval, #{originalFilename}, #{renamedFilename})")
     int insertAttachment(Attachment attach);
+    
     // 피드 create    
     @Insert("insert into attachment_photo_feed (attachment_id, photo_feed_id) values (seq_attachment_id.currval, seq_photo_feed_id.currval)")
     int insertLink();
@@ -69,6 +71,7 @@ public interface PhotoFeedRepository {
 	@Select("select count(*) as comment_count from comments_feed where photo_feed_id = #{id}")
 	int getCommentCount(int id);
 	
+	// details
 	@Select("select a.* from attachment a join attachment_photo_feed af on a.id = af.attachment_id where af.photo_feed_id = #{photoFeedId}")
 	List<PhotoAttachmentFeedDto> selectFeedDetail(int photoFeedId);
 
@@ -77,7 +80,8 @@ public interface PhotoFeedRepository {
 	
 	@Select("select * from attachment where id = #{id}")
 	Attachment selectAttachmentDetail(int id);
-
+	// details end
+	
 	@Select("select * from likes where photo_feed_id = #{feedId} and member_id = #{memberId}")
 	Like selectLikeCount(@Param(value = "feedId") int feedId, @Param(value = "memberId")int memberId);
 
@@ -89,6 +93,7 @@ public interface PhotoFeedRepository {
 
 	@Select("select count(*) from likes where photo_feed_id = #{id}")
 	int getLikeCount(int id);
+
 
 
 	

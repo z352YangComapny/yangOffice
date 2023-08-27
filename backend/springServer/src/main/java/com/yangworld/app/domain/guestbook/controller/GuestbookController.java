@@ -136,7 +136,12 @@ public class GuestbookController {
 		model.addAttribute("guestBooks",guestBooks);
 		model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
+
 	
 	    return "redirect:member/userPage/{id}/guestbook";
+
+
+	
+
 	}
 }

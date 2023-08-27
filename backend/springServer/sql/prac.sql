@@ -77,7 +77,7 @@ from
 where
     pf.id = 2;    
 
-
+select * from member where id = 12;
 
 SELECT c.*
 FROM comments c
@@ -103,10 +103,38 @@ delete from comments where ;
 select * from comments;
 
 select * from report_photo_feed;
-
+select * from photo_feed;
+select * from attachment;
+select * from attachment_photo_feed;
 select * from comments;
 select  * from user_role_privs;
 select * from member ;
 select * from authorities;
-
+select * from profile;
 select * from comments;
+select * from likes;
+
+-- comments 닉네임 찾는 쿼리
+select * from comments cm join member mem on cm.writer_id = mem.id where mem.id = 14;
+
+select * from comments cm join member mem on cm.writer_id = mem.id where;
+select * from comments cm;
+select * from member where id = 12;
+
+select * from photo_feed where writer_id = 12;
+
+select * from comments_feed where photo_feed_id = 54;
+
+select * from comments where id = 21;
+
+select * from comments where writer_id = 12;
+
+select * from member me join photo_feed pf on me.id = pf.id;
+
+select * from photo_feed where writer_id = 12;
+
+select * from photo_feed;
+
+select * from attachment_photo_feed;
+select * from attachment_photo_feed where photo_feed_Id = 50;
+select * from attachment where id = 54;

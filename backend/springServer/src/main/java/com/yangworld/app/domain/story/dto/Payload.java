@@ -1,6 +1,5 @@
 package com.yangworld.app.domain.story.dto;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +18,8 @@ public class Payload {
 	private String from;
 	private String content;
 	private LocalDateTime createdAt;
+	
+	private String formattedCreatedAt;
 	
 	private String attach = null;
 }

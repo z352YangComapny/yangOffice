@@ -1,11 +1,29 @@
 package com.yangworld.app.domain.member.controller;
 
 
+
+import com.yangworld.app.commons.MailSender;
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.dto.*;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.entity.MemberDetails;
+import com.yangworld.app.domain.member.service.MemberService;
+import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
+import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
+import com.yangworld.app.domain.profile.service.ProfileService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,11 +78,11 @@ public class MemberController {
     private PrincipalDetailsService principalDetailsService;
 
     @Autowired
-    private ProfileService profileService;
+    private PhotoFeedService photoFeedService; 
     
     @Autowired
-    private PhotoFeedService photoFeedService;
-
+    private ProfileService profileService;
+    
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -85,23 +103,37 @@ public class MemberController {
     }
 
     @GetMapping("/userPage/{id}")
-    public String userPage(@PathVariable("id") int id, Model model) {
+    public String userPage(
+		@AuthenticationPrincipal PrincipalDetails principal,
+		@PathVariable("id") int id, Model model) {
         Member member = memberService.findById(id);
         log.info("member@Home={}", member);
         model.addAttribute("member", member);
         // 프로필 정보 가져오기
         ProfileDetails profile = profileService.getProfileByMemberId(id);
         log.info("profile={}", profile);
-		
-		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id); 
-		
+
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
+        List<Attachment> profileAttachments =null;
         if(profile !=null){
+        	
             // 프로필 사진 가져오기
-            List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-           // log.info("profileAttachments={}", profileAttachments);
+
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            
+            model.addAttribute("id",id);
+
+            
+    	    model.addAttribute("photoList", photoList);
+            log.info("profileAttachments={}", profileAttachments);
+            model.addAttribute("profile", profile);
             model.addAttribute("profileAttachments", profileAttachments);
-            //log.info("profile = {}", profile);
-           // log.info("profileAttachment = {}", profileAttachments);
+            model.addAttribute("principalBday", member.getBirthday());
+            model.addAttribute("principalName", member.getName());
+            model.addAttribute("PrincipalDetails", principal);
+            log.info("profile = {}", profile);
+            log.info("profileAttachment = {}", profileAttachments);
+
         } else{
             profile = ProfileDetails.builder()
                     .attachments(null)
@@ -109,13 +141,14 @@ public class MemberController {
                     .introduction("새롭게 작성해주세요")
                     .build();
         }
+       // log.info("profileAttachment={}", profileAttachments);
+        model.addAttribute("profileAttachments", profileAttachments);
         model.addAttribute("profile", profile);
         model.addAttribute("principalBday", member.getBirthday());
         model.addAttribute("principalName", member.getName());
-
-		log.info("photoList={}", photoList);
+        model.addAttribute("PrincipalDetails", principal);
 	    model.addAttribute("photoList", photoList);
-	    
+	    model.addAttribute("id",id);
 
         return "member/userPage";
     }
@@ -133,7 +166,7 @@ public class MemberController {
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
-        redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
+        //redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
         return "profile/profileCreate";
     }
 
@@ -174,7 +207,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/checkNicknameDuplicate.do")
+    @GetMapping({"/checkNicknameDuplicate.do", "/checkNicknameDuplicate2.do"})
     public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname) {
         boolean available = false;
         Member member = memberService.findByNickname(nickname);
@@ -190,7 +223,7 @@ public class MemberController {
      * @param phone
      * @return
      */
-    @GetMapping("/checkPhoneDuplicate.do")
+    @GetMapping({"/checkPhoneDuplicate.do", "/checkPhoneDuplicate2.do"})
     public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone) {
         boolean available = false;
         Member member = memberService.findByPhone(phone);
@@ -201,7 +234,7 @@ public class MemberController {
     }
 
     // 회원가입시 이메일 인증요청
-    @GetMapping("/checkEmail.do")
+    @GetMapping({"/checkEmail.do", "/checkEmail2.do"})
     public ResponseEntity<?> checkEmail(@RequestParam String email) {
         log.info("email={}", email);
 
@@ -238,6 +271,20 @@ public class MemberController {
 
         return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
 
+    }
+
+    @PostMapping("/resetPassword2.do")
+    public ResponseEntity<?> resetPassword2(@RequestParam String password, @RequestParam String username) {
+
+        log.info("password ={}", password);
+        log.info("username={}", username);
+        String newPassword = passwordEncoder.encode(password);
+        log.info("newPwd={}", newPassword);
+
+        int result = memberService.resetPassword(newPassword, username);
+        log.info("result@reset = {}", result);
+
+        return ResponseEntity.ok().body(Map.of("msg", "비밀번호 재설정 완료"));
 
     }
 
@@ -254,26 +301,38 @@ public class MemberController {
     }
 
     //follow 하기
-    @PostMapping("/follow")
-    public ResponseEntity<?> follow(@AuthenticationPrincipal PrincipalDetails principal,
-                                    @RequestBody FollowDto followDto) {
-        log.info("followDto = {}", followDto);
+    @PostMapping("/addFollowee")
+    public ResponseEntity<?>addFollowee(@AuthenticationPrincipal PrincipalDetails principal,
+                                    @RequestParam String memberId) {
+
+        Member member = memberService.findMemberbyUsername(memberId);
+
+        FollowDto followDto = new FollowDto();
         followDto.setFollower(principal.getId());
-        log.info("followDto={}", followDto);
+        followDto.setFollowee(member.getId());
+        log.info("followDto = {}", followDto);
+
 
         memberService.insertFollowee(followDto);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("msg", "follow 완료 되었습니다."));
     }
 
     //unfollow 하기
     @PostMapping("/unfollow")
     public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
-                                      @RequestBody FollowDto unfollow) {
-        unfollow.setFollower(principal.getId());
-        memberService.deleteFollowee(unfollow);
+                                      @RequestParam String memberId) {
 
-        return ResponseEntity.ok().build();
+        Member member = memberService.findMemberbyUsername(memberId);
+
+        FollowDto unfollowDto = new FollowDto();
+        unfollowDto.setFollower(principal.getId());
+        unfollowDto.setFollowee(member.getId());
+        log.info("followDto = {}", unfollowDto);
+
+        memberService.deleteFollowee(unfollowDto);
+
+        return ResponseEntity.ok().body(Map.of("msg", "unfollow 완료 되었습니다."));
     }
 
     //member 상세정보
@@ -292,16 +351,25 @@ public class MemberController {
                                         @AuthenticationPrincipal PrincipalDetails principal) {
         //pagination
         Map<String, Object> params = Map.of("page", page, "limit", limit);
-        List<Member> memberList = null;
+        List<Member>  memberList = null;
+        int totalMemberCount = 0;
         if (inputText.equals("")) {
-            memberList = memberService.findAllMember();
+            memberList = memberService.findAllMember(params);
+            totalMemberCount = memberService.findTotalMemberCount();
            // log.info("memberList@no ={}", memberList);
+            log.info("totalMemberCount={}", totalMemberCount);
         } else {
-            memberList = memberService.findMemberByText(inputText);
+            memberList = memberService.findMemberByText(inputText, params);
+            totalMemberCount = memberService.findTotalMemberCountByInput(inputText);
+            log.info("totalMember@input={}", totalMemberCount);
            // log.info("memberList@input={}", memberList);
         }
         List<FollowDto> followList = memberService.findFollowee(principal.getId());
         //log.info("followeeList={}", followList);
-        return ResponseEntity.ok().body(Map.of("memberList", memberList,"followList", followList));
+        int principalId = principal.getId();
+        log.info("limit={}", limit);
+        int totalPages = (int)Math.ceil((double)totalMemberCount/limit);
+        log.info("totalPages={}", totalPages);
+        return ResponseEntity.ok().body(Map.of("memberList", memberList,"followList", followList, "principal", principalId, "totalPages", totalPages));
     }
 }

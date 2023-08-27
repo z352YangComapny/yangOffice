@@ -18,6 +18,7 @@
         max-width: 350px; /* 최대 너비 */
         max-height: 350px; /* 최대 높이 */
     }
+   
 </style>
 <body>
        <div class="container mt-5" style="margin-left: 300px;">
@@ -33,11 +34,13 @@
                     <c:choose>
                         <c:when test="${not empty profileAttachments}">
                             <c:forEach items="${profileAttachments}" var="attachment">
-                                <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+                            	<%-- <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${not empty profileAttachments ? profileAttachments[0].renamedFilename : 'default.jpg'}" alt="프로필 사진" style="width: 350px; height: 350px;"> --%>
+                                <img id="selectedImage" class="preview-image rounded-circle" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;"> 
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <img id="selectedImage" src="<c:url value='/resources/upload/profile/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+                            <img id="selectedImage" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+                            <input type="hidden" id="defaultImageChanged" name="defaultImageChanged" value="false">
                         </c:otherwise>
                     </c:choose>
                     <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
@@ -68,7 +71,7 @@
                 <div class="row">
                     <div class="col-md-4">
                     	<br><br><br><br><br><br>
-                        <label for="introduction" style="font-size:17px;">소개글</label>
+                        <label for="introduction" style="font-size:17px;">간단 소개</label>
                     </div>
                     <div class="col-md-8">
                     	<br><br>
@@ -78,14 +81,37 @@
                         <br><hr style="border-top: 5px solid silver; margin-right: -330px;">
             </div>
         </div>
+        
         <button type="submit" class="btn btn-primary">수정</button>
-        <button type="button" class="btn btn-primary" id="resetButton">초기화</button>
+        <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
     </form:form>
 </div>
 
 
 <script>
+const csrfToken = "${_csrf.token}";
 $(document).ready(function() {
+    var selectedImageChanged = false; // 이미지가 변경되었는지 여부
+    
+    $('#defaultUpdate').on('click', function() {
+        $.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/profile/defaultupdate',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRF-TOKEN", "${_csrf.token}");
+            },
+            success: function(data) {
+				alert("초기화 되었습니다.");
+				location.reload();
+            },
+            error: function(error) {
+                console.error('Error during profile reset:', error);
+            }
+        });
+    });
+    
+    
+    
     // 파일 선택(input 변경) 이벤트 핸들러
     $('#upFile').on('change', function() {
         var selectedFile = this.files[0];
@@ -93,30 +119,24 @@ $(document).ready(function() {
             var reader = new FileReader();
             reader.onload = function(e) {
                 $('#selectedImage').attr('src', e.target.result);
+                selectedImageChanged = true;
             };
             reader.readAsDataURL(selectedFile);
+            console.log(selectedFile);
         } else {
             // 선택된 파일이 없을 때 기본 이미지 표시
-            $('#selectedImage').attr('src', '<c:url value="/resources/upload/profile/default.jpg" />');
+            $('#selectedImage').attr('src', '<c:url value="/resources/upload/attachment/default.jpg" />');
+            selectedImageChanged = false;
         }
     });
-
-    $('#resetButton').click(function() {
-        $('#upFile').val('');
-        $('#selectedImage').attr('src', '<c:url value="/resources/upload/profile/default.jpg" />');
-        $('input[name="state"][value="A"]').prop('checked', true);
-        $('#introduction').val('안녕하세요.${pageContext.request.userPrincipal.name}입니다.');
-    });
+    
+   
+    
+    
+    
 });
+
 </script>
-
-
-
-
-
-
-
-
 
       
 </body>
