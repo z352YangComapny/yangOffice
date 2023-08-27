@@ -33,7 +33,6 @@
         height: 500px;
     }
 
-
     /* 사진 박스 스타일 조절 */
     .carousel-box {
         flex: 1;
@@ -98,7 +97,7 @@
             </button>
         </div>
     </c:if>
-    
+
     <!-- feed delete  -->
     <c:if test="${response.writerId eq principalDetails.id}">
         <div class="feedDelete-box">

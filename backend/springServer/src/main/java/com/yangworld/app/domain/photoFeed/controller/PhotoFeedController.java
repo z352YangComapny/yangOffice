@@ -108,9 +108,10 @@ public class PhotoFeedController {
             @ModelAttribute("feedFrm") @Valid FeedCreateDto _feed,
             BindingResult bindingResult,
             @AuthenticationPrincipal PrincipalDetails member,
+            @PathVariable("id") int id,
+            Model model,
             @RequestPart(value = "photo", required = false) List<MultipartFile> upFiles)
             throws IllegalStateException, IOException {
-
 
         List<Attachment> attachments = new ArrayList<>();
 
@@ -140,11 +141,11 @@ public class PhotoFeedController {
         int result = photoFeedService.insertFeed(feed);
 
         if (result > 0) {
-
             return "redirect:/member/userPage/" + member.getId();
 
         } else {
-            return "forward:/index.do";
+            model.addAttribute("errorMessage", "업로드된 파일이 없습니다.");
+            return "redirect:/member/userPage/" + id + "/feedCreate";
         }
     }
 
