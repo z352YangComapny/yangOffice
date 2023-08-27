@@ -1,12 +1,145 @@
-.feed-detail{
+.feed-detail {
+
     border-right: 2px rgb(0, 0, 0, 0.5) solid;
 }
 
-.feed-total{
+.feed-total {
     /* min-height: 100%; */
 }
 
-.feed{
-    padding : 1%;
+.feed {
+    padding: 1%;
     min-height: 98%;
+}
+
+.feed-img-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .feed-main-img{
+    width: 100%;
+    height: ;
+    border-radius: 5% !important;
+} */
+
+.feed-text {
+    margin: 1vh;
+    width: 90%;
+    height: 8vh;
+}
+
+.feed-box {
+    margin-right: 5px;
+    width: 100%;
+    height: 14.7vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+
+.feed-comments {
+    height: 4vw;
+    margin-bottom: 0.4vw;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.comments {
+    font-weight: 500;
+}
+
+.feed-comment-input {
+    margin-bottom: 0.5vw;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0px;
+    /* 각 이미지 사이의 간격 */
+}
+
+.grid-item {
+    aspect-ratio: 473 / 341; /* 가로와 세로 길이 비율을 1:1로 설정 */
+}
+
+.item img {
+    width: 100%;
+    height: 100% !important; 
+    border-radius: 0 !important;
+}
+
+.item img:hover {
+    transform: scale(1.15);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0);
+    /* 그림자 추가 */
+    z-index: 29;
+    /* 이미지 크기 확대 */
+}
+
+.guestbook-text-line{
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    padding: 5px;
+    
+}
+
+
+/* 스크롤바 */
+.feed-box::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+/* 스크롤바 트랙 */
+.feed-box::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+/* 스크롤바 색 */
+.feed-box::-webkit-scrollbar-thumb {
+    background: rgba(81, 204, 206, 0.4) !important;
+}
+
+/* 스크롤바가 마우스 오버 시 색 */
+.feed-box::-webkit-scrollbar-thumb:hover {
+    background: rgb(81, 203, 206, 0.8) !important;
+}
+
+/* 스크롤바 */
+.feed-comments::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+/* 스크롤바 트랙 */
+.feed-comments::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+/* 스크롤바 색 */
+.feed-comments::-webkit-scrollbar-thumb {
+    background: rgba(81, 204, 206, 0.4) !important;
+}
+
+/* 스크롤바가 마우스 오버 시 색 */
+.feed-comments::-webkit-scrollbar-thumb:hover {
+    background: rgb(81, 203, 206, 0.8)
+}
+
+.feed-detail-image {
+    width: 100% !important;
+    height: 16vw !important;
+}
+
+.feed-contest-text {
+    margin-top: 1vh;
+    font-size: 24px;
 }

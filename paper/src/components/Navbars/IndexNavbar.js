@@ -157,6 +157,7 @@ function IndexNavbar() {
                   <NavLink
                     data-placement="bottom"
                     title="내 피드 보기"
+                    onClick={()=>{navigate(`/user/${userProfile.username}`)}}
                   >
                     <i className="fa nc-icon nc-layout-11" />
                     <p style={{ fontSize: "14px", fontStyle: "italic" }}>{userProfile.username}</p>

@@ -10,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import MembetContextProvider from 'contexts/MembetContextProvider';
 import { BrowserRouter } from 'react-router-dom';
 import NotificationContextProvider from 'contexts/NotificationContextProvider';
+import PhotoFeedContextProvider from 'contexts/PhotoFeedContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,9 +18,11 @@ root.render(
     <BrowserRouter>
       <NotificationContextProvider>
         <MembetContextProvider>
+          <PhotoFeedContextProvider>
 
           <App />
 
+          </PhotoFeedContextProvider>
         </MembetContextProvider>
       </NotificationContextProvider>
     </BrowserRouter>

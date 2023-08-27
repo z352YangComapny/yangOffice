@@ -1,0 +1,120 @@
+.guestBook-container{
+    display: flex;
+    height: 100%;
+}
+
+.guestbook-title{
+    width: 8%;
+    writing-mode: vertical-rl; /* 텍스트를 세로로 쓰기 */
+    text-orientation: upright; /* 텍스트 방향을 위로 정렬 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    color: rgb(81,203,206);
+    border-right: 2px dashed rgb(81,203,206, 0.8);
+    border-top-left-radius: 10%;
+    border-bottom-left-radius: 10%;
+}
+
+.inner-title{
+    padding-top: 0px !important;
+    font-size: 22px;
+    letter-spacing: -9px; /* 원하는 간격으로 설정 */
+    margin: 0 auto;
+    padding: 0;
+    font-weight: 400;
+    width: 22px;
+    margin-right: 10px;
+}
+
+
+.guestbook-footer{
+    display: flex;
+    width: 100%;
+}
+
+.inner-title2{
+    padding-top: 7px !important;
+    font-size: 22px;
+    letter-spacing: -9px; /* 원하는 간격으로 설정 */
+    margin: 0 auto;
+    padding: 0;
+    width: 22px;
+    font-weight: 400;
+}
+
+/* 초기화된 페이지네이션 스타일 */
+.pagination {
+    display: flex !important;
+    padding-left: 0 !important;
+    margin: 0 !important;
+    border-radius: 0rem !important;
+    
+
+  }
+  
+  .pagination > li {
+    display: inline !important;
+  }
+  
+  .pagination > li > a,
+  .pagination > li > span {
+    position: relative !important;
+    float: left !important;
+    padding: 0.5rem 0.75rem !important;
+    margin-left: -1px !important;
+    
+    line-height: 1.25 !important;
+    color: rgb(81,188,218) !important;
+    background-color: #fff !important;
+    border: 0px solid  white !important;
+    border-radius: 0rem !important;
+  }
+  
+  .pagination > li:first-child > a,
+  .pagination > li:first-child > span {
+
+    border-radius: 0rem !important;
+    
+  }
+  
+  .pagination > li:last-child > a,
+  .pagination > li:last-child > span {
+    border-radius: 0rem !important;
+  }
+  
+  .pagination > li > a:focus,
+  .pagination > li > a:hover,
+  .pagination > li > span:focus,
+  .pagination > li > span:hover {
+    z-index: 2 !important;
+    color:  rgb(81,188,218)!important;
+    background-color: rgb(81,188,218,0.3) !important;
+    border-color:  rgb(81,188,218)!important;
+    border-radius: 0rem !important;
+  }
+  
+  .pagination > .active > a,
+  .pagination > .active > a:focus,
+  .pagination > .active > a:hover,
+  .pagination > .active > span,
+  .pagination > .active > span:focus,
+  .pagination > .active > span:hover {
+    z-index: 3 !important;
+    color: #fff !important;
+    background-color:  rgb(81,188,218) !important;
+    border-color:  rgb(81,188,218) !important;
+    cursor: default !important;
+    border-radius: 0rem !important;
+  }
+  
+  .pagination > .disabled > span,
+  .pagination > .disabled > span:focus,
+  .pagination > .disabled > span:hover,
+  .pagination > .disabled > a,
+  .pagination > .disabled > a:focus,
+  .pagination > .disabled > a:hover {
+    color: #6c757d !important;
+    background-color: #fff !important;
+    border-color: #dee2e6 !important;
+    cursor: not-allowed !important;
+    border-radius: 0rem !important;
+  }

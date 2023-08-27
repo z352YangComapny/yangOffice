@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import '../assets/css/userpage.css'
 import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from 'reactstrap';
-import SmilingFaceSunglasses from 'components/Icons/icons/smiling-face-sunglasses';
 import StoryComponent from 'components/Story/StoryComponent';
 import ProfileComponent from 'components/Member/ProfileComponent';
 import PhotoFeedComponent from 'components/PhotoFeed/PhotoFeedComponent';
+import GuestBookComponet from 'components/GuestBook/GuestBookComponet';
 
 const UserPage = (props) => {
   const [leftState, setLeftState] = useState(0);
@@ -28,17 +28,9 @@ const UserPage = (props) => {
               <ProfileComponent/>
             </Col>
             <Col className='user-right' md={8}>
-              <StoryComponent memberid={id}/>
+              <StoryComponent/>
               <PhotoFeedComponent></PhotoFeedComponent>
-              
-              <Card style={{
-                border: 'solid 3px rgba(81, 203, 206, 1)',
-                transform: 'none',
-                transition: 'none',
-                marginTop: "20px",
-                boxShadow: '4px 4px 8px rgba(81, 203, 206, 0.8)',
-                height: "14.5%"
-              }}>GuestBook</Card>
+              <GuestBookComponet></GuestBookComponet>
             </Col>
           </Row>
         </div>

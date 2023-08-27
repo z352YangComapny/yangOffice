@@ -68,6 +68,13 @@ public class AdminController {
         return ResponseEntity.ok(feed);
     }
 
+    @GetMapping("/feed/cli/{pageNo}")
+    public ResponseEntity<?> feedCli(@PathVariable int pageNo){
+        int pageSize=15;
+        List<FeedDto> feed = photoPeedService.getPhotoFeed(pageNo ,pageSize);
+        return ResponseEntity.ok(feed);
+    }
+
     @GetMapping("/totalStoryCount")
     public ResponseEntity<?> totalStoryCount(){
         int result = storyService.getTotalStoryCount();
@@ -91,6 +98,8 @@ public class AdminController {
         List<GuestbookAdminDto> result = guestBookService.guestbookList(pageNo , pageSize);
         return ResponseEntity.ok(result);
     }
+
+
     @GetMapping("/profile/{id}")
     public ResponseEntity<?> profile(@PathVariable int id){
         AdminProfileDto adminProfileDto = profileService.findProfileByMemberIdForAdmin(id);
