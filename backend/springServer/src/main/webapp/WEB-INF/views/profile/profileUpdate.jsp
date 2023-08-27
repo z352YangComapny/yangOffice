@@ -94,20 +94,22 @@ $(document).ready(function() {
     var selectedImageChanged = false; // 이미지가 변경되었는지 여부
     
     $('#defaultUpdate').on('click', function() {
-        $.ajax({
-            type: 'POST',
-            url: '${pageContext.request.contextPath}/profile/defaultupdate',
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("X-CSRF-TOKEN", "${_csrf.token}");
-            },
-            success: function(data) {
-				alert("초기화 되었습니다.");
-				location.reload();
-            },
-            error: function(error) {
-                console.error('Error during profile reset:', error);
-            }
-        });
+    	if (confirm("프로필을 초기화하시겠습니까?")) {
+	        $.ajax({
+	            type: 'POST',
+	            url: '${pageContext.request.contextPath}/profile/defaultupdate',
+	            beforeSend: function(xhr) {
+	                xhr.setRequestHeader("X-CSRF-TOKEN", "${_csrf.token}");
+	            },
+	            success: function(data) {
+					alert("초기화 되었습니다.");
+					location.reload();
+	            },
+	            error: function(error) {
+	                console.error('Error during profile reset:', error);
+	            }
+	        });
+    	}
     });
     
     
