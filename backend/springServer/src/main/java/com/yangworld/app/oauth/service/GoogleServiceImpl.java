@@ -157,18 +157,13 @@ public class GoogleServiceImpl implements GoogleService {
 
         System.out.println("GoogleResponse @ getGoogleInfo : " + response.toString());
 
-        String jwtToken = response.getBody().getAccess_token();
+        String jwtToken = response.getBody().getId_token();
+        Map<String, String> map = new HashMap<>();
+        map.put("id_token", jwtToken);
 
-        String accessToken = "Bearer " + jwtToken;
-
-        log.info("jwtToken = {}", jwtToken);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", accessToken);
-
-        ResponseEntity<GoogleInfoResponse> infoResponse = restTemplate.getForEntity("https://oauth2.googleapis.com/tokeninfo",
-                GoogleInfoResponse.class);
+        ResponseEntity<GoogleInfoResponse> infoResponse = restTemplate.postForEntity("https://oauth2.googleapis.com/tokeninfo",
+                map, GoogleInfoResponse.class);
+        System.out.println("GoogleResponse @ getGoogleInfo : " + response.toString());
 
         log.info("infoResponse = {}", infoResponse);
 //
@@ -193,4 +188,5 @@ public class GoogleServiceImpl implements GoogleService {
 //            authenticationSaver(member);
 //        }
     }
+
 }
