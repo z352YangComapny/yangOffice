@@ -74,6 +74,12 @@ public class NaverController {
 
        try{
              member = (PrincipalDetails)principalService.loadUserByUsername(username);
+
+           Authentication authentication = new UsernamePasswordAuthenticationToken(member, member.getPassword(), member.getAuthorities());
+           SecurityContextHolder.getContext().setAuthentication(authentication);
+
+           return new RedirectView(request.getContextPath()+"/member/userPage" + member.getId());
+
        } catch(UsernameNotFoundException ignore){
 
 
@@ -108,14 +114,15 @@ public class NaverController {
            member = (PrincipalDetails)principalService.loadUserByUsername(username);
 
 
+           Authentication authentication = new UsernamePasswordAuthenticationToken(member, member.getPassword(), member.getAuthorities());
+
+           SecurityContextHolder.getContext().setAuthentication(authentication);
+
+           // 프로필 설정창으로 이동하도록 변경예정
+           return new RedirectView(request.getContextPath()+"/member/memberDetail.do");
+
        }
 
-       Authentication authentication = new UsernamePasswordAuthenticationToken(member, member.getPassword(), member.getAuthorities());
-
-       SecurityContextHolder.getContext().setAuthentication(authentication);
-
-       // 프로필 설정창으로 이동하도록 변경예정
-        return new RedirectView(request.getContextPath()+"/member/memberDetail.do");
    }
 
 }

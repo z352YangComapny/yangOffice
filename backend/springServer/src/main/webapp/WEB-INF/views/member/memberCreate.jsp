@@ -4,9 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="회원등록" name="title"/>
-</jsp:include>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/member.css" />
 <%--모달 시작--%>
 <div class="modal fade" id="memberAgree1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
