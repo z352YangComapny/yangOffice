@@ -37,6 +37,11 @@
         </div>
     </div>
 <script>
+    $('#dmModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+
 $(document).ready(function() {
     $('#dmModal').modal({
         backdrop: 'static',  

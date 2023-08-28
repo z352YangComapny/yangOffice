@@ -19,7 +19,7 @@
    <sec:authorize access="isAuthenticated()">
       <script>
          const username = '<sec:authentication property = "principal.username"/>';
-         const id = '<sec:authentication property = "principal.id"/>';
+       	 const id = '<sec:authentication property = "principal.id"/>';
       </script>
       <!--위에 변수 선언을 해주면 하단 stomp.js에서 참조가 가능하다! 기존 js에서는 jstl문법 등을 사용할 수 없으니까! -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -80,7 +80,7 @@
 </sec:authorize>
 <div id="container">
    <header>
-      <sec:authentication property="principal" var="dmMember"/>
+     <%-- <sec:authentication property="principal" var="dmMember"/>--%>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
       <nav class="navbar navbar-expand-lg bg-primary">
          <div class="container-fluid">
@@ -104,7 +104,7 @@
                <div class="d-flex justify-content-center column align-items-center">
                   <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
                      <div id="notification-div"> </div>
-                     <input type='hidden' id='userId' value='${dmMember.id}' />
+                      <input type='hidden' id='userId' value='${loginMember.id}' />
                      <a href="${pageContext.request.contextPath}/dm/dmList">
                         <img src="${pageContext.request.contextPath}/resources/images/send-message-w.png" id="dm-image" alt="dm-img" style="width: 70px;"/>
                      </a>
@@ -136,4 +136,19 @@
 
 
    </header>
+
+   <script>
+      <c:choose>
+      <c:when test="${not empty loginMember}">
+      const userId = ${loginMember.id}; // 인증된 멤버의 ID를 가져옵니다.
+      document.addEventListener('DOMContentLoaded', () => {
+         notifyConnect(userId);
+      });
+      </c:when>
+      <c:otherwise>
+      console.log("로그인되지 않았습니다. DM 알림을 구독하지 않습니다.");
+      </c:otherwise>
+      </c:choose>
+
+   </script>
    <section id="content">
