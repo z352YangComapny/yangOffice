@@ -194,7 +194,7 @@ const chatting = (payload) => {
 	const memberId = document.getElementById('userId').value;
 
 	const chatMessageDiv = document.createElement('div');
-
+	
 	if (chat.id == memberId) {
 		chatMessageDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
 		chatMessageDiv.innerHTML = `

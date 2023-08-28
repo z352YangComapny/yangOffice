@@ -34,12 +34,6 @@ public class ReportController {
 	private StoryService storyService;
 	
 	// insert 하실때 .insertReport 사용하시면 insert 됩니다. !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	
-	@GetMapping("/createDmReport")
-	public void createReport() {
-		
-	}
-	
 
 	@GetMapping("/createFeedReport")
 	public void createFeedReport() {}

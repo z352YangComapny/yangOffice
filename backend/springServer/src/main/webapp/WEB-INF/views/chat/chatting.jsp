@@ -13,6 +13,7 @@
 <sec:authentication property="principal" var="dmMember"/>
 <input type='hidden' id='memberId' value='${dmMember.id}' />
 
+
 <section style="background-color: #eee;">
     <div class="container py-5">
         <div class="row d-flex justify-content-center" style="height: 690px; width:1300px;">

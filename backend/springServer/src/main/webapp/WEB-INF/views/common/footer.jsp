@@ -7,7 +7,6 @@
 	<footer class="justify-content-center align-items-center bg-primary">
 		<span style="margin-top: 0px; text-align: center; color: white;" >&lt;Copyright 2023. <strong>YagnCompany</strong>. All rights reserved.&gt;</span>
 	</footer>
-	
 </div>
 </body>
 </html>

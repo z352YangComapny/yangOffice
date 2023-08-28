@@ -15,8 +15,21 @@ int reportedId = Integer.parseInt(reportedIdParam);
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="게시판" name="title"/>
 </jsp:include>
+    <script>
+    $(document).ready(function() {
+        $('#reportDmModal').modal({
+            backdrop: 'static',  
+            keyboard: false  
+        });
 
-    <div class="modal" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="dmModalLabel" aria-hidden="true">
+        $('#closeModalButton').click(function() {
+            location.href = '${pageContext.request.contextPath}/dm/dmList';
+        });
+    });
+    </script>
+
+	<!--  신고 모달 시작  -->
+    <div class="modal" id="reportDmModal" tabindex="-1" role="dialog" aria-labelledby="dmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content" style="background-color: #585757;">
                 <div class="modal-header">
@@ -45,19 +58,6 @@ int reportedId = Integer.parseInt(reportedIdParam);
             </div>
         </div>
     </div>
-<script>
-$(document).ready(function() {
-    $('#reportModal').modal({
-        backdrop: 'static',  
-        keyboard: false  
-    });
-
-    // 모달 닫기 버튼 누를 때 페이지 이동
-    $('#closeModalButton').click(function() {
-        location.href = '${pageContext.request.contextPath}/dm/dmList';
-    });
-});
-
-</script>
+    <!--  신고 모달 끝  -->
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
