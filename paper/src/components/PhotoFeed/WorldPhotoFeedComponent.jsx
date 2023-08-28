@@ -36,7 +36,8 @@ const WorldPhotoFeedComponent = () => {
       height: "65%"
     }}>
       <Row className='feed'>
-        <Col md={7} className='feed-detail'>
+      <PhotoFeedListComponents></PhotoFeedListComponents>
+        {/* <Col md={7} className='feed-detail'>
           <div style={{ marginTop: "2vh" }}></div>
           <MyCarousel />
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "5px" }}>
@@ -82,8 +83,8 @@ const WorldPhotoFeedComponent = () => {
           </div>
         </Col>
         <Col md={5} className='feed-total'>
-          <PhotoFeedListComponents></PhotoFeedListComponents>
-        </Col>
+          
+        </Col> */}
       </Row>
     </Card>
   )

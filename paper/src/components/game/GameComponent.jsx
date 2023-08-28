@@ -72,8 +72,8 @@ const GameComponent = () => {
             <div className="game-container" ref={gameContainerRef}>
             
             </div>
-            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"1105px"}}></Input>
-            <Button onClick={handleOnClickSocket} style={{margin:"20px"}}>Online 접속하기</Button>
+            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"800px"}}></Input>
+            {/* <Button onClick={handleOnClickSocket} style={{margin:"20px"}}>Online 접속하기</Button> */}
         </>
     );
 };

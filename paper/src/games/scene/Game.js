@@ -6,6 +6,7 @@ import MyPlayer from "../characters/Myplayer";
 import Network from "../network/NetWork";
 import OtherPlayers from "games/characters/OhterPlayer";
 
+
 export default class Game extends Scene {
     constructor() {
         super({ key: 'Game' });
@@ -23,14 +24,14 @@ export default class Game extends Scene {
         this.otherPlayerMap = new Map();
         this.playerTexture = 'adam'
         this.network = new Network(this.userProfile.username);
-        this.dialogueBubble=null;
-
+        this.dialogueBubble = null;
     }
 
 
     preload() {
         this.registry.set('network', this.network)
-        this.load.tilemapTiledJSON('map', 'assets/maps/fianlreal.json')
+        
+        this.load.tilemapTiledJSON('map', `http://localhost:8080/resources/upload/attachment/fianlreal.json` );
         this.load.spritesheet('basement', 'assets/tilesets/Basement.png', {
             frameWidth: 32,
             frameHeight: 32,
@@ -67,6 +68,7 @@ export default class Game extends Scene {
             frameWidth: 32,
             frameHeight: 48,
         })
+
     }
 
     create() {
@@ -124,7 +126,7 @@ export default class Game extends Scene {
 
 
             this.dialogueBubble = this.registry.get("bubble")
-            if(this.dialogueBubble.length>0)
+            if (this.dialogueBubble.length > 0)
                 this.handleMyDialogueBubble();
         }
     }
@@ -161,31 +163,30 @@ export default class Game extends Scene {
         }
     }
 
-    handleOhterPlayerBubble(message){
+    handleOhterPlayerBubble(message) {
         console.log(message)
         const text = message.text
         const name = text.split(' ')[0];
-        if(name === this.myPlayer.name) return;
+        if (name === this.myPlayer.name) return;
         this.otherPlayerMap.get(name).updateDialogBubble(text)
     }
 
-    handleMyDialogueBubble(){
-        while(this.dialogueBubble.length>0)
-        {
+    handleMyDialogueBubble() {
+        while (this.dialogueBubble.length > 0) {
             const textVal = this.dialogueBubble.shift();
-            
+
             this.myPlayer.updateDialogBubble(textVal);
             this.network.handleSendChatMsg(textVal);
-            
-            this.registry.set('bubble',this.dialogueBubble);
+
+            this.registry.set('bubble', this.dialogueBubble);
         }
     }
 
-    handleLeavePlayer(leavePlayer){
+    handleLeavePlayer(leavePlayer) {
         if (this.otherPlayerMap.has(leavePlayer.name)) {
             const leavingPlayer = this.otherPlayerMap.get(leavePlayer.name);
             this.otherPlayerMap.delete(leavePlayer.name);
-    
+
             // Remove the leaving player from the otherPlayers group
             leavingPlayer.destroy();
             leavingPlayer.playerContainer.destroy();
@@ -228,7 +229,7 @@ export default class Game extends Scene {
         }
         // maybe we can have a dedicated method for adding keys if more keys are needed in the future
         this.input.keyboard.disableGlobalCapture()
-        
+
         // this.input.keyboard.on('keydown-ENTER', (event) => {
         //     store.dispatch(setShowChat(true))
         //     store.dispatch(setFocused(true))

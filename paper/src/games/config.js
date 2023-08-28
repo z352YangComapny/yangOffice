@@ -9,8 +9,8 @@ const GameConfig = {
   pixelArt: true,
   scale: {
     // mode: Phaser.Scale.ScaleModes.RESIZE,
-    width: 1120,
-    height: 630,
+    width: 800,
+    height: 450,
   },
   physics: {
     default: 'arcade',
