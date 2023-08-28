@@ -34,8 +34,8 @@
 <%-- <% String principalName = (String) request.getAttribute("principalName"); %>
 <p>Principal Name: ${principalName}</p> --%>
 <sec:authentication property="principal" var="loginMember"/>
-<p>principalId: ${loginMember.id}</p>
-<p>profileId: ${profile.id}</p>
+<%-- <p>principalId: ${loginMember.id}</p>
+<p>profileMemberId: ${profile.memberId}</p> --%>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px;">
@@ -56,7 +56,6 @@
 			<div class="profile-box">
                 <div class="status-emoji">today is... ${profile.state eq 'A' ? '😡' : profile.state eq 'B' ? '🤬' : profile.state eq 'C' ? '🥵' : profile.state eq 'D' ? '🤯' : profile.state eq 'E' ? '😵' : ''}</div>
             </div>
-
            
             <div class="form-group">
                 <label for="introduction"></label>
@@ -64,7 +63,7 @@
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
             ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
-            <c:if test="${loginMember.id eq profile.id}"> 
+            <c:if test="${loginMember.id eq profile.memberId}"> 
             <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/profile/update.do';">수정</button>
            	</c:if> 
             </div>
