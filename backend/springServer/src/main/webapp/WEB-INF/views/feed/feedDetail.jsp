@@ -107,7 +107,7 @@
         $("#commentReportModal").modal("show");
 
         // '신고' 버튼 클릭 시 AJAX 요청 전송
-        $("#confirmReportButton").click(function () {
+        $("#commentconfirmReportButton").click(function () {
             var content = $("#commentreportContent").val();
 
             // AJAX 요청 보내는 부분
@@ -165,7 +165,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
+                <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
             </div>
         </div>
     </div>
@@ -183,7 +183,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="reportForm">
+                <form id="commentreportForm">
                     <div class="form-group">
                         <label for="reportReason">신고 사유</label>
                         <select class="form-control" id="commentreportReason" name="commentreportReason">
@@ -202,7 +202,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
+                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
             </div>
         </div>
     </div>
