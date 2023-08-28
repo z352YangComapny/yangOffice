@@ -182,5 +182,6 @@ public class ReportController {
         return "redirect:/member/userPage/" + story.getReporterId();
     }
 
+	
 
 }

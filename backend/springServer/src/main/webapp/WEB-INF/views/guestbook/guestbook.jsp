@@ -17,7 +17,6 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <h6>✨방명록 남기기✨</h6>
 	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" name="createFrm" method="post">
 		<input type="text" id="create" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
-
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
 	<br>
@@ -40,7 +39,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 			<c:if test="${not empty guestBooks}">
 			<c:set var="currentIndex" value="${(page-1)*pageSize}"/>
 				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
-					<input type ="hidden" value = "${guestbook.writerId}" id="guestbookWriter"/>
+				<input type ="hidden" value = "${guestbook.writerId}" id="guestbookWriter"/>
 					<tr>
 						<td>${currentIndex + vs.index+1}</td>
 						<td>${guestbook.nickname}</td>
@@ -57,11 +56,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}">삭제</button>
 						</td>
 						<td>
-							<%-- <form:form action="${pageContext.request.contextPath}/report/insertReportGuestBook.do" class="form-inline" method="post">
- 							    <input type="text" class="form-control col-sm-10 ml-1 reportContent" name="reportContent" placeholder="사유" required/>&nbsp;
-							    <input type="hidden" class="form-control col-sm-10 ml-1 reportedId" name="reportedId" value="${guestbook.writerId }"/>&nbsp; 
-							</form:form> --%>
-								<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" onclick="goReport(${guestbook.id}, ${guestbook.nickname});">🚨</button>
+							<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" >🚨</button>
 						</td>	
 					</tr>
 					<input type="hidden" id= "guestbookId" value ="${guestbook.id}"/>
@@ -69,6 +64,41 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 			</c:if>
 		</tbody>
 	</table>
+</div>
+<!-- 방명록 신고 모달  -->
+<div class="modal fade" id="guestbookReportModal" tabindex="-1" role="dialog" aria-labelledby="guestbookReportModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="guestbookReportModalLabel">방명록 신고</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="reportReason">신고 사유</label>
+                        <select class="form-control" id="reportReason" name="reportReason">
+                            <option value="inappropriate">불건전한 내용</option>
+                            <option value="spam">스팸</option>
+                            <option value="harassment">괴롭힘</option>
+                            <!-- 추가적인 신고 사유를 여기에 추가 가능 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportContentz">신고 내용</label>
+                        <textarea class="form-control" id="reportContent" name="reportContent" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%--방명록 수정 모달 --%>
@@ -225,20 +255,6 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 });
 
 
-function goReport(guestbookId,reportedId) {
-    fetch("${pageContext.request.contextPath}/report/guestbookReport?guestbookId=" + guestbookId + "&reportedId=" + reportedId)
-        .then(response => {
-            if (response.ok) {
-                window.location.href = response.url;
-            } else {
-                console.error("Failed to fetch");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-}
-
 function search(){
 	var writerOption = document.getElementById("#writerOption");
 	var writerOptionIndex = document.getElementById("#writerOption").options.selectedIndex;
@@ -266,12 +282,45 @@ document.querySelectorAll(".reportGuestbook").forEach(reportButton => {
 	}
 });
 
+// 신고 모달창
+$(document).ready(function () {
+    // 'feed report' 버튼 클릭 시 모달 창 열기
+    $(".btn-toggle").click(function () {
+        var guestbookId = $(this).data("guestbook-id");
+        var reportedId = $(this).data("reported-id");
+        var reporterId = $(this).data("repoter-id");
 
-function create() {
-	document.createFrm.submit();
-	alert("방명록이 등록되었습니다.");
-	
-}
+        // 모달 창 열기
+        $("#guestbookReportModal").modal("show");
+
+        // '신고' 버튼 클릭 시 AJAX 요청 전송
+        $("#confirmReportButton").click(function () {
+            var content = $("#reportContent").val();
+
+            // AJAX 요청 보내는 부분
+            $.ajax({
+                method: "POST",
+                url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportGuestBook.do",
+                data: {
+                    guestbookId: guestbookId,
+                    reportedId: reportedId,
+                    reporterId: reporterId,
+                    content: content
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                },
+                success: function (response) {
+                    alert("신고가 접수되었습니다.");
+                    $("#guestbookReportModal").modal("hide");
+                },
+                error: function (error) {
+                    alert("Error reporting: " + error.responseText);
+                }
+            });
+        });
+    });
+});
 
 </script>
 
