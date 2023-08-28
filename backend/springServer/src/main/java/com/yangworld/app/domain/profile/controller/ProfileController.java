@@ -71,6 +71,7 @@ public class ProfileController {
 	    model.addAttribute("profile", profile);
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
+	    
 	    model.addAttribute("principalName", principal.getName());
 	    
 	    
