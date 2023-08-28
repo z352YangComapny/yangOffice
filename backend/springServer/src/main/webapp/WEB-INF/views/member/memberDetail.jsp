@@ -63,6 +63,10 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 		<input type="reset" class="btn btn-outline-primary" value="취소" id="cancelButton">
 	</form>
 </div>
+<div class="d-flex justify-content-end m-3">
+	<
+	<button type="button" class="btn btn-outline-danger" onclick="deleteMember()">회원탈퇴</button>
+</div>
 
 <%-- 비밀번호 찾기 모달 --%>
 <div class="modal" id="resetPwdModal">
@@ -104,33 +108,6 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 
 
 <%-- 비밀번호 찾기 모달 끝--%>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
 document.memberUpdateFrm.onsubmit = (e) =>{
@@ -679,7 +656,15 @@ $(document).ready(function() {
 	};*/
 
 </script>
+<script>
 
 
+
+
+
+
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

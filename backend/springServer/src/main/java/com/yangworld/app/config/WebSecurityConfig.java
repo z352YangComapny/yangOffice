@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
                         "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
                         "/member/checkEmail.do", "/member/checkEmailSearch.do",
-                            "/member/resetPassword.do").anonymous()
+                            "/member/resetPassword.do", "/profile/profileCreate").anonymous()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/story/storyMain","/feedDetails/commentUpdate").permitAll()
                 .antMatchers("/stomp").permitAll()
