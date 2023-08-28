@@ -244,8 +244,11 @@
                 list.append(pageLink);
                 pagination.appendChild(list);
                 makePagination(i, totalPages);
-            } else if(i=== totalPages){
-                makePagination(i,totalPages);
+            }
+            if(i=== totalPages){
+                if(i !== 1){
+                    makePagination(i,totalPages);
+                }
                 const list = document.createElement("li");
                 list.classList.add("page-item");
                 //list.classList.add("disabled");
@@ -256,20 +259,11 @@
                 pageLink.classList.add("back");
                 list.append(pageLink);
                 pagination.appendChild(list);
-            } else {
+            }
+            if(i !== 1 && i !==totalPages){
                 makePagination(i, totalPages);
             }
 
-            /*if (i === currentPage) {
-                pageLink.classList.add("active");
-            }
-
-            pageLink.addEventListener("click", () => {
-                currentPage = i;
-                openList();
-            });
-
-            pagination.appendChild(list);*/
             if(currentPage ===1){
                 $(".front").addClass("disabled");
             } else if(currentPage === totalPages){

@@ -153,7 +153,6 @@ public class MemberController {
         return "member/userPage";
     }
 
-
     @PostMapping("/memberCreate.do")
     public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr) {
         log.info("signUp info = {}", signUpDto);
