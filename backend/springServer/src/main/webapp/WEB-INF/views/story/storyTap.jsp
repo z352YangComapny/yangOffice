@@ -190,7 +190,15 @@ const storyFeedLink = () => {
 };
 
 const storyFeedLinkCreate = () => {
+	const popup = window.open("", "popup", "width=400,height=300");
 	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/story/storyFeedFind',
+		method : "POST",
+		success(feeds){
+			
+		}
+	});
 };
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
