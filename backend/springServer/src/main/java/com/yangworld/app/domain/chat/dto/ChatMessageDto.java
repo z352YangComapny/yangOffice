@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SendChatDto {
+public class ChatMessageDto {
 
 	private int id;
 	

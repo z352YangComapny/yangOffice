@@ -1,8 +1,8 @@
-package com.yangworld.app.oauth.controller;
+package com.yangworld.app.oauth.kakao.controller;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.config.auth.PrincipalDetailsService;
-import com.yangworld.app.oauth.service.GoogleService;
+import com.yangworld.app.oauth.kakao.service.GoogleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

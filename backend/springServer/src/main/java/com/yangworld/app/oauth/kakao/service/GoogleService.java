@@ -1,4 +1,4 @@
-package com.yangworld.app.oauth.service;
+package com.yangworld.app.oauth.kakao.service;
 
 import java.io.IOException;
 import java.util.Map;

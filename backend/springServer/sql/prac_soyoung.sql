@@ -22,3 +22,9 @@ select count(*)  from member;
 select m.*, (select count(*)  from member)totalMemberCount from member m;
 
 select m.*, (select count(*)  from member where username like '%t%' ) totalMemberCount from member m where username like '%t%';
+
+select * from member;
+
+delete from member where id = 22;
+
+commit;

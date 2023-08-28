@@ -1,4 +1,4 @@
-package com.yangworld.app.oauth.service;
+package com.yangworld.app.oauth.kakao.service;
 
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.oauth.dto.GoogleInfoResponse;

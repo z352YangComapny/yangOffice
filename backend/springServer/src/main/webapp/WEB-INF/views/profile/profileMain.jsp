@@ -9,6 +9,8 @@
 <style>
     /* 이미지 최대 너비와 최대 높이 설정 */
     #selectedImage {
+    	min-width:350px;
+    	min-height:300px;
         max-width: 350px; /* 최대 너비 */
         max-height: 300px; /* 최대 높이 */
     }
@@ -32,6 +34,8 @@
 <%-- <% String principalName = (String) request.getAttribute("principalName"); %>
 <p>Principal Name: ${principalName}</p> --%>
 <sec:authentication property="principal" var="loginMember"/>
+<p>principalId: ${loginMember.id}</p>
+<p>profileId: ${profile.id}</p>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px;">
@@ -39,7 +43,7 @@
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+		                    <img id="selectedImage" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
@@ -60,7 +64,7 @@
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
             ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
-            <c:if test="${principalId eq profileId}"> 
+            <c:if test="${loginMember.id eq profile.id}"> 
             <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/profile/update.do';">수정</button>
            	</c:if> 
             </div>
