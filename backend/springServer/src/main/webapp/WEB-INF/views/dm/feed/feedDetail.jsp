@@ -33,7 +33,6 @@
         height: 500px;
     }
 
-
     /* 사진 박스 스타일 조절 */
     .carousel-box {
         flex: 1;
@@ -59,8 +58,163 @@
         height: 30px;
     }
 </style>
+<script>
+    $(document).ready(function () {
+        // 'feed report' 버튼 클릭 시 모달 창 열기
+        $(".btn-toggle").click(function () {
+            var feedId = $(this).data("feed-id");
+            var reportedId = $(this).data("reported-id");
+            var reporterId = $(this).data("repoter-id");
 
-<hr style="height: 3px">
+            // 모달 창 열기
+            $("#feedReportModal").modal("show");
+
+            // '신고' 버튼 클릭 시 AJAX 요청 전송
+            $("#confirmReportButton").click(function () {
+                var content = $("#reportContent").val();
+
+                // AJAX 요청 보내는 부분
+                $.ajax({
+                    method: "POST",
+                    url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportFeed",
+                    data: {
+                        feedId: feedId,
+                        reportedId: reportedId,
+                        reporterId: reporterId,
+                        content: content
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                    },
+                    success: function (response) {
+                        alert("신고가 접수되었습니다.");
+                        $("#feedReportModal").modal("hide");
+                    },
+                    error: function (error) {
+                        alert("Error reporting: " + error.responseText);
+                    }
+                });
+            });
+        });
+    });
+
+    //     comments report start
+    // '댓글 신고' 버튼 클릭 시
+    function goReportComments(commentsId, reportedId, feedId) {
+        var reporterId = ${principalDetails.id};
+
+        // 모달 창 열기
+        $("#commentReportModal").modal("show");
+
+        // '신고' 버튼 클릭 시 AJAX 요청 전송
+        $("#confirmReportButton").click(function () {
+            var content = $("#commentreportContent").val();
+
+            // AJAX 요청 보내는 부분
+            $.ajax({
+                method: "POST",
+                url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportComment",
+                data: {
+                    commentsId: commentsId,
+                    reportedId: reportedId,
+                    reporterId: reporterId,
+                    feedId: feedId,
+                    content: content
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+                },
+                success: function (response) {
+                    alert("신고가 접수되었습니다.");
+                    $("#commentReportModal").modal("hide");
+                },
+                error: function (error) {
+                    alert("Error reporting comment: " + error.responseText);
+                }
+            });
+        });
+    }
+
+</script>
+<div class="modal fade" id="feedReportModal" tabindex="-1" role="dialog" aria-labelledby="feedReportModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedReportModalLabel">피드 신고</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="reportReason">신고 사유</label>
+                        <select class="form-control" id="reportReason" name="reportReason">
+                            <option value="inappropriate">불건전한 내용</option>
+                            <option value="spam">스팸</option>
+                            <option value="harassment">괴롭힘</option>
+                            <!-- 추가적인 신고 사유를 여기에 추가 가능 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportContentz">신고 내용</label>
+                        <textarea class="form-control" id="reportContent" name="reportContent" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%-- 댓글 asdkljasdjkasdjkasndjkasnjkdnsjkdnasjkdnsakjdnksjdnjksandjkasndkjsandkjasndkjasndjkasndkjasndkasndkjsan--%>
+<div class="modal fade" id="commentReportModal" tabindex="-1" role="dialog" aria-labelledby="commentReportModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentReportModalLabel">댓글 신고</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="reportReason">신고 사유</label>
+                        <select class="form-control" id="commentreportReason" name="commentreportReason">
+                            <option value="inappropriate">불건전한 내용</option>
+                            <option value="spam">스팸</option>
+                            <option value="harassment">괴롭힘</option>
+                            <!-- 추가적인 신고 사유를 여기에 추가 가능 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-reportContent">신고 내용</label>
+                        <textarea class="form-control" id="commentreportContent" name="commentreportContent"
+                                  rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form:form name="goBackBtn"
+           method="get"
+           action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
+    <button class="btn btn-primary">뒤로가기</button>
+</form:form>
+<hr style=" height: 3px
+">
 <div class="carousel-and-content">
     <div class="carousel-box">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -91,21 +245,26 @@
     </div>
 
     <%-- feed report --%>
-    <c:if test="${response.writerId ne principalDetails.id }">
+    <c:if test="${response.writerId ne principalDetails.id}">
         <div class="feedReport-box">
-            <button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;"
-                    onclick="goReport(${response.id}, ${response.writerId});">🚨
+            <button class="btn btn-sm btn-light btn-toggle"
+                    style="margin-left: 10px; font-size:20px;"
+                    data-feed-id="${response.id}" data-reported-id="${response.writerId}"
+                    data-repoter-id="${principalDetails.id}">
+                🚨 신고
             </button>
+
         </div>
     </c:if>
-    
+
+
     <!-- feed delete  -->
     <c:if test="${response.writerId eq principalDetails.id}">
         <div class="feedDelete-box">
             <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedDelete"
-                       method="post">
+                       method="post" id="deleteFeedForm">
                 <input type="hidden" name="feedId" value="${response.id}">
-                <button type="submit" class="btn btn-danger">피드 삭제</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteFeed()">피드 삭제</button>
             </form:form>
         </div>
     </c:if>
@@ -173,17 +332,20 @@
                     </div>
                     <div class="comment-info">
                         <c:if test="${comment.writerId ne principalDetails.id}">
-                            <button class="btn btn-sm btn-light btn-toggle" style="margin-left: 10px; font-size:20px;"
+                            <button class="btn btn-sm btn-light"
+                                    style="margin-left: 10px; font-size:20px;"
                                     onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">🚨
                             </button>
                         </c:if>
                         <c:if test="${comment.writerId eq principalDetails.id || response.writerId eq principalDetails.id}">
                             <form:form
                                     action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentDelete"
-                                    method="post">
+                                    method="post" id="deleteCommentForm-${comment.id}">
                                 <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
                                 <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
-                                <button type="submit" class="btn btn-secondary">삭제</button>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="confirmDeleteComment(${comment.id})">삭제
+                                </button>
                             </form:form>
                         </c:if>
                         <!-- Edit button -->
@@ -295,32 +457,17 @@
         });
     });
 
-    function goReport(feedId, reportedId) {
-        fetch("${pageContext.request.contextPath}/report/createFeedReport?feedId=" + feedId + "&reportedId=" + reportedId)
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = response.url;
-                } else {
-                    console.error("Failed to fetch");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+
+    function confirmDeleteFeed() {
+        if (confirm("피드를 삭제하시겠습니까?")) {
+            document.getElementById("deleteFeedForm").submit();
+        }
     }
 
-    function goReportComments(commentsId, reportedId, feedId) {
-        fetch("${pageContext.request.contextPath}/report/createCommentsReport?commentsId=" + commentsId + "&reportedId=" + reportedId + "&photoFeedId=" + feedId)
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = response.url;
-                } else {
-                    console.error("Failed to fetch");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+    function confirmDeleteComment(commentId) {
+        if (confirm("댓글을 삭제하시겠습니까?")) {
+            document.getElementById("deleteCommentForm-" + commentId).submit();
+        }
     }
 </script>
 

@@ -124,7 +124,8 @@ select * from member where id = 12;
 select * from photo_feed where writer_id = 12;
 
 select * from comments_feed where photo_feed_id = 54;
-
+select * from report;
+select * from report_comments;
 select * from comments where id = 21;
 
 select * from comments where writer_id = 12;
