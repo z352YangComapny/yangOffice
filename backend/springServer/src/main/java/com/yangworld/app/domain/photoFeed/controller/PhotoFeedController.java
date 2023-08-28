@@ -59,6 +59,12 @@ public class PhotoFeedController {
     private CommentsService commentService;
 
 
+    @GetMapping("/goBackPage")
+    public String goBackPage(@PathVariable("id") int id) {
+        return "redirect:/member/userPage/" + id;
+
+    }
+
     // 페이지 이동
     @GetMapping("/feedCreate")
     public String feedCreate(@PathVariable("id") int id,

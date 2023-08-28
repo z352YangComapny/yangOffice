@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -113,14 +114,15 @@ public class commentsController {
     }
 
     @PostMapping("/feedDetails/commentDelete")
-    public ResponseEntity<?> commentDelete(
+    public String commentDelete(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             @RequestParam int commentId,
-            @RequestParam int photoFeedId
+            @RequestParam int photoFeedId,
+            @PathVariable("id") int id
     ) {
         int result = commentService.deleteComment(commentId);
 
-        return ResponseEntity.ok("댓글이 삭제되었습니다.");
+        return "redirect:/member/userPage/" + id + "/feed/feedDetail?photoFeedId=" + photoFeedId;
     }
 
 
