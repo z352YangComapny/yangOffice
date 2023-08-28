@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class GuestBookWithNicknameDto {
 	private int id; // guestbookId
 	private String nickname;
+	private int writerId;
 	private int memberId;
 	private String content;
 	private LocalDateTime regDate;	

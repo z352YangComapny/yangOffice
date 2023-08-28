@@ -21,13 +21,13 @@ public interface GuestBookRepository {
 	@Insert("insert into guestbook (id,writer_id,member_id,content,reg_date) values (seq_guestbook_id.nextval,#{writerId},#{memberId},#{content},default)")
 	int insertGuestBook(GuestBookCreateDto guestBook);
 
-	@Delete("delete from guestbook where id = #{id} and writer_id = #{writerId}")
-	int deleteGuestBook(GuestBookDeleteDto delete);
+	@Delete("delete from guestbook where id = #{id}")
+	int deleteGuestBook(int deleteGuestbook);
 
 	@Update("update guestbook set content = #{content} where id = #{id}")
 	int updateGuestBook(GuestBookUpdateDto _guestBook);
 
-	
+	@Select("select g.id as id,m.nickname as nickname, g.content as content,g.reg_date as reg_date from guestbook g left join member m on g.writer_id = m.id where g.member_id = #{member_id}")
 	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int memberId);
 
 	@Select("select count(*) from guestbook where member_id = #{member_id}")

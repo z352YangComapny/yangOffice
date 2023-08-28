@@ -68,23 +68,23 @@ public class GuestbookController {
 	@PostMapping("/delete.do")
 	public ResponseEntity<?> guestBookDelete(
 			@RequestParam int deleteGuestbook,
-			@AuthenticationPrincipal Member member,
-			@Valid  GuestBookDeleteDto delete
+			@RequestParam int guestbookWriter,
+			@AuthenticationPrincipal PrincipalDetails principal,
+			@Valid  GuestBookDeleteDto delete,
+			@PathVariable("id") int memberId
 			) {
-		int id = member.getId();
+		log.info("memberId@Path={}", memberId);
+		log.info("guestbookWriter={}",guestbookWriter);
+				
+		int result = 0;
+		if(principal.getId() == memberId || principal.getId() == guestbookWriter) {
+			result = guestBookService.deleteGuestBook(deleteGuestbook);
+			log.info("result={}",result);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg","권한이 없습니다." ));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg", "방명록이 삭제되었습니다."));
 		
-		GuestBook guestBook = GuestBook.builder()
-							.id(id)
-							.writerId(member.getId())
-							.build();
-		
-		log.info("guestBook={}",guestBook);
-		delete.setId(deleteGuestbook);
-		delete.setWriterId(id);
-		log.info("delete={}",delete);
-		int result = guestBookService.deleteGuestBook(delete);
-		log.info("result={}",result);
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
 	@PostMapping("/update.do")

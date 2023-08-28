@@ -17,6 +17,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <h6>✨방명록 남기기✨</h6>
 	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" name="createFrm" method="post">
 		<input type="text" id="create" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
+
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
 	<br>
@@ -37,9 +38,11 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				</tr>
 			</c:if>
 			<c:if test="${not empty guestBooks}">
+			<c:set var="currentIndex" value="${(page-1)*pageSize}"/>
 				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
+					<input type ="hidden" value = "${guestbook.writerId}" id="guestbookWriter"/>
 					<tr>
-						<td>${vs.index+1}</td>
+						<td>${currentIndex + vs.index+1}</td>
 						<td>${guestbook.nickname}</td>
 						<td id="originalContent">${guestbook.content}</td>	
 						<td>
@@ -61,6 +64,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 								<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" onclick="goReport(${guestbook.id}, ${guestbook.nickname});">🚨</button>
 						</td>	
 					</tr>
+					<input type="hidden" id= "guestbookId" value ="${guestbook.id}"/>
 				</c:forEach>
 			</c:if>
 		</tbody>
@@ -146,6 +150,8 @@ document.querySelectorAll(".updateGuestbook").forEach(btn => {
         // 모달의 수정 버튼 클릭 이벤트 핸들러
         modal.querySelector(".update").onclick = () => {
             const newContent = contentInput.value;
+            const guestbookId = document.querySelector("#guestbookId").value;
+            console.log(guestbookId);
             // Ajax 요청 등 수정 작업 수행
             $.ajax({
 				url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/update.do",
@@ -180,11 +186,13 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
     btn.onclick = (e) => {
       
     	   const value = e.target.value;
+    	   const guestbookWriter = document.querySelector("#guestbookWriter");
     	   console.log(value);
 	    	 $.ajax({
 	    		url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/delete.do",
 				data : {
-					deleteGuestbook : value
+					deleteGuestbook : value,
+					guestbookWriter : guestbookWriter
 				},
 				beforeSend: function(xhr) {
 				        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');

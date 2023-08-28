@@ -12,7 +12,7 @@ public interface GuestBookService {
 
 	int insertGuestBook(GuestBookCreateDto guestBook);
 
-	int deleteGuestBook(GuestBookDeleteDto delete);
+	int deleteGuestBook(int deleteGuestbook);
 
 	int updateGuestBook(GuestBookUpdateDto _guestBook);
 

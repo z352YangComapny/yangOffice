@@ -28,8 +28,8 @@ public class GuestBookServiceImpl implements GuestBookService{
 	}
 
 	@Override
-	public int deleteGuestBook(GuestBookDeleteDto delete) {
-		return guestBookRepository.deleteGuestBook(delete);
+	public int deleteGuestBook(int deleteGuestbook) {
+		return guestBookRepository.deleteGuestBook(deleteGuestbook);
 	}
 
 	@Override
