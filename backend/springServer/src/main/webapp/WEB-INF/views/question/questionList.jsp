@@ -36,6 +36,7 @@ input#btn-add{float: left;
 				</tr>
 			</c:if>
 			<c:if test="${not empty questions}">
+			
 				<c:forEach items="${questions}" var="question" varStatus="vs">
 					<tr>
 						<td>${question.id}</td>
@@ -50,7 +51,12 @@ input#btn-add{float: left;
 						    </td>
 						</c:if>
 						<td>
-						    <a href="${pageContext.request.contextPath}/question/questionDetail?id=${question.id}">${question.title}</a>
+						    <a href="${pageContext.request.contextPath}/question/questionDetail?id=${question.id}">${question.title}
+						    </a>
+						     <c:choose>
+						        <c:when test="${hasCommentsList[vs.index]}"><span>[1]</span></c:when>
+						        <c:otherwise><span></span></c:otherwise>
+						    </c:choose>
 						</td>
 						<td>
 						    <c:choose>

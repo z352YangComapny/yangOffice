@@ -116,10 +116,13 @@ public class MemberController {
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
         List<Attachment> profileAttachments =null;
         if(profile !=null){
+        	
             // 프로필 사진 가져오기
-            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 
-            // 피드리스트 가져오기
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            
+            model.addAttribute("id",id);
+
             
     	    model.addAttribute("photoList", photoList);
             log.info("profileAttachments={}", profileAttachments);
@@ -143,10 +146,10 @@ public class MemberController {
         model.addAttribute("profile", profile);
         model.addAttribute("principalBday", member.getBirthday());
         model.addAttribute("principalName", member.getName());
-
-		log.info("photoList={}", photoList);
+        model.addAttribute("PrincipalDetails", principal);
 	    model.addAttribute("photoList", photoList);
-	    
+	    model.addAttribute("id",id);
+
         return "member/userPage";
     }
 

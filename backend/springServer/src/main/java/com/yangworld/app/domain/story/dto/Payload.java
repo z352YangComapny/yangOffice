@@ -19,5 +19,7 @@ public class Payload {
 	private String content;
 	private LocalDateTime createdAt;
 	
+	private String formattedCreatedAt;
+	
 	private String attach = null;
 }

@@ -22,4 +22,6 @@ public class StoryMainDto {
 	@Pattern(regexp = "^.{1,100}$", message = "100글자 이하로 작성해주세요")
 	private String content;
 	private LocalDateTime regDate;
+	
+	private String formattedRegDate;
 }

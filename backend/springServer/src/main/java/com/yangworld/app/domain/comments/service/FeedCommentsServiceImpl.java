@@ -19,6 +19,7 @@ import com.yangworld.app.domain.comments.dto.CommentUpdateDto;
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.question.entity.Comment;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,24 +38,35 @@ public class FeedCommentsServiceImpl implements CommentsService{
 		 List<CommentFeed> comments = commentsRepository.getCommentsByPhotoFeedId(photoFeedId);
 		 
 		 List<CommentAllDto> commentList = new ArrayList<>();
-		 
+//		 List<Member> member = commentsRepository.getMemberId(photoFeedId);
 		 for (CommentFeed comment : comments) {
 			 
 			 int commentId = comment.getCommentsId();
 			 
+			 log.info("commentId = {}", commentId);
+			 
 			 List<Comments> commentreal = commentsRepository.commentByPhotoFeedId(commentId);
-			 
-			 for(Comments cmt : commentreal ) {
+			 // commentreal = CommentFeed테이블 조회 결과를 가지고 comment테이블 조회
+			 // commentreal 결과 = 12
+			 for(Comments cmt : commentreal) {
 				 
-			 
-			 CommentAllDto commentAllDto = CommentAllDto.builder()
-					 .id(cmt.getId())
-					 .writerId(cmt.getWriterId())
-					 .content(cmt.getContent())
-					 .regDate(cmt.getRegDate())
-					 .build();
-			 commentList.add(commentAllDto);
-			 
+				 log.info("cmt = {}",cmt.getWriterId());
+				 // commentreal 결과값에 writerId가지고 memberNickname을 조회
+				 
+			 	Comments member = commentsRepository.nickNameByCommentsId(cmt.getId());
+				 
+					 // builder
+					 // 하지만 이렇게 builder를 해준다면 한댓글이 댓글이 여러개가 나옴
+					 CommentAllDto commentAllDto = CommentAllDto.builder()
+							 .id(cmt.getId())
+							 .writerId(cmt.getWriterId())
+							 .nickName(member.getNickName())
+							 .content(cmt.getContent())
+							 .regDate(cmt.getRegDate())
+							 .build();
+					 
+				 
+					 commentList.add(commentAllDto);
 			 }
 		 }
     	 
