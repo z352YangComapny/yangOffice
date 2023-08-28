@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class GuestBookWithNicknameDto {
-	private int id;
+	private int id; // guestbookId
 	private String nickname;
 	private int memberId;
 	private String content;

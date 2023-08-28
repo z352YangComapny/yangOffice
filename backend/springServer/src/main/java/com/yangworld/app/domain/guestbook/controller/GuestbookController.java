@@ -60,8 +60,9 @@ public class GuestbookController {
 		log.info("guestbook={}", guestBook.getWriterId());
 		
 		int result = guestBookService.insertGuestBook(guestBook);
-		redirectAttr.addFlashAttribute("msg","방명록을 성공적으로 등록하였습니다");
-		return "redirect:member/userPage/{id}/guestbook";
+		log.info("result@create={}", result);
+		
+		return "redirect:/member/userPage/{id}/guestbook/guestbook";
 	}
 	
 	@PostMapping("/delete.do")
@@ -71,20 +72,19 @@ public class GuestbookController {
 			@Valid  GuestBookDeleteDto delete
 			) {
 		int id = member.getId();
-		if(id != delete.getWriterId()) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("result","권한이 없습니다."));
-		}
+		
 		GuestBook guestBook = GuestBook.builder()
 							.id(id)
 							.writerId(member.getId())
 							.build();
+		
 		log.info("guestBook={}",guestBook);
 		delete.setId(deleteGuestbook);
 		delete.setWriterId(id);
 		log.info("delete={}",delete);
 		int result = guestBookService.deleteGuestBook(delete);
 		log.info("result={}",result);
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg","댓글이 성공적으로 삭제되었습니다.","result", result));
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
 	@PostMapping("/update.do")
@@ -106,7 +106,7 @@ public class GuestbookController {
 		int result = guestBookService.updateGuestBook(updateDto);
 		
 		log.info("result={}",result);
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg","댓글이 성공적으로 수정되었습니다.","result", result));
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
 	@GetMapping("/guestbook")
@@ -136,12 +136,8 @@ public class GuestbookController {
 		model.addAttribute("guestBooks",guestBooks);
 		model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
-
+	    
+	    return "guestbook/guestbook";
 	
-	    return "redirect:member/userPage/{id}/guestbook";
-
-
-	
-
 	}
 }

@@ -15,21 +15,11 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <br><br>
 <div id="guestbook-container">
 <h6>✨방명록 남기기✨</h6>
-	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" method="post">
-		<input type="text" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
+	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" name="createFrm" method="post">
+		<input type="text" id="create" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
 		<button class="btn btn-outline-success" type="submit">저장</button>
 	</form:form> 
 	<br>
-	<div class="d-flex flex-row">
-		<div style="width:100px;">
-			<select class="form-control" name="writerOption" id="writerOption" >
-				<option value="all">전체</option>
-				<option value="mine">내가 쓴 글</option>
-				<option value="other">남이 쓴 글</option>
-				<input type="button" value="검색" onclick="search();">
-			</select>
-		</div>
-	</div>
 	<br>
 	<table class="table">
 		<thead>
@@ -49,11 +39,13 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 			<c:if test="${not empty guestBooks}">
 				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
 					<tr>
-						<td>${guestbook.id}</td>
+						<td>${vs.index+1}</td>
 						<td>${guestbook.nickname}</td>
-						<td id="originalContent">${guestbook.content}</td>
+						<td id="originalContent">${guestbook.content}</td>	
+						<td>
 						 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 				         <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
+						</td>
 						<td>
 						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
 						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}">수정</button>
@@ -115,7 +107,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook.do?page=${pageStatus.index}">${pageStatus.index}</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/guestbook?page=${pageStatus.index}">${pageStatus.index}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -156,7 +148,7 @@ document.querySelectorAll(".updateGuestbook").forEach(btn => {
             const newContent = contentInput.value;
             // Ajax 요청 등 수정 작업 수행
             $.ajax({
-				url : "${pageContext.request.contextPath}/guestbook/update.do",
+				url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/update.do",
 				data : {
 					updateGuestbook : guestbookId,
 					content : newContent
@@ -172,6 +164,7 @@ document.querySelectorAll(".updateGuestbook").forEach(btn => {
 					const updateGuestbookCell = e.target.parentElement.parentElement.querySelector("#originalContent");
 					updateGuestbookCell.textContent = newContent;
 					location.reload();
+					alert("방명록이 수정되었습니다.")
 		            // 모달 닫기
 		            modal.style.display = "none";
 		            modal.classList.remove("show");
@@ -189,7 +182,7 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
     	   const value = e.target.value;
     	   console.log(value);
 	    	 $.ajax({
-	    		url : "${pageContext.request.contextPath}/guestbook/delete.do",
+	    		url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/delete.do",
 				data : {
 					deleteGuestbook : value
 				},
@@ -204,6 +197,7 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 	                if (result > 0) {
 	                    const tr = e.target.parentElement.parentElement;
 	                    tr.remove();
+	                    alert("방명록이 삭제되었습니다.")
 	                } else {
 	                    console.error("Delete operation failed.");
 	                }
@@ -243,6 +237,34 @@ function search(){
 	
 	console.log("writerOption value : " + writerOption.options[writerOptionIndex].value);
 }
+
+// 버튼 숨기기
+const updateButton = document.getElementById('updateGuestbook');
+const reportButton = document.getElementById('reportGuestbook');
+
+document.querySelectorAll(".updateGuestbook").forEach(updateButton => {
+	if (guestbook.writerId === member.id) {
+	    updateButton.style.display = 'block';
+	} else {
+	    updateButton.style.display = 'none';
+	}
+});
+
+document.querySelectorAll(".reportGuestbook").forEach(reportButton => {
+	if (guestbook.writerId === member.id) {
+	    reportButton.style.display = 'none';
+	} else {
+	    reportButton.style.display = 'block';
+	}
+});
+
+
+function create() {
+	document.createFrm.submit();
+	alert("방명록이 등록되었습니다.");
+	
+}
+
 </script>
 
 

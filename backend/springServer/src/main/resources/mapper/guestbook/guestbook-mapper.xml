@@ -10,11 +10,33 @@
     where g.member_id = #{memberId}
 </select>
 
-<resultMap id="guestBookWithNickname" type="guestBookWithNicknameDto">
+<!-- <resultMap id="guestBookWithNickname" type="guestBookWithNicknameDto">
 	<id column="id" property="id"/>
 	<result column="nickname" property="nickname"/>
 	<result column="member_id" property="memberId"/>
 	<result column="content" property="content"/>
 	<result column="reg_date" property="regDate"/>
+	<association property="member" javaType="member">
+		<id column="memberId" property="memberId"/>
+		
+	</association>
+</resultMap> -->
+
+<resultMap id="guestBookWithNickname" type="signUpDto">
+    <id property="id" column="id"/>
+    <result property="username" column="username"/>
+    <result property="name" column="name"/>
+    <result property="password" column="password"/>
+    <result property="nickname" column="nickname"/>
+    <result property="birthday" column="birthday"/>
+    <result property="gender" column="gender"/>
+    <result property="phone" column="phone"/>
+    <result property="email" column="email"/>
+    <collection property="guestbook" javaType="guestBookWithNicknameDto">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="regDate" column="reg_date"/>
+    </collection>
 </resultMap>
+
 </mapper>
