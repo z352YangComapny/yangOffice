@@ -51,7 +51,11 @@ public class StoryStompController {
 		List<Payload> payloads = new ArrayList<>();
 		for(StoryMainDto story : stories) {
 			story.setFormattedRegDate((story.getRegDate()).format(formatter));
-			
+			try {
+				int feed = storyService.findStoryFeedByStoryId(story.getId());
+				story.setStoryFeed(feed);
+				
+			} catch (Exception ignore) {}
 			String username = storyService.findMemberUsername(story.getWriterId());
 //			log.info("username = {}", username);
 			Payload tmp = Payload.builder()
@@ -60,6 +64,7 @@ public class StoryStompController {
 				    .content(story.getContent())
 				    .formattedCreatedAt(story.getFormattedRegDate())
 				    .id(story.getId())
+				    .storyFeed(story.getStoryFeed())
 				    .build();
 			payloads.add(tmp);
 		}

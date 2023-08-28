@@ -22,13 +22,14 @@
 	        	</div>
 				<div id="story">
 					<c:forEach items="${stories}" var="story">
-						<div class="card m-3">
+						<div class="card m-3" id="storyCards">
 						 	<input type="hidden" id="storyId" value="${story.id}"/>
 						  <ul class="list-group list-group-flush">
 						    <li class="list-group-item writerId">${loginMember.username}</li>
 						    <input type="hidden" class="writerId" value="${story.writerId}"/>
 						    <li class="list-group-item content">${story.content}</li>
 						    <li class="list-group-item formattedRegDate">${story.formattedRegDate}</li>
+						    <input type="hidden" class="storyFeed" value="${story.storyFeed}"/>
 						  </ul>
 						</div>
 					</c:forEach>
@@ -36,13 +37,18 @@
         	</div>
         </div>
 
-	    
+	<input type="hidden" class="currentCardStoryFeed" value=""/>
 	<div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	      	${loginMember.username}
 	      	<input type="hidden" class="storyModalWriterId" value=""/>
+			<c:choose>
+			    <c:when test="${not empty currentCardStoryFeed and currentCardStoryFeed != '0'}">
+			    	<img src="${pageContext.request.contextPath}/resources/images/arrow.png" onclick="storyFeedLink();" style="width: 25px;"/>
+			    </c:when>
+			</c:choose>
 	      </div>
 	      <div class="modal-body">
 	        <form>
@@ -73,6 +79,7 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
+	      	<img src="${pageContext.request.contextPath}/resources/images/arrow.png" onclick="storyFeedLinkCreate();" style="width: 25px;"/>
 	        <button type="button" class="btn btn-primary" id="btnCreateStory2">추가</button>
 	      </div>
 	    </div>
@@ -98,7 +105,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-	const storyElements = document.querySelectorAll('.card');
+	const storyElements = document.querySelectorAll('#storyCards');
 	const storyModal = $('#storyModal');
 	
     storyElements.forEach((storyElement) => {
@@ -115,13 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
 const updateModal2 = (e) => {
 	const writerId = e.querySelector('.writerId').value;
 	const content = e.querySelector('.content').textContent;
-	const createdAt = e.querySelector('.createdAt').textContent;
+	const createdAt = e.querySelector('.formattedRegDate').textContent;
 	const id = e.querySelector("#storyId").value;
+	const storyFeed = e.querySelector(".storyFeed").value;
 	
 	document.querySelector('.storyModalWriterId').value = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
 	document.querySelector('#storyModalId').value = id;
+	document.querySelector('.currentCardStoryFeed').value = storyFeed;
+
 };
 
 document.querySelector("#btnStoryCreate").onclick = () => {
@@ -171,6 +181,16 @@ document.querySelector("#btnDelete").onclick = () => {
 		
 		frm.submit();
 	}
+};
+
+const storyFeedLink = () => {
+	const id = document.querySelector('.currentCardStoryFeed').value;
+	const addr = "http://localhost:8080/member/userPage/${loginMember.id}/feed/feedDetail?photoFeedId="
+	window.location.href = addr + id;
+};
+
+const storyFeedLinkCreate = () => {
+	
 };
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

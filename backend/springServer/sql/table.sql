@@ -132,7 +132,7 @@ create table photo_feed
     constraints f_pho_feed_writer_id foreign key (writer_id) references member (id) on delete cascade
 );
 create sequence seq_photo_feed_id;
-
+select * from photo_feed;
 create table attachment_photo_feed
 (
     attachment_id number,
@@ -218,6 +218,15 @@ create table report_story
     story_id    number,
     constraints p_rep_story_id primary key(report_id),
     constraints f_rep_story_reprot_id foreign key (report_id) references report(id) on delete cascade,
+    constraints f_rep_story_story_id foreign key (story_id) references story(id) on delete cascade
+);
+
+create table story_feed
+(
+    feed_id   number,
+    story_id    number,
+    constraints p_rep_story_id primary key(feed_id),
+    constraints f_rep_story_feed_id foreign key (feed_id) references photo_feed(id) on delete cascade,
     constraints f_rep_story_story_id foreign key (story_id) references story(id) on delete cascade
 );
 

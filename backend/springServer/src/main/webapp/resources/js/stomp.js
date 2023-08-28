@@ -39,6 +39,7 @@ const renderStory = (payloads) => {
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
 			<input type="hidden" id="storyAttach" value="${story.attach}"/>
 			<input type="hidden" id="storyCardId" value="${story.id}"/>
+			<input type="hidden" id="storyFeedId" value="${story.storyFeed}"/>
 		</div>
 		`;
 		i = i + 1;
@@ -97,15 +98,19 @@ const updateModal = (e) => {
 	const storyAttach = e.querySelector('#storyAttach').value;
 	const currentCardIndex = e.querySelector('#cardIndex').value;
 	const storyCardId = e.querySelector('#storyCardId').value;
+	const currentCardStoryFeed = e.querySelector('#storyFeedId').value;
+	
+//	console.log('currentCardStoryFeed = ', currentCardStoryFeed);
 
 //	console.log(storyAttach);
-	console.log('currentCardIndex = ', currentCardIndex);
-	console.log('storyCardId =', storyCardId);
+//	console.log('currentCardIndex = ', currentCardIndex);
+//	console.log('storyCardId =', storyCardId);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
 	document.querySelector('#reportStoryId').value = storyCardId;
+	document.querySelector('#currentCardStoryFeed').value = currentCardStoryFeed;
 	
 	const imgElement = document.createElement('img');
 	imgElement.id = 'storyModalProfile';

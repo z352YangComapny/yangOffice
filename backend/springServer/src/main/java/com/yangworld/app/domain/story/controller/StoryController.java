@@ -35,6 +35,10 @@ public class StoryController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
 		for (StoryMainDto story : stories) {
 			story.setFormattedRegDate((story.getRegDate()).format(formatter));
+			try {
+				int feed = storyService.findStoryFeedByStoryId(story.getId());
+				story.setStoryFeed(feed);
+			} catch (Exception ignore) {}
 		}
 //		log.info("stories = {}", stories);
 		model.addAttribute("stories", stories);

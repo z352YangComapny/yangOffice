@@ -22,4 +22,6 @@ public class Payload {
 	private String formattedCreatedAt;
 	
 	private String attach = null;
+	
+	private int storyFeed = 0;
 }
