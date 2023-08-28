@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.chat.dto.SendChatDto;
+import com.yangworld.app.domain.chat.dto.ChatMessageDto;
 import com.yangworld.app.domain.chat.entity.Chat;
 import com.yangworld.app.domain.chat.service.ChatService;
 import com.yangworld.app.domain.notification.service.NotificationService;
@@ -36,7 +36,7 @@ public class ChatController {
     public void chatList(@AuthenticationPrincipal PrincipalDetails principal, Model model) { }
     
     @PostMapping("/sendChat") 
-    public String sendChat(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute SendChatDto _sendChatDto) {
+    public String sendChat(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute ChatMessageDto _sendChatDto) {
     	
     	int memberId = principal.getId();
     	Chat chat = _sendChatDto.toChat();
@@ -46,6 +46,11 @@ public class ChatController {
     	
     	return "redirect:/chat/chatting";
     }
+
+	@GetMapping("/chatList.do")
+	public String chatList (){
+		return "/chat/chatting";
+	}
     
     
 

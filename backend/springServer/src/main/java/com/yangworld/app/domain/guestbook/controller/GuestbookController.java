@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/guestbook")
+@RequestMapping("/member/userPage/{id}/guestbook")
 public class GuestbookController {
 		
 	@Autowired
@@ -48,6 +48,7 @@ public class GuestbookController {
 		
 		log.info("memberid={}",member.getId());
 		//GuestBook guestBook = _guestBook.guestBook();
+		guestBook.setMemberId(member.getId());
 	
 		log.info("guestBook={}",guestBook);
 		guestBook.setWriterId(member.getId());
@@ -103,8 +104,8 @@ public class GuestbookController {
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", result));
 	}
 	
-	@GetMapping("/guestbook.do")
-	public void guestBookList(
+	@GetMapping("/guestbook")
+	public String guestBookList(
 			@RequestParam(defaultValue = "1") int page,
 			@AuthenticationPrincipal Member member,
 			Model model
@@ -116,8 +117,20 @@ public class GuestbookController {
 				"id",member.getId()
 			);
 		log.info("member ={} ",member);
+		int memberId = member.getId();
+		
+		  	int totalCount = guestBookService.countAllGuestbook(memberId); // 전체 데이터 개수 조회
+		    log.info("totlaCount@guest={}",totalCount);
+		  	int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
+		    log.info("totalPage={}", totalPages);
+		  	
+		  	
 		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params);
 		log.info("guestBooks={}",guestBooks);
 		model.addAttribute("guestBooks",guestBooks);
+		model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
+
+		return "guestbook/guestbook";
 	}
 }

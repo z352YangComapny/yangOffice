@@ -14,7 +14,7 @@
     
     <form:form 
 		name="feedFrm" 
-		action="${pageContext.request.contextPath}/feedCreated.do"
+		action="${pageContext.request.contextPath}/member/userPage/${id}/feedCreated"
 		enctype="multipart/form-data" 
 		method="post">
 		<div class="input-group mb-3" style="padding:0px;">

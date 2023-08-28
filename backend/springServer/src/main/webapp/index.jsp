@@ -69,7 +69,7 @@
 </sec:authorize>--%>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
-    
+<%--
 <script>
 <c:choose>
     <c:when test="${not empty dmMember}">
@@ -83,7 +83,7 @@
     </c:otherwise>
 </c:choose>
 
-</script>
+</script>--%>
 
 
 

@@ -28,7 +28,7 @@
 						    <li class="list-group-item writerId">${loginMember.username}</li>
 						    <input type="hidden" class="writerId" value="${story.writerId}"/>
 						    <li class="list-group-item content">${story.content}</li>
-						    <li class="list-group-item createdAt">${story.regDate}</li>
+						    <li class="list-group-item formattedRegDate">${story.formattedRegDate}</li>
 						  </ul>
 						</div>
 					</c:forEach>

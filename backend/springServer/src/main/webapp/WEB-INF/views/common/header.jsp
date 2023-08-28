@@ -19,7 +19,7 @@
    <sec:authorize access="isAuthenticated()">
       <script>
          const username = '<sec:authentication property = "principal.username"/>';
-         const id = '<sec:authentication property = "principal.id"/>';
+       	 const id = '<sec:authentication property = "principal.id"/>';
       </script>
       <!--위에 변수 선언을 해주면 하단 stomp.js에서 참조가 가능하다! 기존 js에서는 jstl문법 등을 사용할 수 없으니까! -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -54,6 +54,7 @@
 </script>
 <!-- 인증되었을 때에만 해당 폼이 나오도록! -->
 <sec:authorize access = "isAuthenticated()">
+   <sec:authentication property="principal" var="loginMember"/>
 <!-- Modal -->
 <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
@@ -79,26 +80,38 @@
 </sec:authorize>
 <div id="container">
    <header>
+     <%-- <sec:authentication property="principal" var="dmMember"/>--%>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
       <nav class="navbar navbar-expand-lg bg-primary">
          <div class="container-fluid">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
                <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
                <span style = "font-size : 30px; font-weight: bold; color: white;">SSOY STORY<span>
             </a>
             <div class="collapse navbar-collapse d-flex justify-content-evenly" id="navbarColor01">
                <div>
                   <ul class="navbar-nav me-auto">
-                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
-                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatting">월드에 놀러가기</a></li>
+
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">Home</a></li>
+                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatList.do">월드에 놀러가기</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>
-
                   </ul>
                </div>
                <div style="width:500px;">
                   <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
                </div>
+               <div class="d-flex justify-content-center column align-items-center">
+                  <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
+                     <div id="notification-div"> </div>
+                      <input type='hidden' id='userId' value='${loginMember.id}' />
+                     <a href="${pageContext.request.contextPath}/dm/dmList">
+                        <img src="${pageContext.request.contextPath}/resources/images/send-message-w.png" id="dm-image" alt="dm-img" style="width: 70px;"/>
+                     </a>
+                  </div>
+               </div>
+
+
                <div>
                   <form class="d-flex ml-5">
                      <sec:authorize access="isAuthenticated()">
@@ -123,4 +136,19 @@
 
 
    </header>
+
+   <script>
+      <c:choose>
+      <c:when test="${not empty loginMember}">
+      const userId = ${loginMember.id}; // 인증된 멤버의 ID를 가져옵니다.
+      document.addEventListener('DOMContentLoaded', () => {
+         notifyConnect(userId);
+      });
+      </c:when>
+      <c:otherwise>
+      console.log("로그인되지 않았습니다. DM 알림을 구독하지 않습니다.");
+      </c:otherwise>
+      </c:choose>
+
+   </script>
    <section id="content">

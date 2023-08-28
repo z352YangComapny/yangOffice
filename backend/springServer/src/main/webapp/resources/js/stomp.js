@@ -34,7 +34,7 @@ const renderStory = (payloads) => {
 		  <ul class="list-group list-group-flush">
 		    <li class="list-group-item writerId">${story.from}</li>
 		    <li class="list-group-item content">${story.content}</li>
-		    <li class="list-group-item createdAt">${story.createdAt}</li>
+		    <li class="list-group-item createdAt">${story.formattedCreatedAt}</li>
 		  </ul>
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
 			<input type="hidden" id="storyAttach" value="${story.attach}"/>
@@ -166,7 +166,7 @@ const noticeDm = (notification) => {
 // ---------------------------------------------------------------------------------
 const ChatConnect = () => {
     const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
-    const stompClient = Stomp.over(ws);
+    stompClient = Stomp.over(ws);
 
     // 구독신청 
     stompClient.connect({}, () => {
@@ -180,7 +180,7 @@ const ChatConnect = () => {
         
 		const memberId = document.getElementById('memberId').value;
          const sendInterval = setInterval(() => {
-			stompClient.send(`/chat/${memberId}`, {}, JSON.stringify({ memberId: memberId }));
+			stompClient.send(`/chat`, {}, JSON.stringify({ memberId: memberId }));
         }, 1000);
     });
 };
@@ -225,4 +225,3 @@ const chatting = (payload) => {
 	const chatContainer = document.getElementById('chat-div');
 	chatContainer.scrollTop = chatContainer.scrollHeight;
 };
-

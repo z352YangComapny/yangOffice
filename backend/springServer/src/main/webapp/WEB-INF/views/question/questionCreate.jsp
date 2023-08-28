@@ -65,20 +65,25 @@
             <div class="form-group">
                 <label for="exampleSelect1" class="form-label mt-4"></label>
                 <select class="form-select" id="exampleSelect1" name="questionType">
+                	<c:if test="${!isAdmin}">
                     <option value="Q">이용문의</option>
+                    <textarea class="form-control" name="content" placeholder="문의사항을 작성하세요." required></textarea>
+                    </c:if>
                     <c:if test="${isAdmin}">
       				  <option value="N">공지사항</option>
+      				  <textarea class="form-control" name="content" placeholder="공지사항을 작성하세요." required></textarea>
    					 </c:if>
 
 
                 </select>
             </div>
-            <textarea class="form-control" name="content" placeholder="문의사항을 작성하세요." required></textarea>
+			    
             <br />
             <button type="submit" class="btn btn-primary btn-lg">등록</button>
         </form:form>
     </div>
 </div>
 <script>
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

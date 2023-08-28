@@ -15,6 +15,7 @@ public class CommentAllDto {
 
 	private int id;
 	private int writerId;
+	private String nickName;
 	private String content;
 	private LocalDateTime regDate;
 	

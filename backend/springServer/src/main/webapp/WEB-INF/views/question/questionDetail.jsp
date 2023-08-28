@@ -49,16 +49,26 @@
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
         
-       <c:if test="${isAdmin && questionType eq 'Q'}">
+	    <c:if test="${isAdmin && questionType eq 'Q'}">
             <label for="commentContent"></label>
-            <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
+            <div>
+			    <div style="display: flex; align-items: center;">
+			    	
+			        <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요." style="flex: 1;"></textarea>
+			        <button type="button" class="btn btn-danger btn-sm" id="commentDelete" style="display: none;">x</button>
+			    </div>
+			</div>
             <input type="hidden" id="commentId" value="">
-            <button type="button" class="btn btn-danger btn-lg" id="commentDelete" >X</button>
-            <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
-       		<button type="button" class="btn btn-primary btn-lg edit-button" id="editComment">댓글 수정</button>
+			    <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+			    <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment" style="display:none">댓글 수정</button>
+        </c:if> 
+        
+        <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
+        	<textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="flex: 1;"></textarea>
         </c:if>
-        
-        
+        <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
+        	<textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" style="flex: 1;"></textarea>
+        </c:if>
         
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
         
@@ -209,8 +219,22 @@ document.querySelector('#commentDelete').onclick = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
 	
+	/* const isAdmin = ${isAdmin}; 
 
-	
+    const commentCreateButton = document.querySelector('#commentCreate');
+    const editCommentButton = document.querySelector('#editComment');
+
+    if (isAdmin) {
+        // 관리자인 경우 댓글 작성과 수정 버튼을 보이게 설정
+        commentCreateButton.style.display = 'inline';
+        editCommentButton.style.display = 'inline';
+    } else {
+        // 일반회원인 경우 댓글 작성과 수정 버튼을 숨김 처리
+        commentCreateButton.style.display = 'none';
+        editCommentButton.style.display = 'none';
+    } */
+
+    
     fetch('/getQnaComments?questionId=${questionId}', {
         method: 'GET',
         headers: {
@@ -236,9 +260,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	            commentContent.value = comments[0].content;
 	            commentIdInput.value = comments[0].commentId; // commentId 업데이트
 	            
+	            
 	        }
 	        commentIdInput.value = id;
 	        console.log(commentIdInput.value);
+	        document.getElementById('commentDelete').style.display = 'inline';
+	        document.getElementById('commentCreate').style.display = 'none';
+	        document.getElementById('editComment').style.display = 'inline';
+	        
         } else {
             // 댓글 데이터가 없는 경우
             const commentContent = document.getElementById("commentContent");

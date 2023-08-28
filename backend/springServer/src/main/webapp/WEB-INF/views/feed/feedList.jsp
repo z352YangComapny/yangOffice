@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <fmt:requestEncoding value="utf-8"/>
 
@@ -45,18 +45,17 @@
 
 <div class="container">
     <h1>피드</h1>
-	 <c:forEach items="${photoList}" var="photo">
-	    <c:if test="${photo.writerId eq principal.id}">
-	        <a href="${pageContext.request.contextPath}/feed/feedCreate.do" class="btn btn-primary">피드작성하기</a>
-	    </c:if>
-	</c:forEach>
+    <c:if test="${id eq PrincipalDetails.id}">
+        <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate"
+           class="btn btn-primary">피드작성하기</a>
+    </c:if>
 
     <sec:authorize access="isAuthenticated()">
         <c:choose>
             <c:when test="${not empty photoList}">
                 <div class="feed-container">
                     <c:forEach items="${photoList}" var="photo">
-                        <div class="feed-item" style="box-shadow: horizontal-offset vertical-offset blur spread color;">
+                        <div class="feed-item">
                             <c:choose>
                                 <c:when test="${not empty photo.attachments}">
                                     <a href="${pageContext.request.contextPath}/member/userPage/${photo.writerId}/feed/feedDetail?photoFeedId=${photo.id}">
