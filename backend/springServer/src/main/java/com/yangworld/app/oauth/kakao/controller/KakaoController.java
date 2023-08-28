@@ -1,4 +1,4 @@
-package com.yangworld.app.oauth.controller;
+package com.yangworld.app.oauth.kakao.controller;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -23,7 +23,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.profile.service.ProfileService;
-import com.yangworld.app.oauth.service.KakaoService;
+import com.yangworld.app.oauth.kakao.service.KakaoService;
 
 import lombok.extern.slf4j.Slf4j;
 

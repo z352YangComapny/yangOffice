@@ -1,6 +1,5 @@
 package com.yangworld.app.domain.member.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignUpDto {
+	
     private int id;
     @NotBlank(message="아이디")
     private String username;

@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.comments.entity.Comments;
+import com.yangworld.app.domain.comments.service.CommentsService;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
 import com.yangworld.app.domain.question.dto.QuestionUpdateQnaDto;
+import com.yangworld.app.domain.question.entity.Comment;
 import com.yangworld.app.domain.question.entity.Question;
 import com.yangworld.app.domain.question.entity.QuestionType;
 import com.yangworld.app.domain.question.repository.QuestionRepository;
@@ -45,6 +48,9 @@ public class QuestionController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private CommentsService qnaCommentService;
 	/**
 	 * 윤아
 	 * 공지사항 & 이용문의 디테일 
@@ -53,7 +59,7 @@ public class QuestionController {
 	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model, Authentication authentication) {
 		Question question = questionService.findQuestionById(id);
 		log.info("question = {}", question);
-		
+		List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(id);
 		boolean isAdmin = authentication.getAuthorities().stream()
 	            .map(GrantedAuthority::getAuthority)
 	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
@@ -63,6 +69,9 @@ public class QuestionController {
 		model.addAttribute("questionType", question.getType());
 		model.addAttribute("questionId", question.getId());
 		model.addAttribute("principalId", principal.getId());
+		 if (!qnaComments.isEmpty()) {
+		        model.addAttribute("qnaComments", qnaComments.get(0).getContent());
+		    }
 	}
 	
 	/**
@@ -81,17 +90,34 @@ public class QuestionController {
 				"limit",limit
 			);
 		List<Question> questions = questionService.findAllQuestion(params);	
+		List<Long> questionsWithComments = new ArrayList<>();
 		// 페이징 정보를 계산하고 전달
 	    int totalCount = questionRepository.countAllQuestion(); // 전체 데이터 개수 조회
 	    int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
-	    
+//	    List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(questionId);
 	    List<String> writerNames = new ArrayList<>();
+	    List<Comments> comments = new ArrayList<Comments>();
+	    List<Boolean> hasCommentsList = new ArrayList<>();
 	    for (Question question : questions) {
 	        Member writer = memberService.findById(question.getWriterId());
+	        List<Comments> questionComments = qnaCommentService.getCommentsByQuestionId(question.getId());
+	         // 댓글 여부 판별
+	        
+	        if (!comments.isEmpty()) {
+	            questionsWithComments.add((long) question.getId());
+	        }
+	        log.info("questionWithComments = {}", questionsWithComments);
+	        log.info("Comments = {}", comments);
 	        log.info("writer = {}", writer);
+	        boolean hasComments = !questionComments.isEmpty(); // 댓글 여부 판별
+	        hasCommentsList.add(hasComments);
+	        
+	        comments.addAll(questionComments); 
 	        writerNames.add(writer.getUsername()); // 또는 다른 원하는 정보를 가져올 수 있음
 	    }
-	    
+//	        List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(questions.get(0).getWriterId());
+//	        int comment = qnaComments.get(0).getId();
+//	        log.info("comment ={}", comment);
 	    
 	    log.info("prinUname = {}", principal.getUsername());
 	    
@@ -101,6 +127,9 @@ public class QuestionController {
 	    model.addAttribute("questions", questions);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("questionsWithComments", questionsWithComments);
+	    model.addAttribute("comments",comments);
+	    model.addAttribute("hasCommentsList", hasCommentsList);
 	}
 	
 	
@@ -200,5 +229,15 @@ public class QuestionController {
 	        
 	        
 	        return "redirect:/question/questionList"; 
+	        
 	}
+	
+	
+	
+	
+	public boolean questionHasComments(int questionId) {
+        List<Comments> comments = qnaCommentService.getCommentsByQuestionId(questionId);
+        return !comments.isEmpty();
+    }
+	
 }
