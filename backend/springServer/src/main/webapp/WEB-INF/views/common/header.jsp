@@ -55,27 +55,6 @@
 <!-- 인증되었을 때에만 해당 폼이 나오도록! -->
 <sec:authorize access = "isAuthenticated()">
    <sec:authentication property="principal" var="loginMember"/>
-<!-- Modal -->
-<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="noticeModalLabel"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body"></div>
-         <div class="modal-footer flex-column">
-            <div class="d-flex justify-content-between w-100">
-               <div>보낸사람 : <span class='badge badge-primary from'></span></div>
-               <div>작성일 : <span class='when'></span></div>
-            </div>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
-         </div>
-      </div>
-   </div>
-</div>
    <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>
 </sec:authorize>
 <div id="container">
@@ -95,7 +74,6 @@
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">Home</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatList.do">월드에 놀러가기</a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">QNA</a></li>
-                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>
                   </ul>
                </div>
                <div style="width:500px;">
