@@ -348,6 +348,8 @@
 <%--        });--%>
 <%--    }--%>
 <%--}--%>
+
+    /* follow */
     $(document).on("click", ".addBtn", function() {
         const memberId = $(this).closest("tr").find("td:eq(1)").text(); // 버튼이 속한 행의 두 번째 열에서 멤버 ID 가져오기
 
@@ -371,14 +373,29 @@
             }
         });
     });
-</script>
-<script>
-    // follower/followee 구분
-    const openFollow =(e) =>{
-        e.preventDefault();
-        const followersListModal = $("#followersList");
-        followersListModal.modal("show");
-    }
 
+    /* unfollow */
+    $(document).on("click", ".unfollowBtn", function() {
+        const memberId = $(this).closest("tr").find("td:eq(1)").text(); // 버튼이 속한 행의 두 번째 열에서 멤버 ID 가져오기
 
+        $.ajax({
+            url: "${pageContext.request.contextPath}/member/unfollow",
+            method: "POST",
+            data: { memberId: memberId },
+            dataType: "json",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')
+            },
+            success(responseData) {
+                const { msg } = responseData;
+                alert(msg);
+                const inputText = $("#inputText").val();
+                getMemberList(inputText);
+            },
+            error(error) {
+                console.error("Follow request error:", error);
+                alert("unfollow 실패");
+            }
+        });
+    });
 </script>

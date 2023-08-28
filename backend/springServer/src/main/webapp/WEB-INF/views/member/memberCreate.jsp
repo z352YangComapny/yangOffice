@@ -403,7 +403,6 @@
 							<div class="valid-feedback" id="mailValid" >인증번호가 확인되었습니다.</div>
 							<div class="invalid-feedback" id="mailInvalid">인증번호가 일치하지 않습니다. 다시 확인해주세요.</div>
 						</div>
-						<%--<span id="mail-check-warn"></span>--%>
 				</div>
 
 				<div class="form-group">

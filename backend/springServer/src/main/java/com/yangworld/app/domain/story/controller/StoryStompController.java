@@ -1,6 +1,8 @@
 package com.yangworld.app.domain.story.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,16 +46,19 @@ public class StoryStompController {
 //		log.info("attachProfs = {}", attachProfs);
 		
 		String attach = "default.jpg";
- 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
+		
 		List<Payload> payloads = new ArrayList<>();
 		for(StoryMainDto story : stories) {
+			story.setFormattedRegDate((story.getRegDate()).format(formatter));
+			
 			String username = storyService.findMemberUsername(story.getWriterId());
 //			log.info("username = {}", username);
 			Payload tmp = Payload.builder()
 				    .type(PayloadType.STORY)
 				    .from(username)
 				    .content(story.getContent())
-				    .createdAt(story.getRegDate())
+				    .formattedCreatedAt(story.getFormattedRegDate())
 				    .id(story.getId())
 				    .build();
 			payloads.add(tmp);
