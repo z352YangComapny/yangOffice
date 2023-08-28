@@ -34,8 +34,8 @@
 <%-- <% String principalName = (String) request.getAttribute("principalName"); %>
 <p>Principal Name: ${principalName}</p> --%>
 <sec:authentication property="principal" var="loginMember"/>
-<p>principalId: ${loginMember.id}</p>
-<p>profileId: ${profile.id}</p>
+<%--<p>principalId: ${loginMember.id}</p>
+<p>profileId: ${profile.id}</p>--%>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px;">

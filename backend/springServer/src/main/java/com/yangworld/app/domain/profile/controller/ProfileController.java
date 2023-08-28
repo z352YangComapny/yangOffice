@@ -6,6 +6,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class ProfileController {
 	
 	@Autowired
 	private ProfileService profileService;
+
+	@Autowired
+	private ServletContext application;
 	
 	@GetMapping("/create.do")
 	public String showCreateProfileForm(Model model) {
@@ -118,13 +122,14 @@ public class ProfileController {
 //		log.info("principal = {}",principal); 
 //		log.info("upFiles = {}", upFiles); 
 //		log.info("principal = {}", principal.getId());
-		
+		// 이미지 상대경로 지정
+		String saveDirectory = application.getRealPath("/resources/upload/attachment");
 		List<Attachment> attachments = new ArrayList<>(); 
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) { 
 				String originalFilename = upFile.getOriginalFilename(); 
 				String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename);  
-				File destFile = new File(renamedFilename); 
+				File destFile = new File(saveDirectory, renamedFilename);
 				upFile.transferTo(destFile);
 				
 				Attachment attach =  
