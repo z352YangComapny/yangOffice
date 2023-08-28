@@ -30,7 +30,7 @@ export default class Game extends Scene {
 
     preload() {
         this.registry.set('network', this.network)
-        this.load.tilemapTiledJSON('map', 'assets/maps/fianl.json')
+        this.load.tilemapTiledJSON('map', 'assets/maps/fianlreal.json')
         this.load.spritesheet('basement', 'assets/tilesets/Basement.png', {
             frameWidth: 32,
             frameHeight: 32,

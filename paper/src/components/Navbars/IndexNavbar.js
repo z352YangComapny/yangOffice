@@ -168,6 +168,7 @@ function IndexNavbar() {
                   <NavLink
                     data-placement="bottom"
                     title="World 접속하기"
+                    onClick={()=>{navigate(`/world/${userProfile.username}`)}}
                   >
                     <i className="fa nc-icon nc-world-2" />
                     <p className="d-lg-none">World 접속하기</p>

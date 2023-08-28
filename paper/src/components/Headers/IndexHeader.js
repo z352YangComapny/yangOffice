@@ -17,21 +17,23 @@
 
 */
 /*eslint-disable*/
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import { Container } from "reactstrap";
 
+
 // core components
 
 function IndexHeader() {
+ 
   return (
     <>
       <div
         className="page-header section-dark"
         style={{
           backgroundImage:
-            "url(" + require("assets/img/6.jpg") + ")",
+            "url(" + require(`assets/img/6.jpg`) + ")",
         }}
       >
         <div className="filter" />

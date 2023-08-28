@@ -1,0 +1,84 @@
+.world-line{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(0, 0, 0 , 0.5);
+  }
+
+  .world-profile-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .world-nickname{
+    font-size: 3.5vh;
+    text-align: center;
+  }
+  .world-state{
+    display: flex;
+    margin: 15px;
+    min-height: 30px;
+    
+    justify-content: center;
+  }
+  .world-introduction{
+    border: 1px solid black;
+    border-radius: 1vw;
+    padding: 1vw;
+    min-height: 200px;
+    font-size: 20px;
+  }
+  
+
+.world-line{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(0, 0, 0 , 0.5);
+  }
+
+  .world-profile-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .world-username{
+    font-size: 1vw;
+    text-align: center;
+  }
+  .world-nickname{
+    font-size: 1vw;
+    text-align: center;
+  }
+
+  .world-state{
+    display: flex;
+    margin: 5px;
+    min-height: 30px;
+    
+    justify-content: center;
+  }
+  .world-introduction{
+    border: 1px solid rgb(0, 0, 0 , 0.5);
+    border-radius: 1vw;
+    padding: 10px;
+    min-height: 100px;
+    font-size: 18px;
+  }
+  
+.world-profile-img{
+    border: 1px solid rgb(0, 0, 0 , 0.9);
+    border-radius: 30% !important;
+    width: 133px;
+    height:  133px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.world-profile-body{
+    display: flex;
+}
+  
+
+.world-introduction-container{
+    margin-top: 20px;
+}
