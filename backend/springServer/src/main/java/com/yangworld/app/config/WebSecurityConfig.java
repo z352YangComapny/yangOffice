@@ -22,29 +22,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private PrincipalDetailsService principalService;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     // 정적파일은 인증 통과
     @Override
-    public void configure(WebSecurity web) throws Exception{
+    public void configure(WebSecurity web) throws Exception {
         web.ignoring().mvcMatchers("/resources/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/index.jsp" ,"/oauth/**").permitAll()
+                .antMatchers("/", "/index.jsp", "/oauth/**").permitAll()
                 .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
                         "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
                         "/member/checkEmail.do", "/member/checkEmailSearch.do",
-                            "/member/resetPassword.do").anonymous()
+                        "/member/resetPassword.do").anonymous()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/story/storyMain","/feedDetails/commentUpdate").permitAll()
+                .antMatchers("/story/storyMain", "/feedDetails/commentUpdate").permitAll()
                 .antMatchers("/stomp").permitAll()
                 .anyRequest().authenticated();
-                
+
 
         http.formLogin()
                 .loginPage("/member/memberLogin.do")
