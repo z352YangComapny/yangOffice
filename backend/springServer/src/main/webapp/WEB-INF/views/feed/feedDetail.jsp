@@ -61,16 +61,18 @@
     }
 
     .likes-box {
-	    position: absolute;
-	   	right: 30vw;
-	}
-	.comment-list {
-	    max-height: 18vw; 
-	    overflow-y: auto;
-	     scrollbar-color: #c0c0c0 #f0f0f0;
+        position: absolute;
+        right: 30vw;
+    }
+
+    .comment-list {
+        max-height: 18vw;
+        overflow-y: auto;
+        scrollbar-color: #c0c0c0 #f0f0f0;
         scrollbar-width: thin;
     }
-     /* Firefox용 스크롤바 색상 설정 */
+
+    /* Firefox용 스크롤바 색상 설정 */
     .comment-list::-webkit-scrollbar {
         width: 5px;
     }
@@ -79,11 +81,11 @@
         background-color: #c0c0c0;
         border-radius: 3px;
     }
-    
-	#likes{
-	 	width: 30px;
-		height: 30px;
-	}
+
+    #likes {
+        width: 30px;
+        height: 30px;
+    }
 
 
     .btns {
@@ -110,8 +112,8 @@
         height: 30vw;
         margin-left: 7vw;
     }
-    
-    
+
+
 </style>
 <script>
     $(document).ready(function () {
@@ -333,22 +335,12 @@
 
             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
 	                <span class="bg-dark carousel-control-next-icon" aria-hidden="true"
-	                      style="border-radius: 40%;"></span>
-	                <span class="visually-hidden">Next</span>
-	            </a>
-	            </div>
-          <%--  feed content  --%>
-	    <div class="content-box">
-	   
-	        <div class="feedContent-box form-control">
-	        	${response.content}</div>
-	        <%--    feed update form   --%>
-	        <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
-	            <textarea class="form-control" >${response.content}</textarea>
-	            <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
-	        </div>
-	    </div>
-
+                          style="border-radius: 50%;"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </div>
+        <%--  feed content  --%>
+        <div class="content-box">
 
             <div class="feedContent-box form-control">
                 ${response.content}</div>
@@ -359,74 +351,81 @@
             </div>
         </div>
 
-<
-<!-- 댓글 작성 폼 시작 -->
-<div class="commentsAll">
- <p style="font-size: 30px; 
+
+    </div>
+
+    <
+    <!-- 댓글 작성 폼 시작 -->
+    <div class="commentsAll">
+        <p style="font-size: 30px;
         background: linear-gradient(to right, #F3969A, #78C2AD);
         -webkit-background-clip: text;
     	-webkit-text-fill-color: transparent;">@${response.nickName}</p>
-	<div class="comment-form">
-	    <form:form
-	            action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentCreate"
-	            method="post">
-	        <div class="input-group mb-3">
-	            <input class="form-control" id="comment" name="comment" rows="3" required placeholder="댓글을 입력하세요..." />
-	            <input type="hidden" name="photoFeedId" value="${response.id}">
-	            <input type="hidden" name="returnUrl" value="${requestScope.requestURL}">
-	        <button type="submit" class="btn btn-primary">댓글 작성</button>
-	        </div>
-	    </form:form>
-	</div>
-	<!-- 댓글 작성 폼 끝 -->
-	
-	<!-- 댓글 목록 폼 시작 -->
-	<div class="comment-list">
-	    <ul class="list-group list-group-flush">
-	        <c:forEach items="${commentList}" var="comment">
-	            <li class="list-group-item ">
-	                <div class="d-flex justify-content-between">
-	                    <div class="comment-content" id="comment-${comment.id}">
-	                            ${comment.nickName} : <span class="comment-text">${comment.content}</span>
-	                    </div>
-	                    <div class="comment-info">
-	                        <c:if test="${comment.writerId ne principalDetails.id}">
-	                            <button class="btn btn-sm btn-light"
-	                                    style="margin-left: 10px; font-size:20px;"
-	                                    onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">🚨
-	                            </button>
-	                        </c:if>
-	                        <c:if test="${comment.writerId eq principalDetails.id || response.writerId eq principalDetails.id}">
-	                            <form:form
-	                                    action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentDelete"
-	                                    method="post" id="deleteCommentForm-${comment.id}">
-	                                <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
-	                                <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
-	                                <button type="button" class="btn btn-secondary"
-	                                        onclick="confirmDeleteComment(${comment.id})">삭제
-	                                </button>
-	                            </form:form>
-	                        </c:if>
-	                        <!-- Edit button -->
-	                        <c:if test="${comment.writerId eq principalDetails.id}">
-	                            <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">수정
-	                            </button>
-	                        </c:if>
-	                            ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
-	                    </div>
-	                </div>
-	                <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
-	                    <textarea class="form-control" rows="3">${comment.content}</textarea>
-	                    <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인</button>
-	                </div>
-	            </li>
-	        </c:forEach>
-	    </ul>
-	</div>
-</div>
-<!-- 댓글 목록 폼 끝 -->
-  
-       <div class="likes-box">
+        <div class="comment-form">
+            <form:form
+                    action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentCreate"
+                    method="post">
+                <div class="input-group mb-3">
+                    <input class="form-control" id="comment" name="comment" rows="3" required
+                           placeholder="댓글을 입력하세요..."/>
+                    <input type="hidden" name="photoFeedId" value="${response.id}">
+                    <input type="hidden" name="returnUrl" value="${requestScope.requestURL}">
+                    <button type="submit" class="btn btn-primary">댓글 작성</button>
+                </div>
+            </form:form>
+        </div>
+        <!-- 댓글 작성 폼 끝 -->
+
+        <!-- 댓글 목록 폼 시작 -->
+        <div class="comment-list">
+            <ul class="list-group list-group-flush">
+                <c:forEach items="${commentList}" var="comment">
+                    <li class="list-group-item ">
+                        <div class="d-flex justify-content-between">
+                            <div class="comment-content" id="comment-${comment.id}">
+                                    ${comment.nickName} : <span class="comment-text">${comment.content}</span>
+                            </div>
+                            <div class="comment-info">
+                                <c:if test="${comment.writerId ne principalDetails.id}">
+                                    <button class="btn btn-sm btn-light"
+                                            style="margin-left: 10px; font-size:20px;"
+                                            onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">
+                                        🚨
+                                    </button>
+                                </c:if>
+                                <c:if test="${comment.writerId eq principalDetails.id || response.writerId eq principalDetails.id}">
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentDelete"
+                                            method="post" id="deleteCommentForm-${comment.id}">
+                                        <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
+                                        <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
+                                        <button type="button" class="btn btn-secondary"
+                                                onclick="confirmDeleteComment(${comment.id})">삭제
+                                        </button>
+                                    </form:form>
+                                </c:if>
+                                <!-- Edit button -->
+                                <c:if test="${comment.writerId eq principalDetails.id}">
+                                    <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">
+                                        수정
+                                    </button>
+                                </c:if>
+                                    ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
+                            </div>
+                        </div>
+                        <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
+                            <textarea class="form-control" rows="3">${comment.content}</textarea>
+                            <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인
+                            </button>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
+    </div>
+    <!-- 댓글 목록 폼 끝 -->
+
+    <div class="likes-box">
 
         <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedLikeUpdate"
                    method="post">
