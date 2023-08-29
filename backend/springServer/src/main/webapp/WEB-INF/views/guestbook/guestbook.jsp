@@ -28,6 +28,9 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				<th>작성자</th>
 				<th>내용</th>
 				<th>작성일</th>
+				<th>수정</th>
+				<th>삭제</th>
+				<th>신고하기</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -224,8 +227,9 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
     btn.onclick = (e) => {
       
     	   const value = e.target.value;
-    	   const guestbookWriter = document.querySelector("#guestbookWriter");
+    	   const guestbookWriter = document.querySelector("#guestbookWriter").value;
     	   console.log(value);
+    	   console.log(guestbookWriter);
 	    	 $.ajax({
 	    		url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/delete.do",
 				data : {
@@ -238,10 +242,12 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 				method : "POST",
 				dataType : "json",
 				success: function(responseData) {
-	                console.log(responseData);
-	                const { result } = responseData;
-	                if (result > 0) {
+	                const {msg} = responseData;
+	                console.log("responseData" ,responseData);
+	                console.log("msg" ,msg);
+	                if (msg != null) {
 	                    const tr = e.target.parentElement.parentElement;
+	                    location.reload();
 	                    tr.remove();
 	                } else {
 	                    console.error("Delete operation failed.");

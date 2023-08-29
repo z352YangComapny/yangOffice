@@ -81,10 +81,10 @@ public class GuestbookController {
 		if(principal.getId() == memberId || principal.getId() == guestbookWriter) {
 			result = guestBookService.deleteGuestBook(deleteGuestbook);
 			log.info("result={}",result);
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg", "방명록이 삭제되었습니다."));
 		}else {
 			return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg","권한이 없습니다." ));
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("msg", "방명록이 삭제되었습니다."));
 		
 	}
 	
