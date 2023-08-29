@@ -121,12 +121,12 @@ public class GuestbookController {
 		Map<String, Object> params = Map.of(
 				"page",page,
 				"limit",limit,
-				"id",member.getId()
+				"id",id
 			);
 		log.info("member ={} ",member);
 		int memberId = member.getId();
 		
-		  	int totalCount = guestBookService.countAllGuestbook(memberId); // 전체 데이터 개수 조회
+		  	int totalCount = guestBookService.countAllGuestbook(id); // 전체 데이터 개수 조회
 		    log.info("totalCount@guest={}",totalCount);
 		  	int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
 		    log.info("totalPage={}", totalPages);
