@@ -1,4 +1,4 @@
-package com.yangworld.app.oauth.dto;
+package com.yangworld.app.oauth.google.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
