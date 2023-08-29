@@ -52,10 +52,11 @@ public class StoryController {
 		model.addAttribute("stories", stories);
 	}
 	
-	@PostMapping("/storyFeedFind")
-	public ResponseEntity<?> findFeed(Model model, @AuthenticationPrincipal PrincipalDetails principal){
+	@GetMapping("/storyFeedFind")
+	public String findFeed(Model model, @AuthenticationPrincipal PrincipalDetails principal){
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(principal.getId());
-		return ResponseEntity.status(HttpStatus.OK).body(Map.of("photoList", photoList));
+	    model.addAttribute("photoList", photoList);
+		return "story/storyFeed";
 	}
 	
 	@GetMapping("/storyMain")
