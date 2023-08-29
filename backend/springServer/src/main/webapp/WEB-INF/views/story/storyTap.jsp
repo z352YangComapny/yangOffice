@@ -190,15 +190,32 @@ const storyFeedLink = () => {
 };
 
 const storyFeedLinkCreate = () => {
-	const popup = window.open("", "popup", "width=400,height=300");
+	const popup = window.open("", "popup", "width=600px, height=400px, left=650px, top=400px");
 	
 	$.ajax({
 		url : '${pageContext.request.contextPath}/story/storyFeedFind',
 		method : "POST",
 		success(feeds){
+			const {photoList} = feeds;
 			
 		}
 	});
 };
+
+const renderPopup = () => {
+	
+	let html = `
+		<table class="table">
+			<thead>
+				<tr>
+					<th>작성자</th>
+					<th>내용</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+	`;
+	
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
