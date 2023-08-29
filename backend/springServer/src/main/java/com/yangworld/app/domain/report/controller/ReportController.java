@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/member/userPage/{id}")
 public class ReportController {
 
     @Autowired
@@ -109,7 +108,7 @@ public class ReportController {
     }
 
 
-    @PostMapping("/insertReportFeed")
+    @PostMapping("/member/userPage/{id}/insertReportFeed")
     private String insertReportFeed(
             @AuthenticationPrincipal PrincipalDetails principal,
             @RequestParam String content,
@@ -133,7 +132,7 @@ public class ReportController {
         return "redirect:/member/userPage/" + id + "/feed/feedDetail?photoFeedId=" + feedId;
     }
 
-    @PostMapping("/insertReportComment")
+    @PostMapping("/member/userPage/{id}/insertReportComment")
     private String insertReportComments(@AuthenticationPrincipal PrincipalDetails principal
             , @ModelAttribute ReportCreateDto _reportDto,
                                         @RequestParam int commentsId,
