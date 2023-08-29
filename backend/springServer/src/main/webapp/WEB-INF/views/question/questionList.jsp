@@ -17,8 +17,17 @@ input#btn-add{float: left;
    						 margin: 40px;}
 </style>
 <section id="board-container" class="container">
-	<input type="button" value="글쓰기" id="btn-add" class="btn btn-success btn-lg"/>
-	<table id="tbl-board" class="table table-striped table-hover">
+	<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 60px;">
+        <p style="font-size: 37px; 
+        background: linear-gradient(to right, #F3969A, #78C2AD);
+        -webkit-background-clip: text;
+    	-webkit-text-fill-color: transparent;"
+        >공지사항 & 이용문의</p>
+        <a href="${pageContext.request.contextPath}/question/questionCreate">
+            <img src="${pageContext.request.contextPath}/resources/images/edit-button.png" id="btn-add" alt="edit-button" style="width: 70px; margin: 10px;"/>
+        </a>
+    </div>
+	<table id="tbl-board" class="table table-bordered border-primary table-hover align-middle">
 		<thead>
 			<tr>
 				<th>번호</th>
@@ -42,12 +51,12 @@ input#btn-add{float: left;
 						<td>${question.id}</td>
 						<c:if test="${question.type ne 'N'}">
 						    <td>
-						        이용문의
+						        💭이용문의
 						    </td>
 						</c:if>
 						<c:if test="${question.type ne 'Q'}">
 						    <td>
-						        🗣️공지사항
+						        📢공지사항
 						    </td>
 						</c:if>
 						<td>
@@ -59,10 +68,17 @@ input#btn-add{float: left;
 						    </c:choose>
 						</td>
 						<td>
-						    <c:choose>
-						        <c:when test="${question.type ne 'Q'}">관리자</c:when>
-						        <c:otherwise>${writerNames[vs.index]}</c:otherwise>
-						    </c:choose>
+						   <c:choose>
+						    <c:when test="${question.type ne 'Q'}">관리자</c:when>
+						    <c:otherwise>
+						        <c:choose>
+						            <c:when test="${writerNames[vs.index] eq principalUsername}">
+						                ${writerNames[vs.index]} 👻
+						            </c:when>
+						            <c:otherwise>${writerNames[vs.index]}</c:otherwise>
+						        </c:choose>
+						    </c:otherwise>
+						</c:choose>
 						</td>
 						<td>
 							<fmt:parseDate value="${question.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>

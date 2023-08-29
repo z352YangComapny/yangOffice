@@ -58,12 +58,16 @@ public class DmServiceImpl implements DmService {
 	}
 	
 	@Override
-	public List<DmRoom> findDmRoomById(int dmRoomId) {
-		return dmRepository.findDmRoomById(dmRoomId);
+	public List<DmRoom> findDmRoomByDmRoomId(int dmRoomId) {
+		return dmRepository.findDmRoomByDmRoomId(dmRoomId);
 	}
 	
 	@Override
-	@Transactional
+	public List<DmRoom> findDmRoomById(int participant1) {
+		return dmRepository.findDmRoomById(participant1);
+	}
+	
+	@Override
 	public List<DmDetailsDto> findDmDetails(int dmRoomId, int userId) {
 		
 		List<Dm> dmDetails = dmRepository.findDmDetails(dmRoomId);
@@ -106,7 +110,6 @@ public class DmServiceImpl implements DmService {
 	
 	
 	@Override
-	@Transactional
 	public List<DmListDto> findDmRoom(int userId) {
 		
 		// participant1, 2, dmRoomId

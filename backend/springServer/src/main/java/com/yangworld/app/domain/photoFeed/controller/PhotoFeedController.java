@@ -93,9 +93,14 @@ public class PhotoFeedController {
         PhotoFeed photoFeed = photoFeedService.findById(photoFeedId);
 
         int likeCount = photoFeedService.getLikeCountForFeed(photoFeedId);
-
+        
+        int feedWriterId = photoFeed.getWriterId();
+        
+        Member member = photoFeedService.findNickNameByFeedId(feedWriterId);
+        
         FeedDetails response = FeedDetails.builder()
                 .id(photoFeedId)
+                .nickName(member.getNickname())
                 .writerId(photoFeed.getWriterId())
                 .likeCount(likeCount)
                 .content(photoFeed.getContent())

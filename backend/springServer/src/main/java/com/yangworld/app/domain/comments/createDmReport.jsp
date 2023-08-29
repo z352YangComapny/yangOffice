@@ -15,49 +15,33 @@ int reportedId = Integer.parseInt(reportedIdParam);
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="게시판" name="title"/>
 </jsp:include>
-
-    <div class="modal" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="dmModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content" style="background-color: #585757;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="dmModalLabel" style="color : white;">신고하기</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"  id="closeModalButton" aria-label="Close" >
-                        <span aria-hidden="true" ></span>
-                    </button>
+    
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card" style="margin-top: 200px;">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title">신고하기</h5>
                 </div>
-		       		<form:form id="reportDmForm" action="${pageContext.request.contextPath}/report/insertReportDm" method="post">
-						    <div class="modal-body"> 
-						        <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3" style="flex-wrap: wrap;">
-						            <div class="input-group mb-3">
-						                <input type="number" id="dmId" name="dmId" class="form-control" placeholder="신고할 DM 아이디"  value="<%= dmId %>" aria-label="Partner's ID" aria-describedby="button-addon2" required />
-						                 <input type="hidden" name="reportedId" value="<%= reportedId %>" />
-						            </div>
-						            <br/>
-						            <div class="input-group mb-3">
-						                <input type="text" id="messageInput" name="content" class="form-control" placeholder="신고사유 입력" 
-						                style="height: 200px;" aria-label="Recipient's username" aria-describedby="button-addon2" path="content" />
-						                <button type="submit" class="btn btn-warning">신고</button>
-						            </div>
-						        </div>
-						    </div>
-						</form:form>
-
+                <div class="card-body">
+                    <form:form id="reportDmForm" action="${pageContext.request.contextPath}/report/insertReportDm" method="post">
+                        <div class="mb-4">
+                            <label for="dmId" class="form-label">신고할 DM 아이디</label>
+                            <input type="number" class="form-control" id="dmId" name="dmId" value="<%= dmId %>" required>
+                        </div>
+                        <input type="hidden" name="reportedId" value="<%= reportedId %>">
+                        <div class="mb-4">
+                            <label for="messageInput" class="form-label">신고사유 입력</label>
+                            <textarea class="form-control" id="messageInput" name="content" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-lg">신고</button>
+                    </form:form>
+                </div>
             </div>
         </div>
     </div>
-<script>
-$(document).ready(function() {
-    $('#reportModal').modal({
-        backdrop: 'static',  
-        keyboard: false  
-    });
+</div>
 
-    // 모달 닫기 버튼 누를 때 페이지 이동
-    $('#closeModalButton').click(function() {
-        location.href = '${pageContext.request.contextPath}/dm/dmList';
-    });
-});
 
-</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
