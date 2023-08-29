@@ -127,14 +127,16 @@ public class GuestbookController {
 		int memberId = member.getId();
 		
 		  	int totalCount = guestBookService.countAllGuestbook(memberId); // 전체 데이터 개수 조회
-		    log.info("totlaCount@guest={}",totalCount);
+		    log.info("totalCount@guest={}",totalCount);
 		  	int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
 		    log.info("totalPage={}", totalPages);
 		int myId = member.getId();
 		List<GuestBookWithNicknameDto> reportedId = guestBookService.findReportedId(id);
 		  	
 		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params);
+		
 		log.info("guestBooks={}",guestBooks);
+		model.addAttribute("totalCount",totalCount);
 		model.addAttribute("guestBooks",guestBooks);
 		model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
