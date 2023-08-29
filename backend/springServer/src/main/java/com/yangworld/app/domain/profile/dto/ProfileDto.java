@@ -18,7 +18,6 @@ public class ProfileDto {
 	
 	private int id;
 	private int memberId;
-	
 //	@NotBlank(message = "이거ㅏㄹ뚜세여.")
 	private State state;
 	private String introduction;

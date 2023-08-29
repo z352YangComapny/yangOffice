@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,8 @@ public class PhotoFeedController {
     @Qualifier("FeedCommentsServiceImpl")
     private CommentsService commentService;
 
+    @Autowired
+    private ServletContext application;
 
     @GetMapping("/goBackPage")
     public String goBackPage(@PathVariable("id") int id) {
@@ -121,11 +124,15 @@ public class PhotoFeedController {
 
         List<Attachment> attachments = new ArrayList<>();
 
+        // 이미지 상대경로 지정
+        String saveDirectory = application.getRealPath("/resources/upload/attachment");
+
+
         for (MultipartFile upFile : upFiles) {
             if (!upFile.isEmpty()) {
                 String originalFilename = upFile.getOriginalFilename();
                 String renamedFilename = FileUploadUtils.getRenameFilename(originalFilename);
-                File destFile = new File(renamedFilename);
+                File destFile = new File(saveDirectory, renamedFilename); // 상대경로로 변경
                 upFile.transferTo(destFile);
 
                 Attachment attach =
