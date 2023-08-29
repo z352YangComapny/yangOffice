@@ -7,27 +7,27 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <style>
-    /* 이미지 최대 너비와 최대 높이 설정 */
-    #selectedImage {
-    	min-width:350px;
-    	min-height:300px;
-        max-width: 350px; /* 최대 너비 */
-        max-height: 300px; /* 최대 높이 */
-    }
+/* 이미지 최대 너비와 최대 높이 설정 */
+#selectedImage {
+	min-width:350px;
+	min-height:250px;
+    max-width: 350px; /* 최대 너비 */
+    max-height: 250px; /* 최대 높이 */
+}
+
+.profile-box {
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    width: 350px;
+}
+.emoji-image{
+	width: 30px;
+}
+
     
-    .profile-box {
-        border: 2px solid #ccc;
-        padding: 10px;
-        border-radius: 5px;
-        margin-top: 20px;
-        text-align: center;
-        width: 350px;
-    }
-    
-    /* 상태값에 따른 이모티콘 크기 설정 */
-    .status-emoji {
-        font-size: 1.5rem;
-    }
 </style>
 <sec:authorize access="isAuthenticated()">
 <%-- 자바 코드를 사용하여 principalName 출력하기 --%>
@@ -55,7 +55,14 @@
 		    </div>
 
 			<div class="profile-box">
-                <div class="status-emoji">today is... ${profile.state eq 'A' ? '😡' : profile.state eq 'B' ? '🤬' : profile.state eq 'C' ? '🥵' : profile.state eq 'D' ? '🤯' : profile.state eq 'E' ? '😵' : ''}</div>
+                <div class="status-emoji">
+                today is... 
+                <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image" style="${profile.state eq 'A' ? 'display: inline;' : 'display: none;'}">
+		        <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image" style="${profile.state eq 'B' ? 'display: inline;' : 'display: none;'}">
+		        <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image" style="${profile.state eq 'C' ? 'display: inline;' : 'display: none;'}">
+		        <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image" style="${profile.state eq 'D' ? 'display: inline;' : 'display: none;'}">
+		        <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image" style="${profile.state eq 'E' ? 'display: inline;' : 'display: none;'}">
+		        </div>
             </div>
            
             <div class="form-group">
