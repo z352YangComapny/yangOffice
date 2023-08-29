@@ -296,7 +296,7 @@ public class MemberController {
         log.info("princial ={}", principal);
         memberService.deleteMember(principal.getUsername());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("msg", "탈퇴처리가 완료되었습니다. 이용해주셔서 감사합니다."));
 
     }
 
