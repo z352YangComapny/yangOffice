@@ -79,7 +79,7 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	      	<img src="${pageContext.request.contextPath}/resources/images/arrow.png" onclick="storyFeedLinkCreate();" style="width: 25px;"/>
+
 	        <button type="button" class="btn btn-primary" id="btnCreateStory2">추가</button>
 	      </div>
 	    </div>
@@ -190,8 +190,7 @@ const storyFeedLink = () => {
 };
 
 const storyFeedLinkCreate = () => {
-	const popup = window.open("${pageContext.request.contextPath}/story/storyFeedFind", "popup", "width=750px, height=400px, left=600px, top=400px");
-	
+	const popup = window.open("${pageContext.request.contextPath}/story/storyFeedFind", "popup", "width=1000px, height=600px, left=0px, top=400px");
 };
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
