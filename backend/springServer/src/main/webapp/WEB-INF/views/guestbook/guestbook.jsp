@@ -28,6 +28,9 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				<th>작성자</th>
 				<th>내용</th>
 				<th>작성일</th>
+				<th>수정</th>
+				<th>삭제</th>
+				<th>신고하기</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -48,10 +51,12 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 				         <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 						</td>
+						 <c:if test="${myId eq guestbook.writerId}">
 						<td>
 						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
 						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
 						</td>
+						</c:if>
 						<td>
 							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
 						</td>
@@ -222,8 +227,9 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
     btn.onclick = (e) => {
       
     	   const value = e.target.value;
-    	   const guestbookWriter = document.querySelector("#guestbookWriter");
+    	   const guestbookWriter = document.querySelector("#guestbookWriter").value;
     	   console.log(value);
+    	   console.log(guestbookWriter);
 	    	 $.ajax({
 	    		url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/delete.do",
 				data : {
@@ -236,10 +242,12 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 				method : "POST",
 				dataType : "json",
 				success: function(responseData) {
-	                console.log(responseData);
-	                const { result } = responseData;
-	                if (result > 0) {
+	                const {msg} = responseData;
+	                console.log("responseData" ,responseData);
+	                console.log("msg" ,msg);
+	                if (msg != null) {
 	                    const tr = e.target.parentElement.parentElement;
+	                    location.reload();
 	                    tr.remove();
 	                } else {
 	                    console.error("Delete operation failed.");
@@ -258,18 +266,6 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
       
     };
 });
-
-
-/* // 버튼 숨기기
-const updateButton = document.getElementById('updateGuestbook');
-
-document.querySelectorAll(".updateGuestbook").forEach(updateButton => {
-	if (guestbook.writerId === member.id) {
-	    updateButton.style.display = 'block';
-	} else {
-	    updateButton.style.display = 'none';
-	}
-}); */
 
 // 신고 모달창
 
