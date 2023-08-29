@@ -16,12 +16,11 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import com.yangworld.app.domain.chat.dto.ChatListDto;
 import com.yangworld.app.domain.chat.service.ChatService;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.story.dto.Payload;
-import com.yangworld.app.domain.story.dto.PayloadType;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,16 +32,17 @@ public class StompChattingController {
 	private ChatService chatService;
 	@Autowired
 	MemberService memberService;
-
+	
 	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
 
 	@MessageMapping("/chat")
 	@SendTo("/chatting")
-	public Map<String, String> chatAll(Payload _chat) {
+	public Map<String, Object> chatAll(Payload _chat) {
 		log.info("{}",_chat);
 		Member member = memberService.findById(_chat.getId());
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", _chat.getId());
 		map.put("nickname",member.getNickname());
 		map.put("content", _chat.getContent());
 		LocalDateTime currentTime = LocalDateTime.now();
@@ -50,7 +50,7 @@ public class StompChattingController {
 		String formattedTime = currentTime.format(formatter);
 
 		map.put("time", formattedTime);
-
+		
 //	    List<ChatListDto> chats = chatService.findChatList();
 //
 //	    List<Payload> payloads = new ArrayList<>();
