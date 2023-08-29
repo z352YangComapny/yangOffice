@@ -15,53 +15,61 @@
         font-family: Arial, sans-serif;
     }
 
-    /* 컨테이너 스타일 조절 */
-    .carousel-and-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .feedContent-box {
-        width: 30vw;
-        height: 30vw;
-    }
-
+	.content-box {
+    width: 30vw;
+    margin-left: 7vw;
+    margin-top: 5vw;
+    overflow-y: auto; 
+}
     /* 이미지 크기 및 정렬 조절 */
-    .carousel-inner .carousel-item img {
-        width: 500px; /* 이미지 최대 너비 */
-        height: 500px;
+    .carousel-inner{
+        margin-left:7vw;
     }
-
-    /* 사진 박스 스타일 조절 */
-    .carousel-box {
-        flex: 1;
-        margin-right: 20px;
-    }
-
-    /* 오른쪽 컨텐츠 스타일 조절 */
-    .content-box {
-        flex: 1;
-        padding: 20px;
-        background-color: #f5f5f5;
-        border-radius: 5px;
-        height: 25vw;
-        width: 30vw;
-    }
+     .carousel-item img {
+       width: 30vw;
+        height: 30vw;
+     }
+     .goBackBtn{
+     	margin-left:5vw;
+     	margin-top:2.5vw;
+     }
+     .likes-btn{
+     	width:50px;
+     	heght:50px;
+     	margin-top:30vw;
+     }
 
     .likes-box {
-        margin-top: 30vw;
+	    position: absolute;
+	   	right: 30vw;
+	}
+	.comment-list {
+	    max-height: 18vw; 
+	    overflow-y: auto;
     }
-
-    #likes {
-        width: 30px;
-        height: 30px;
-    }
+	#likes{
+	 	width: 30px;
+		height: 30px;
+	}
 
     .btns {
         margin-left: 80vw;
         padding: 5px;
         display: flex;
+    }
+    .FeedBox{
+    width: 95vw;
+    height:40vw;
+    display:flex;
+    }
+    .photoBox{
+    	width:45vw;
+    	height:30vw;
+    }
+    .commentsAll{
+    	width:45vw;
+    	height:30vw;
+    	margin-left:7vw;
     }
 </style>
 <script>
@@ -213,11 +221,13 @@
         </div>
     </div>
 </div>
-<p>${response.nickName}</p>
+	
 <form:form name="goBackBtn"
            method="get"
            action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
-    <button class="btn btn-primary">뒤로가기</button>
+     <div class="goBackBtn">
+    		<button class="btn btn-primary">뒤로가기</button>
+    </div>
 </form:form>
 <div class="btns">
     <!-- feed delete -->
@@ -239,40 +249,7 @@
             <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
         </div>
     </c:if>
-</div>
-<div class="carousel-and-content">
-    <div class="carousel-box">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators" style="margin-bottom: -38px;">
-                <c:forEach items="${photoDetail}" var="photo" varStatus="status">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}"
-                            class="bg-dark ${status.first ? 'active' : ''}"
-                            aria-current="${status.first ? 'true' : 'false'}"
-                            aria-label="Slide ${status.index + 1}"></button>
-                </c:forEach>
-            </div>
-            <div class="carousel-inner" style="margin-left: 240px;">
-                <c:forEach items="${photoDetail}" var="photo" varStatus="status">
-                    <div class="carousel-item ${status.first ? 'active' : ''}">
-                        <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.renamedFilename}"
-                              alt="Image ${status.index + 1}">
-                    </div>
-                </c:forEach>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-                <span class="bg-dark carousel-control-prev-icon" aria-hidden="true"
-                      style="border-radius: 40%;"></span>
-                <span class="visually-hidden">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-                <span class="bg-dark carousel-control-next-icon" aria-hidden="true"
-                      style="border-radius: 40%;"></span>
-                <span class="visually-hidden">Next</span>
-            </a>
-        </div>
-    </div>
-
-
+    
     <%-- feed report --%>
     <c:if test="${response.writerId ne principalDetails.id}">
         <div class="feedReport-box">
@@ -282,31 +259,127 @@
                     data-repoter-id="${principalDetails.id}">
                 🚨 신고
             </button>
-
         </div>
     </c:if>
+    
+</div>
 
+<div class = "FeedBox">
+		<div class="photoBox">
+	       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	           <div class="carousel-indicators" style="margin-bottom: -38px;">
+	               <c:forEach items="${photoDetail}" var="photo" varStatus="status">
+	                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}"
+	                           class="bg-dark ${status.first ? 'active' : ''}"
+	                           aria-current="${status.first ? 'true' : 'false'}"
+	                           aria-label="Slide ${status.index + 1}"></button>
+	               </c:forEach>
+	           </div>
+	                  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+	                <span class="bg-dark carousel-control-prev-icon" aria-hidden="true"
+	                      style="border-radius: 40%;"></span>
+	                <span class="visually-hidden">Previous</span>
+	            </a>
+	           <div class="carousel-inner">
+	               <c:forEach items="${photoDetail}" var="photo" varStatus="status">
+	                   <div class="carousel-item ${status.first ? 'active' : ''}">
+	                       <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.renamedFilename}"
+	                             alt="Image ${status.index + 1}">
+	                   </div>
+	               </c:forEach>
+	           </div>
+	     
+	            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+	                <span class="bg-dark carousel-control-next-icon" aria-hidden="true"
+	                      style="border-radius: 40%;"></span>
+	                <span class="visually-hidden">Next</span>
+	            </a>
+	            </div>
+          <%--  feed content  --%>
+	    <div class="content-box">
+	   
+	        <div class="feedContent-box form-control">
+	        	${response.content}</div>
+	        <%--    feed update form   --%>
+	        <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
+	            <textarea class="form-control">${response.content}</textarea>
+	            <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+	        </div>
+	    </div>
+
+</div>
+
+<!-- 댓글 작성 폼 시작 -->
+<div class="commentsAll">
+ <p>@${response.nickName}</p>
+	<div class="comment-form">
+	    <form:form
+	            action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentCreate"
+	            method="post">
+	        <div class="mb-3">
+	            <label for="comment" class="form-label">댓글 내용</label>
+	            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+	            <input type="hidden" name="photoFeedId" value="${response.id}">
+	            <input type="hidden" name="returnUrl" value="${requestScope.requestURL}">
+	        </div>
+	        <button type="submit" class="btn btn-primary">댓글 작성</button>
+	    </form:form>
+	</div>
+	<!-- 댓글 작성 폼 끝 -->
 	
-    <%--  feed content  --%>
-    <div class="content-box">
-
-		
-        <div class="feedContent-box">${response.content}</div>
-
-        <%--    feed update form   --%>
-        <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
-            <textarea class="form-control">${response.content}</textarea>
-            <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
-        </div>
-    </div>
-
-
-    <div class="likes-box">
+	<!-- 댓글 목록 폼 시작 -->
+	<div class="comment-list">
+	    <h2>댓글 목록</h2>
+	    <ul class="list-group">
+	        <c:forEach items="${commentList}" var="comment">
+	            <li class="list-group-item">
+	                <div class="d-flex justify-content-between">
+	                    <div class="comment-content" id="comment-${comment.id}">
+	                            ${comment.nickName} : <span class="comment-text">${comment.content}</span>
+	                    </div>
+	                    <div class="comment-info">
+	                        <c:if test="${comment.writerId ne principalDetails.id}">
+	                            <button class="btn btn-sm btn-light"
+	                                    style="margin-left: 10px; font-size:20px;"
+	                                    onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">🚨
+	                            </button>
+	                        </c:if>
+	                        <c:if test="${comment.writerId eq principalDetails.id || response.writerId eq principalDetails.id}">
+	                            <form:form
+	                                    action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentDelete"
+	                                    method="post" id="deleteCommentForm-${comment.id}">
+	                                <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
+	                                <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
+	                                <button type="button" class="btn btn-secondary"
+	                                        onclick="confirmDeleteComment(${comment.id})">삭제
+	                                </button>
+	                            </form:form>
+	                        </c:if>
+	                        <!-- Edit button -->
+	                        <c:if test="${comment.writerId eq principalDetails.id}">
+	                            <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">수정
+	                            </button>
+	                        </c:if>
+	                            ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
+	                    </div>
+	                </div>
+	                <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
+	                    <textarea class="form-control" rows="3">${comment.content}</textarea>
+	                    <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인</button>
+	                </div>
+	            </li>
+	        </c:forEach>
+	    </ul>
+	</div>
+</div>
+<!-- 댓글 목록 폼 끝 -->
+  
+       <div class="likes-box">
         <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedLikeUpdate"
                    method="post">
             <input type="hidden" name="feedId" value="${response.id}">
             <input type="hidden" name="memberId" value="${principalDetails.id}">
-            <button type="submit">
+            <button type="submit" class="likes-btn">
                 <img id="likes" src="${pageContext.request.contextPath}/resources/images/like.png">
                 <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
                 <div>${response.likeCount}</div>
@@ -315,71 +388,17 @@
     </div>
 
 </div>
+	
+ 
+
+
+    
+
+
 
 
 <hr style="border: 3px">
-<!-- 댓글 작성 폼 시작 -->
-<div class="comment-form">
-    <form:form
-            action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentCreate"
-            method="post">
-        <div class="mb-3">
-            <label for="comment" class="form-label">댓글 내용</label>
-            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
-            <input type="hidden" name="photoFeedId" value="${response.id}">
-            <input type="hidden" name="returnUrl" value="${requestScope.requestURL}">
-        </div>
-        <button type="submit" class="btn btn-primary">댓글 작성</button>
-    </form:form>
-</div>
-<!-- 댓글 작성 폼 끝 -->
 
-<!-- 댓글 목록 폼 시작 -->
-<div class="comment-list">
-    <h2>댓글 목록</h2>
-    <ul class="list-group">
-        <c:forEach items="${commentList}" var="comment">
-            <li class="list-group-item">
-                <div class="d-flex justify-content-between">
-                    <div class="comment-content" id="comment-${comment.id}">
-                            ${comment.nickName} : <span class="comment-text">${comment.content}</span>
-                    </div>
-                    <div class="comment-info">
-                        <c:if test="${comment.writerId ne principalDetails.id}">
-                            <button class="btn btn-sm btn-light"
-                                    style="margin-left: 10px; font-size:20px;"
-                                    onclick="goReportComments(${comment.id}, ${comment.writerId}, ${response.id});">🚨
-                            </button>
-                        </c:if>
-                        <c:if test="${comment.writerId eq principalDetails.id || response.writerId eq principalDetails.id}">
-                            <form:form
-                                    action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentDelete"
-                                    method="post" id="deleteCommentForm-${comment.id}">
-                                <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
-                                <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
-                                <button type="button" class="btn btn-secondary"
-                                        onclick="confirmDeleteComment(${comment.id})">삭제
-                                </button>
-                            </form:form>
-                        </c:if>
-                        <!-- Edit button -->
-                        <c:if test="${comment.writerId eq principalDetails.id}">
-                            <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">수정
-                            </button>
-                        </c:if>
-                            ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
-                    </div>
-                </div>
-                <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
-                    <textarea class="form-control" rows="3">${comment.content}</textarea>
-                    <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인</button>
-                </div>
-            </li>
-        </c:forEach>
-    </ul>
-</div>
-
-<!-- 댓글 목록 폼 끝 -->
 <script>
     $(document).ready(function () {
         // 좋아요 버튼 클릭 시 (비동기 요청)
