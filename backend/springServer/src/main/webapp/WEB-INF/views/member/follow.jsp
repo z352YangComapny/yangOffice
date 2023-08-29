@@ -23,11 +23,11 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css"/>
 <section>
-    <div class="d-flex mb-3">
-        <div style ="width:10vw;">
-            <a href="#" onclick="openList()"><img src="${pageContext.request.contextPath}/resources/images/follow_logo.png" style="width:50px;"/></a>
-        </div>
-    </div>
+    <%--<div class="d-flex mb-3">--%>
+       <%-- <div style ="width:10vw; height:50px;">--%>
+            <a href="#" class="nav-link" onclick="openList()"><img src="${pageContext.request.contextPath}/resources/images/follow_logo.png" style="width:50px; height: 50px;"/></a>
+     <%--   </div>--%>
+<%--    </div>--%>
 
 <%--    1. 회원 검색용 모달--%>
     <div class="modal " id="searchFollow">

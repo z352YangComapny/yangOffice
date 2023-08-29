@@ -58,14 +58,14 @@ public class QuestionController {
 	@GetMapping("/questionDetail")
 	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model, Authentication authentication) {
 		Question question = questionService.findQuestionById(id);
-		log.info("question = {}", question);
+		Member member = memberService.findById(question.getWriterId());
 		List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(id);
 		boolean isAdmin = authentication.getAuthorities().stream()
 	            .map(GrantedAuthority::getAuthority)
 	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
 		model.addAttribute("isAdmin", isAdmin);
 		model.addAttribute("question", question);
-		model.addAttribute("principalName",principal.getUsername());
+		model.addAttribute("writerId", member.getUsername());
 		model.addAttribute("questionType", question.getType());
 		model.addAttribute("questionId", question.getId());
 		model.addAttribute("principalId", principal.getId());
@@ -106,9 +106,9 @@ public class QuestionController {
 	        if (!comments.isEmpty()) {
 	            questionsWithComments.add((long) question.getId());
 	        }
-	        log.info("questionWithComments = {}", questionsWithComments);
-	        log.info("Comments = {}", comments);
-	        log.info("writer = {}", writer);
+	       // log.info("questionWithComments = {}", questionsWithComments);
+	        //log.info("Comments = {}", comments);
+	        //log.info("writer = {}", writer);
 	        boolean hasComments = !questionComments.isEmpty(); // 댓글 여부 판별
 	        hasCommentsList.add(hasComments);
 	        
@@ -119,7 +119,7 @@ public class QuestionController {
 //	        int comment = qnaComments.get(0).getId();
 //	        log.info("comment ={}", comment);
 	    
-	    log.info("prinUname = {}", principal.getUsername());
+	    //log.info("prinUname = {}", principal.getUsername());
 	    
 	    model.addAttribute("writerNames", writerNames);
 	    model.addAttribute("principalId", principal.getId());

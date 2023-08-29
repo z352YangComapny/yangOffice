@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/member/userPage/{id}")
+//@RequestMapping("/member/userPage/{id}")
 public class commentsController {
 
 
@@ -49,7 +49,7 @@ public class commentsController {
 
 
     @Autowired
-//	@Qualifier("QnACommentsServiceImpl")
+	@Qualifier("QnACommentsServiceImpl")
     private CommentsService qnaCommentService;
 
     @GetMapping("/getComments")
