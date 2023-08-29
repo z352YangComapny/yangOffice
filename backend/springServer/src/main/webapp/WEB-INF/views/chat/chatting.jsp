@@ -15,7 +15,7 @@
 
 
 <section style="background-color: #eee;">
-    <div class="container py-5">
+    <div class="container py-5" >
         <div class="row d-flex justify-content-center" style="height: 690px; width:1300px;">
             <div class="col-md-10 col-lg-8 col-xl-6" style="height: 500px; width:900px;">
                 <div class="card" id="chat2" style="top:10%;">
