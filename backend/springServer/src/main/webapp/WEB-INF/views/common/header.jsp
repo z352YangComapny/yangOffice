@@ -82,7 +82,7 @@
    <header>
      <%-- <sec:authentication property="principal" var="dmMember"/>--%>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
-      <nav class="navbar navbar-expand-lg bg-primary">
+      <nav class="navbar navbar-expand-lg bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
                <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
