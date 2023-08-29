@@ -94,6 +94,8 @@ public class KakaoController {
 
             member = (PrincipalDetails) principalDetailsService.loadUserByUsername(memberId);
 
+            // 프로필 설정창으로 이동하도록 변경
+            return new RedirectView(request.getContextPath()+"/member/memberDetail.do");
 
         }
 

@@ -58,17 +58,21 @@ public class QuestionController {
 	@GetMapping("/questionDetail")
 	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model, Authentication authentication) {
 		Question question = questionService.findQuestionById(id);
+		log.info("id = {}", id);
 		log.info("question = {}", question);
+		
 		List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(id);
 		boolean isAdmin = authentication.getAuthorities().stream()
 	            .map(GrantedAuthority::getAuthority)
 	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
+		
 		model.addAttribute("isAdmin", isAdmin);
 		model.addAttribute("question", question);
 		model.addAttribute("principalName",principal.getUsername());
 		model.addAttribute("questionType", question.getType());
 		model.addAttribute("questionId", question.getId());
 		model.addAttribute("principalId", principal.getId());
+		
 		 if (!qnaComments.isEmpty()) {
 		        model.addAttribute("qnaComments", qnaComments.get(0).getContent());
 		    }

@@ -34,9 +34,12 @@
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
       <nav class="navbar navbar-expand-lg bg-light">
          <div class="container-fluid">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-               <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
-               <span style = "font-size : 30px; font-weight: bold; color: white;">SSOY STORY<span>
+             <a class="navbar-brand" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
+               <img src="${pageContext.request.contextPath}/resources/images/sologo.png" alt="쏘이스토리_로고" width="70px" style="margin-bottom: 20px;" />
+               <span style = "font-size : 50px; font-weight: bold; 
+                background: linear-gradient(to right, #F3969A, #78C2AD);
+		        -webkit-background-clip: text;
+		    	-webkit-text-fill-color: transparent;">SSOY STORY<span>
             </a>
          </div>
       </nav>
