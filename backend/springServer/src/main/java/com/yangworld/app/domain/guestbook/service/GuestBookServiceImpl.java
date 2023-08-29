@@ -11,6 +11,7 @@ import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
+import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import com.yangworld.app.domain.guestbook.repository.GuestBookRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,5 +52,11 @@ public class GuestBookServiceImpl implements GuestBookService{
 	public int countAllGuestbook(int memberId) {
 		return guestBookRepository.countAllGuestbook(memberId);
 	}
+
+	@Override
+	public List<GuestBookWithNicknameDto> findReportedId(int id) {
+		return guestBookRepository.findReportedId(id);
+	}
+
 
 }

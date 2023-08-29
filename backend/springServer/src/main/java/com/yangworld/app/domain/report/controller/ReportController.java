@@ -70,20 +70,22 @@ public class ReportController {
             @ModelAttribute ReportCreateDto _reportDto,
             @RequestParam int guestbookId,
             @RequestParam int reportedId,
+            @RequestParam String content,
+			/* @RequestParam int repoterId, */
+            @PathVariable("id") int id,
             RedirectAttributes redirectAttributes
     ) {
 
-        int reporterId = principalDetails.getId();
 
         Report report = _reportDto.toReport();
-        report.setReporterId(reporterId);
+        report.setReporterId(id);
         report.setReportedId(reportedId);
-
+        report.setContent(content);
 
         log.info("report@cont = {}", report);
 
         reportService.insertReportGuestBook(report, guestbookId);
-        redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
+        //redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
 
         return "redirect:/member/userPage/{id}/guestbook/guestbook";
     }

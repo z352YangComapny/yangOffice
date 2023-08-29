@@ -1,7 +1,7 @@
 package com.yangworld.app.config;
 
-import com.yangworld.app.config.auth.PrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 
 
 @SuppressWarnings("deprecation")

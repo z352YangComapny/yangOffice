@@ -17,7 +17,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <h6>✨방명록 남기기✨</h6>
 	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" name="createFrm" method="post">
 		<input type="text" id="create" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
-		<button class="btn btn-outline-success" type="submit">저장</button>
+		<button class="btn btn-outline-success" type="submit" onclick="alert('방명록이 등록되었습니다.')">저장</button>
 	</form:form> 
 	<br>
 	<br>
@@ -37,11 +37,11 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				</tr>
 			</c:if>
 			<c:if test="${not empty guestBooks}">
-			<c:set var="currentIndex" value="${(page-1)*pageSize}"/>
+			<c:set var="currentIndex" value="${(page-1)*5}"/>
 				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
 				<input type ="hidden" value = "${guestbook.writerId}" id="guestbookWriter"/>
 					<tr>
-						<td>${currentIndex + vs.index+1}</td>
+						<td id="index"></td>
 						<td>${guestbook.nickname}</td>
 						<td id="originalContent">${guestbook.content}</td>	
 						<td>
@@ -50,13 +50,20 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						</td>
 						<td>
 						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
-						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}">수정</button>
+						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
 						</td>
 						<td>
-							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}">삭제</button>
+							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
 						</td>
 						<td>
-							<button type="submit" class="btn reportGuestbook" id = "reportGuestbook" name = "reportGuestbook" value ="${guestbook.id}" >🚨</button>
+        					<div class="guestbookReport-box">
+            					<button class="btn btn-sm btn-light btn-reportGuestbook"
+                   						 style="margin-left: 10px; font-size:20px;"
+                   						 data-guestbook-id="${guestbook.id}" data-reported-id="${guestbook.writerId}"
+                   						 data-repoter-id="${myId}">
+               						 🚨
+            					</button>
+        					</div>
 						</td>	
 					</tr>
 					<input type="hidden" id= "guestbookId" value ="${guestbook.id}"/>
@@ -95,7 +102,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
+                <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
             </div>
         </div>
     </div>
@@ -200,7 +207,6 @@ document.querySelectorAll(".updateGuestbook").forEach(btn => {
 					const updateGuestbookCell = e.target.parentElement.parentElement.querySelector("#originalContent");
 					updateGuestbookCell.textContent = newContent;
 					location.reload();
-					alert("방명록이 수정되었습니다.")
 		            // 모달 닫기
 		            modal.style.display = "none";
 		            modal.classList.remove("show");
@@ -235,7 +241,6 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 	                if (result > 0) {
 	                    const tr = e.target.parentElement.parentElement;
 	                    tr.remove();
-	                    alert("방명록이 삭제되었습니다.")
 	                } else {
 	                    console.error("Delete operation failed.");
 	                }
@@ -255,16 +260,8 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 });
 
 
-function search(){
-	var writerOption = document.getElementById("#writerOption");
-	var writerOptionIndex = document.getElementById("#writerOption").options.selectedIndex;
-	
-	console.log("writerOption value : " + writerOption.options[writerOptionIndex].value);
-}
-
-// 버튼 숨기기
+/* // 버튼 숨기기
 const updateButton = document.getElementById('updateGuestbook');
-const reportButton = document.getElementById('reportGuestbook');
 
 document.querySelectorAll(".updateGuestbook").forEach(updateButton => {
 	if (guestbook.writerId === member.id) {
@@ -272,56 +269,55 @@ document.querySelectorAll(".updateGuestbook").forEach(updateButton => {
 	} else {
 	    updateButton.style.display = 'none';
 	}
-});
-
-document.querySelectorAll(".reportGuestbook").forEach(reportButton => {
-	if (guestbook.writerId === member.id) {
-	    reportButton.style.display = 'none';
-	} else {
-	    reportButton.style.display = 'block';
-	}
-});
+}); */
 
 // 신고 모달창
-$(document).ready(function () {
-    // 'feed report' 버튼 클릭 시 모달 창 열기
-    $(".btn-toggle").click(function () {
-        var guestbookId = $(this).data("guestbook-id");
-        var reportedId = $(this).data("reported-id");
-        var reporterId = $(this).data("repoter-id");
 
-        // 모달 창 열기
-        $("#guestbookReportModal").modal("show");
-
-        // '신고' 버튼 클릭 시 AJAX 요청 전송
-        $("#confirmReportButton").click(function () {
-            var content = $("#reportContent").val();
-
-            // AJAX 요청 보내는 부분
-            $.ajax({
-                method: "POST",
-                url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportGuestBook.do",
-                data: {
-                    guestbookId: guestbookId,
-                    reportedId: reportedId,
-                    reporterId: reporterId,
-                    content: content
-                },
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-                },
-                success: function (response) {
-                    alert("신고가 접수되었습니다.");
-                    $("#guestbookReportModal").modal("hide");
-                },
-                error: function (error) {
-                    alert("Error reporting: " + error.responseText);
-                }
-            });
-        });
-    });
+document.querySelectorAll(".btn-reportGuestbook").forEach(btn => {
+	
+    btn.onclick = (e) => {
+    	console.log(e);
+	    // 'guestbook report' 버튼 클릭 시 모달 창 열기
+	    $(".btn-reportGuestbook").click(function () {
+	        var guestbookId = $(this).data("guestbook-id");
+	        var reportedId = $(this).data("reported-id");
+	        var reporterId = $(this).data("repoter-id"); 
+			console.log(guestbookId);
+			console.log(reportedId);
+			console.log(reporterId);
+	        
+	        // 모달 창 열기
+	        $("#guestbookReportModal").modal("show");
+	
+	        // '신고' 버튼 클릭 시 AJAX 요청 전송
+	        $("#confirmReportButton").click(function () {
+	            var content = $("#reportContent").val();
+				console.log(content);
+	            // AJAX 요청 보내는 부분
+	            $.ajax({
+	                method: "POST",
+	                url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportGuestBook.do",
+	                data: {
+	                    guestbookId: guestbookId,
+	                    reportedId: reportedId,
+	                    reporterId: reporterId,
+	                    content: content
+	                },
+	                beforeSend: function (xhr) {
+	                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+	                },
+	                success: function (response) {
+	                    alert("신고가 접수되었습니다.");
+	                    $("#guestbookReportModal").modal("hide");
+	                },
+	                error: function (error) {
+	                    alert("Error reporting: " + error.responseText);
+	                }
+	            });
+	        });
+	    });
+    }
 });
-
 </script>
 
 

@@ -7,6 +7,7 @@ import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookDeleteDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookUpdateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
+import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 public interface GuestBookService {
 
@@ -19,5 +20,7 @@ public interface GuestBookService {
 	List<GuestBookWithNicknameDto> findAll(Map<String, Object> params);
 
 	int countAllGuestbook(int memberId);
+
+	List<GuestBookWithNicknameDto> findReportedId(int id);
 
 }

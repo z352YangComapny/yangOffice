@@ -113,8 +113,8 @@ public class GuestbookController {
 	@GetMapping("/guestbook")
 	public String guestBookList(
 			@RequestParam(defaultValue = "1") int page,
-			@AuthenticationPrincipal Member member,
-			@PathVariable int id,
+			@AuthenticationPrincipal PrincipalDetails member,
+			@PathVariable("id") int id,
 			Model model
 			){
 		int limit = 5;
@@ -130,13 +130,16 @@ public class GuestbookController {
 		    log.info("totlaCount@guest={}",totalCount);
 		  	int totalPages = (int) Math.ceil((double) totalCount / limit); // 총 페이지 개수 계산
 		    log.info("totalPage={}", totalPages);
-		  	
+		int myId = member.getId();
+		List<GuestBookWithNicknameDto> reportedId = guestBookService.findReportedId(id);
 		  	
 		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params);
 		log.info("guestBooks={}",guestBooks);
 		model.addAttribute("guestBooks",guestBooks);
 		model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("myId",myId);
+	    model.addAttribute("reportedId",reportedId);
 
 		return "guestbook/guestbook";
 
