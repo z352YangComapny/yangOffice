@@ -25,6 +25,7 @@ div#container	{}
 header div#header-container {height:100px;}
 header div#header-container h2 	{margin:30px 10px 0px 10px;}
 .nav-link{color :white; font-weight: bold; font-size: 20px;}
+.navImg{height : 50px; width:50px;}
 
 /*index content*/
 .index-container{background-position: center; font-family: 'DungGeunMo'; background-size: cover; background-repeat: no-repeat; width: 100vw; height: 80vh;}

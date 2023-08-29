@@ -16,29 +16,28 @@
         position: relative;
         margin: 5px;
         padding: 0;
-        border: none;
+        border-radius: 6%;
         text-align: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     }
 
     .feed-img {
-        width: 100%;
+        width: 200px;
         height: 200px;
         object-fit: contain;
     }
 
-    .feed-item-right {
-        margin-left: auto;
-    }
 
     .plus-icon {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        bottom: 3px;
+        left: 5px;
+        background-color: rgb(0 0 0 / 23%);
         color: white;
         padding: 5px;
         font-size: 12px;
+        border-radius: 20%;
+        width: 30px;
     }
 </style>
 
@@ -47,7 +46,7 @@
     <h1>피드</h1>
     <c:if test="${id eq PrincipalDetails.id}">
         <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate"
-           class="btn btn-primary">피드작성하기</a>
+           class="btn btn-outline-primary" style="margin: 8px;">피드작성하기</a>
     </c:if>
 
     <sec:authorize access="isAuthenticated()">
@@ -60,18 +59,18 @@
                                 <c:when test="${not empty photo.attachments}">
                                     <a href="${pageContext.request.contextPath}/member/userPage/${photo.writerId}/feed/feedDetail?photoFeedId=${photo.id}">
                                         <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.attachments[0].renamedFilename}"
-                                             class="feed-img" alt="Image 1">
+                                             class="feed-img" alt="Image 1" style="margin: 10px;">
                                     </a>
                                 </c:when>
                             </c:choose>
-
+                            <c:set var="attachmentCount" value="${fn:length(photo.attachments)}"/>
                             <c:if test="${fn:length(photo.attachments) > 1}">
-                                <div class="plus-icon">+</div>
+                                <div class="plus-icon">${attachmentCount}+</div>
                                 <!-- 피드에 2개 이상 있으면 나타나는 + -->
                             </c:if>
                             <div class="feed-img-overlay">
-                                <p>좋아요 개수: ${photo.likeCount}</p>
-                                <p>댓글 수: ${photo.commentCount}</p>
+                                <p style="margin: 5px;">❤️ ${photo.likeCount}</p>
+                                <p>💬 ${photo.commentCount}</p>
                             </div>
                         </div>
                     </c:forEach>

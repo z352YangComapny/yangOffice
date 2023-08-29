@@ -63,6 +63,9 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 		<input type="reset" class="btn btn-outline-primary" value="취소" id="cancelButton">
 	</form>
 </div>
+<div class="d-flex justify-content-end m-3">
+		<button type="button" class="btn btn-outline-danger" onclick="deleteMember()">회원탈퇴</button>
+</div>
 
 <%-- 비밀번호 찾기 모달 --%>
 <div class="modal" id="resetPwdModal">
@@ -104,33 +107,6 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 
 
 <%-- 비밀번호 찾기 모달 끝--%>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
 document.memberUpdateFrm.onsubmit = (e) =>{
@@ -247,18 +223,6 @@ $(document).ready(function() {
 
 	// ...
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 </script>
 
@@ -679,7 +643,33 @@ $(document).ready(function() {
 	};*/
 
 </script>
+<script>
+// 멤버 삭제
+const deleteMember = () => {
+	confirm("정말 탈퇴 하시겠습니까?");
+
+	$.ajax({
+
+		url : "${pageContext.request.contextPath}/member/delete",
+		method : "POST",
+		dataType:"json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')},
+		success(responseData){
+			const {msg} = responseData;
+			alert(msg);
+
+			window.location.href = "${pageContext.request.contextPath}/";
+		}
+
+	});
+}
 
 
+
+
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
