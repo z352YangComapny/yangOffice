@@ -43,72 +43,79 @@
 </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h1 class="mb-4 text-center">프로필 생성</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="mb-4 text-center">프로필 생성</h1>
 
-                <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/profileCreate">
-                    <div class="form-group">
-                        <label for="upFile">프로필 사진</label>
-                        <div class="text-center">
-                            <img id="imagePreview" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/default.jpg" alt="프로필 사진">
-                            <input type="file" class="form-control-file mt-2" id="upFile" name="upFile" multiple onchange="showPreview(this);">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                    
-                        <label>상태</label>
-                        <div class="d-flex justify-content-center" style="margin-top: -20px;">
-                            <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="A" value="A" checked/>
-                                <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image"/>
-                            </label>&nbsp;&nbsp;
-                            <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="B" value="B"/> 
-                                <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image"/>
-                            </label>&nbsp;&nbsp;
-                            <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="C" value="C"/> 
-                                <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image"/>
-                            </label>&nbsp;&nbsp;
-                            <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="D" value="D"/> 
-                                <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image"/>
-                            </label>&nbsp;&nbsp;
-                            <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="E" value="E"/> 
-                                <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image"/>
-                            </label>&nbsp;&nbsp;
-                        </div>
-                    </div>
-                    <c:if test="${not empty member}">
-                    <div class="form-group">
-                        <label for="introduction">간단소개</label>
-                        <textarea class="form-control" id="introduction" name="introduction" rows="4" required>안녕하세요.${member.nickname}입니다. </textarea>
-                        <input type="hidden" value = "${member.id}" name ="memberId"/>
-                    </div>
-                    </c:if>
+            <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/profileCreate">
+                <div class="form-group">
+                    <label for="upFile">프로필 사진</label>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">생성</button>
-                        <button type="submit" class="btn btn-secondary" formaction="${pageContext.request.contextPath}/profile/defaultcreate.do">나중에 하기</button>
+                        <img id="imagePreview" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/default.jpg" alt="프로필 사진">
+                        <input type="file" class="form-control-file mt-2" id="upFile" name="upFile" multiple onchange="showPreview(this);">
                     </div>
-                </form:form>
-            </div>
+                </div>
+
+                <div class="form-group">
+                
+                    <label>상태</label>
+                    <div class="d-flex justify-content-center" style="margin-top: -20px;">
+                        <label class="form-check-label radio-inline">
+                            <input class="form-check-input" type="radio" name="state" id="A" value="A" checked/>
+                            <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image"/>
+                        </label>&nbsp;&nbsp;
+                        <label class="form-check-label radio-inline">
+                            <input class="form-check-input" type="radio" name="state" id="B" value="B"/> 
+                            <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image"/>
+                        </label>&nbsp;&nbsp;
+                        <label class="form-check-label radio-inline">
+                            <input class="form-check-input" type="radio" name="state" id="C" value="C"/> 
+                            <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image"/>
+                        </label>&nbsp;&nbsp;
+                        <label class="form-check-label radio-inline">
+                            <input class="form-check-input" type="radio" name="state" id="D" value="D"/> 
+                            <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image"/>
+                        </label>&nbsp;&nbsp;
+                        <label class="form-check-label radio-inline">
+                            <input class="form-check-input" type="radio" name="state" id="E" value="E"/> 
+                            <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image"/>
+                        </label>&nbsp;&nbsp;
+                    </div>
+                </div>
+                <c:if test="${not empty member}">
+                <div class="form-group">
+                    <label for="introduction">간단소개</label>
+                    <textarea class="form-control" id="introduction" name="introduction" rows="4" required style="resize: none;">안녕하세요.${member.nickname}입니다. </textarea>
+                    <input type="hidden" value = "${member.id}" name ="memberId"/>
+                </div>
+              </c:if>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">생성</button>
+                    <c:if test="${not empty member}">
+			          	<form:form name = "defaultFrm" action = "${pageContext.request.contextPath}/profile/defaultcreate.do" method="POST">
+			         	<input type="hidden" name="memberId" value="${member.id}"/>
+			         	<input type="hidden" name="memberUsername" value="${member.username}"/>
+			            <button type="submit" class="btn btn-secondary" >나중에 하기</button>
+			        	</form:form>
+		        	</c:if>
+                </div>
+            </form:form>
+            
         </div>
     </div>
+</div>
 
-    <script>
-        function showPreview(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
+<script>
+    function showPreview(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').attr('src', e.target.result);
             }
+            reader.readAsDataURL(input.files[0]);
         }
-    </script>
+    }
+</script>
 </body>
 </html>

@@ -19,12 +19,14 @@
         max-width: 350px; /* 최대 너비 */
         max-height: 350px; /* 최대 높이 */
     }
-   
+   .emoji-image{
+   	width: 20px;
+   	margin: -2px;
+   }
 </style>
 <body>
 <sec:authentication property="principal" var="loginMember"/>
        <div class="container mt-5" style="margin-left: 300px;">
-    <h1 style="color: blue;">Profile</h1>
     <h1 class="mb-4">프로필 수정</h1>
     <hr style="border: 0; border-top: 4px solid silver;">
     <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do" class="col-md-6">
@@ -60,15 +62,39 @@
                <div class="form-group">
                	<br><hr style="border-top: 5px solid silver; margin-right: -330px;">
 				    <label for="state">기분 상태</label>
-				    <select class="form-control" id="state" name="state" style="width:50px; margin-left:90px;">
+				    <%-- <select class="form-control" id="state" name="state" style="width:50px; margin-left:90px;">
 				        <option value="A" ${profile.state eq 'A' ? 'selected' : ''}>😡</option>
 				        <option value="B" ${profile.state eq 'B' ? 'selected' : ''}>🤬</option>
 				        <option value="C" ${profile.state eq 'C' ? 'selected' : ''}>🥵</option>
 				        <option value="D" ${profile.state eq 'D' ? 'selected' : ''}>🤯</option>
 				        <option value="E" ${profile.state eq 'E' ? 'selected' : ''}>😵</option>
-				    </select>			
+				    </select> --%>	
+				    <div class="status-images">
+					    <label class="status-image">
+					        <input type="radio" name="state" value="A" ${profile.state eq 'A' ? 'checked' : ''} />
+					        <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image" />
+					    </label>
+					    <label class="status-image">
+					        <input type="radio" name="state" value="B" ${profile.state eq 'B' ? 'checked' : ''} />
+					        <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image" />
+					    </label>
+					    <label class="status-image">
+					        <input type="radio" name="state" value="C" ${profile.state eq 'C' ? 'checked' : ''} />
+					        <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image" />
+					    </label>
+					    <label class="status-image">
+					        <input type="radio" name="state" value="D" ${profile.state eq 'D' ? 'checked' : ''} />
+					        <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image" />
+					    </label>
+					    <label class="status-image">
+					        <input type="radio" name="state" value="E" ${profile.state eq 'E' ? 'checked' : ''} />
+					        <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image" />
+					    </label>
+					</div>
+				    
+				    		
 				    <hr style="border-top: 5px solid silver; margin-right: -330px;">
-			</div>
+				</div>
 
                 <div class="row">
                     <div class="col-md-4">
@@ -77,15 +103,15 @@
                     </div>
                     <div class="col-md-8">
                     	<br><br>
-                        <textarea class="form-control" id="introduction" name="introduction"  required style="height: 300px; width: 350px;">${profile.introduction}</textarea>
+                        <textarea class="form-control" id="introduction" name="introduction"  required style="height: 300px; width: 350px; resize: none;">${profile.introduction}</textarea>
                     </div>
                 </div>
                         <br><hr style="border-top: 5px solid silver; margin-right: -330px;">
             </div>
         </div>
         
-        <button type="submit" class="btn btn-primary">수정</button>
-        <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
+        <button type="submit" class="btn btn-primary text-center">수정</button>
+        <button type="button" class="btn btn-primary text-center" id="defaultUpdate">초기화</button>
     </form:form>
 </div>
 
