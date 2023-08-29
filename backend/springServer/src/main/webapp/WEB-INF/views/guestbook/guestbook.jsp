@@ -17,7 +17,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <h6>✨방명록 남기기✨</h6>
 	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" name="createFrm" method="post">
 		<input type="text" id="create" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
-		<button class="btn btn-outline-success" type="submit" onclick="alert('방명록이 등록되었습니다.')">저장</button>
+		<button class="btn btn-outline-success" type="submit" onclick="alert('방명록이 등록되었습니다~꒰⍤꒱')">저장</button>
 	</form:form> 
 	<br>
 	<br>
@@ -28,9 +28,9 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				<th>작성자</th>
 				<th>내용</th>
 				<th>작성일</th>
-				<th>수정</th>
-				<th>삭제</th>
-				<th>신고하기</th>
+				<th>✎</th>
+				<th>✂</th>
+				<th>✉</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,12 +51,12 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
                 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" />
                 <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm" />
             </td>
-            <c:if test="${myId eq guestbook.writerId}">
                 <td>
+            <c:if test="${myId eq guestbook.writerId}">
                     <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
                     <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
-                </td>
             </c:if>
+                </td>
             <td>
                 <button type="button" class="btn btn-outline-danger deleteGuestbook" id="deleteGuestbook" name="deleteGuestbook" value="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
             </td>
