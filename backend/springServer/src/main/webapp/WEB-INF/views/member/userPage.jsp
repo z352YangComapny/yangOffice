@@ -16,8 +16,9 @@
             <jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
         </div>
         <div class="d-flex flex-row" style="height: 70vh;">
-            <div class="" id="profile" style="width: 30vw; margin : 0 0;">
-                <jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
+
+            <div class ="" id="profile" style="width: 30vw; margin : 0 0;">
+               <jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
             </div>
             <div class="d-flex justify-content-center flex-column" id="member_content" style="width: 70vw; margin:0 0;">
                     <%--<div class="d-flex justify-content-center column align-items-center">

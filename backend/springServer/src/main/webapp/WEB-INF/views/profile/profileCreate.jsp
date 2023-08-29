@@ -43,7 +43,7 @@
             <div class="col-md-6">
                 <h1 class="mb-4 text-center">프로필 생성</h1>
 
-                <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/create.do">
+                <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/profileCreate">
                     <div class="form-group">
                         <label for="upFile">프로필 사진</label>
                         <div class="text-center">
@@ -73,12 +73,13 @@
                             </label>&nbsp;&nbsp;
                         </div>
                     </div>
-
+                    <c:if test="${not empty member}">
                     <div class="form-group">
                         <label for="introduction">간단소개</label>
-                        <textarea class="form-control" id="introduction" name="introduction" rows="4" required>안녕하세요.${pageContext.request.userPrincipal.name}입니다. </textarea>
+                        <textarea class="form-control" id="introduction" name="introduction" rows="4" required>안녕하세요.${member.nickname}입니다. </textarea>
+                        <input type="hidden" value = "${member.id}" name ="memberId"/>
                     </div>
-
+                    </c:if>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">생성</button>
                         <button type="submit" class="btn btn-secondary" formaction="${pageContext.request.contextPath}/profile/defaultcreate.do">나중에 하기</button>
