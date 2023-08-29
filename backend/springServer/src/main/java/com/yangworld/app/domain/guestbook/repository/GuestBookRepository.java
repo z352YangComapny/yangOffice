@@ -28,10 +28,10 @@ public interface GuestBookRepository {
 	@Update("update guestbook set content = #{content} where id = #{id}")
 	int updateGuestBook(GuestBookUpdateDto _guestBook);
 
-	@Select("select g.*, m.nickName from guestbook g left join member m on g.writer_id = m.id where g.member_id= #{member_id}")
+	@Select("select g.*, m.nickName from guestbook g left join member m on g.writer_id = m.id where g.member_id = #{memberId} order by g.reg_date desc")
 	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int memberId);
 
-	@Select("select count(*) from guestbook where member_id = #{member_id}")
+	@Select("select count(*) from guestbook where member_id = #{memberId}")
 	int countAllGuestbook(int memberId);
 
 	@Select("select g.*, m.nickName from guestbook g left join member m on g.writer_id = m.id where g.member_id=#{id}")

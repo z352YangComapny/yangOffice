@@ -35,45 +35,48 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 		</thead>
 		<tbody>
 			<c:if test="${empty guestBooks}">
-				<tr>
-					<td colspan="4" class="text-center">작성된 방명록이 없습니다.</td>
-				</tr>
-			</c:if>
-			<c:if test="${not empty guestBooks}">
-			<c:set var="currentIndex" value="${(page-1)*5}"/>
-				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
-				<input type ="hidden" value = "${guestbook.writerId}" id="guestbookWriter"/>
-					<tr>
-						<td id="index"></td>
-						<td>${guestbook.nickname}</td>
-						<td id="originalContent">${guestbook.content}</td>	
-						<td>
-						 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
-				         <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
-						</td>
-						 <c:if test="${myId eq guestbook.writerId}">
-						<td>
-						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
-						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
-						</td>
-						</c:if>
-						<td>
-							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
-						</td>
-						<td>
-        					<div class="guestbookReport-box">
-            					<button class="btn btn-sm btn-light btn-reportGuestbook"
-                   						 style="margin-left: 10px; font-size:20px;"
-                   						 data-guestbook-id="${guestbook.id}" data-reported-id="${guestbook.writerId}"
-                   						 data-repoter-id="${myId}">
-               						 🚨
-            					</button>
-        					</div>
-						</td>	
-					</tr>
-					<input type="hidden" id= "guestbookId" value ="${guestbook.id}"/>
-				</c:forEach>
-			</c:if>
+    <tr>
+        <td colspan="4" class="text-center">작성된 방명록이 없습니다.</td>
+    </tr>
+</c:if>
+<c:if test="${not empty guestBooks}">
+    <c:set var="num" value="${totalCount - (currentPage - 1) * 5}" />
+    <c:forEach items="${guestBooks}" var="guestbook" varStatus="loop">
+        <input type="hidden" value="${guestbook.writerId}" id="guestbookWriter" />
+        <tr>
+            <td>${num}</td>
+            <td>${guestbook.nickname}</td>
+            <td id="originalContent">${guestbook.content}</td>
+            <td>
+                <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" />
+                <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm" />
+            </td>
+            <c:if test="${myId eq guestbook.writerId}">
+                <td>
+                    <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
+                    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
+                </td>
+            </c:if>
+            <td>
+                <button type="button" class="btn btn-outline-danger deleteGuestbook" id="deleteGuestbook" name="deleteGuestbook" value="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
+            </td>
+            <td>
+                <div class="guestbookReport-box">
+                    <button class="btn btn-sm btn-light btn-reportGuestbook"
+                            style="margin-left: 10px; font-size:20px;"
+                            data-guestbook-id="${guestbook.id}" data-reported-id="${guestbook.writerId}"
+                            data-repoter-id="${myId}">
+                        🚨
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <input type="hidden" id="guestbookId" value="${guestbook.id}" />
+         <c:set var="num" value="${num-1}" />
+    </c:forEach>
+</c:if>
+
+
 		</tbody>
 	</table>
 </div>
