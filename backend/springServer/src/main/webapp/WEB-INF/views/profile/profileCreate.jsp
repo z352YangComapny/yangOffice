@@ -34,6 +34,11 @@
     margin-bottom: 0; 
     border-bottom: 1px solid #ccc; 
 }
+.emoji-image{
+	
+	width: 40px;
+	margin: 10px;
+}
       
 </style>
 </head>
@@ -57,19 +62,24 @@
                         <label>상태</label>
                         <div class="d-flex justify-content-center" style="margin-top: -20px;">
                             <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="A" value="A" checked/> 😡
+                                <input class="form-check-input" type="radio" name="state" id="A" value="A" checked/>
+                                <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image"/>
                             </label>&nbsp;&nbsp;
                             <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="B" value="B"/> 🤬
+                                <input class="form-check-input" type="radio" name="state" id="B" value="B"/> 
+                                <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image"/>
                             </label>&nbsp;&nbsp;
                             <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="C" value="C"/> 🥵
+                                <input class="form-check-input" type="radio" name="state" id="C" value="C"/> 
+                                <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image"/>
                             </label>&nbsp;&nbsp;
                             <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="D" value="D"/> 🤯
+                                <input class="form-check-input" type="radio" name="state" id="D" value="D"/> 
+                                <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image"/>
                             </label>&nbsp;&nbsp;
                             <label class="form-check-label radio-inline">
-                                <input class="form-check-input" type="radio" name="state" id="E" value="E"/> 😵
+                                <input class="form-check-input" type="radio" name="state" id="E" value="E"/> 
+                                <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image"/>
                             </label>&nbsp;&nbsp;
                         </div>
                     </div>
