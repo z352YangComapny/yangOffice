@@ -90,12 +90,10 @@ public class MemberController {
     private MailSender mailSender;
 
     @GetMapping("/memberLogin.do")
-    public void memberLogin() {
-    }
+    public void memberLogin() {}
 
     @GetMapping("/memberCreate.do")
-    public void memberCreate() {
-    }
+    public void memberCreate() {}
 
     @GetMapping("/userPage")
     public String userHome(@AuthenticationPrincipal PrincipalDetails principal) {
@@ -154,7 +152,9 @@ public class MemberController {
     }
 
     @PostMapping("/memberCreate.do")
-    public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr) {
+    public String memberCreate(@Valid SignUpDto signUpDto, BindingResult bindingResult, RedirectAttributes redirectAttr
+                               , Model model
+        ) {
         log.info("signUp info = {}", signUpDto);
 
         if (bindingResult.hasErrors()) {
@@ -166,6 +166,7 @@ public class MemberController {
         log.info("password={}", passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
         //redirectAttr.addFlashAttribute("msg", "🌷회원가입을 축하드립니다🌷");
+        model.addAttribute("member", signUpDto);
         return "profile/profileCreate";
     }
 
@@ -295,7 +296,7 @@ public class MemberController {
         log.info("princial ={}", principal);
         memberService.deleteMember(principal.getUsername());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("msg", "탈퇴처리가 완료되었습니다. 이용해주셔서 감사합니다."));
 
     }
 

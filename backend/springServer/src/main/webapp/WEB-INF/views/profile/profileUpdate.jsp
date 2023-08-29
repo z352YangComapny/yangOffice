@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="프로필 수정" name="title"/>
 </jsp:include>
@@ -21,11 +22,12 @@
    
 </style>
 <body>
+<sec:authentication property="principal" var="loginMember"/>
        <div class="container mt-5" style="margin-left: 300px;">
     <h1 style="color: blue;">Profile</h1>
     <h1 class="mb-4">프로필 수정</h1>
     <hr style="border: 0; border-top: 4px solid silver;">
-    <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/update.do" class="col-md-6">
+    <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do" class="col-md-6">
         <div class="d-flex flex-row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -35,7 +37,7 @@
                         <c:when test="${not empty profileAttachments}">
                             <c:forEach items="${profileAttachments}" var="attachment">
                             	<%-- <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${not empty profileAttachments ? profileAttachments[0].renamedFilename : 'default.jpg'}" alt="프로필 사진" style="width: 350px; height: 350px;"> --%>
-                                <img id="selectedImage" class="preview-image rounded-circle" src="${context.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;"> 
+                                <img id="selectedImage" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
@@ -97,14 +99,14 @@ $(document).ready(function() {
     	if (confirm("프로필을 초기화하시겠습니까?")) {
 	        $.ajax({
 	            type: 'POST',
-	            url: '${pageContext.request.contextPath}/profile/defaultupdate',
-	            beforeSend: function(xhr) {
-	                xhr.setRequestHeader("X-CSRF-TOKEN", "${_csrf.token}");
-	            },
+	            url: '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/defaultupdate',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')},
 	            success: function(data) {
-					alert("초기화 되었습니다.");
-					location.reload();
-	            },
+
+					alert("초기화가 완료되었습니다");
+                    location.reload();
+                },
 	            error: function(error) {
 	                console.error('Error during profile reset:', error);
 	            }

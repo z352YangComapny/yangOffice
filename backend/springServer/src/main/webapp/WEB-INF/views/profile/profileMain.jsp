@@ -34,8 +34,9 @@
 <%-- <% String principalName = (String) request.getAttribute("principalName"); %>
 <p>Principal Name: ${principalName}</p> --%>
 <sec:authentication property="principal" var="loginMember"/>
-<%-- <p>principalId: ${loginMember.id}</p>
-<p>profileMemberId: ${profile.memberId}</p> --%>
+<%--<p>principalId: ${loginMember.id}</p>
+<p>profileId: ${profile.id}</p>--%>
+
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px;">
@@ -63,9 +64,10 @@
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
             ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
-            <c:if test="${loginMember.id eq profile.memberId}"> 
-            <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/profile/update.do';">수정</button>
-           	</c:if> 
+            <c:if test="${loginMember.id eq profile.memberId}">
+            <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>
+           	</c:if>
+
             </div>
     </div>
  

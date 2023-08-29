@@ -78,7 +78,7 @@ public class NaverController {
            Authentication authentication = new UsernamePasswordAuthenticationToken(member, member.getPassword(), member.getAuthorities());
            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-           return new RedirectView(request.getContextPath()+"/member/userPage" + member.getId());
+           return new RedirectView(request.getContextPath()+"/member/userPage/" + member.getId());
 
        } catch(UsernameNotFoundException ignore){
 
