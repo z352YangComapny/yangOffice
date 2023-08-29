@@ -12,7 +12,10 @@
     <div class="d-flex flex-column m-1 p-3">
         <div id="story" class="flex-grow-1" style="height : 25vh; margin : 0;">
             <a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton"
-               style="color: MediumSeaGreen; font-size: 20px; font-family: 'Kalam', cursive; text-decoration: none;">Story</a>
+               style="font-size: 40px; font-weight: bold; margin-left: 2vw;
+		        background: linear-gradient(to right, #F3969A, #78C2AD);
+		        -webkit-background-clip: text;
+		    	-webkit-text-fill-color: transparent;">STORY</a>
             <jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
         </div>
         <div class="d-flex flex-row" style="height: 70vh;">

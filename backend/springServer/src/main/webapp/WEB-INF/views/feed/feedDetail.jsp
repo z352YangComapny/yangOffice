@@ -46,7 +46,19 @@
 	.comment-list {
 	    max-height: 18vw; 
 	    overflow-y: auto;
+	     scrollbar-color: #c0c0c0 #f0f0f0;
+        scrollbar-width: thin;
     }
+     /* Firefox용 스크롤바 색상 설정 */
+    .comment-list::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .comment-list::-webkit-scrollbar-thumb {
+        background-color: #c0c0c0;
+        border-radius: 3px;
+    }
+    
 	#likes{
 	 	width: 30px;
 		height: 30px;
@@ -71,6 +83,8 @@
     	height:30vw;
     	margin-left:7vw;
     }
+    
+    
 </style>
 <script>
     $(document).ready(function () {
@@ -302,7 +316,7 @@
 	        	${response.content}</div>
 	        <%--    feed update form   --%>
 	        <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
-	            <textarea class="form-control">${response.content}</textarea>
+	            <textarea class="form-control" >${response.content}</textarea>
 	            <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
 	        </div>
 	    </div>
@@ -311,28 +325,29 @@
 
 <!-- 댓글 작성 폼 시작 -->
 <div class="commentsAll">
- <p>@${response.nickName}</p>
+ <p style="font-size: 30px; 
+        background: linear-gradient(to right, #F3969A, #78C2AD);
+        -webkit-background-clip: text;
+    	-webkit-text-fill-color: transparent;">@${response.nickName}</p>
 	<div class="comment-form">
 	    <form:form
 	            action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/commentCreate"
 	            method="post">
-	        <div class="mb-3">
-	            <label for="comment" class="form-label">댓글 내용</label>
-	            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+	        <div class="input-group mb-3">
+	            <input class="form-control" id="comment" name="comment" rows="3" required placeholder="댓글을 입력하세요..." />
 	            <input type="hidden" name="photoFeedId" value="${response.id}">
 	            <input type="hidden" name="returnUrl" value="${requestScope.requestURL}">
-	        </div>
 	        <button type="submit" class="btn btn-primary">댓글 작성</button>
+	        </div>
 	    </form:form>
 	</div>
 	<!-- 댓글 작성 폼 끝 -->
 	
 	<!-- 댓글 목록 폼 시작 -->
 	<div class="comment-list">
-	    <h2>댓글 목록</h2>
-	    <ul class="list-group">
+	    <ul class="list-group list-group-flush">
 	        <c:forEach items="${commentList}" var="comment">
-	            <li class="list-group-item">
+	            <li class="list-group-item ">
 	                <div class="d-flex justify-content-between">
 	                    <div class="comment-content" id="comment-${comment.id}">
 	                            ${comment.nickName} : <span class="comment-text">${comment.content}</span>
@@ -379,8 +394,8 @@
                    method="post">
             <input type="hidden" name="feedId" value="${response.id}">
             <input type="hidden" name="memberId" value="${principalDetails.id}">
-            <button type="submit" class="likes-btn">
-                <img id="likes" src="${pageContext.request.contextPath}/resources/images/like.png">
+            <button type="submit" class="likes-btn btn-light">
+                <img id="likes" src="${pageContext.request.contextPath}/resources/images/favorite.png">
                 <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
                 <div>${response.likeCount}</div>
             </button>

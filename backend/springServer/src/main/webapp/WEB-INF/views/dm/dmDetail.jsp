@@ -15,19 +15,47 @@
 // 받아온 파라미터를 정수로 변환
     int dmRoomId = Integer.parseInt(dmRoomIdParam);
 %>
+<style>
+.card-body {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #ffffff;
+}
 
+.card-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 6px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.card-body {
+    scrollbar-color: #cccccc #ffffff;
+}
+
+</style>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="게시판" name="title"/>
 </jsp:include>
 <section style="background-color: #eee;">
     <div class="container py-5">
 
-        <div class="row d-flex justify-content-center" style="height: 70vh; width: 70vw;">
+        <div class="row d-flex justify-content-center" style="height: 70vh; width: 60vw;">
             <div class="col-md-10 col-lg-8 col-xl-6" style="height: 500px; width:900px;">
 
                 <div class="card" id="chat2" style="top:10%;">
                     <div class="card-header d-flex justify-content-between align-items-center p-3">
-                        <h5 class="mb-0">Direct Message </h5>
+                        <p class="mb-2"  style = "font-size : 35px; font-weight: bold; 
+                background: linear-gradient(to right, #F3969A, #78C2AD);
+		        -webkit-background-clip: text;
+		    	-webkit-text-fill-color: transparent;">Direct Message </p>
 
                         <!-- 채팅방 삭제 버튼 -->
                         <form:form action="${pageContext.request.contextPath}/dm/deleteDmRoom" name="dmDeleteFrm"
