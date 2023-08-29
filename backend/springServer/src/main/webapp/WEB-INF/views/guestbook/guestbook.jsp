@@ -48,10 +48,12 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 						 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 				         <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 						</td>
+						 <c:if test="${myId eq guestbook.writerId}">
 						<td>
 						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
 						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
 						</td>
+						</c:if>
 						<td>
 							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
 						</td>
@@ -258,18 +260,6 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
       
     };
 });
-
-
-/* // 버튼 숨기기
-const updateButton = document.getElementById('updateGuestbook');
-
-document.querySelectorAll(".updateGuestbook").forEach(updateButton => {
-	if (guestbook.writerId === member.id) {
-	    updateButton.style.display = 'block';
-	} else {
-	    updateButton.style.display = 'none';
-	}
-}); */
 
 // 신고 모달창
 
