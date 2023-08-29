@@ -199,11 +199,11 @@ const chatting = (payload) => {
 	const memberId = document.getElementById('userId').value;
 
 	const chatMessageDiv = document.createElement('div');
-
-	if (chat.nickname === memberId) {
+	
+	if (chat.id == memberId) {
 		chatMessageDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
 		chatMessageDiv.innerHTML = `
-            <div>
+            <div style="background-image:url(${pageContext.request.contextPath}/resources/images/mymsg.png)">
                 <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${chat.content}</p>
                 <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${chat.time}</p>
             </div>

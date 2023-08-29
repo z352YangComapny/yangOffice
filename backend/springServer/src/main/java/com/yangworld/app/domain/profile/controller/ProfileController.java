@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 /*@RequestMapping("/profile")*/
-@RequestMapping("/member/userPage/{id}/profile")
+//@RequestMapping("/member/userPage/{id}/profile")
 public class ProfileController {
 	
 	@Autowired
@@ -57,12 +57,12 @@ public class ProfileController {
 	    model.addAttribute("profile", profile);
 	    return "/profile/profileCreate";
 	}*/
-	@GetMapping("/profileCreate")
+	@GetMapping("/profile/profileCreate")
 	public String  profileCreate(@ModelAttribute("member") SignUpDto signUpDto) {
-		return "profile/profileCreate";
+		return "redirect:/profile/profileCreate";
 	}
 
-	@GetMapping("/update.do")
+	@GetMapping("/member/userPage/{id}/profile/update.do")
 	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
 
@@ -83,7 +83,7 @@ public class ProfileController {
 	    return "profile/profileUpdate";
 
 	}
-	@GetMapping("/profileMain")
+	@GetMapping("/member/userPage/{id}/profile/profileMain")
 	@PreAuthorize("isAuthenticated()")
 	public String profileMain(@PathVariable("id") int id, Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 		
@@ -113,7 +113,7 @@ public class ProfileController {
 	}
 
 
-	@PostMapping("/profileCreate")
+	@PostMapping("/profile/profileCreate")
 	public String profileCreate(
 			@Valid ProfileDto _profile,
 			BindingResult bindingResult,
@@ -165,7 +165,7 @@ public class ProfileController {
 	    }
 	}
 	
-	@PostMapping("/update.do")
+	@PostMapping("/member/userPage/{id}/profile/update.do")
 	public String update(
 	    @Valid ProfileDto _profile,
 	    BindingResult bindingResult,
@@ -223,7 +223,7 @@ public class ProfileController {
 	
 	
 	
-	@PostMapping("/defaultcreate.do")
+	@PostMapping("/member/userPage/{id}/profile/defaultcreate.do")
 	public ResponseEntity<?> createDefaultProfile(@AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
 	    ProfileDetails profile = ProfileDetails.builder()
@@ -252,7 +252,7 @@ public class ProfileController {
 
 
 
-	@PostMapping("/defaultupdate")
+	@PostMapping("/member/userPage/{id}/profile/defaultupdate")
     public String defaultUpdateProfile(
     		@AuthenticationPrincipal PrincipalDetails principal,
     		Model model) {

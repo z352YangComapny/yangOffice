@@ -35,15 +35,15 @@
                         <jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
                     </div>--%>
                 <div class="d-flex justify-content-end align-content-center flex-grow-1" style="margin :0;">
-                    <button type="button" class="btn btn-primary mt-3 mb-3" style="width:500px; height : 50px;"
-                            onclick="location.href='${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook';">
-                        Guests Book
-                    </button>
+                    <a href="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook">
+                        <img src="${pageContext.request.contextPath}/resources/images/wallet-symbol.png" id="guestbook-image" alt="guestbook-image" />
+                     </a>
                 </div>
                 <div id="photoFeed" class="flex-grow-1" data-mdb-perfect-scrollbar="true"
                      style="position: relative; height: 600px; overflow-y: auto;">
                     <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
                 </div>
+
             </div>
         </div>
     </div>

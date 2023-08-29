@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 public interface KakaoService {
 
-	String getAuthorizeUri();
+    String getAuthorizeUri();
 
-	Map<String, Object> getTokens(String code);
+    Map<String, Object> getTokens(String code);
 
-	Map<String, Object> getProfile(String accessToken);
+    Map<String, Object> getProfile(String accessToken);
 }
