@@ -15,12 +15,12 @@
     scrollbar-width: none; /* 파이어폭스 */
 }
 
-body {font-family:"휴먼모음T";}
+body, span {font-family:"DungGeunMo";}
 /*div, section, header, aside, footer {padding:10px;}*/
 
 /********** 전체컨테이너 **********/
 div#container	{}
-
+.btn {font-family:"DungGeunMo";}
 /********** header **********/
 header div#header-container {height:100px;}
 header div#header-container h2 	{margin:30px 10px 0px 10px;}

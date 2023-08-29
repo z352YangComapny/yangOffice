@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.dm.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class DmController {
 	@PostMapping("/sendDm")
 	public String sendDm(@AuthenticationPrincipal PrincipalDetails principal, @ModelAttribute DmSendDto _dmDto, @RequestParam("dmRoomId") int dmRoomId, @RequestParam String content) {
 	    int senderId = principal.getId(); 
-	    List<DmRoom> dmRoomList = dmService.findDmRoomById(dmRoomId);
+	    List<DmRoom> dmRoomList = dmService.findDmRoomByDmRoomId(dmRoomId);
 	    DmRoom targetDmRoom = null;
 
 	    for (DmRoom dm : dmRoomList) {
@@ -123,11 +124,16 @@ public class DmController {
 	    dmService.insertDmRoom(participant1, participant2);
 
 	    List<DmRoom> dmRooms = dmService.findDmRoomById(participant1); // DM Rooms 조회
-
+	    dmRooms.sort(Comparator.comparing(DmRoom::getRegDate));
+	    
 	    Dm newDm = _dmDto.toDm();
+	    
+	    log.info("dmRoooooooooooooom={}", dmRooms);
+	    log.info("newDm = {}" , newDm);
 
 	    if (!dmRooms.isEmpty()) {
 	        DmRoom lastDmRoom = dmRooms.get(dmRooms.size() - 1);
+	        log.info("lastDmRoom={}", lastDmRoom);
 	        newDm.setDmRoomId(lastDmRoom.getId()); // 가장 마지막 DM Room의 아이디로 설정
 	        newDm.setReceiverId(participant2);
 	        newDm.setSenderId(participant1);

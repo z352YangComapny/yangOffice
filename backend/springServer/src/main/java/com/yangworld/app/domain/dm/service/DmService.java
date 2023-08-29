@@ -26,10 +26,12 @@ public interface DmService {
 
 	List<DmListDto> findDmRoom(int userId);
 	
-	List<DmRoom> findDmRoomById(int userId);
+	List<DmRoom> findDmRoomByDmRoomId(int userId);
 
 	List<Map<String, Object>> findMemberId(int dmRoomId);
 
 	Dm findMyNewDm(int userId);
+
+	List<DmRoom> findDmRoomById(int participant1);
 
 }
