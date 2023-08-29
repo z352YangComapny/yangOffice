@@ -59,23 +59,26 @@ public class QuestionController {
 	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model, Authentication authentication) {
 		Question question = questionService.findQuestionById(id);
 		Member member = memberService.findById(question.getWriterId());
-		log.info("id = {}", id);
-		log.info("question = {}", question);
+		log.info("id@Detail = {}", id);
+		log.info("question@Detail = {}", question);
+		log.info("member@Detail={}", member);
 		List<Comments> qnaComments = qnaCommentService.getCommentsByQuestionId(id);
 		boolean isAdmin = authentication.getAuthorities().stream()
 	            .map(GrantedAuthority::getAuthority)
 	            .anyMatch(role -> role.equals("ROLE_ADMIN"));
-		
+		log.info("memberUsernmae@Detail={}", member.getUsername());
 		model.addAttribute("isAdmin", isAdmin);
 		model.addAttribute("question", question);
 		model.addAttribute("writerId", member.getUsername());
 		model.addAttribute("questionType", question.getType());
 		model.addAttribute("questionId", question.getId());
 		model.addAttribute("principalId", principal.getId());
+		model.addAttribute("loginMemberId", principal.getUsername());
 		
 		 if (!qnaComments.isEmpty()) {
 		        model.addAttribute("qnaComments", qnaComments.get(0).getContent());
 		    }
+		 log.info("qnaComments={}", qnaComments);
 	}
 	
 	/**
@@ -194,9 +197,9 @@ public class QuestionController {
 	}
 	
 
-	
-	
-	@GetMapping("/deleteNotice")
+
+
+/*	@PostMapping("/deleteBoard")
     public String deleteNotice(@RequestParam int questionId, RedirectAttributes redirectAttributes) {
         
 	log.info("questionId = {}", questionId);
@@ -210,8 +213,9 @@ public class QuestionController {
     }
 
     return "redirect:/question/questionList";
-}
-	@GetMapping("/questionUpdate")
+}*/
+
+	@PostMapping("/questionUpdate")
     public String updateQuestionForm(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int id, Model model, Authentication authentication) {
         Question question = questionService.findQuestionById(id);
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -225,14 +229,30 @@ public class QuestionController {
         log.info("id = {} " , id);
         return "question/questionUpdate";
     }
-	
+
+	@PostMapping("/deleteBoard")
+	public ResponseEntity<?> deleteBoard(@RequestParam int questionId){
+
+		log.info("questionId = {}", questionId);
+		questionService.deleteNoticeById(questionId);
+
+		return ResponseEntity.ok().body(Map.of("msg", "게시글이 삭제되었습니다."));
+	}
+
+
+
+
+
+	/**
+	 * Detail에서 연결되는 수정버튼은 여기로 연결!!!
+	 * */
 	@PostMapping("/updateQuestion")
 	public String updateQuestion(@ModelAttribute QuestionUpdateQnaDto updateDto) {
 		
 	        int updatedQuestion = questionService.updateQuestion(updateDto);
 	        
 	        
-	        return "redirect:/question/questionList"; 
+	        return "redirect:/question/questionDetail?id=" + updateDto.getId();
 	        
 	}
 	
