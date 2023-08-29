@@ -216,7 +216,10 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	}
 
 
-
+	@Override
+	public Member findNickNameByFeedId(int feedWriterId) {
+		return photoFeedRepository.findNickNameByFeedId(feedWriterId);
+	}
 	
 
 
