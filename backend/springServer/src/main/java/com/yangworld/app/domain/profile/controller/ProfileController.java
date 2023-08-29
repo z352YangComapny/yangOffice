@@ -76,6 +76,7 @@ public class ProfileController {
 	    model.addAttribute("profile", profile);
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
+	    
 	    model.addAttribute("principalName", principal.getName());
 
 
@@ -101,6 +102,7 @@ public class ProfileController {
 	    model.addAttribute("principalGender", principal.getGender());
 	    model.addAttribute("principalId", principal.getId());
 	    model.addAttribute("profileId", profile.getId());
+	    model.addAttribute("profileMemberId",profile.getMemberId());
 	    log.info("profile = {}", profile);
 	    log.info("principalId ={}", principal.getId());
 //	    log.info("profileAttachment = {}",profileAttachments);
