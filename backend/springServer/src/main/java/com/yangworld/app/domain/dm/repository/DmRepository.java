@@ -76,10 +76,13 @@ public interface DmRepository {
 	Attachment findRenameFileNameForDm(int attachId);
 
     @Select("SELECT * FROM dm_room WHERE id=#{dmRoomId}")
-	List<DmRoom> findDmRoomById(int dmRoomId);
+	List<DmRoom> findDmRoomByDmRoomId(int dmRoomId);
 
     @Select("SELECT * FROM dm WHERE receiver_id = #{userId} or sender_id = #{userId} ORDER BY reg_date DESC FETCH FIRST 1 ROWS ONLY;")
 	Dm findMyNewDm(int userId);
+
+    @Select("SELECT * FROM dm_room WHERE participant1 = #{participant1} or participant2 = #{participant1}")
+	List<DmRoom> findDmRoomById(int participant1);
 
 	
 }

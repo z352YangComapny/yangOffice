@@ -22,7 +22,7 @@
 	       
 	           <!-- dm List 시작 -->
 	            <ul class="list-unstyled mb-0">
-				    <c:forEach items="${dmList}" var="dm" varStatus="loop">
+				    <c:forEach items="${dmList}" var="dm" varStatus="vs">
 				                <li class="p-2 border-bottom" style="background-color: #fff;">
 				                    <a href="${pageContext.request.contextPath}/dm/dmDetail?dmRoomId=${dm.dmRoomId}" class="d-flex justify-content-between">
 				                        <div class="d-flex flex-row">
