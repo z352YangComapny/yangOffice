@@ -114,41 +114,40 @@ public class ReportController {
 	    }
 
 
-	    @PostMapping("/insertReportFeed")
-	    private String insertReportFeed(
-	            @AuthenticationPrincipal PrincipalDetails principal,
-	            @RequestParam String content,
-	            @RequestParam int feedId,
-	            @RequestParam int reportedId,
-	            @RequestParam int reporterId,
-	            @PathVariable("id") int id,
-	            @ModelAttribute ReportCreateDto _reportDto,
-	            RedirectAttributes redirectAttributes
-	    ) {
-	        Report report = _reportDto.toReport();
-	        report.setContent(content);
-	        report.setReporterId(reporterId);
-	        report.setReportedId(reportedId);
-	        log.info("report ={}", report);
-	        // 1. report 테이블에 insert
-	        int result = reportService.insertReportFeed(report, feedId); // reportId = report 시퀀스값
+    @PostMapping("/member/userPage/{id}/insertReportFeed")
+    private String insertReportFeed(
+            @AuthenticationPrincipal PrincipalDetails principal,
+            @RequestParam String content,
+            @RequestParam int feedId,
+            @RequestParam int reportedId,
+            @RequestParam int reporterId,
+            @PathVariable("id") int id,
+            @ModelAttribute ReportCreateDto _reportDto,
+            RedirectAttributes redirectAttributes
+    ) {
+        Report report = _reportDto.toReport();
+        report.setContent(content);
+        report.setReporterId(reporterId);
+        report.setReportedId(reportedId);
+        log.info("report ={}", report);
+        // 1. report 테이블에 insert
+        int result = reportService.insertReportFeed(report, feedId); // reportId = report 시퀀스값
 
 	        redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
 
 	        return "redirect:/member/userPage/" + id + "/feed/feedDetail?photoFeedId=" + feedId;
 	    }
 
-	    @PostMapping("/insertReportComment")
-	    private String insertReportComments(@AuthenticationPrincipal PrincipalDetails principal
-	            , @ModelAttribute ReportCreateDto _reportDto,
-	                                        @RequestParam int commentsId,
-	                                        @RequestParam int reportedId,
-	                                        @RequestParam int feedId,
-	                                        @RequestParam int reporterId,
-	                                        @RequestParam String content,
-	                                        @PathVariable("id") int id,
-	                                        RedirectAttributes redirectAttributes) {
-
+    @PostMapping("/member/userPage/{id}/insertReportComment")
+    private String insertReportComments(@AuthenticationPrincipal PrincipalDetails principal
+            , @ModelAttribute ReportCreateDto _reportDto,
+                                        @RequestParam int commentsId,
+                                        @RequestParam int reportedId,
+                                        @RequestParam int feedId,
+                                        @RequestParam int reporterId,
+                                        @RequestParam String content,
+                                        @PathVariable("id") int id,
+                                        RedirectAttributes redirectAttributes) {
 
 	        Report report = _reportDto.toReport();
 	        log.info("report = {}", report);

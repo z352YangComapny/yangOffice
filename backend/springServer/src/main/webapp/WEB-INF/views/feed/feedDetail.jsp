@@ -57,6 +57,12 @@
         width: 30px;
         height: 30px;
     }
+
+    .btns {
+        margin-left: 80vw;
+        padding: 5px;
+        display: flex;
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -107,7 +113,7 @@
         $("#commentReportModal").modal("show");
 
         // '신고' 버튼 클릭 시 AJAX 요청 전송
-        $("#confirmReportButton").click(function () {
+        $("#commentconfirmReportButton").click(function () {
             var content = $("#commentreportContent").val();
 
             // AJAX 요청 보내는 부분
@@ -165,7 +171,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
+                <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
             </div>
         </div>
     </div>
@@ -183,7 +189,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="reportForm">
+                <form id="commentreportForm">
                     <div class="form-group">
                         <label for="reportReason">신고 사유</label>
                         <select class="form-control" id="commentreportReason" name="commentreportReason">
@@ -202,7 +208,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
+                <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
             </div>
         </div>
     </div>
@@ -213,19 +219,39 @@
            action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
     <button class="btn btn-primary">뒤로가기</button>
 </form:form>
-<hr style=" height: 3px
-">
+<div class="btns">
+    <!-- feed delete -->
+    <c:if test="${response.writerId eq principalDetails.id}">
+        <div class="feedDelete-box">
+            <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedDelete"
+                       method="post" id="deleteFeedForm">
+                <input type="hidden" name="feedId" value="${response.id}">
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteFeed()" style="margin-right: 10px;">
+                    피드 삭제
+                </button>
+            </form:form>
+        </div>
+    </c:if>
+
+    <%--  feed update button--%>
+    <c:if test="${response.writerId eq principalDetails.id }">
+        <div class="feedUpdate-box">
+            <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
+        </div>
+    </c:if>
+</div>
 <div class="carousel-and-content">
     <div class="carousel-box">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
+            <div class="carousel-indicators" style="margin-bottom: -38px;">
                 <c:forEach items="${photoDetail}" var="photo" varStatus="status">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}"
-                            class="${status.first ? 'active' : ''}" aria-current="${status.first ? 'true' : 'false'}"
+                            class="bg-dark ${status.first ? 'active' : ''}"
+                            aria-current="${status.first ? 'true' : 'false'}"
                             aria-label="Slide ${status.index + 1}"></button>
                 </c:forEach>
             </div>
-            <div class="carousel-inner">
+            <div class="carousel-inner" style="margin: 70px;">
                 <c:forEach items="${photoDetail}" var="photo" varStatus="status">
                     <div class="carousel-item ${status.first ? 'active' : ''}">
                         <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.renamedFilename}"
@@ -234,15 +260,18 @@
                 </c:forEach>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="bg-dark carousel-control-prev-icon" aria-hidden="true"
+                      style="border-radius: 40%;"></span>
                 <span class="visually-hidden">Previous</span>
             </a>
             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="bg-dark carousel-control-next-icon" aria-hidden="true"
+                      style="border-radius: 40%;"></span>
                 <span class="visually-hidden">Next</span>
             </a>
         </div>
     </div>
+
 
     <%-- feed report --%>
     <c:if test="${response.writerId ne principalDetails.id}">
@@ -254,25 +283,6 @@
                 🚨 신고
             </button>
 
-        </div>
-    </c:if>
-
-
-    <!-- feed delete  -->
-    <c:if test="${response.writerId eq principalDetails.id}">
-        <div class="feedDelete-box">
-            <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedDelete"
-                       method="post" id="deleteFeedForm">
-                <input type="hidden" name="feedId" value="${response.id}">
-                <button type="button" class="btn btn-danger" onclick="confirmDeleteFeed()">피드 삭제</button>
-            </form:form>
-        </div>
-    </c:if>
-
-    <%--  feed update button--%>
-    <c:if test="${response.writerId eq principalDetails.id }">
-        <div class="feedUpdate-box">
-            <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
         </div>
     </c:if>
 
@@ -303,6 +313,8 @@
     </div>
 
 </div>
+
+
 <hr style="border: 3px">
 <!-- 댓글 작성 폼 시작 -->
 <div class="comment-form">

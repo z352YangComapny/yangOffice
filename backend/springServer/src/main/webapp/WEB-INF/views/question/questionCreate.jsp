@@ -59,7 +59,11 @@
 <div id="board-container">
     <div id="board-form">
         <form:form name="boardFrm" action="${pageContext.request.contextPath}/question/createQna" method="post">
-            <input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>
+            <%--<input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>--%>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Title</span>
+                <input type="text" class="form-control" placeholder="제목을 작성하세요" name="title" id="title" required aria-label="Username" aria-describedby="basic-addon1">
+            </div>
             <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${pageContext.request.userPrincipal.name}" value="${pageContext.request.userPrincipal.name}" readonly disabled>
             <%-- <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${writerId}" value="${writerId}" readonly > --%>
             <div class="form-group">

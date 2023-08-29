@@ -32,7 +32,7 @@
 <div id="container">
    <header>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
-      <nav class="navbar navbar-expand-lg bg-primary">
+      <nav class="navbar navbar-expand-lg bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="${pageContext.request.contextPath}/">
                <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
