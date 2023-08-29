@@ -26,7 +26,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 			<tr>
 				<th>번호</th>
 				<th>작성자</th>
-				<th>내용</th>
+				<th style="width:400px">내용</th>
 				<th>작성일</th>
 				<th>✎</th>
 				<th>✂</th>
