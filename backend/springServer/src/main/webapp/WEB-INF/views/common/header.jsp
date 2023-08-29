@@ -55,27 +55,6 @@
 <!-- 인증되었을 때에만 해당 폼이 나오도록! -->
 <sec:authorize access = "isAuthenticated()">
    <sec:authentication property="principal" var="loginMember"/>
-<!-- Modal -->
-<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="noticeModalLabel"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body"></div>
-         <div class="modal-footer flex-column">
-            <div class="d-flex justify-content-between w-100">
-               <div>보낸사람 : <span class='badge badge-primary from'></span></div>
-               <div>작성일 : <span class='when'></span></div>
-            </div>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
-         </div>
-      </div>
-   </div>
-</div>
    <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>
 </sec:authorize>
 <div id="container">
@@ -85,26 +64,28 @@
       <nav class="navbar navbar-expand-lg bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
-               <img src="${pageContext.request.contextPath}/resources/images/logo2.png" alt="쏘이스토리_로고" width="70px" />
-               <span style = "font-size : 30px; font-weight: bold; color: white;">SSOY STORY<span>
+               <img src="${pageContext.request.contextPath}/resources/images/sologo.png" alt="쏘이스토리_로고" width="70px" style="margin-bottom: 20px;" />
+               <span style = "font-size : 50px; font-weight: bold; 
+                background: linear-gradient(to right, #F3969A, #78C2AD);
+		        -webkit-background-clip: text;
+		    	-webkit-text-fill-color: transparent;">SSOY STORY<span>
             </a>
             <div class="collapse navbar-collapse d-flex justify-content-evenly" id="navbarColor01">
                <div>
                   <ul class="navbar-nav me-auto">
-
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
                         <img src = "${pageContext.request.contextPath}/resources/images/home.png" class="navImg"/>
                      </a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatList.do">
-                        <img src="${pageContext.request.contextPath}/resources/images/www.png" class="navImg"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/light.png" class="navImg"/>
                      </a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">
-                        <img src="${pageContext.request.contextPath}/resources/images/letter-q.png" class="navImg"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/q.png" class="navImg"/>
                      </a></li>
                     <%-- <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>--%>
                   </ul>
                </div>
-               <div style="width:500px;">
+               <div style="width:500px; height: 50px;">
                   <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
                </div>
                <div class="d-flex justify-content-center column align-items-center">
@@ -112,7 +93,7 @@
                      <div id="notification-div"> </div>
                       <input type='hidden' id='userId' value='${loginMember.id}' />
                      <a href="${pageContext.request.contextPath}/dm/dmList">
-                        <img src="${pageContext.request.contextPath}/resources/images/send-message-w.png" id="dm-image" alt="dm-img" style="width: 70px;"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/send-message (1).png" id="dm-image" alt="dm-img" style="width: 70px;"/>
                      </a>
                   </div>
                </div>
@@ -121,8 +102,8 @@
                <div>
                   <form class="d-flex ml-5">
                      <sec:authorize access="isAuthenticated()">
-                            <span class="align-middle" style="font-weight: bold; color : white; font-size : 15px;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
-                            title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요</span>
+                            <span class="align-middle" style="font-weight: bold; color : white; font-size : 20px; text-shadow: 2px 2px 2px gray;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
+                            title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요 👋🏻</span>
                         &nbsp;
                         <button
                                 class="btn btn-secondary my-2 my-sm-0 ml-10"

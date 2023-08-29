@@ -213,7 +213,7 @@
         </div>
     </div>
 </div>
-
+<p>${response.nickName}</p>
 <form:form name="goBackBtn"
            method="get"
            action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
@@ -251,11 +251,11 @@
                             aria-label="Slide ${status.index + 1}"></button>
                 </c:forEach>
             </div>
-            <div class="carousel-inner" style="margin: 70px;">
+            <div class="carousel-inner" style="margin-left: 240px;">
                 <c:forEach items="${photoDetail}" var="photo" varStatus="status">
                     <div class="carousel-item ${status.first ? 'active' : ''}">
                         <img src="${pageContext.request.contextPath}/resources/upload/attachment/${photo.renamedFilename}"
-                             class="d-block" alt="Image ${status.index + 1}">
+                              alt="Image ${status.index + 1}">
                     </div>
                 </c:forEach>
             </div>
@@ -286,9 +286,11 @@
         </div>
     </c:if>
 
+	
     <%--  feed content  --%>
     <div class="content-box">
 
+		
         <div class="feedContent-box">${response.content}</div>
 
         <%--    feed update form   --%>
