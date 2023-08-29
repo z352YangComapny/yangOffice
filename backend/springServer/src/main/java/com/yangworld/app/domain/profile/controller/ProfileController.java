@@ -99,8 +99,8 @@ public class ProfileController {
 	    model.addAttribute("profileAttachments", profileAttachments);
 	    model.addAttribute("principalBday", principal.getBirthday());
 	    model.addAttribute("principalName", principal.getName());
-	    model.addAttribute("principalGender", principal.getGender());
 	    model.addAttribute("principalId", principal.getId());
+	    model.addAttribute("principal", principal);
 	    model.addAttribute("profileId", profile.getId());
 	    model.addAttribute("profileMemberId",profile.getMemberId());
 	    log.info("profile = {}", profile);
@@ -223,15 +223,20 @@ public class ProfileController {
 	
 	
 	
-	@PostMapping("/member/userPage/{id}/profile/defaultcreate.do")
-	public ResponseEntity<?> createDefaultProfile(@AuthenticationPrincipal PrincipalDetails principal) {
-	    int memberId = principal.getId();
+	@PostMapping("/profile/defaultcreate.do")
+	public String createDefaultProfile(@AuthenticationPrincipal PrincipalDetails principal, 
+			@RequestParam("memberId") int memberId, 
+			@RequestParam("memberUsername") String memberUsername){
+		
+		log.info("memberId = {}", memberId);
+		log.info("memberUsername = {}", memberUsername);
 	    ProfileDetails profile = ProfileDetails.builder()
 	            .memberId(memberId)
 	            .state(State.A)
-	            .introduction("안녕하세요, " + principal.getUsername() + "입니다.")
+	            .introduction("안녕하세요, " + memberUsername + "입니다.")
 	            .build();
 
+	    log.info("profile = {}", profile);
 	    // 첨부 파일 생성 및 추가
 	    Attachment defaultAttachment = Attachment.builder()
 	            .originalFilename("default.jpg")
@@ -244,9 +249,9 @@ public class ProfileController {
 	    int result = profileService.insertProfile(profile);
 
 	    if (result > 0) {
-	        return ResponseEntity.ok().build();
+	    	return "redirect:/member/memberLogin.do";
 	    } else {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to insert profile");
+	    	return "redirect:/profile/profileCreate";
 	    }
 	}
 

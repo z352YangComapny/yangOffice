@@ -30,7 +30,7 @@ const renderStory = (payloads) => {
 	let i = 0;
 	stories.forEach((story) => {
 		const html = `
-		<div class="card m-3">
+		<div class="card border-primary  m-3">
 		  <ul class="list-group list-group-flush">
 		    <li class="list-group-item writerId">${story.from}</li>
 		    <li class="list-group-item content">${story.content}</li>
@@ -198,7 +198,7 @@ const chatting = (payload) => {
 	if (chat.id == memberId) {
 		chatMessageDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
 		chatMessageDiv.innerHTML = `
-            <div style="background-image:url(${pageContext.request.contextPath}/resources/images/mymsg.png)">
+            <div>
                 <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${chat.content}</p>
                 <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${chat.time}</p>
             </div>

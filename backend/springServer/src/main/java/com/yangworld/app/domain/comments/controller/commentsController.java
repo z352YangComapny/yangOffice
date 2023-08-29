@@ -52,7 +52,7 @@ public class commentsController {
 	@Qualifier("QnACommentsServiceImpl")
     private CommentsService qnaCommentService;
 
-    @GetMapping("/getComments")
+    @GetMapping("/member/userPage/{id}/getComments")
     public ResponseEntity<?> getComments(@RequestParam int photoFeedId) {
         List<CommentAllDto> comments = commentService.getCommentsByPhotoFeedId(photoFeedId);
 
@@ -79,7 +79,7 @@ public class commentsController {
 //	}
 
     // 댓글 작성
-    @PostMapping("/feedDetails/commentCreate")
+    @PostMapping("/member/userPage/{id}/feedDetails/commentCreate")
     public String commentCreate(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             @RequestParam String comment,
@@ -93,7 +93,7 @@ public class commentsController {
     }
 
     // 	댓글 수정
-    @PostMapping("/feedDetails/commentUpdate")
+    @PostMapping("/member/userPage/{id}/feedDetails/commentUpdate")
     public ResponseEntity<String> commentUpdate(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             @RequestParam int commentId,
@@ -113,7 +113,7 @@ public class commentsController {
         }
     }
 
-    @PostMapping("/feedDetails/commentDelete")
+    @PostMapping("/member/userPage/{id}/feedDetails/commentDelete")
     public String commentDelete(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             @RequestParam int commentId,

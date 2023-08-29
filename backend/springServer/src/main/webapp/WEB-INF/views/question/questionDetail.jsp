@@ -329,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(response => {
         if (!response.ok) {
+        	console.log("zlzllzlzlzlzl");
             throw new Error('댓글 가져오기 중 오류 발생');
         }
         return response.json();

@@ -34,6 +34,8 @@ public interface PhotoFeedService {
 
 	int getLikeCountForFeed(int photoFeedId);
 
+	Member findNickNameByFeedId(int feedWriterId);
+
 
 	
 

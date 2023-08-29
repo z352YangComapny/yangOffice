@@ -17,7 +17,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 <h6>✨방명록 남기기✨</h6>
 	<form:form action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do" class="form-inline" name="createFrm" method="post">
 		<input type="text" id="create" class="form-control col-sm-10 ml-1" name="content" placeholder="내용" required/>&nbsp;
-		<button class="btn btn-outline-success" type="submit" onclick="alert('방명록이 등록되었습니다.')">저장</button>
+		<button class="btn btn-outline-success" type="submit" onclick="alert('방명록이 등록되었습니다~꒰⍤꒱')">저장</button>
 	</form:form> 
 	<br>
 	<br>
@@ -28,47 +28,55 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 				<th>작성자</th>
 				<th>내용</th>
 				<th>작성일</th>
+				<th>✎</th>
+				<th>✂</th>
+				<th>✉</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:if test="${empty guestBooks}">
-				<tr>
-					<td colspan="4" class="text-center">작성된 방명록이 없습니다.</td>
-				</tr>
-			</c:if>
-			<c:if test="${not empty guestBooks}">
-			<c:set var="currentIndex" value="${(page-1)*5}"/>
-				<c:forEach items="${guestBooks}" var="guestbook" varStatus="vs">
-				<input type ="hidden" value = "${guestbook.writerId}" id="guestbookWriter"/>
-					<tr>
-						<td id="index"></td>
-						<td>${guestbook.nickname}</td>
-						<td id="originalContent">${guestbook.content}</td>	
-						<td>
-						 <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
-				         <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
-						</td>
-						<td>
-						   <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
-						    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
-						</td>
-						<td>
-							<button type="button" class="btn btn-outline-danger deleteGuestbook" id = "deleteGuestbook" name = "deleteGuestbook" value ="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
-						</td>
-						<td>
-        					<div class="guestbookReport-box">
-            					<button class="btn btn-sm btn-light btn-reportGuestbook"
-                   						 style="margin-left: 10px; font-size:20px;"
-                   						 data-guestbook-id="${guestbook.id}" data-reported-id="${guestbook.writerId}"
-                   						 data-repoter-id="${myId}">
-               						 🚨
-            					</button>
-        					</div>
-						</td>	
-					</tr>
-					<input type="hidden" id= "guestbookId" value ="${guestbook.id}"/>
-				</c:forEach>
-			</c:if>
+    <tr>
+        <td colspan="4" class="text-center">작성된 방명록이 없습니다.</td>
+    </tr>
+</c:if>
+<c:if test="${not empty guestBooks}">
+    <c:set var="num" value="${totalCount - (currentPage - 1) * 5}" />
+    <c:forEach items="${guestBooks}" var="guestbook" varStatus="loop">
+        <input type="hidden" value="${guestbook.writerId}" id="guestbookWriter" />
+        <tr>
+            <td>${num}</td>
+            <td>${guestbook.nickname}</td>
+            <td id="originalContent">${guestbook.content}</td>
+            <td>
+                <fmt:parseDate value="${guestbook.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate" />
+                <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm" />
+            </td>
+                <td>
+            <c:if test="${myId eq guestbook.writerId}">
+                    <!--  <input type="text" class="form-control col-sm-10 ml-1 content" name="content" placeholder="내용" required/>&nbsp; -->
+                    <button class="btn btn-outline-success updateGuestbook" id="openModalLink" name="updateGuestbook" value="${guestbook.id}" onclick="alert('방명록이 수정되었습니다.')">수정</button>
+            </c:if>
+                </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger deleteGuestbook" id="deleteGuestbook" name="deleteGuestbook" value="${guestbook.id}" onclick="alert('방명록이 삭제되었습니다.')">삭제</button>
+            </td>
+            <td>
+                <div class="guestbookReport-box">
+                    <button class="btn btn-sm btn-light btn-reportGuestbook"
+                            style="margin-left: 10px; font-size:20px;"
+                            data-guestbook-id="${guestbook.id}" data-reported-id="${guestbook.writerId}"
+                            data-repoter-id="${myId}">
+                        🚨
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <input type="hidden" id="guestbookId" value="${guestbook.id}" />
+         <c:set var="num" value="${num-1}" />
+    </c:forEach>
+</c:if>
+
+
 		</tbody>
 	</table>
 </div>
@@ -222,8 +230,9 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
     btn.onclick = (e) => {
       
     	   const value = e.target.value;
-    	   const guestbookWriter = document.querySelector("#guestbookWriter");
+    	   const guestbookWriter = document.querySelector("#guestbookWriter").value;
     	   console.log(value);
+    	   console.log(guestbookWriter);
 	    	 $.ajax({
 	    		url : "${pageContext.request.contextPath}/member/userPage/${id}/guestbook/delete.do",
 				data : {
@@ -236,10 +245,12 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 				method : "POST",
 				dataType : "json",
 				success: function(responseData) {
-	                console.log(responseData);
-	                const { result } = responseData;
-	                if (result > 0) {
+	                const {msg} = responseData;
+	                console.log("responseData" ,responseData);
+	                console.log("msg" ,msg);
+	                if (msg != null) {
 	                    const tr = e.target.parentElement.parentElement;
+	                    location.reload();
 	                    tr.remove();
 	                } else {
 	                    console.error("Delete operation failed.");
@@ -258,18 +269,6 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
       
     };
 });
-
-
-/* // 버튼 숨기기
-const updateButton = document.getElementById('updateGuestbook');
-
-document.querySelectorAll(".updateGuestbook").forEach(updateButton => {
-	if (guestbook.writerId === member.id) {
-	    updateButton.style.display = 'block';
-	} else {
-	    updateButton.style.display = 'none';
-	}
-}); */
 
 // 신고 모달창
 

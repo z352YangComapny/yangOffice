@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.FeedCreateDto;
 import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
@@ -93,6 +94,9 @@ public interface PhotoFeedRepository {
 
 	@Select("select count(*) from likes where photo_feed_id = #{id}")
 	int getLikeCount(int id);
+
+	@Select("SELECT * FROM member WHERE id=#{feedWriterId}")
+	Member findNickNameByFeedId(int feedWriterId);
 
 
 
