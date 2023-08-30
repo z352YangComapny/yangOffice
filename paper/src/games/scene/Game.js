@@ -11,7 +11,11 @@ export default class Game extends Scene {
     constructor() {
         super({ key: 'Game' });
         this.collidableObject = [];
-        this.userProfile = window.userProfile;
+        let profile = {username:"default"};
+        if(window.userProfile){
+            profile = window.userProfile;
+        }
+        this.userProfile = profile;
         this.map = null;
         this.network = null;
         this.cursors = null;

@@ -73,6 +73,8 @@ class UI extends Phaser.Scene {
                 case "chat":
                     this.handleOtherPlayerLog(notification.message)
                     break;
+                    case "errmsg":
+                        this.showNotificationErr(notification, 3500, '중복 접속하셨습니다.')
                 default:
                     break;
             }
@@ -82,6 +84,16 @@ class UI extends Phaser.Scene {
     handleOtherPlayerLog({msgType,text}){
         if(text.split(' ')[0] !== this.userPofile.username)
         this.addToChatLog(text)
+    }
+    showNotificationErr(message, duration){
+        console.log(message);
+        this.notificationText.setVisible(true);
+        this.notificationText.setText(`${message.message.errMsg}`);
+
+        this.time.delayedCall(duration, () => {
+            this.notificationText.setVisible(false);
+            this.notificationText.setText('');
+        });
     }
 
     showNotification(message, duration, mode) {
