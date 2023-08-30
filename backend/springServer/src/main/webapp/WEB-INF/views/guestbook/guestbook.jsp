@@ -298,6 +298,8 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
 document.querySelectorAll(".btn-reportGuestbook").forEach(btn => {
 	
     btn.onclick = (e) => {
+	e.preventDefault(); // 기본 동작 방지
+	
     	console.log(e);
 	    // 'guestbook report' 버튼 클릭 시 모달 창 열기
 	    $(".btn-reportGuestbook").click(function () {
@@ -311,14 +313,10 @@ document.querySelectorAll(".btn-reportGuestbook").forEach(btn => {
 	        // 모달 창 열기
 	        $("#guestbookReportModal").modal("show");
 	        
-	    	// 모달 창 x 버튼으로 닫기
-	        document.addEventListener("click", function(){
-	        	
-	        	const closeModalButton = document.getElementById("#closeModalButton");
-	        	const cancelModalButton = document.getElementById("#cancelModalButton");
-	        	
-	        	$('#guestbookReportModal').modal('hide');
-	        });
+	        // 모달 창 x 버튼으로 닫기
+            $("#closeModalButton, #cancelModalButton").click(function () {
+                $("#guestbookReportModal").modal("hide");
+            });
 	
 	        // '신고' 버튼 클릭 시 AJAX 요청 전송
 	        $("#confirmReportButton").click(function () {
@@ -348,7 +346,7 @@ document.querySelectorAll(".btn-reportGuestbook").forEach(btn => {
 	        });
 	        
 	    });
-    }
+    };
 });
 </script>
 

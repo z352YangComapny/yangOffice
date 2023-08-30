@@ -69,7 +69,7 @@ public class ReportController {
 	        return "redirect:/dm/dmList";
 	    }
 
-	    @PostMapping("/insertReportGuestBook.do")
+	    @PostMapping("/member/userPage/{id}/insertReportGuestBook.do")
 	    public String insertReportGuestBook(
 	            @AuthenticationPrincipal PrincipalDetails principalDetails,
 	            @ModelAttribute ReportCreateDto _reportDto,
@@ -87,9 +87,8 @@ public class ReportController {
 	        report.setReportedId(reportedId);
 	        report.setContent(content);
 	        reportService.insertReportGuestBook(report, guestbookId);
-	        redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
 
-	        return "redirect:/guestbook/guestbook.do";
+	        return "redirect:/member/userPage/"+id+"/guestbook/guestbook";
 	    }
 
 
