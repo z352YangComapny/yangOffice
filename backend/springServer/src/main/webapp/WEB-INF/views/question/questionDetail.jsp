@@ -100,14 +100,14 @@
             <div id="commentArea">
                 <c:if test="${isAdmin && questionType eq 'Q'}">
                 <%--<div style="display: flex; align-items: center;">--%>
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder="답글을 입력해주세요." style="width: 850px; height: 100px; resize: none;">${qnaComments}</textarea>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder="답글을 입력해주세요." style="width: 850px; height: 100px; resize: none;"></textarea>
                 <%--</div>--%>
                 </c:if>
                 <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="resize: none; flex:1;">${qnaComments}</textarea>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="resize: none; flex:1;">${qnaComments}<textarea>
                 </c:if>
                 <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style="resize:none;flex: 1;">${qnaComments}</textarea>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style= "resize:none; flex: 1;"></textarea>
                 </c:if>
             </div>
             <div class="d-flex flex-column ml-3">
@@ -202,6 +202,8 @@ document.querySelector('#commentCreate').onclick = () => {
         })
         .then(data => {
             alert('댓글이 작성되었습니다.');
+            const{qnaComments} = data;
+
             location.reload();
             
         })

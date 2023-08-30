@@ -20,8 +20,18 @@
 <!-- bootstrap css -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
+
+
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css"/>
+<style>
+    .text-ellipsis {
+        min-width: 150px; /* 최대 너비 설정 */
+        overflow: hidden; /* 내용이 넘칠 경우 감추기 */
+        text-overflow: ellipsis; /* 내용이 넘칠 경우 ...으로 표시 */
+        white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    }
+</style>
 <section>
     <%--<div class="d-flex mb-3">--%>
        <%-- <div style ="width:10vw; height:50px;">--%>
@@ -59,7 +69,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="paginationContainer"><ul class="pagination"></ul></div>
+                    <div id="paginationContainer"><ul class="pagination mb-3"></ul></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -89,7 +99,7 @@
 
     //페이지 번호와 크기
     let currentPage = 1;
-    const limit = 10; //페이지 당 보여줄 테이터 수
+    const limit = 7; //페이지 당 보여줄 테이터 수
 
    const getMemberList = (inputText)=>{
        console.log(inputText);
@@ -127,6 +137,8 @@
                        usernameLink.textContent = member.username;
                        usernameLink.href="${pageContext.request.contextPath}/member/userPage/"+id;
                        usernameCell.classList.add("text-center");
+                       //usernameCell.classList.add("text-ellipsis");
+                       usernameLink.classList.add("text-ellipsis"); // text-ellipsis 클래스 추가
                        usernameCell.appendChild(usernameLink);
                        row.appendChild(usernameCell);
 
