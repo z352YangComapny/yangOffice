@@ -18,6 +18,7 @@
     #selectedImage {
         max-width: 350px; /* 최대 너비 */
         max-height: 350px; /* 최대 높이 */
+      	border-radius : 10px;
     }
    .emoji-image{
    	width: 20px;
@@ -27,7 +28,7 @@
 <body>
 <sec:authentication property="principal" var="loginMember"/>
        <div class="container mt-5" style="margin-left: 300px;">
-    <h1 class="mb-4">프로필 수정</h1>
+    <h1 class="mb-4">프로필 정보</h1>
     <hr style="border: 0; border-top: 4px solid silver;">
     <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do" class="col-md-6">
         <div class="d-flex flex-row">
@@ -39,7 +40,7 @@
                         <c:when test="${not empty profileAttachments}">
                             <c:forEach items="${profileAttachments}" var="attachment">
                             	<%-- <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${not empty profileAttachments ? profileAttachments[0].renamedFilename : 'default.jpg'}" alt="프로필 사진" style="width: 350px; height: 350px;"> --%>
-                                <img id="selectedImage" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+                                <img id="selectedImage" class="preview-image " src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
@@ -47,15 +48,18 @@
                             <input type="hidden" id="defaultImageChanged" name="defaultImageChanged" value="false">
                         </c:otherwise>
                     </c:choose>
-                    <input type="file" class="form-control-file" id="upFile" name="upFile" multiple>
+                    <input type="file" class="form-control-file mt-3" id="upFile" name="upFile" multiple >
                 </div>
-                <div class="form-group">
-                    <span style="margin-left: 140px; margin-top:30px; font-size: 22px;">${principalName}</span>
-                    <hr style="border-top: 5px solid silver; margin-left: 100px;">
-                </div>
-                <div class="form-group">
-                    <span style="margin-left: 120px; font-size: 20px;">${principalBday}</span>
-                    <hr style="border-top: 5px solid silver; margin-left: 100px;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+	                <div class="form-group d-flex flex-column justify-content-center align-items-center" style="margin-left: 80px;">
+	                    <span style="font-size: 22px; margin-top: 25px;">${principalName}</span>
+	                    <hr style="width : 150px; border : 3px solid; margin: auto"/>
+	                </div>
+	                <div class="form-group d-flex flex-column justify-content-center align-items-center" style="margin-left: 80px;">
+	                    <span style="font-size: 20px;">${principalBday}</span>
+	                    <hr style="width : 200px; border : 3px solid; margin: auto"/>
+	                </div>
+                
                 </div>
             </div>
             <div class="col-md-6" style="margin-left: 250px; margin-top: 20px;">
@@ -91,8 +95,6 @@
 					        <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image" />
 					    </label>
 					</div>
-				    
-				    		
 				    <hr style="border-top: 5px solid silver; margin-right: -330px;">
 				</div>
 
@@ -109,9 +111,10 @@
                         <br><hr style="border-top: 5px solid silver; margin-right: -330px;">
             </div>
         </div>
-        
-        <button type="submit" class="btn btn-primary text-center">수정</button>
-        <button type="button" class="btn btn-primary text-center" id="defaultUpdate">초기화</button>
+        <div style="margin-left: 470px;">
+		    <button type="submit" class="btn btn-primary" >수정</button>
+		    <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
+	    </div>
     </form:form>
 </div>
 
