@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import '../../assets/css/guestbook.css'
 import MyPagination from 'components/Commons/MyPagination'
+import { GuestBookContext } from 'contexts/GuestBookContextProvider'
 
 const GuestBookComponet = () => {
+    const {
+        states:{
+            guestBookList
+        },
+        actions:{
+            setGuestBookList,
+            getGuestBookList
+        },
+    } = useContext(GuestBookContext)
+
+    useEffect(()=>{
+        getGuestBookList(22 , 2)
+        .then((resp)=>{
+            console.log(resp)
+        })
+    },[])
+
+    
 
     const renderGuestbook = () => {
         return (

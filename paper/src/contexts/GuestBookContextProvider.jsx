@@ -25,7 +25,9 @@ const GuestBookContextProvider = (props) => {
         },
     }
   return (
-    <div>GuestBookContextProvider</div>
+    <GuestBookContext.Provider value={value}>
+      {props.children}
+    </GuestBookContext.Provider>
   )
 }
 
