@@ -1,9 +1,11 @@
 package com.yangworld.app.domain.guestbook.service;
 
+import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GuestBookService {
 
@@ -16,4 +18,8 @@ public interface GuestBookService {
     int guestbookTotalNo();
 
 	List<GuestbookAdminDto> guestbookList(int pageNo, int pageSize);
+
+	List<GuestBookWithNicknameDto> findAll(Map<String, Object> params, int memberId);
+
+	int countAllGuestBook(int id);
 }
