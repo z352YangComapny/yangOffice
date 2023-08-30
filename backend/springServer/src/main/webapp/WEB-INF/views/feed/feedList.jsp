@@ -39,16 +39,24 @@
         border-radius: 20%;
         width: 30px;
     }
+    #feedTitle{
+        font-family:"DungGeunMo";
+        font-size: 40px; font-weight: bold;
+        margin-left: 15px;
+        background: linear-gradient(to right, #F3969A, #78C2AD);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
 </style>
 
 
 <div class="container">
-    <h1>피드</h1>
-    <c:if test="${id eq PrincipalDetails.id}">
-        <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate"
-           class="btn btn-outline-primary" style="margin: 8px;">피드작성하기</a>
-    </c:if>
-
+    <span id="feedTitle">PHOTO FEED</span>
+    <div class="d-flex justify-content-start">
+        <c:if test="${id eq PrincipalDetails.id}">
+            <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate"
+               class="btn btn-outline-primary" style="margin: 8px;">피드작성하기</a>
+        </c:if>
+    </div>
     <sec:authorize access="isAuthenticated()">
         <c:choose>
             <c:when test="${not empty photoList}">
