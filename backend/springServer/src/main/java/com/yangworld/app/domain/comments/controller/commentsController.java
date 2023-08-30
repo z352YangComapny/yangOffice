@@ -145,7 +145,8 @@ public class commentsController {
         int result = qnaCommentService.insertQnaComment(principalDetails, qnaCommentAllDto);
         log.info("result = {}", result);
         if (result > 0) {
-            return ResponseEntity.ok("{\"message\": \"Comment inserted successfully.\"}");
+           // return ResponseEntity.ok("{\"message\": \"Comment inserted successfully.\"}");
+            return ResponseEntity.ok().body(Map.of("qnaComments",  qnaCommentAllDto.getContent()));
 
         } else {
             return ResponseEntity.badRequest().body("Failed to insert comment.");

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="게시판 상세보기" name="title"/>
+    <jsp:param value="게시판 상세보기" name="title"/>
 </jsp:include>
 
 <style>
@@ -27,10 +27,10 @@
     div#board-form input,
     div#board-form textarea {
         /*width: 100%;*/
-  /*      margin-bottom: 15px;*/
+        /*      margin-bottom: 15px;*/
         padding: 10px;
         font-size: 17px;
-      /*  border-radius: 8px;*/
+        /*  border-radius: 8px;*/
         border: 1px solid #ccc;
         box-sizing: border-box;
     }
@@ -40,7 +40,7 @@
         text-align: left;
     }
     .qnaForm{width : 100px;}
-   .cmtBtn{width: 70px;}
+    .cmtBtn{width: 70px;}
 
 </style>
 <meta name="_csrf" content="${_csrf.token}">
@@ -94,12 +94,12 @@
                 </c:if>
                 
                 <div id="qnaFrmBtn" class="d-flex justify-content-end mt-2">
-                   <c:if test="${(writerId eq loginMemberId)}">
-                    <button type="submit" class="btn btn-outline-primary btn-sm mr-2">수정</button>
+                    <c:if test="${(writerId eq loginMemberId)}">
+                        <button type="submit" class="btn btn-outline-primary btn-sm mr-2">수정</button>
                     </c:if>
                     <c:if test="${(writerId eq loginMemberId) || isAdmin}">
-                    <button class="btn btn-outline-danger btn-sm mr-1" onclick="deleteBoard()">삭제</button>
-                   </c:if>
+                        <button class="btn btn-outline-danger btn-sm mr-1" onclick="deleteBoard()">삭제</button>
+                    </c:if>
                 </div>
             </div>
         </form>
@@ -107,37 +107,37 @@
         <div class="d-flex justify-content-start">
             <p class="ml-2">문의 답변</p>
         </div>
-        
-        
+
+
         <!--  자르고 올린 부분  -->
-        
+
         <c:if test="${isAdmin && questionType eq 'Q'}">
             <label for="commentContent"></label>
             <div>
-			    <div style="display: flex; align-items: center;">
-			    	
-			        <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요." style="flex: 1;"></textarea>
-			        <button type="button" class="btn btn-danger btn-sm" id="commentDelete" style="display: none;">x</button>
-			    </div>
-			</div>
+                <div style="display: flex; align-items: center;">
+
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요." style="flex: 1;"></textarea>
+                    <button type="button" class="btn btn-danger btn-sm" id="commentDelete" style="display: none;">x</button>
+                </div>
+            </div>
             <input type="hidden" id="commentId" value="">
-			    <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
-			    <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment" style="display:none">댓글 수정</button>
-        </c:if> 
-        
+            <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+            <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment" style="display:none">댓글 수정</button>
+        </c:if>
+
         <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
-        	<textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="flex: 1;"></textarea>
+            <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="flex: 1;"></textarea>
         </c:if>
         <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
-        	<textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" style="flex: 1;"></textarea>
+            <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" style="flex: 1;"></textarea>
         </c:if>
-        
+
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
-        
-        
-        
+
+
+
         <!--  자르고 올린 부분  -->
-        
+
     </div>
 </div>
 
@@ -175,7 +175,7 @@ div#board-form textarea {
 div#board-container label.custom-file-label {
     text-align: left;
 }
-   
+
 </style>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
@@ -185,12 +185,12 @@ div#board-container label.custom-file-label {
         <input type="text" class="form-control" name="memberId" value="${principalName}" readonly required>
         <textarea class="form-control" name="content" placeholder="문의사항" readonly required>${question.content}</textarea>
         <input type="datetime-local" class="form-control" name="createdAt" value='${question.regDate}'>
-        
+
 	    <c:if test="${isAdmin && questionType eq 'Q'}">
             <label for="commentContent"></label>
             <div>
 			    <div style="display: flex; align-items: center;">
-			    	
+
 			        <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요." style="flex: 1;"></textarea>
 			        <button type="button" class="btn btn-danger btn-sm" id="commentDelete" style="display: none;">x</button>
 			    </div>
@@ -198,165 +198,165 @@ div#board-container label.custom-file-label {
             <input type="hidden" id="commentId" value="">
 			    <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
 			    <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment" style="display:none">댓글 수정</button>
-        </c:if> 
-        
+        </c:if>
+
         <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
         	<textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="flex: 1;"></textarea>
         </c:if>
         <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
         	<textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" style="flex: 1;"></textarea>
         </c:if>
-        
+
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
-        
+
     </div>
 </div> --%>
 
 <script>
-const csrfToken = "${_csrf.token}";
-const commentId = document.getElementById('commentId').value;
+    const csrfToken = "${_csrf.token}";
+    const commentId = document.getElementById('commentId').value;
 
-function goBack() {
-    window.history.back();
-}
-
-
-document.querySelector('#commentCreate').onclick = () => {
-    const commentContent = document.getElementById('commentContent').value;
-	
-    if (commentContent.trim() !== '') {
-        const qnaCommentDto = {
-            commentId: 0,
-            questionId: ${questionId} 
-        };
-
-        const qnaCommentAllDto = {
-            content: commentContent, 
-            writerId: "${principalId}",
-            commentQna: qnaCommentDto 
-        };
-
-        fetch('/qnaCommentCreate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
-            },
-            body: JSON.stringify(qnaCommentAllDto)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('댓글 작성 중 오류 발생');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert('댓글이 작성되었습니다.');
-            location.reload();
-            
-        })
-        .catch(error => {
-            console.error('댓글 작성 중 오류:', error);
-            alert('댓글 작성 중 오류가 발생했습니다.');
-        });
-    } else {
-        alert('댓글 내용을 입력해주세요.');
+    function goBack() {
+        window.history.back();
     }
-};
 
 
-document.querySelector('#editComment').onclick = () => {
-    const commentContent = document.getElementById('commentContent').value;
+    document.querySelector('#commentCreate').onclick = () => {
+        const commentContent = document.getElementById('commentContent').value;
 
-    if (commentContent.trim() !== '') {
-        const qnaCommentDto = {
-			commentId: 0,
-            questionId: ${questionId} 
-        };
+        if (commentContent.trim() !== '') {
+            const qnaCommentDto = {
+                commentId: 0,
+                questionId: ${questionId}
+            };
 
-        const qnaCommentAllDto = {
-            content: commentContent, 
-            writerId: "${principalId}",
-            commentQna: qnaCommentDto 
-        };
+            const qnaCommentAllDto = {
+                content: commentContent,
+                writerId: "${principalId}",
+                commentQna: qnaCommentDto
+            };
 
-        fetch('/qnaCommentUpdate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
-            },
-            body: JSON.stringify(qnaCommentAllDto)
-        })
-        .then(response => {
-        	console.log(response)
-            if (!response.ok) {
-                throw new Error('댓글 수정 중 오류 발생');
-            }
-            return response.json();
-        })
-        .then(data => {
-        	console.log(data)
-            alert('댓글이 수정되었습니다.');
-            location.reload();
-            
-        })
-        .catch(error => {
-            console.error('댓글 수정 중 오류:', error);
-            alert('댓글 수정 중 오류가 발생했습니다.');
-            
-        });
-    } else {
-        alert('수정 내용을 입력해주세요.');
-    }
-};
+            fetch('/qnaCommentCreate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
+                },
+                body: JSON.stringify(qnaCommentAllDto)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('댓글 작성 중 오류 발생');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('댓글이 작성되었습니다.');
+                    location.reload();
 
-document.querySelector('#commentDelete').onclick = () => {
-	const commentContent = document.getElementById('commentContent').value;
-	
-	if (commentContent.trim() !== '') {
-    const qnaCommentDto = {
-		commentId: 0,
-        questionId: ${questionId} 
-     };
-	
-    const qnaCommentAllDto = {
-        content: commentContent, 
-        writerId: "${principalId}",
-        commentQna: qnaCommentDto 
-    };
-    fetch('/qnaCommentDelete', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-        },
-        body: JSON.stringify(qnaCommentAllDto) 
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('댓글 삭제 중 오류 발생');
+                })
+                .catch(error => {
+                    console.error('댓글 작성 중 오류:', error);
+                    alert('댓글 작성 중 오류가 발생했습니다.');
+                });
+        } else {
+            alert('댓글 내용을 입력해주세요.');
         }
-        return response.json();
-    })
-    .then(data => {
-        alert('댓글이 삭제되었습니다.');
-        location.reload();
-1    })
-    .catch(error => {
-        console.error('댓글 삭제 중 오류:', error);
-        alert('댓글 삭제 중 오류가 발생했습니다.');
-    });
-	}
-};
+    };
+
+
+    document.querySelector('#editComment').onclick = () => {
+        const commentContent = document.getElementById('commentContent').value;
+
+        if (commentContent.trim() !== '') {
+            const qnaCommentDto = {
+                commentId: 0,
+                questionId: ${questionId}
+            };
+
+            const qnaCommentAllDto = {
+                content: commentContent,
+                writerId: "${principalId}",
+                commentQna: qnaCommentDto
+            };
+
+            fetch('/qnaCommentUpdate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
+                },
+                body: JSON.stringify(qnaCommentAllDto)
+            })
+                .then(response => {
+                    console.log(response)
+                    if (!response.ok) {
+                        throw new Error('댓글 수정 중 오류 발생');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data)
+                    alert('댓글이 수정되었습니다.');
+                    location.reload();
+
+                })
+                .catch(error => {
+                    console.error('댓글 수정 중 오류:', error);
+                    alert('댓글 수정 중 오류가 발생했습니다.');
+
+                });
+        } else {
+            alert('수정 내용을 입력해주세요.');
+        }
+    };
+
+    document.querySelector('#commentDelete').onclick = () => {
+        const commentContent = document.getElementById('commentContent').value;
+
+        if (commentContent.trim() !== '') {
+            const qnaCommentDto = {
+                commentId: 0,
+                questionId: ${questionId}
+            };
+
+            const qnaCommentAllDto = {
+                content: commentContent,
+                writerId: "${principalId}",
+                commentQna: qnaCommentDto
+            };
+            fetch('/qnaCommentDelete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify(qnaCommentAllDto)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('댓글 삭제 중 오류 발생');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('댓글이 삭제되었습니다.');
+                    location.reload();
+                    1    })
+                .catch(error => {
+                    console.error('댓글 삭제 중 오류:', error);
+                    alert('댓글 삭제 중 오류가 발생했습니다.');
+                });
+        }
+    };
 
 
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-	
-	/* const isAdmin = ${isAdmin}; 
+    document.addEventListener("DOMContentLoaded", () => {
+
+        /* const isAdmin = ${isAdmin};
 
     const commentCreateButton = document.querySelector('#commentCreate');
     const editCommentButton = document.querySelector('#editComment');
@@ -371,68 +371,68 @@ document.addEventListener("DOMContentLoaded", () => {
         editCommentButton.style.display = 'none';
     } */
 
-    
-    fetch('/getQnaComments?questionId=${questionId}', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('댓글 가져오기 중 오류 발생');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data !== "no") {
-            // 댓글 데이터가 있는 경우
-            console.log(data);
-            const [{id}] = data;
-	        const comments = data;
-	        const commentContent = document.getElementById("commentContent");
-	        const commentIdInput = document.getElementById("commentId"); // Get the hidden input
-	        if (comments.length > 0) {
-	            commentContent.value = comments[0].content;
-	            commentIdInput.value = comments[0].commentId; // commentId 업데이트
-	            
-	            
-	        }
-	        commentIdInput.value = id;
-	        console.log(commentIdInput.value);
-	        document.getElementById('commentDelete').style.display = 'inline';
-	        document.getElementById('commentCreate').style.display = 'none';
-	        document.getElementById('editComment').style.display = 'inline';
-	        
-        } else {
-            // 댓글 데이터가 없는 경우
-            const commentContent = document.getElementById("commentContent");
-            commentContent.placeholder = "댓글을 입력해주세요.";
-        }
-    })
-    .catch(error => {
-        console.error('댓글 가져오기 중 오류:', error);
-    });
-    
-    
-    /* const commentContent = document.getElementById("commentContent");
-    const editButton = document.querySelector("#editComment");
-    
-    
-    editButton.onclick = () => {
-        if (editButton.textContent === "댓글 수정") {
-            // 수정 버튼 클릭 시 댓글 수정 가능 상태로 변경
-            commentContent.readOnly = false;
-            editButton.textContent = "수정 완료";
-        } else {
-            // 수정 완료 버튼 클릭 시 수정 내용 저장 및 수정 불가능 상태로 변경
-            const updatedComment = commentContent.value;
 
-            // 서버로 수정 내용 전송
-            const qnaCommentDto = {
-                commentId: comments[0].commentId, // 댓글 ID
-                questionId: ${questionId}
+        fetch('/getQnaComments?questionId=${questionId}', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken // CSRF 토큰 추가
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('댓글 가져오기 중 오류 발생');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data !== "no") {
+                    // 댓글 데이터가 있는 경우
+                    console.log(data);
+                    const [{id}] = data;
+                    const comments = data;
+                    const commentContent = document.getElementById("commentContent");
+                    const commentIdInput = document.getElementById("commentId"); // Get the hidden input
+                    if (comments.length > 0) {
+                        commentContent.value = comments[0].content;
+                        commentIdInput.value = comments[0].commentId; // commentId 업데이트
+
+
+                    }
+                    commentIdInput.value = id;
+                    console.log(commentIdInput.value);
+                    document.getElementById('commentDelete').style.display = 'inline';
+                    document.getElementById('commentCreate').style.display = 'none';
+                    document.getElementById('editComment').style.display = 'inline';
+
+                } else {
+                    // 댓글 데이터가 없는 경우
+                    const commentContent = document.getElementById("commentContent");
+                    commentContent.placeholder = "댓글을 입력해주세요.";
+                }
+            })
+            .catch(error => {
+                console.error('댓글 가져오기 중 오류:', error);
+            });
+
+
+        /* const commentContent = document.getElementById("commentContent");
+        const editButton = document.querySelector("#editComment");
+
+
+        editButton.onclick = () => {
+            if (editButton.textContent === "댓글 수정") {
+                // 수정 버튼 클릭 시 댓글 수정 가능 상태로 변경
+                commentContent.readOnly = false;
+                editButton.textContent = "수정 완료";
+            } else {
+                // 수정 완료 버튼 클릭 시 수정 내용 저장 및 수정 불가능 상태로 변경
+                const updatedComment = commentContent.value;
+
+                // 서버로 수정 내용 전송
+                const qnaCommentDto = {
+                    commentId: comments[0].commentId, // 댓글 ID
+                    questionId: ${questionId}
             };
 
             const qnaCommentAllDto = {
@@ -470,21 +470,21 @@ document.addEventListener("DOMContentLoaded", () => {
             editButton.textContent = "댓글 수정";
         }
     }; */
-});
+    });
 
 
 
-/* function addComment() {
-    const commentContent = document.getElementById('commentContent').value;
-    if (commentContent.trim() !== '') {
-        const questionId = ${question.id};
+    /* function addComment() {
+        const commentContent = document.getElementById('commentContent').value;
+        if (commentContent.trim() !== '') {
+            const questionId = ${question.id};
         const formData = new FormData();
         formData.append('questionId', questionId);
         formData.append('content', commentContent);
-        
+
         $.ajax({
             type: 'POST',
-            url: '/qnaCommentCreate', 
+            url: '/qnaCommentCreate',
             data: formData,
             processData: false,
             contentType: false,
@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')},
             success: function(data) {
                 alert('댓글이 작성되었습니다.');
-                location.reload(); 
+                location.reload();
             },
             error: function() {
                 alert('댓글 작성 중 오류가 발생했습니다.');
@@ -502,13 +502,13 @@ document.addEventListener("DOMContentLoaded", () => {
         alert('댓글 내용을 입력해주세요.');
     }
 } */
-/* function deleteNotice(questionId) {
-    if (confirm('정말로 공지사항을 삭제하시겠습니까?')) {
-        const jsonData = { questionId: questionId }; // JSON 데이터 생성
+    /* function deleteNotice(questionId) {
+        if (confirm('정말로 공지사항을 삭제하시겠습니까?')) {
+            const jsonData = { questionId: questionId }; // JSON 데이터 생성
 
-        $.ajax({
-            type: 'POST',
-            url: "${pageContext.request.contextPath}/question/deleteNotice",
+            $.ajax({
+                type: 'POST',
+                url: "${pageContext.request.contextPath}/question/deleteNotice",
             data: JSON.stringify(jsonData), // JSON 형식으로 데이터 변환
             contentType: "application/json", // 데이터 형식을 JSON으로 지정
             headers: {
