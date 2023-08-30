@@ -35,7 +35,6 @@ input#btn-add{float: left;
 				<th>제목</th>
 				<th>작성자</th>
 				<th>작성일</th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -84,14 +83,14 @@ input#btn-add{float: left;
 							<fmt:parseDate value="${question.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 							<fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 						</td>
-						<c:if test="${ writerNames[vs.index] eq principalUsername }"> 
+						<%-- <c:if test="${ writerNames[vs.index] eq principalUsername }"> 
 						<td>
 						<a href="${pageContext.request.contextPath}/question/questionUpdate?id=${question.id}" class="btn btn-primary btn-sm">수정</a>
-						</td>
+						</td> 
 						</c:if>
 						<c:if test="${ writerNames[vs.index] ne principalUsername }">
 						<td></td>
-						</c:if> 
+						</c:if>  --%>
 					</tr>				
 				</c:forEach>
 			</c:if>
