@@ -3,8 +3,11 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Input, Pagination, Pagi
 import '../../assets/css/guestbook.css'
 import MyPagination from 'components/Commons/MyPagination'
 import { GuestBookContext } from 'contexts/GuestBookContextProvider'
+import { useParams } from 'react-router-dom'
 
 const GuestBookComponet = () => {
+    const { id } = useParams();
+    console.log(id);
     const {
         states:{
             guestBookList
