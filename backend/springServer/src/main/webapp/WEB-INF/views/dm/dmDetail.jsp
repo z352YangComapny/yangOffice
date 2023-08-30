@@ -104,13 +104,6 @@
         return date.toLocaleString('en-US', options);
     }
 
-    $(document).ready(function () {
-        // 페이지 로딩 시 dmDetails 데이터 받아오기
-
-        // 삭제 버튼 클릭 이벤트 처리
-        $('#btn-delete').click(deleteDm);
-    });
-    
     function showButton(container) {
         const button = container.querySelector('.btn');
         button.classList.remove('d-none');

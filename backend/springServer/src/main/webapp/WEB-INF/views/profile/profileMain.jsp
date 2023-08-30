@@ -11,13 +11,14 @@
 #selectedImage {
 	width: 350px;
 	height: 250px;
+	border-radius: 10%;
 }
 
 .profile-box {
     border: 2px solid #ccc;
     padding: 10px;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 20px; 
     text-align: center;
     width: 350px;
 }
@@ -34,15 +35,15 @@
 <sec:authentication property="principal" var="loginMember"/>
 <%--<p>principalId: ${loginMember.id}</p>
 <p>profileId: ${profile.id}</p>--%>
-<p>gender : ${loginMember.gender}</p>
-    <div class="container mt-5">
+<%-- <p>gender : ${loginMember.gender}</p> --%>
+    <div class="container mt-5" >
         <h1 class="mb-4"></h1>
-		    <div class="form-group" style="height: 230px;">
+		    <div class="form-group" style="height: 230px; margin-bottom: 3vw;">
 		        <label for="upFile"></label>
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" >
+		                    <img id="selectedImage" class="preview-image" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" >
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
@@ -69,8 +70,8 @@
                 style="width: 350px; height: 200px; resize: none; text-align: center; display: block; padding-top: 50px;" 
                 disabled>${profile.introduction} </textarea>
             </div>
-            <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
-            ${principalName}&nbsp;&nbsp;${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}&nbsp;&nbsp;${principalBday}
+            <div style="display: flex; justify-content: center; align-items: center; font-size: 22px; margin-right: 150px;" >
+            ${principalName}&nbsp;<span style="color: ${loginMember.gender eq 'M' ? 'skyblue' : loginMember.gender eq 'F' ? 'pink' : 'black'};">${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}</span>&nbsp;${principalBday}
             <c:if test="${loginMember.id eq profile.memberId}">
             <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>
            	</c:if>

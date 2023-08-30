@@ -7,22 +7,6 @@
 	<jsp:param value="게시판 상세보기" name="title"/>
 </jsp:include>
 <style>
-    div#board-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 80vh;
-    }
-
-    div#board-form {
-        width: 1000px;
-        text-align: center;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        height: 700px;
-    }
 
     div#board-form input,
     div#board-form textarea {
@@ -45,7 +29,7 @@
 </style>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
-<sec:authentication property="principal" var="loginMember"/>
+<!-- <sec:authentication property="principal" var="loginMember"/>  -->
 <div id="board-container" class="d-flex flex-column">
     <div style="margin-right:650px; margin-bottom: 20px;">
         <p style="font-size: 37px;
@@ -55,9 +39,9 @@
         >공지사항 & 이용문의</p>
     </div>
     <div id="board-form">
-        <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-            <input type="hidden" name="id" value="${question.id}">
+        <%-- <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST"> --%>
+            <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" name="id" value="${question.id}"> --%>
             <%--<input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>--%>
             <div class="input-group mb-3">
                 <button class="btn btn-primary qnaForm" id="qnaTitle" disabled>제 목</button>
@@ -91,7 +75,7 @@
                    </c:if>
                 </div>
             </div>
-        </form>
+        <!-- </form> -->
         <hr/>
         <div class="d-flex justify-content-start">
             <p class="ml-2">문의 답변</p>
@@ -105,7 +89,7 @@
                 <%--</div>--%>
                 </c:if>
                 <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="width: 850px; height: 100px;  resize: none; flex:1;"><textarea>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="width: 850px; height: 100px;  resize: none; flex:1;"></textarea>
                 </c:if>
                 <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
                     <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style= "width: 850px; height: 100px;  resize:none; flex: 1;"></textarea>
@@ -127,8 +111,6 @@
         </div>
     </div>
 </div>
-
-
 <%--&lt;%&ndash;기존 detail form&ndash;%&gt;
 <div id="board-container">
     <div id="boardform">
@@ -162,6 +144,9 @@
         
     </div>
 </div>--%>
+
+</div>
+
 
 <script>
 const csrfToken = "${_csrf.token}";
@@ -334,7 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(response => {
         if (!response.ok) {
-        	console.log("zlzllzlzlzlzl");
             throw new Error('댓글 가져오기 중 오류 발생');
         }
         return response.json();

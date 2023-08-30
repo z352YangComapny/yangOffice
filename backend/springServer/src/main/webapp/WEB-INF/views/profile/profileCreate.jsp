@@ -90,7 +90,7 @@
                     <input type="hidden" value = "${member.id}" name ="memberId"/>
                 </div>
               </c:if>
-                <div class="text-center">
+                <div class="text-center" style="margin-top: 10px;">
                     <button type="submit" class="btn btn-primary">생성</button>
                     <c:if test="${not empty member}">
 			          	<form:form name = "defaultFrm" action = "${pageContext.request.contextPath}/profile/defaultcreate.do" method="POST">
