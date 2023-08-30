@@ -82,12 +82,15 @@
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">
                         <img src="${pageContext.request.contextPath}/resources/images/q.png" class="navImg"/>
                      </a></li>
-                    <%-- <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>--%>
+                     <li class="nav-item">
+                           <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
+                     </li>
+                  <%-- <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/feed/feedDetail.do">피드디테일</a></li>--%>
                   </ul>
                </div>
-               <div style="width:500px; height: 50px;">
+              <%-- <div style="width:500px; height: 50px;">
                   <jsp:include page="/WEB-INF/views/member/follow.jsp"/>
-               </div>
+               </div>--%>
                <div class="d-flex justify-content-center column align-items-center">
                   <div id ="dm"  class="flex-grow-1" style="height: 10vh; margin: 0; display: flex; align-items: center; justify-content: flex-end;">
                      <div id="notification-div"> </div>
