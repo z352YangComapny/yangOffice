@@ -9,10 +9,8 @@
 <style>
 /* 이미지 최대 너비와 최대 높이 설정 */
 #selectedImage {
-	min-width:350px;
-	min-height:250px;
-    max-width: 350px; /* 최대 너비 */
-    max-height: 250px; /* 최대 높이 */
+	width: 350px;
+	height: 250px;
 }
 
 .profile-box {
@@ -36,7 +34,7 @@
 <sec:authentication property="principal" var="loginMember"/>
 <%--<p>principalId: ${loginMember.id}</p>
 <p>profileId: ${profile.id}</p>--%>
-
+<p>gender : ${loginMember.gender}</p>
     <div class="container mt-5">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px;">
@@ -44,12 +42,12 @@
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+		                    <img id="selectedImage" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" >
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
 		                <!-- 프로필 사진이 없을 경우 기본 이미지 또는 아무것도 표시하거나 로직을 추가해주세요. -->
-		                <img id="selectedImage" class="preview-image rounded-circle" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" style="width=350px; height: 350px;">
+		                <img id="selectedImage" class="preview-image rounded-circle" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" >
 		            </c:otherwise>
 		        </c:choose>
 		    </div>
@@ -67,10 +65,12 @@
            
             <div class="form-group">
                 <label for="introduction"></label>
-                <textarea class="form-control" id="introduction" name="introduction" rows="4" required style="width: 350px; height: 200px; resize: none; " disabled>${profile.introduction} </textarea>
+                <textarea class="form-control" id="introduction" name="introduction" rows="4" required 
+                style="width: 350px; height: 200px; resize: none; text-align: center; display: block; padding-top: 50px;" 
+                disabled>${profile.introduction} </textarea>
             </div>
             <div style="font-size: 30px; margin-top: 30px; margin-left: 10px;" >
-            ${principalName}&nbsp;&nbsp;&nbsp;${principalGender eq 'M' ? '♀' : principalGender eq 'F' ? '♂' : ''}&nbsp;&nbsp;&nbsp;${principalBday}
+            ${principalName}&nbsp;&nbsp;${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}&nbsp;&nbsp;${principalBday}
             <c:if test="${loginMember.id eq profile.memberId}">
             <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>
            	</c:if>
