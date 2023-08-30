@@ -1,31 +1,63 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import '../../assets/css/guestbook.css'
 import MyPagination from 'components/Commons/MyPagination'
 import { GuestBookContext } from 'contexts/GuestBookContextProvider'
 import { useParams } from 'react-router-dom'
+import { MemberContext } from 'contexts/MembetContextProvider'
 
 const GuestBookComponet = () => {
-    const { id } = useParams();
-    console.log(id);
     const {
-        states:{
+        states: {
             guestBookList
         },
-        actions:{
+        actions: {
             setGuestBookList,
             getGuestBookList
         },
     } = useContext(GuestBookContext)
+    const {
+        states: {
+            isLogin,
+            userProfile
+        },
+        actions: {
+            setUserProfile,
+            setIsLogin,
+            LogOut,
+            signin,
+            getUserProfile
+        },
+    } = useContext(MemberContext)
+    const [pageNo, setPageNo] = useState(1);
+
+    useEffect(() => {
+        if (userProfile) {
+            console.log(userProfile)
+            getGuestBookList(userProfile.id, pageNo)
+                .then((resp) => {
+                    console.log(resp)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }, [userProfile]);
 
     useEffect(()=>{
-        getGuestBookList(22 , 2)
-        .then((resp)=>{
-            console.log(resp)
-        })
+
+
     },[])
 
-    
+    const renderPaginatio = () =>{
+        const PaginationNumberList = [];
+
+        return(
+               
+        )
+    }
+
+
 
     const renderGuestbook = () => {
         return (
@@ -73,33 +105,7 @@ const GuestBookComponet = () => {
                                         onClick={() => { console.log("hi") }}
                                     />
                                 </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink
-                                        onClick={() => { console.log("hi") }}
-                                        previous
-                                    />
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink onClick={() => { console.log("hi") }}>
-                                        1
-                                    </PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink onClick={() => { console.log("hi") }}>
-                                        2
-                                    </PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink onClick={() => { console.log("hi") }}>
-                                        3
-                                    </PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink
-                                        onClick={() => { console.log("hi") }}
-                                        next
-                                    />
-                                </PaginationItem>
+                              {renderPagination()}
                                 <PaginationItem>
                                     <PaginationLink
                                         onClick={() => { console.log("hi") }}
