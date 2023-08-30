@@ -26,7 +26,7 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 			<tr>
 				<th>번호</th>
 				<th>작성자</th>
-				<th>내용</th>
+				<th style="width:400px">내용</th>
 				<th>작성일</th>
 				<th>✎</th>
 				<th>✂</th>
@@ -144,14 +144,14 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
 	</div>
 		<div style="display: flex; justify-content: center; margin:80px">
     <ul class="pagination">
-        <li class="page-item disabled">
-            <a class="page-link" href="#">&laquo;</a>
+        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+            <a class="page-link" href="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/guestbook?page=${currentPage - 1}">&laquo;</a>
         </li>
         <c:forEach begin="1" end="${totalPages}" varStatus="pageStatus">
             <c:choose>
-                <c:when test="${page eq pageStatus.index}">
-                    <li class="page-item active">
-                        <a class="page-link" href="#">${pageStatus.index}</a>
+                <c:when test="${currentPage eq pageStatus.index}">
+                    <li class="page-item">
+                        <a class="page-link active" href="#">${pageStatus.index}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -161,8 +161,8 @@ div#guestbook-container{width:60%; margin:0 auto; text-align:center;}
                 </c:otherwise>
             </c:choose>
         </c:forEach>
-        <li class="page-item">
-            <a class="page-link" href="#">&raquo;</a>
+        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}" >
+            <a class="page-link" href="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/guestbook?page=${currentPage + 1}">&raquo;</a>
         </li>
     </ul>
 </div>
