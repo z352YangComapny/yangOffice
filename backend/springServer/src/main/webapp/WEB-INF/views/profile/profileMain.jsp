@@ -15,7 +15,7 @@
 }
 
 .profile-box {
-    border: 2px solid #ccc;
+    /* border: 2px solid #ccc; */ 
     padding: 10px;
     border-radius: 5px;
     margin-top: 20px; 
@@ -54,13 +54,13 @@
 		    </div>
 
 			<div class="profile-box">
-                <div class="status-emoji">
+                <div class="status-emoji" style="font-size: 25px; text-decoration: underline; display: inline-block; margin-top: 5px;">
                 today is... 
-                <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image" style="${profile.state eq 'A' ? 'display: inline;' : 'display: none;'}">
-		        <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image" style="${profile.state eq 'B' ? 'display: inline;' : 'display: none;'}">
-		        <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image" style="${profile.state eq 'C' ? 'display: inline;' : 'display: none;'}">
-		        <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image" style="${profile.state eq 'D' ? 'display: inline;' : 'display: none;'}">
-		        <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image" style="${profile.state eq 'E' ? 'display: inline;' : 'display: none;'}">
+		            <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image" style="${profile.state eq 'A' ? 'display: inline;' : 'display: none;'}">
+		            <img src="${pageContext.request.contextPath}/resources/images/stateB.png" alt="상태 B 이미지" class="emoji-image" style="${profile.state eq 'B' ? 'display: inline;' : 'display: none;'}">
+		            <img src="${pageContext.request.contextPath}/resources/images/stateC.png" alt="상태 C 이미지" class="emoji-image" style="${profile.state eq 'C' ? 'display: inline;' : 'display: none;'}">
+		            <img src="${pageContext.request.contextPath}/resources/images/stateD.png" alt="상태 D 이미지" class="emoji-image" style="${profile.state eq 'D' ? 'display: inline;' : 'display: none;'}">
+		            <img src="${pageContext.request.contextPath}/resources/images/stateE.png" alt="상태 E 이미지" class="emoji-image" style="${profile.state eq 'E' ? 'display: inline;' : 'display: none;'}">
 		        </div>
             </div>
            
