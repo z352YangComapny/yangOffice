@@ -7,40 +7,45 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="프로필 수정" name="title"/>
 </jsp:include>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>프로필 수정</title>
-</head>
+
 <style>
     /* 이미지 최대 너비와 최대 높이 설정 */
     #selectedImage {
-        max-width: 350px; /* 최대 너비 */
-        max-height: 350px; /* 최대 높이 */
+        max-width: 250px; /* 최대 너비 */
+        max-height: 250px; /* 최대 높이 */
       	border-radius : 10px;
     }
    .emoji-image{
    	width: 20px;
    	margin: -2px;
    }
+   #profileDetail{font-family:"DungGeunMo";
+       font-size: 35px; font-weight: bold;
+       margin-left: 15px;
+       background: linear-gradient(to right, #F3969A, #78C2AD);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;}
+   .profileContainer{border : 1px solid white; border-radius: 10px; box-shadow: 3px 3px 10px 5px #b2b2b2; padding: 5px;}
 </style>
 <body>
 <sec:authentication property="principal" var="loginMember"/>
-       <div class="container mt-5" style="margin-left: 300px;">
-    <h1 class="mb-4">프로필 정보</h1>
+       <div class="container mt-3 profileContainer" style="margin-left: 300px; margin-bottom: 20px;" >
+    <p><span id="profileDetail">Profile Info<span></p>
     <hr style="border: 0; border-top: 4px solid silver;">
     <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do" class="col-md-6">
         <div class="d-flex flex-row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="upFile"></label>
-                    <h4 style="margin-top: -9px;">프로필 사진</h4>
+                    <p style="margin-top: -9px;"><span style="font-size: 20px;">프로필 사진<span></p>
+                    <div class="d-flex flex-column justify-content-center">
                     <c:choose>
                         <c:when test="${not empty profileAttachments}">
                             <c:forEach items="${profileAttachments}" var="attachment">
                             	<%-- <img id="selectedImage" src="${context.request.contextPath}/resources/upload/attachment/${not empty profileAttachments ? profileAttachments[0].renamedFilename : 'default.jpg'}" alt="프로필 사진" style="width: 350px; height: 350px;"> --%>
+                                <div class="d-flex justify-content-center">
                                 <img id="selectedImage" class="preview-image " src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" style="width: 350px; height: 350px;">
+                                </div>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
@@ -49,15 +54,16 @@
                         </c:otherwise>
                     </c:choose>
                     <input type="file" class="form-control-file mt-3" id="upFile" name="upFile" multiple >
+                    </div>
                 </div>
                 <div class="d-flex flex-column justify-content-center align-items-center">
-	                <div class="form-group d-flex flex-column justify-content-center align-items-center" style="margin-left: 80px;">
+	                <div class="form-group d-flex flex-column justify-content-center align-items-center" style="margin-left: 80px; width: 250px;">
 	                    <span style="font-size: 22px; margin-top: 25px;">${principalName}</span>
-	                    <hr style="width : 150px; border : 3px solid; margin: auto"/>
+	                    <hr style="width : 250px; border : 3px solid; margin: auto"/>
 	                </div>
-	                <div class="form-group d-flex flex-column justify-content-center align-items-center" style="margin-left: 80px;">
+	                <div class="form-group d-flex flex-column justify-content-center align-items-center mt-3" style="margin-left: 80px;">
 	                    <span style="font-size: 20px;">${principalBday}</span>
-	                    <hr style="width : 200px; border : 3px solid; margin: auto"/>
+	                    <hr style="width : 250px; border : 3px solid; margin: auto"/>
 	                </div>
                 
                 </div>
@@ -105,15 +111,16 @@
                     </div>
                     <div class="col-md-8">
                     	<br><br>
-                        <textarea class="form-control" id="introduction" name="introduction"  required style="height: 300px; width: 350px; resize: none;">${profile.introduction}</textarea>
+                        <textarea class="form-control" id="introduction" name="introduction"  required style="height: 300px; width: 500px; resize: none;">${profile.introduction}</textarea>
                     </div>
                 </div>
                         <br><hr style="border-top: 5px solid silver; margin-right: -330px;">
             </div>
         </div>
-                <div style="margin-left: 130px">
-			    <button type="submit" class="btn btn-primary" >수정</button>
-			    <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
+                <div class="d-flex flex-row justify-content-start  mt-3 mb-1">
+			    <button type="submit" class="btn btn-outline-primary" >수정</button>
+                    &nbsp;
+			    <button type="button" class="btn btn-outline-danger" id="defaultUpdate">초기화</button>
 			    </div>
     </form:form>
 </div>
@@ -171,7 +178,6 @@ $(document).ready(function() {
 
 </script>
 
-      
-</body>
-</html>
 
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

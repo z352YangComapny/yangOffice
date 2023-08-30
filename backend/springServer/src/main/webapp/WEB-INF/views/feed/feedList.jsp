@@ -50,12 +50,14 @@
 
 
 <div class="container">
-    <span id="feedTitle">PHOTO FEED</span>
-    <div class="d-flex justify-content-start">
-        <c:if test="${id eq PrincipalDetails.id}">
-            <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate"
-               class="btn btn-outline-primary" style="margin: 8px;">피드작성하기</a>
-        </c:if>
+    <div class="d-flex flex-row justify-content-between">
+        <span id="feedTitle">PHOTO FEED</span>
+        <div class="mt-4">
+            <c:if test="${id eq PrincipalDetails.id}">
+                <a href="${pageContext.request.contextPath}/member/userPage/${PrincipalDetails.id}/feedCreate"
+                   class="btn btn-outline-primary btn-sm" style="height:30px;">피드 만들기</a>
+            </c:if>
+        </div>
     </div>
     <sec:authorize access="isAuthenticated()">
         <c:choose>
