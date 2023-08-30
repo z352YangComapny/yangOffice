@@ -18,7 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- bootstrap css -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<%--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">--%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
 
 
@@ -134,7 +134,12 @@
 
                        const usernameCell = document.createElement("td");
                        const usernameLink = document.createElement("a");
-                       usernameLink.textContent = member.username;
+                       if(member.username && member.username.length >=10){
+                                usernameLink.textContent = member.username.substr(0,10)+"...";
+                       } else{
+                           usernameLink.textContent = member.username;
+                       }
+
                        usernameLink.href="${pageContext.request.contextPath}/member/userPage/"+id;
                        usernameCell.classList.add("text-center");
                        //usernameCell.classList.add("text-ellipsis");
