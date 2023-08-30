@@ -20,6 +20,128 @@
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
+        height: 700px;
+    }
+
+    div#board-form input,
+    div#board-form textarea {
+        /*width: 100%;*/
+  /*      margin-bottom: 15px;*/
+        padding: 10px;
+        font-size: 17px;
+      /*  border-radius: 8px;*/
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /* 부트스트랩 : 파일라벨명 정렬 */
+    div#board-container label.custom-file-label {
+        text-align: left;
+    }
+    .qnaForm{width : 100px;}
+   .cmtBtn{width: 70px;}
+
+</style>
+<meta name="_csrf" content="${_csrf.token}">
+<meta name="_csrf_header" content="${_csrf.headerName}">
+<!-- <sec:authentication property="principal" var="loginMember"/>  -->
+<div id="board-container" class="d-flex flex-column">
+    <div style="margin-right:650px; margin-bottom: 20px;">
+        <p style="font-size: 37px;
+            background: linear-gradient(to right, #F3969A, #78C2AD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;"
+        >공지사항 & 이용문의</p>
+    </div>
+    <div id="board-form">
+        <%-- <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST"> --%>
+            <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" name="id" value="${question.id}"> --%>
+            <%--<input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>--%>
+            <div class="input-group mb-3">
+                <button class="btn btn-primary qnaForm" id="qnaTitle" disabled>제 목</button>
+                <input type="text" class="form-control" placeholder="제목을 작성하세요"  name="title" id="title" value="${question.title}" required aria-describedby="button-addon2">
+            </div>
+            <div class="input-group mb-3">
+                <button class="btn btn-primary qnaForm" id="qnaWriter" disabled>작 성 자 </button>
+                <input type="text" class="form-control" name="writerId" id="writerId" value="${writerId}" readonly disabled  aria-describedby="button-addon2">
+            </div>
+            <div class="d-flex justify-content-end">
+                <fmt:parseDate value="${question.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
+                <fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
+            </div>
+            <%-- <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${pageContext.request.userPrincipal.name}" value="${pageContext.request.userPrincipal.name}" readonly disabled>--%>
+            <%-- <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${writerId}" value="${writerId}" readonly > --%>
+            <div class="form-group">
+                <label for="exampleSelect1" class="form-label mt-1"></label>
+                <select class="form-select mb-2" id="exampleSelect1" name="questionType" aria-readonly="true" disabled>
+                    <c:if test="${questionType eq 'Q'}">
+                        <option value="Q">이용문의</option>
+                    </c:if>
+                    <c:if test="${questionType eq 'N'}">
+                        <option value="N">공지사항</option>
+                    </c:if>
+                </select>
+                <textarea class="form-control" name="content" value="${question.content}" style="resize:none; height:180px; " required>${question.content}</textarea>
+                <div id="qnaFrmBtn" class="d-flex justify-content-end mt-2">
+                   <c:if test="${(writerId eq loginMemberId) || isAdmin}">
+                    <button type="submit" class="btn btn-outline-primary btn-sm mr-2">수정</button>
+                    <button class="btn btn-outline-danger btn-sm mr-1" onclick="deleteBoard()">삭제</button>
+                   </c:if>
+                </div>
+            </div>
+        <!-- </form> -->
+        <hr/>
+        <div class="d-flex justify-content-start">
+            <p class="ml-2">문의 답변</p>
+        </div>
+        <div class="d-flex flex-row" id="commentAreaContainer">
+            <label for="commentContent"></label>
+            <div id="commentArea">
+                <c:if test="${isAdmin && questionType eq 'Q'}">
+                <%--<div style="display: flex; align-items: center;">--%>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder="답글을 입력해주세요." style="width: 850px; height: 100px; resize: none;"></textarea>
+                <%--</div>--%>
+                </c:if>
+                <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="width: 850px; height: 100px;  resize: none; flex:1;"></textarea>
+                </c:if>
+                <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style= "width: 850px; height: 100px;  resize:none; flex: 1;"></textarea>
+                </c:if>
+            </div>
+            <div class="d-flex flex-column ml-3">
+                <c:if test="${empty qnaComments && isAdmin}">
+                    <button type="button" class="btn btn-outline-primary btn-sm mt-1 cmtBtn" id="commentCreate">답글</button>
+                </c:if>
+                <c:if test="${not empty qnaComments && isAdmin}">
+                    <button type="button" class="btn btn-outline-primary btn-sm mt-1 edit-button cmtBtn" id="editComment">편집</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm mt-1 cmtBtn" id="commentDelete">삭제</button>
+                </c:if>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="#" onclick="goBack()"><img  class="mt-2" src="${pageContext.request.contextPath}/resources/images/back.png" style="width:40px;"/></a>
+            <%--<button type="button" class="btn btn-outline-info btn-sm mt-3" onclick="goBack();">뒤로가기</button>--%>
+        </div>
+    </div>
+</div>
+
+<%-- <style>
+    div#board-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+    }
+
+    div#board-form {
+        width: 1000px;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
         height: 500px;
     }
 
@@ -73,7 +195,7 @@
         <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
         
     </div>
-</div>
+</div> --%>
 
 <script>
 const csrfToken = "${_csrf.token}";
@@ -244,7 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(response => {
         if (!response.ok) {
-        	console.log("zlzllzlzlzlzl");
             throw new Error('댓글 가져오기 중 오류 발생');
         }
         return response.json();

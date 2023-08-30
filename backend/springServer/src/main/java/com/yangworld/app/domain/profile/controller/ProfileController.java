@@ -52,7 +52,7 @@ public class ProfileController {
 	    ProfileDto profile = new ProfileDto();
 	    // 필요한 필드들을 설정
 	    profile.getState();
-	    profile.getIntroduction();
+	    profile.getIntroduction();집에가고싶다 . 
 
 	    model.addAttribute("profile", profile);
 	    return "/profile/profileCreate";
