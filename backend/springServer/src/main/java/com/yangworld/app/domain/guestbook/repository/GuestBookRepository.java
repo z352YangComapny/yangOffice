@@ -2,6 +2,7 @@ package com.yangworld.app.domain.guestbook.repository;
 
 import org.apache.ibatis.annotations.*;
 
+import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 import org.apache.ibatis.session.RowBounds;
 
@@ -22,4 +23,10 @@ public interface GuestBookRepository {
 	int guestbookTotalNo();
 	@Select("select * from guestbook order by reg_date desc")
 	List<GuestBook> guestBookList(RowBounds rowBounds);
+
+	@Select("select g.*, m.nickName from guestbook g left join member m on g.writer_id = m.id where g.member_id = #{memberId} order by g.reg_date desc")
+	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int memberId);
+
+	@Select("select count(*) from guestbook where member_id = #{id}")
+	int countAllGuestBook(int id);
 }
