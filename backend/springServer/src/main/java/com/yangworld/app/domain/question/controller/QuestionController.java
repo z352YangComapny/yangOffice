@@ -58,6 +58,7 @@ public class QuestionController {
 	@GetMapping("/questionDetail")
 	public void questionDetail(@AuthenticationPrincipal PrincipalDetails principal ,@RequestParam int id, Model model, Authentication authentication) {
 		Question question = questionService.findQuestionById(id);
+		Member member = memberService.findById(question.getWriterId());
 		log.info("id = {}", id);
 		log.info("question = {}", question);
 		
@@ -72,6 +73,8 @@ public class QuestionController {
 		model.addAttribute("questionType", question.getType());
 		model.addAttribute("questionId", question.getId());
 		model.addAttribute("principalId", principal.getId());
+		model.addAttribute("writerId", member.getUsername());
+		model.addAttribute("loginMemberId", principal.getUsername());
 		
 		 if (!qnaComments.isEmpty()) {
 		        model.addAttribute("qnaComments", qnaComments.get(0).getContent());
@@ -242,6 +245,16 @@ public class QuestionController {
 	public boolean questionHasComments(int questionId) {
         List<Comments> comments = qnaCommentService.getCommentsByQuestionId(questionId);
         return !comments.isEmpty();
+        
     }
 	
+	@PostMapping("/deleteBoard")
+	   public ResponseEntity<?> deleteBoard(@RequestParam int questionId){
+
+	      log.info("questionId = {}", questionId);
+	      questionService.deleteNoticeById(questionId);
+
+	      return ResponseEntity.ok().body(Map.of("msg", "게시글이 삭제되었습니다."));
+	   }
+
 }

@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시판 상세보기" name="title"/>
 </jsp:include>
+
 <style>
     div#board-container {
         width: 100%;
@@ -44,7 +45,7 @@
 </style>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
-<!-- <sec:authentication property="principal" var="loginMember"/>  -->
+<sec:authentication property="principal" var="loginMember"/>
 <div id="board-container" class="d-flex flex-column">
     <div style="margin-right:650px; margin-bottom: 20px;">
         <p style="font-size: 37px;
@@ -52,11 +53,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;"
         >공지사항 & 이용문의</p>
+        <p>isadmin : ${isAdmin }</p>
+        <p>loginMemberId : ${loginMemberId}</p>
+        <p>questionContent : ${ question.content}</p>
+        <p>qnaComments: ${qnaComments }</p>
+        <p>writerId : ${writerId }</p>
     </div>
     <div id="board-form">
-        <%-- <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST"> --%>
-            <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-            <input type="hidden" name="id" value="${question.id}"> --%>
+        <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <input type="hidden" name="id" value="${question.id}">
             <%--<input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>--%>
             <div class="input-group mb-3">
                 <button class="btn btn-primary qnaForm" id="qnaTitle" disabled>제 목</button>
@@ -84,82 +90,87 @@
                 </select>
                 <textarea class="form-control" name="content" value="${question.content}" style="resize:none; height:180px; " required>${question.content}</textarea>
                 <div id="qnaFrmBtn" class="d-flex justify-content-end mt-2">
-                   <c:if test="${(writerId eq loginMemberId) || isAdmin}">
+                   <c:if test="${(writerId eq loginMemberId)}">
                     <button type="submit" class="btn btn-outline-primary btn-sm mr-2">수정</button>
+                    </c:if>
+                    <c:if test="${(writerId eq loginMemberId) || isAdmin}">
                     <button class="btn btn-outline-danger btn-sm mr-1" onclick="deleteBoard()">삭제</button>
                    </c:if>
                 </div>
             </div>
-        <!-- </form> -->
+        </form>
         <hr/>
         <div class="d-flex justify-content-start">
             <p class="ml-2">문의 답변</p>
         </div>
-        <div class="d-flex flex-row" id="commentAreaContainer">
+        
+        
+        <!--  자르고 올린 부분  -->
+        
+        <c:if test="${isAdmin && questionType eq 'Q'}">
             <label for="commentContent"></label>
-            <div id="commentArea">
-                <c:if test="${isAdmin && questionType eq 'Q'}">
-                <%--<div style="display: flex; align-items: center;">--%>
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder="답글을 입력해주세요." style="width: 850px; height: 100px; resize: none;"></textarea>
-                <%--</div>--%>
-                </c:if>
-                <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="width: 850px; height: 100px;  resize: none; flex:1;"></textarea>
-                </c:if>
-                <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style= "width: 850px; height: 100px;  resize:none; flex: 1;"></textarea>
-                </c:if>
-            </div>
-            <div class="d-flex flex-column ml-3">
-                <c:if test="${empty qnaComments && isAdmin}">
-                    <button type="button" class="btn btn-outline-primary btn-sm mt-1 cmtBtn" id="commentCreate">답글</button>
-                </c:if>
-                <c:if test="${not empty qnaComments && isAdmin}">
-                    <button type="button" class="btn btn-outline-primary btn-sm mt-1 edit-button cmtBtn" id="editComment">편집</button>
-                    <button type="button" class="btn btn-outline-danger btn-sm mt-1 cmtBtn" id="commentDelete">삭제</button>
-                </c:if>
-            </div>
-        </div>
-        <div class="d-flex justify-content-end">
-            <a href="#" onclick="goBack()"><img  class="mt-2" src="${pageContext.request.contextPath}/resources/images/back.png" style="width:40px;"/></a>
-            <%--<button type="button" class="btn btn-outline-info btn-sm mt-3" onclick="goBack();">뒤로가기</button>--%>
-        </div>
+            <div>
+			    <div style="display: flex; align-items: center;">
+			    	
+			        <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요." style="flex: 1;"></textarea>
+			        <button type="button" class="btn btn-danger btn-sm" id="commentDelete" style="display: none;">x</button>
+			    </div>
+			</div>
+            <input type="hidden" id="commentId" value="">
+			    <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
+			    <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment" style="display:none">댓글 수정</button>
+        </c:if> 
+        
+        <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
+        	<textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="flex: 1;"></textarea>
+        </c:if>
+        <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
+        	<textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" style="flex: 1;"></textarea>
+        </c:if>
+        
+        <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
+        
+        
+        
+        <!--  자르고 올린 부분  -->
+        
     </div>
 </div>
 
+
 <%-- <style>
-    div#board-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 80vh;
-    }
+div#board-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
 
-    div#board-form {
-        width: 1000px;
-        text-align: center;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        height: 500px;
-    }
+div#board-form {
+    width: 1000px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 500px;
+}
 
-    div#board-form input,
-    div#board-form textarea {
-        width: 100%;
-        margin-bottom: 15px;
-        padding: 15px;
-        font-size: 16px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-    }
+div#board-form input,
+div#board-form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 
-    /* 부트스트랩 : 파일라벨명 정렬 */
-    div#board-container label.custom-file-label {
-        text-align: left;
-    }
+/* 부트스트랩 : 파일라벨명 정렬 */
+div#board-container label.custom-file-label {
+    text-align: left;
+}
    
 </style>
 <meta name="_csrf" content="${_csrf.token}">
@@ -512,4 +523,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 </script>
+<script>
+    const deleteBoard = () =>{
+        const questionId = ${question.id};
+        console.log(questionId);
+        $.ajax({
+
+            url: "${pageContext.request.contextPath}/question/deleteBoard",
+            data: {questionId : questionId},
+            method:"POST",
+            dataType : "json",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')},
+            success(responseData){
+                const{msg} = responseData;
+                alert(msg);
+
+                location.href = '${pageContext.request.contextPath}/question/questionList';
+
+            }
+        });
+
+    }
+</script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
