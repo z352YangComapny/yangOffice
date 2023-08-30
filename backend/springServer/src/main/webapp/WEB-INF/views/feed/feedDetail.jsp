@@ -57,7 +57,7 @@
     .likes-btn {
         width: 50px;
         heght: 50px;
-        margin-top: 30vw;
+        margin-top: 27vw;
     }
 
     .likes-box {
@@ -354,7 +354,7 @@
 
     </div>
 
-    <
+    
     <!-- 댓글 작성 폼 시작 -->
     <div class="commentsAll">
         <p style="font-size: 30px;
@@ -385,7 +385,7 @@
                             <div class="comment-content" id="comment-${comment.id}">
                                     ${comment.nickName} : <span class="comment-text">${comment.content}</span>
                             </div>
-                            <div class="comment-info">
+                            <div class="comment-info" style="display: flex;">
                                 <c:if test="${comment.writerId ne principalDetails.id}">
                                     <button class="btn btn-sm btn-light"
                                             style="margin-left: 10px; font-size:20px;"
@@ -399,24 +399,21 @@
                                             method="post" id="deleteCommentForm-${comment.id}">
                                         <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
                                         <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
-                                        <button type="button" class="btn btn-secondary"
-                                                onclick="confirmDeleteComment(${comment.id})">삭제
-                                        </button>
+                                        <a href="#" onclick="confirmDeleteComment(${comment.id});"><img src="${pageContext.request.contextPath}/resources/images/delete.png" style="width: 40px;"/></a>
                                     </form:form>
                                 </c:if>
                                 <!-- Edit button -->
                                 <c:if test="${comment.writerId eq principalDetails.id}">
-                                    <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">
-                                        수정
-                                    </button>
+                                <a href="#" class="edit-comment-btn" data-comment-id="${comment.id}">
+                                <img src="${pageContext.request.contextPath}/resources/images/edit-button.png" style="width: 40px;"/>
+                                </a>
                                 </c:if>
                                     ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
                             </div>
                         </div>
-                        <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
-                            <textarea class="form-control" rows="3">${comment.content}</textarea>
-                            <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인
-                            </button>
+                        <div class="edit-comment-form input-group mb-3" id="edit-comment-form-${comment.id}" style="display: none;">
+                            <input class="form-control" rows="3" value="${comment.content}"/>
+                            <button class="btn btn-secondary update-comment-btn" data-comment-id="${comment.id}">수정</button>
                         </div>
                     </li>
                 </c:forEach>
@@ -512,7 +509,7 @@
         // 확인 버튼 클릭 시
         $(".update-comment-btn").click(function () {
             var commentId = $(this).data("comment-id");
-            var newContent = $("#edit-comment-form-" + commentId + " textarea").val();
+            var newContent = $("#edit-comment-form-" + commentId + " input").val();
 
             $.ajax({
                 type: "POST",
@@ -548,6 +545,4 @@
         }
     }
 </script>
-
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

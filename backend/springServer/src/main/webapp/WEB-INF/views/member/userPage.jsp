@@ -7,8 +7,8 @@
 <fmt:requestEncoding value="utf-8"/> <!-- 한글로 제목을 변경할 경우에는 인코딩이 깨질 수 있으니 해당 설정 잡아주기 -->
 
 <sec:authorize access="isAuthenticated()">
-
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<div class="d-flex flex-column justify-content-center align-item-center" id="userPageContainer">
     <div class="d-flex flex-column m-1 p-3">
         <div id="story" class="flex-grow-1" style="height : 25vh; margin : 0;">
             <a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton"
@@ -50,6 +50,7 @@
             </div>
         </div>
     </div>
+   </div>
 </sec:authorize>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
