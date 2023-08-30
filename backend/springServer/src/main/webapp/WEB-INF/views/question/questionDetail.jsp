@@ -53,11 +53,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;"
         >공지사항 & 이용문의</p>
-        <p>isadmin : ${isAdmin }</p>
-        <p>loginMemberId : ${loginMemberId}</p>
-        <p>questionContent : ${ question.content}</p>
-        <p>qnaComments: ${qnaComments }</p>
-        <p>writerId : ${writerId }</p>
+        
     </div>
     <div id="board-form">
         <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST">
@@ -88,7 +84,15 @@
                         <option value="N">공지사항</option>
                     </c:if>
                 </select>
+                
+                <c:if test="${(writerId eq loginMemberId) || isAdmin}">
                 <textarea class="form-control" name="content" value="${question.content}" style="resize:none; height:180px; " required>${question.content}</textarea>
+                </c:if>
+                
+                <c:if test="${!((writerId eq loginMemberId) || isAdmin)}">
+                <textarea class="form-control" name="content" value="${question.content}" style="resize:none; height:180px; " required disabled>${question.content}</textarea>
+                </c:if>
+                
                 <div id="qnaFrmBtn" class="d-flex justify-content-end mt-2">
                    <c:if test="${(writerId eq loginMemberId)}">
                     <button type="submit" class="btn btn-outline-primary btn-sm mr-2">수정</button>

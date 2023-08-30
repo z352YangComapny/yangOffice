@@ -242,6 +242,7 @@ public class ProfileController {
 	            .originalFilename("default.jpg")
 	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
 	            .build();
+	    log.info("defaultAttachment = {}",defaultAttachment);
 	    List<Attachment> attachments = new ArrayList<>();
 	    attachments.add(defaultAttachment);
 	    profile.setAttachments(attachments);
