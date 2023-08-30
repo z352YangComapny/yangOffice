@@ -40,8 +40,8 @@
 <input type='hidden' id='memberId' value='${dmMember.id}' />
 
 
-<section style="background-color: #eee;">
-    <div class="container py-5" >
+<section style="background-color: rgba(255, 225, 148, 0.5); width:100vw;">
+    <div class="d-flex justify-content-center container py-5" >
         <div class="row d-flex justify-content-center" style=" height: 70vh; width: 60vw;">
             <div class="col-md-10 col-lg-8 col-xl-6" style="height: 500px; width:900px;">
                 <div class="card" id="chat2" style="top:10%;">
@@ -82,6 +82,14 @@
     const messageInput = document.getElementById('messageInput');
     const memberId = document.getElementById('memberId').value;
 
+    // 'Enter' 키를 눌렀을 때 sendButton을 클릭하는 함수
+    const handleEnterKey = (event) => {
+        if (event.key === 'Enter') {
+            sendButton.click();
+            event.preventDefault(); // 폼이 제출되는 것을 방지합니다.
+        }
+    };
+
     sendButton.addEventListener('click', () => {
         const message = messageInput.value;
         if (message.trim() !== '') {
@@ -94,6 +102,9 @@
             messageInput.value = '';
         }
     });
+
+    // input 필드에서 'Enter' 키를 눌렀을 때 handleEnterKey 함수 호출
+    messageInput.addEventListener('keydown', handleEnterKey);
 });
 
 

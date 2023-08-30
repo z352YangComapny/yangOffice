@@ -31,6 +31,7 @@
         text-overflow: ellipsis; /* 내용이 넘칠 경우 ...으로 표시 */
         white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
     }
+
 </style>
 <section>
     <%--<div class="d-flex mb-3">--%>
@@ -51,7 +52,7 @@
                 </div>
                 <div class="input-group align-items-center mr-4 mt-2">
                     <button class="btn btn-outline-secondary" type="button" id="searchBtn" onclick="openList()">Search</button>
-                    <input type="text" class="form-control" placeholder="검색할 유저(ID)를 입력하세요" id="inputText" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" placeholder="검색할 유저(ID)를 입력하세요" id="inputText"/>
                 </div>
                 <div class="d-flex flex-column justify-content-center align-items-center"  >
                     <div class="modal-body" style="height: 530px; width : 740px;">
@@ -59,8 +60,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center">No</th>
-                                    <th scope="col" class="text-center">ID</th>
-                                    <th scope="col" class="text-center">Nick Name</th>
+                                    <th scope="col" class="text-center" style="width:200px;">ID</th>
+                                    <th scope="col" class="text-center" style="width:250px;">Nick Name</th>
                                     <th scope="col" class="text-center">Follow</th>
                                 </tr>
                             </thead>
@@ -99,7 +100,7 @@
 
     //페이지 번호와 크기
     let currentPage = 1;
-    const limit = 7; //페이지 당 보여줄 테이터 수
+    const limit = 10; //페이지 당 보여줄 테이터 수
 
    const getMemberList = (inputText)=>{
        console.log(inputText);

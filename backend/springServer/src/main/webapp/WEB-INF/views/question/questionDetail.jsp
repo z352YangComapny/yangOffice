@@ -41,23 +41,19 @@
     }
     .qnaForm{width : 100px;}
     .cmtBtn{width: 70px;}
+    #commentContent{resize:none; width : 900px; height: 70px;}
 
 </style>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
 <sec:authentication property="principal" var="loginMember"/>
-<div id="board-container" class="d-flex flex-column">
-    <div style="margin-right:650px; margin-bottom: 20px;">
+<div id="board-container" class="d-flex flex-column mt-3">
+    <div style="margin-right:650px; margin-bottom: 5px;">
         <p style="font-size: 37px;
             background: linear-gradient(to right, #F3969A, #78C2AD);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;"
         >공지사항 & 이용문의</p>
-        <p>isadmin : ${isAdmin }</p>
-        <p>loginMemberId : ${loginMemberId}</p>
-        <p>questionContent : ${ question.content}</p>
-        <p>qnaComments: ${qnaComments }</p>
-        <p>writerId : ${writerId }</p>
     </div>
     <div id="board-form">
         <form name="boardDetailFrm" action="${pageContext.request.contextPath}/question/updateQuestion" method="POST">
@@ -112,23 +108,26 @@
             <div>
                 <div style="display: flex; align-items: center;">
 
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요." style="flex: 1;"></textarea>
-                    <button type="button" class="btn btn-danger btn-sm" id="commentDelete" style="display: none;">x</button>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder="댓글을 입력해주세요."></textarea>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="commentCreate" style="margin-left :10px;">답글</button>
+                    <div class="d-flex flex-column justify-content-center">
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-2 edit-button" id="editComment" style="display:none; margin-left: 10px;">편집</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="commentDelete" style="display: none; margin-left: 10px;">삭제</button>
+                    </div>
                 </div>
             </div>
             <input type="hidden" id="commentId" value="">
-            <button type="button" class="btn btn-primary btn-lg" id="commentCreate">댓글 작성</button>
-            <button type="button" class="btn btn-primary btn-lg edit-button" id="editComment" style="display:none">댓글 수정</button>
         </c:if>
 
         <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
-            <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="flex: 1;"></textarea>
+            <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" ></textarea>
         </c:if>
         <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
-            <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" style="flex: 1;"></textarea>
+            <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다.?" ></textarea>
         </c:if>
-
-        <button type="button" class="btn btn-primary btn-lg" onclick="goBack();">뒤로가기</button>
+        <div class="d-flex justify-content-end mt-3">
+            <button type="button" class="btn btn-primary btn-sm" onclick="goBack();">뒤로가기</button>
+        </div>
 
 
 

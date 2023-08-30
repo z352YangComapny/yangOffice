@@ -84,10 +84,13 @@
       				  <option value="N">공지사항</option>
    					 </c:if>
                 </select>
-                <textarea class="form-control" name="content" placeholder="내용을 작성하세요." style="resize:none; height:180px;" required></textarea>
+                <textarea class="form-control" name="content" placeholder="내용을 작성하세요." style="resize:none; height:300px;" required></textarea>
             </div>
-            <button type="submit" class="btn btn-outline-primary btn-md qnaBtn">등록</button>
-            <button type="reset" class="btn btn-outline-danger btn-md qnaBtn">초기화</button>
+            <div class="d-flex flex-row justify-content-end mt-3">
+                <button type="submit" class="btn btn-outline-primary btn-sm qnaBtn">등록</button>
+                &nbsp;
+                <button type="reset" class="btn btn-outline-danger btn-sm qnaBtn">초기화</button>
+            </div>
         </form:form>
     </div>
 </div>

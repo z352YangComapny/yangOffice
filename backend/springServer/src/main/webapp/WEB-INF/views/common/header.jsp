@@ -57,7 +57,7 @@
    <sec:authentication property="principal" var="loginMember"/>
    <form:form name = "memberLogoutFrm" action ="${pageContext.request.contextPath}/member/memberLogout.do" method="POST"></form:form>
 </sec:authorize>
-<div id="container">
+<div id="container" >
    <header>
      <%-- <sec:authentication property="principal" var="dmMember"/>--%>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
@@ -98,7 +98,7 @@
                            <div id="notification-div"> </div>
                             <input type='hidden' id='userId' value='${loginMember.id}' />
                            <a href="${pageContext.request.contextPath}/dm/dmList">
-                              <img src="${pageContext.request.contextPath}/resources/images/send-message (1).png" id="dm-image" alt="dm-img" style="width: 70px;"/>
+                              <img src="${pageContext.request.contextPath}/resources/images/send-message (1).png" id="dm-image" alt="dm-img" style="width: 65px; margin-right: 10px;"/>
                            </a>
                         </div>
                      </div>
@@ -107,8 +107,8 @@
                         <div>
                            <form >
                               <sec:authorize access="isAuthenticated()">
-                                     <span class="align-bottom" style="font-weight: bold; color : white; font-size : 20px; text-shadow: 2px 2px 2px gray;"><a  href="${pageContext.request.contextPath}/member/memberDetail.do"
-                                     title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : white;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요 👋🏻</span>
+                                     <span class="align-bottom" style="font-weight: bold; color : #A1CCD1; font-size : 20px; "><a href="${pageContext.request.contextPath}/member/memberDetail.do"
+                                                                                                                                                                   title=" <sec:authentication property="authorities"/>" style="font-weight: bold; color : #A1CCD1;"><sec:authentication property="principal.nickname"/></a>님, 안녕하세요 👋🏻</span>
                                  &nbsp;
                                  <button
                                          class="btn btn-secondary my-2 my-sm-0 ml-10"
