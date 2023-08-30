@@ -41,6 +41,7 @@
     }
     .qnaForm{width : 100px;}
    .cmtBtn{width: 70px;}
+
 </style>
 <meta name="_csrf" content="${_csrf.token}">
 <meta name="_csrf_header" content="${_csrf.headerName}">
@@ -82,7 +83,7 @@
                         <option value="N">공지사항</option>
                     </c:if>
                 </select>
-                <textarea class="form-control" name="content" value="${question.content}" style="resize:none; height:180px;" required>${question.content}</textarea>
+                <textarea class="form-control" name="content" value="${question.content}" style="resize:none; height:180px; " required>${question.content}</textarea>
                 <div id="qnaFrmBtn" class="d-flex justify-content-end mt-2">
                    <c:if test="${(writerId eq loginMemberId) || isAdmin}">
                     <button type="submit" class="btn btn-outline-primary btn-sm mr-2">수정</button>
@@ -104,10 +105,10 @@
                 <%--</div>--%>
                 </c:if>
                 <c:if test="${!isAdmin && not empty qnaComments && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="resize: none; flex:1;">${qnaComments}<textarea>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "${qnaComments}" style="width: 850px; height: 100px;  resize: none; flex:1;"><textarea>
                 </c:if>
                 <c:if test="${!isAdmin && (qnaComments == null || empty qnaComments) && questionType eq 'Q'}">
-                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style= "resize:none; flex: 1;"></textarea>
+                    <textarea class="form-control" id="commentContent" rows="1" placeholder = "문의주신 내용 확인중입니다." style= "width: 850px; height: 100px;  resize:none; flex: 1;"></textarea>
                 </c:if>
             </div>
             <div class="d-flex flex-column ml-3">
@@ -203,7 +204,7 @@ document.querySelector('#commentCreate').onclick = () => {
         .then(data => {
             alert('댓글이 작성되었습니다.');
             const{qnaComments} = data;
-
+            document.getElementById('commentContent').innerHTML = qnaComments;
             location.reload();
             
         })
