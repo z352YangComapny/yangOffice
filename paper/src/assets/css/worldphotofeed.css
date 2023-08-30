@@ -33,9 +33,8 @@
 }
 
 .feed-box {
-    margin-right: 5px;
-    width: 100%;
-    height: 14.7vw;
+    width: 98% !important;
+    height: 14vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -142,25 +141,4 @@
 .feed-contest-text {
     margin-top: 1vh;
     font-size: 24px;
-}
-
-.carousel {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    height: 72% !important;
-    
-}
-.carousel-inner {
-    height: 100% !important;
-}
-.carousel-item {
-    position: relative;
-    display: none;
-    float: left;
-    width: 100%;
-    height: 100%;
-    margin-right: -100%;
-    backface-visibility: hidden;
-    transition: transform .6s ease-in-out;
 }

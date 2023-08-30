@@ -35,9 +35,10 @@ import {
 } from "reactstrap";
 import '../../assets/css/style.css'
 import { MemberContext } from "contexts/MembetContextProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NotificationContext } from "contexts/NotificationContextProvider";
 import ReactNotificationAlert from "react-notification-alert";
+import SendMessage from "components/Icons/icons/send-message";
 
 function IndexNavbar() {
   const {
@@ -64,6 +65,9 @@ function IndexNavbar() {
 
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
+  const [isDown, setIsDown] = useState(false);
+
+
 
   const notificationRef = useRef(null);
 
@@ -74,18 +78,64 @@ function IndexNavbar() {
     document.documentElement.classList.toggle("nav-open");
   };
 
- 
-  const showNotification = ({color , value}) => {
+
+
+  const handleDmClick = () => {
+    setIsDown((prevState) => !prevState);
+
+  };
+
+  const dmContainer = {
+    position: 'fixed',
+    bottom: '10vh',
+    right: '0.5vw',
+    width: '400px',
+    height: '50vh',
+    zIndex: '99',
+    // backgroundColor: 'red',
+    display: 'flex',
+    flexDirection: 'column',
+    // alignItems : 'center'
+
+  }
+
+  const dmBody = {
+    visibility: isDown ? 'visible' : 'hidden',
+    width: '400px',
+    height: '400px',
+    border: 'solid 2px rgb(81,203,206)',
+    borderRadius: '2%',
+    boxShadow: '2px 2px 4px rgb(81,203,206)',
+    backgroundColor: 'white',
+    transition: 'visibility 0.3s ease-in-out, opacity 0.3s ease-in-out', // 투명도 변화도 추가
+    opacity: isDown ? 1 : 0,
+    overflowY: 'scroll'
+  }
+
+  const dmStyles = {
+    backgroundColor: isDown ? "rgba(81,203,206,0.33)" : "white",
+    border: 'solid 2px rgb(81,203,206)',
+    marginTop: isDown ? '1vh' : '0vh',
+    marginLeft: '15vw',
+    width: '80px',
+    height: '80px',
+    padding : '18px',
+    borderRadius: '50%',
+    boxShadow: '2px 2px 4px rgb(81,203,206)',
+    transition: 'margin-top 0.3s ease-in-out',
+  };
+
+  const showNotification = ({ color, value }) => {
     const options = {
       place: 'tl',
       message: (
-        <div style={{width:"495px", display:"flex"}}>
-          <i className="fa nc-icon nc-bell-55" style={{margin:"10px"}}></i>
-          <p style={{margin:"5px", fontSize:"20px", fontWeight: "bold" }}>{value}</p>
+        <div style={{ width: "495px", display: "flex" }}>
+          <i className="fa nc-icon nc-bell-55" style={{ margin: "10px" }}></i>
+          <p style={{ margin: "5px", fontSize: "20px", fontWeight: "bold" }}>{value}</p>
         </div>
       ),
       type: color,
-      closeButton:false,
+      closeButton: false,
       autoDismiss: 2
     };
     notificationRef.current.notificationAlert(options);
@@ -93,17 +143,20 @@ function IndexNavbar() {
 
   const updateNavbarColor = () => {
     if (
-      isLogin
+      userProfile
     ) {
       setNavbarColor("");
-    } else  {
+    } else {
       setNavbarColor("navbar-transparent");
     }
   };
 
+  
+
   useEffect(() => {
+    if(userProfile) setIsDown(false);
     updateNavbarColor();
-  },[isLogin]);
+  }, [userProfile]);
 
   useEffect(() => {
     if (message !== null) {
@@ -119,7 +172,8 @@ function IndexNavbar() {
           <div className="navbar-translate">
             <NavbarBrand
               data-placement="bottom"
-              href="/"
+              className="nav-cursor"
+              onClick={()=>{navigate('/')}}
             >
               Yang World
             </NavbarBrand>
@@ -140,13 +194,15 @@ function IndexNavbar() {
             navbar
             isOpen={navbarCollapse}
           >
-            {isLogin ?
+            {userProfile ?
               <Nav navbar>
 
                 <NavItem>
                   <NavLink
                     data-placement="bottom"
                     title="내 정보 보기"
+                    className="nav-cursor"
+                    onClick={() => { navigate(`/user/${userProfile.username}`) }}
                   >
                     <i className="fa nc-icon nc-circle-10" />
                     <p className="d-lg-none">내 정보 보기</p>
@@ -157,10 +213,11 @@ function IndexNavbar() {
                   <NavLink
                     data-placement="bottom"
                     title="내 피드 보기"
-                    onClick={()=>{navigate(`/user/${userProfile.username}`)}}
+                    className="nav-cursor"
+                    onClick={() => { navigate(`/feed/${userProfile.username}`) }}
                   >
                     <i className="fa nc-icon nc-layout-11" />
-                    <p style={{ fontSize: "14px", fontStyle: "italic" }}>{userProfile.username}</p>
+                    <p style={{ fontSize: "14px", fontStyle: "italic", cursor: "pointer" }}>{userProfile.username}</p>
                     <p className="d-lg-none">내 피드 보기</p>
                   </NavLink>
                 </NavItem>
@@ -168,24 +225,18 @@ function IndexNavbar() {
                   <NavLink
                     data-placement="bottom"
                     title="World 접속하기"
-                    onClick={()=>{navigate(`/world/${userProfile.username}`)}}
+                    className="nav-cursor"
+                    onClick={() => { navigate(`/world/${userProfile.username}`) }}
                   >
                     <i className="fa nc-icon nc-world-2" />
                     <p className="d-lg-none">World 접속하기</p>
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
                     data-placement="bottom"
-                    title="DM"
-                  >
-                    <i className="fa nc-icon nc-chat-33" />
-                    <p className="d-lg-none">DM</p>
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    data-placement="bottom"
+                    className="nav-cursor"
                     title="알림"
                   >
                     <i className="fa nc-icon nc-bell-55" />
@@ -209,13 +260,69 @@ function IndexNavbar() {
                     onClick={() => {
                       setIsLogin(false);
                       sessionStorage.removeItem('token');
+                      setUserProfile(null);
                       navigate('/');
-                      setMessage({ color: "success", value: `Good By! 다음에봐요~🖐🖐`});
+                      setMessage({ color: "success", value: `Good By! 다음에봐요~🖐🖐` });
                     }}
                   >
                     <i className="nc-icon nc-spaceship" style={{ marginRight: "10px" }}></i> LogOut
                   </Button>
                 </NavItem>
+                <div style={dmContainer}>
+        <div className="dm-body" style={dmBody}>
+          <div className="chat-room">
+            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
+            <div className="dm-room-message">'Last Message'</div>
+            <div className="dm-room-lasttime">
+              <p>3 min</p>
+              <p>ago</p>
+            </div>
+          </div>
+          <div className="chat-room">
+            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
+            <div className="dm-room-message">'Last Message'</div>
+            <div className="dm-room-lasttime">
+              <p>3 min</p>
+              <p>ago</p>
+            </div>
+          </div>
+          <div className="chat-room">
+            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
+            <div className="dm-room-message">'Last Message'</div>
+            <div className="dm-room-lasttime">
+              <p>3 min</p>
+              <p>ago</p>
+            </div>
+          </div>
+          <div className="chat-room">
+            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
+            <div className="dm-room-message">'Last Message'</div>
+            <div className="dm-room-lasttime">
+              <p>3 min</p>
+              <p>ago</p>
+            </div>
+          </div>
+          <div className="chat-room">
+            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
+            <div className="dm-room-message">'Last Message'</div>
+            <div className="dm-room-lasttime">
+              <p>3 min</p>
+              <p>ago</p>
+            </div>
+          </div>
+          <div className="chat-room">
+            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
+            <div className="dm-room-message">'Last Message'</div>
+            <div className="dm-room-lasttime">
+              <p>3 min</p>
+              <p>ago</p>
+            </div>
+          </div>
+        </div>
+        <div className="dm nav-cursor" style={dmStyles} title="DM" onClick={handleDmClick}>
+          <SendMessage width={40} fill={"#51CBCE"} height={40} ></SendMessage>
+        </div>
+      </div>
               </Nav>
               :
               <Nav navbar>
@@ -249,7 +356,8 @@ function IndexNavbar() {
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{message.value}
         </Alert>
       )} */}
-       <ReactNotificationAlert ref={notificationRef} zIndex={9999} />
+      <ReactNotificationAlert ref={notificationRef} zIndex={9999} />
+      
     </>
   );
 }

@@ -4,9 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, DropdownItem, DropdownM
 import '../../assets/css/worldprofile.css'
 
 const WorldProfileComponent = (props) => {
-    console.log(props)
-
-    return (
+        return (
         <Card style={{
             border: 'solid 3px rgba(81, 203, 206, 1)',
             transform: 'none',
@@ -53,8 +51,8 @@ const WorldProfileComponent = (props) => {
                         src={require("assets/img/faces/clem-onojeghuo-2.jpg")}
                     />
                     <div style={{width:"80%"}}>
-                        <div className='world-username'>"Username"</div>
                         <div className='world-nickname'>"NickName"</div>
+                        <div className='world-username'>"Username"</div>
                         <div className='world-state'>
                             <p style={{ fontSize: "1.3rem", marginTop: "5px" }}>Today is ... </p>
                             <div style={{ marginLeft: "20px" }}><SmilingFaceSunglasses width={40} height={40} /></div>

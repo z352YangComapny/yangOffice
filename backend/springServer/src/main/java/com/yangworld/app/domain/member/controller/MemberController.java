@@ -6,6 +6,7 @@ import com.yangworld.app.domain.member.dto.FindIdDto;
 import com.yangworld.app.domain.member.dto.FollowDto;
 import com.yangworld.app.domain.member.dto.SignUpDto;
 import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,12 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("username", username));
         }
 
+    }
+
+    @GetMapping("/memberDetail")
+    public ResponseEntity<Member> memberDetail(Authentication authentication) {
+        Member member = (Member) authentication.getPrincipal();
+        return ResponseEntity.ok(member);
     }
 
  }

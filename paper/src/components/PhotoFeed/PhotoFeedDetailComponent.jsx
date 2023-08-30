@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../assets/css/photofeed.css'
 
-const PhotoFeedDetailComponents = () => {
+const PhotoFeedDetailComponent = () => {
   return (
     <div className='feed-img-container'>
                         <MyCarousel></MyCarousel>
@@ -9,4 +9,4 @@ const PhotoFeedDetailComponents = () => {
   )
 }
 
-export default PhotoFeedDetailComponents
+export default PhotoFeedDetailComponent

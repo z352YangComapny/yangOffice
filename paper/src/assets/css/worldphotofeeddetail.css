@@ -1,0 +1,99 @@
+.feed-img-detail{
+    border-bottom-left-radius: 3% !important;
+    border-bottom-right-radius: 3% !important;
+}
+
+.my-carousel{
+    display: flex;
+}
+
+.addbtn{
+    margin-left: 2%;
+    margin-right: 3%;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.addbtn:hover{
+    text-decoration: underline;
+}
+.nav-cursor{
+    cursor: pointer;
+}
+
+.comments-mini::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+/* 스크롤바 트랙 */
+.comments-mini::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+/* 스크롤바 색 */
+.comments-mini::-webkit-scrollbar-thumb {
+    background: rgba(81, 204, 206, 0.4) !important;
+}
+
+/* 스크롤바가 마우스 오버 시 색 */
+.comments-mini::-webkit-scrollbar-thumb:hover {
+    background: rgb(81, 203, 206, 0.8) !important;
+}
+
+.dm-body::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+/* 스크롤바 트랙 */
+.dm-body::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+/* 스크롤바 색 */
+.dm-body::-webkit-scrollbar-thumb {
+    background: rgba(81, 204, 206, 0.4) !important;
+}
+
+/* 스크롤바가 마우스 오버 시 색 */
+.dm-body::-webkit-scrollbar-thumb:hover {
+    background: rgb(81, 203, 206, 0.8) !important;
+}
+.chat-room{
+    display: flex;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+}
+
+.chat-room:hover{
+    background: rgb(81, 203, 206, 0.2) !important;
+}
+.dm-room-profile-image{
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 30%;
+    border: 1px solid rgba(0,0,0,0.5);
+}
+
+
+.dm-room-message{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    
+    padding-left: 10px;
+    border-top-left-radius: 3%;
+    border-bottom-left-radius: 3%;
+}
+
+.dm-room-lasttime{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 3%;
+    border-bottom-right-radius: 3%;
+
+}

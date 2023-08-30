@@ -1,85 +1,3 @@
-// import React, { useContext, useEffect, useState } from 'react'
-// import { Button } from 'reactstrap'
-// import { MemberContext } from 'contexts/MembetContextProvider'
-// import '../assets/css/style.css'
-
-// const SignIn = () => {
-//   const {
-//     states: {
-//       isLogin,
-//       userProfile
-//     },
-//     actions: {
-//       setUserProfile,
-//       setIsLogin,
-//       LogOut,
-//       signin
-//     },
-//   } = useContext(MemberContext);
-
-
-
-
-
-
-
-
-//   const renderLoginFrm = () => {
-//     if(isLogin)
-//     return(
-//       <Button color='primary' className='btn-round' onClick={LogOut} outline>
-//       <i className='fa fa-heart' />
-//       로그아웃
-//     </Button>
-//   )
-//     return(
-
-//       <div className='loginView'>
-//       <fieldset>
-//         <div>
-//           <input type="text" name='username' placeholder='아이디를 입력해주세요.' value={signInFrm.username ? signInFrm.username : ""} onChange={onFrmChange} />
-//         </div>
-//         <div>
-//           <input type="password" name='password' placeholder='비밀번호를 입력해주세요.' value={signInFrm.password ? signInFrm.password : ""} onChange={onFrmChange} />
-//         </div>
-//         <Button color='primary' className='btn-round' onClick={onSubmit} outline>
-//           <i className='fa fa-heart' />
-//           로그인
-//         </Button>
-//       </fieldset>
-//       </div>
-
-//     )
-//   }
-
-//   return (
-//     <div className='sigin-container'>
-//       <div>SignIn</div>
-//       {renderLoginFrm()}
-//     </div>
-//   )
-// }
-
-// export default SignIn
-
-/*!
-
-=========================================================
-* Paper Kit React - v1.3.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-kit-react
-
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/paper-kit-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import WarningSign from "components/Icons/icons/warning-sign";
 import { MemberContext } from "contexts/MembetContextProvider";
 import { NotificationContext } from "contexts/NotificationContextProvider";
@@ -94,7 +12,7 @@ import { Button, Card, Form, Input, Container, Row, Col, FormGroup, Label, Modal
 function SignIn() {
   const {
     states: { isLogin, userProfile },
-    actions: { setUserProfile, setIsLogin, LogOut, signin },
+    actions: { setUserProfile, setIsLogin, LogOut, signin , getUserProfile},
   } = useContext(MemberContext)
   const {
     states: { message },
@@ -112,16 +30,18 @@ function SignIn() {
 
   const onFrmChange = (e) => {
     setSignInFrm({ ...signInFrm, [e.target.name]: e.target.value })
-    console.log(signInFrm)
   }
 
   useEffect(() => {
-    if (isLogin && sessionStorage.getItem('token')) {
-      navigate(`/user/${userProfile.username}`)
+    if (userProfile && sessionStorage.getItem('token')) {
+      console.log(isLogin)
+      console.log(userProfile)
+      navigate(`/feed/${userProfile.username}`)
     } else {
+      setUserProfile(null);
       setIsLogin(false);
     }
-  }, [isLogin])
+  }, [userProfile])
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -130,12 +50,15 @@ function SignIn() {
       setMessage({ color: "warning", value: `아이디와 비밀번호 4글자 이상 입력해주세요.`})
       return;
     }
-
-
     signin(signInFrm).then((resp) => {
       sessionStorage.setItem("token", resp.headers.authorization);
       setMessage({ color: "success", value: `${signInFrm.username}님 환영합니다.🖤` })
-      setUserProfile({ ...userProfile, username: signInFrm.username })
+
+      getUserProfile(signInFrm.username)
+      .then((resp)=>{
+        setUserProfile(resp.data)
+      })
+      
       setIsLogin(true);
     })
       .catch((err) => {

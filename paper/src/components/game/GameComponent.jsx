@@ -41,18 +41,16 @@ const GameComponent = () => {
     }
     const handleKeyDown = (event) => {
         // || event.keyCode === 32
-        if (event.keyCode === 38 || event.keyCode === 40 || event.keyCode === 13 )
+        if (event.keyCode === 38 || event.keyCode === 40 || event.keyCode === 13 || event.keyCode === 37 || event.keyCode === 39 )
             event.preventDefault();
     }
-    
+    useEffect(()=>{
+        handleOnClickSocket()
+    },[])
 
     useEffect(() => {
         if (isLogin && game) {
 
-            const handleKeyDown = (event) => {
-                if (event.keyCode === 38 || event.keyCode === 40)
-                    event.preventDefault();
-            }
             window.addEventListener('keydown', handleKeyDown);
         }
         if (game && gameContainerRef.current) {
@@ -70,9 +68,11 @@ const GameComponent = () => {
     return (
         <>
             <div className="game-container" ref={gameContainerRef}>
+            <div className='game-margin'></div>
+            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"800px"}}></Input>
             
             </div>
-            <Input type='text' id='inputElement' placeholder='Enter your message' style={{width:"800px"}}></Input>
+            
             {/* <Button onClick={handleOnClickSocket} style={{margin:"20px"}}>Online 접속하기</Button> */}
         </>
     );

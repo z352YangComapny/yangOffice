@@ -42,11 +42,12 @@
     justify-content: center;
   }
   .world-username{
-    font-size: 1vw;
+    font-size: 0.8vw;
     text-align: center;
+    margin-bottom: 15px;
   }
   .world-nickname{
-    font-size: 1vw;
+    font-size: 1.4vw;
     text-align: center;
   }
 
@@ -67,7 +68,7 @@
   
 .world-profile-img{
     border: 1px solid rgb(0, 0, 0 , 0.9);
-    border-radius: 30% !important;
+    border-radius: 50% !important;
     width: 133px;
     height:  133px;
     max-width: 150px;

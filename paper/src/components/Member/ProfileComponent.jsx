@@ -4,7 +4,7 @@ import { Button,  Card,  CardBody, CardFooter, CardHeader, DropdownItem, Dropdow
 import '../../assets/css/profile.css'
 
 const ProfileComponent = (props) => {
-  console.log(props)
+
 
   return (
     <Card style={{

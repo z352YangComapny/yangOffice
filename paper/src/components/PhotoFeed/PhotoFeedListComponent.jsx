@@ -6,7 +6,7 @@ import { Button, Input } from 'reactstrap';
 
 const imgBaseUrl = "http://localhost:8080/resources/upload/attachment/"
 
-const PhotoFeedListComponents = () => {
+const PhotoFeedListComponent = () => {
     const {
         states: {
             selectedFeed,
@@ -71,7 +71,6 @@ const PhotoFeedListComponents = () => {
     }, [])
 
     useEffect(()=>{
-        console.log(data)
         data.forEach((feed,index)=>{
             if(feed.id==feedId) setSelectedFeed(data[index])
         })
@@ -80,7 +79,6 @@ const PhotoFeedListComponents = () => {
 
     const handleImgClick = (itemId) => {
         const commArray = []
-        console.log(itemId)
         for (let i = 0; i < itemId; i++) {
             commArray.push(`아이디 : ${itemId} 사진의 ${i}번째 댓글`)
         }
@@ -127,4 +125,4 @@ const PhotoFeedListComponents = () => {
         </>
     );
 };
-export default PhotoFeedListComponents
+export default PhotoFeedListComponent

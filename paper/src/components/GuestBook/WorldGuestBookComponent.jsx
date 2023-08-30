@@ -87,8 +87,8 @@ const WorldGuestBookComponet = () => {
                             </Pagination>
                         </div>
                         <div style={{ width: '50%', display: "flex" }}>
-                            <Input type='text' name='guestbook' style={{ width: "80%", height: "35px" }} />
-                            <Button color='primary' style={{ width: "20%", height: "35px" }}>등록</Button>
+                            <Input type='text' name='guestbook' style={{ width: "85%", height: "35px" }} />
+                            <Button color='primary' style={{ width: "15%", height: "35px" }}><i className="fa nc-icon nc-simple-add" title='등록하기'></i></Button>
                         </div>
                     </div>
                 </div>

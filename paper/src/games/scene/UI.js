@@ -13,7 +13,7 @@ class UI extends Phaser.Scene {
         //chatLog
         this.chatLog = [];
         this.chatLogTexts = [];
-        this.createChatLog(0, 460, 700, 170);
+        this.createChatLog(0, 280, 700, 170);
 
         // 입력창 생성
         // 입력창 생성

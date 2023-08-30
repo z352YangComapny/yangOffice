@@ -6,17 +6,19 @@ const SpringBaseURL = "http://localhost:8080"
 
 const MembetContextProvider = (props) => {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem('token') ? true : false);
-  const [userProfile, setUserProfile] = useState({
-    id: 0,
-    username: "default",
-    introduction: "default",
-    username: "default",
-    profileImg: "default"
-  });
+  const [userProfile, setUserProfile] = useState();
 
   const LogOut = () => {
     sessionStorage.removeItem('token')
     setIsLogin(false);
+  }
+  const getUserProfile = async (username) => {
+    const axiosConfig = {
+      headers: {
+        "Authorization": sessionStorage.getItem('token'),
+      }
+    };
+    return await axios.get(SpringBaseURL + '/member/memberDetail',axiosConfig);
   }
 
   const signin = async (loginFrm) => {
@@ -24,8 +26,8 @@ const MembetContextProvider = (props) => {
       headers: {
         "Content-Type": "application/json",
       }
-    }
-    return await axios.post(SpringBaseURL + '/login', loginFrm, axiosConfig)
+    };
+    return await axios.post(SpringBaseURL + '/login', loginFrm, axiosConfig);
   }
 
   const value = {
@@ -37,7 +39,8 @@ const MembetContextProvider = (props) => {
       setUserProfile,
       setIsLogin,
       LogOut,
-      signin
+      signin,
+      getUserProfile
     },
   }
 

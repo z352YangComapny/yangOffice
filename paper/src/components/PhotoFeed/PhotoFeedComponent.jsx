@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import { Button, Card, CardText, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledCarousel, UncontrolledDropdown } from 'reactstrap'
 import '../../assets/css/photofeed.css'
-import PhotoFeedListComponents from './PhotoFeedListComponents';
+
 
 import { PhotoFeedContext } from 'contexts/PhotoFeedContextProvider';
 import MyCarousel from 'components/Commons/MyCarousel';
+import PhotoFeedListComponent from './PhotoFeedListComponent';
 
 
 
@@ -82,7 +83,7 @@ const PhotoFeedComponent = () => {
           </div>
         </Col>
         <Col md={5} className='feed-total'>
-          <PhotoFeedListComponents></PhotoFeedListComponents>
+          <PhotoFeedListComponent></PhotoFeedListComponent>
         </Col>
       </Row>
     </Card>

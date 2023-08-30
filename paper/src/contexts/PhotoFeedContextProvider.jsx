@@ -15,6 +15,7 @@ const PhotoFeedContextProvider = (props) => {
     const [maxPage, setMaxPage] = useState(1);
     const [data, setData] = useState([]);
     const [selectedFeed, setSelectedFeed] = useState({});
+    const [isDetail, setIsDetail] = useState(false);
 
 
     const getTotalPage = async () => {
@@ -30,14 +31,16 @@ const PhotoFeedContextProvider = (props) => {
         states: {
             selectedFeed,
             data,
-            maxPage
+            maxPage,
+            isDetail
         },
         actions: {
             setSelectedFeed,
             setMaxPage,
             setData,
             getTotalPage,
-            getFeedPage
+            getFeedPage,
+            setIsDetail
         },
     }
 
