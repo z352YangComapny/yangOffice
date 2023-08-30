@@ -111,10 +111,10 @@
                         <br><hr style="border-top: 5px solid silver; margin-right: -330px;">
             </div>
         </div>
-        <div style="margin-left: 470px;">
-		    <button type="submit" class="btn btn-primary" >수정</button>
-		    <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
-	    </div>
+                <div style="margin-left: 130px">
+			    <button type="submit" class="btn btn-primary" >수정</button>
+			    <button type="button" class="btn btn-primary" id="defaultUpdate">초기화</button>
+			    </div>
     </form:form>
 </div>
 

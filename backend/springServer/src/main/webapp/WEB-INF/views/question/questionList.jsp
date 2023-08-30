@@ -83,6 +83,7 @@ input#btn-add{float: left; margin: 40px;}
 							<fmt:parseDate value="${question.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 							<fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 						</td>
+						
 					</tr>				
 				</c:forEach>
 			</c:if>
