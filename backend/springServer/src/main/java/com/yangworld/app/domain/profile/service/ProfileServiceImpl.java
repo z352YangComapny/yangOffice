@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ProfileServiceImpl implements ProfileService {
     @Autowired
     ProfileRepository profileRepository;
@@ -55,4 +55,13 @@ public class ProfileServiceImpl implements ProfileService {
         log.info("{}",adminProfileDto);
         return adminProfileDto;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
