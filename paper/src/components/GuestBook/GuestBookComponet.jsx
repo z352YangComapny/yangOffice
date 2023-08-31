@@ -5,6 +5,9 @@ import MyPagination from 'components/Commons/MyPagination'
 import { GuestBookContext } from 'contexts/GuestBookContextProvider'
 import { useParams } from 'react-router-dom'
 import { MemberContext } from 'contexts/MembetContextProvider'
+import axios from 'axios'
+
+const SpringBaseURL = "http://localhost:8080"
 
 const GuestBookComponet = () => {
     const {
@@ -29,7 +32,9 @@ const GuestBookComponet = () => {
             getUserProfile
         },
     } = useContext(MemberContext)
-    const [pageNo, setPageNo] = useState(1);
+    const [ pageNo , setPageNo] = useState(1);
+    const [ totalCount ,setTotalCount] = useState(0);
+    const [ currentPage , setCurrentPage] = useState(1);
 
     useEffect(() => {
         if (userProfile) {
@@ -44,9 +49,17 @@ const GuestBookComponet = () => {
         }
     }, [userProfile]);
 
+
+    const getTotalCount = async (id) => {
+        return await axios.get(SpringBaseURL+`/guestbook/count?id=${id}`)
+    }
+
     useEffect(()=>{
-
-
+        // getTotalCount()
+        getGuestBookList(22 , 2)
+        .then((resp)=>{
+            console.log(resp)
+        })
     },[])
 
     const renderPaginatio = () =>{
