@@ -85,13 +85,6 @@
     /* 이미지 크기 확대 */
 }
 
-.guestbook-text-line{
-    display: flex;
-    justify-content: space-between;
-    font-size: 20px;
-    padding: 5px;
-    
-}
 
 
 /* 스크롤바 */

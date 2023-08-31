@@ -11,7 +11,7 @@ const GuestBookContextProvider = (props) => {
 
     // 요청 함수 자리
     const getGuestBookList = async(memberId, pageNo) =>{
-        return await axios.get(SpringBaseURL+`/guestbook/${memberId}?page=${pageNo}`)
+        return await axios.get(SpringBaseURL+`/guestbook/list?id=${memberId}&page=${pageNo}`)
     }
 
     // 공유 선언 자리

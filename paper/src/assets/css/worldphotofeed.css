@@ -86,10 +86,19 @@
 
 .guestbook-text-line{
     display: flex;
-    justify-content: space-between;
-    font-size: 20px;
+    font-size: 16px;
     padding: 5px;
-    
+}
+
+.guestbook-text-content{
+    width: 75%;
+}
+
+.guestbook-text-writer{
+    width: 10%
+}
+.guestbook-text-regdate{
+    width: 15%;
 }
 
 
