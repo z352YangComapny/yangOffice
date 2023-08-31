@@ -16,7 +16,10 @@
     "react-router-dom": "6.11.1",
     "react-scripts": "5.0.1",
     "reactstrap": "8.10.0",
-    "sass": "1.62.1"
+    "sass": "1.62.1",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
+    "webstomp": "^0.0.10"
   },
   "scripts": {
     "start": "react-scripts start",

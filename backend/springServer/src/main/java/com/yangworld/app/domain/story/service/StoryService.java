@@ -19,5 +19,5 @@ public interface StoryService {
 
 	List<StoryDto> findStoryById(int id);
 
-	String findMemberUsername(String writerId);
+	String findMemberUsername(int writerId);
 }

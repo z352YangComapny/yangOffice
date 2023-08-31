@@ -64,14 +64,12 @@ public class  StoryServiceImpl implements StoryService{
 	}
 	
 	@Override
-	public String findMemberUsername(String writerId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String findMemberUsername(int writerId) {
+		return storyRepository.findMemberUsername(writerId);
 	}
 	
 	@Override
 	public List<StoryDto> findStoryById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return storyRepository.findStoryById(id);
 	}
 }

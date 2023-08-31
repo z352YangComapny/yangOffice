@@ -39,6 +39,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { NotificationContext } from "contexts/NotificationContextProvider";
 import ReactNotificationAlert from "react-notification-alert";
 import SendMessage from "components/Icons/icons/send-message";
+import SockJS from "sockjs-client";
+import { Socket } from "net";
 
 function IndexNavbar() {
   const {
@@ -72,7 +74,34 @@ function IndexNavbar() {
 
   /** socket */
 
-  
+  const connect = () => {
+		const ws = new SockJS(`http:// /stomp`); // endpoint
+		const stompClient = new Socket(ws);
+
+	    // 구독신청 
+	    stompClient.connect({}, () => {
+	        console.log('WebSocket 연결 성공');
+	        stompClient.subscribe('/storyMain', (payloads) => {
+	          // console.log('/story : ', payloads);
+
+//	          renderStory(payloads);
+	        	console.log('구독됨');
+	        });
+		        
+			    const userId = userProfile.id;
+			    console.log('userId = ', userId);
+
+	        stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
+          
+	    });
+	};
+
+  useEffect(() => {
+    if(userProfile){
+      connect()
+
+    }
+  }, [])
 
   /** socket */
 
