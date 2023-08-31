@@ -40,7 +40,7 @@ class Network {
     }
     handleSocketMessage(event) {
         const message = JSON.parse(event.data);
-        if (message.msgType === "joinNotification"||message.msgType === "leaveNotification"||message.msgType === "chat") {
+        if (message.msgType === "joinNotification"||message.msgType === "leaveNotification"||message.msgType === "chat"||message.msgType === "errmsg") {
             this.uiEnqueueNotification(message);
         }
         this.mainEnqueueNotification(message);

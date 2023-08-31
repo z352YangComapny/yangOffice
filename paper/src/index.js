@@ -11,6 +11,7 @@ import MembetContextProvider from 'contexts/MembetContextProvider';
 import { BrowserRouter } from 'react-router-dom';
 import NotificationContextProvider from 'contexts/NotificationContextProvider';
 import PhotoFeedContextProvider from 'contexts/PhotoFeedContextProvider';
+import GuestBookContextProvider from 'contexts/GuestBookContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,9 +20,12 @@ root.render(
       <NotificationContextProvider>
         <MembetContextProvider>
           <PhotoFeedContextProvider>
+          <GuestBookContextProvider>
+            
 
           <App />
 
+          </GuestBookContextProvider>
           </PhotoFeedContextProvider>
         </MembetContextProvider>
       </NotificationContextProvider>
