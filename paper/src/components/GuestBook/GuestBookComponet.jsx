@@ -1,9 +1,39 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import '../../assets/css/guestbook.css'
 import MyPagination from 'components/Commons/MyPagination'
+import { GuestBookContext } from 'contexts/GuestBookContextProvider'
+import axios from 'axios'
+
+const SpringBaseURL = "http://localhost:8080"
 
 const GuestBookComponet = () => {
+    const {
+        states:{
+            guestBookList
+        },
+        actions:{
+            setGuestBookList,
+            getGuestBookList
+        },
+    } = useContext(GuestBookContext)
+    const [ totalCount ,setTotalCount] = useState(0);
+    const [ currentPage , setCurrentPage] = useState(1);
+
+
+    const getTotalCount = async (id) => {
+        return await axios.get(SpringBaseURL+`/guestbook/count?id=${id}`)
+    }
+
+    useEffect(()=>{
+        // getTotalCount()
+        getGuestBookList(22 , 2)
+        .then((resp)=>{
+            console.log(resp)
+        })
+    },[])
+
+    
 
     const renderGuestbook = () => {
         return (

@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.guestbook.service;
 
+import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import org.apache.ibatis.session.RowBounds;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -62,6 +64,20 @@ public class GuestBookServiceImpl implements GuestBookService{
 			guestbookAdminDtos.add(guestbookAdminDto);
 		}
 		return guestbookAdminDtos;
+	}
+
+	@Override
+	public List<GuestBookWithNicknameDto> findAll(Map<String, Object> params,int memberId) {
+		int page = (int) params.get("page");
+		int limit = (int) params.get("limit");
+		int offset = (page-1)*limit;
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		return guestBookRepository.findAll(rowBounds,memberId);
+	}
+
+	@Override
+	public int countAllGuestBook(int id) {
+		return guestBookRepository.countAllGuestBook(id);
 	}
 
 
