@@ -9,9 +9,9 @@
 <style>
 /* 이미지 최대 너비와 최대 높이 설정 */
 #selectedImage {
-	width: 300px;
+	width: 350px;
 	height: 250px;
-	border-radius: 10px;
+	border-radius: 10%;
 }
 
 .profile-box {
@@ -43,12 +43,12 @@
 		        <c:choose>
 		            <c:when test="${not empty profileAttachments}">
 		                <c:forEach items="${profileAttachments}" var="attachment">
-		                    <img id="selectedImage" class="preview-image ml-4" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" >
+		                    <img id="selectedImage" class="preview-image" src="${pageContext.request.contextPath}/resources/upload/attachment/${attachment.renamedFilename}" alt="프로필 사진" >
 		                </c:forEach>
 		            </c:when>
 		            <c:otherwise>
 		                <!-- 프로필 사진이 없을 경우 기본 이미지 또는 아무것도 표시하거나 로직을 추가해주세요. -->
-		                <img id="selectedImage" class="preview-image ml-4" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" >
+		                <img id="selectedImage" class="preview-image rounded-circle" src="<c:url value='/resources/upload/attachment/default.jpg' />" alt="기본 프로필 사진" >
 		            </c:otherwise>
 		        </c:choose>
 		    </div>
@@ -71,18 +71,11 @@
                 disabled>${profile.introduction} </textarea>
             </div>
             
-            <div style="display: flex; justify-content: end; align-items: center; font-size: 22px; margin-right: 150px; width:300px;" >
-				<p class="mr-4">
-					<span>${principalName}&nbsp;<span style="color: ${loginMember.gender eq 'M' ? 'skyblue' : loginMember.gender eq 'F' ? 'pink' : 'black'};">${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}</span>&nbsp;${principalBday}</span>
-				</p>
-			<div class="ml-1">
-				<c:if test="${loginMember.id eq profile.memberId}">
-					<a href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do">
-						<img src="${pageContext.request.contextPath}/resources/images/settings.png" style="width:30px;"/>
-					</a>
-			   <%-- <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>--%>
-				</c:if>
-			</div>
+            <div style="display: flex; justify-content: center; align-items: center; font-size: 22px; margin-right: 150px;" >
+            ${principalName}&nbsp;<span style="color: ${loginMember.gender eq 'M' ? 'skyblue' : loginMember.gender eq 'F' ? 'pink' : 'black'};">${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}</span>&nbsp;${principalBday}
+            <c:if test="${loginMember.id eq profile.memberId}">
+            <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>
+           	</c:if>
             </div>
     </div>
  
