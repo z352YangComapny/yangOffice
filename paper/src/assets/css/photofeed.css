@@ -85,7 +85,9 @@
     /* 이미지 크기 확대 */
 }
 
-
+.drop-feed{
+    z-index: 999;
+}
 
 /* 스크롤바 */
 .feed-box::-webkit-scrollbar {

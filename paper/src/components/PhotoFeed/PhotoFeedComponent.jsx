@@ -42,38 +42,38 @@ const PhotoFeedComponent = () => {
           <MyCarousel />
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "5px" }}>
             <div>
-              <UncontrolledDropdown>
+
+              <UncontrolledDropdown
+                className="me-2"
+                direction="up"
+              >
                 <DropdownToggle
-                  aria-expanded={false}
-                  aria-haspopup={true}
                   caret
-                  
                   color="primary"
-                  data-toggle="dropdown"
-                  id="dropdownMenuButton"
-                  type="button"
                 >
                   <i className="fa nc-icon nc-settings-gear-65"></i>
                 </DropdownToggle>
-                <DropdownMenu Buttonaria-labelledby="dropdownMenuButton">
-                  <DropdownItem onClick={e => e.preventDefault()}>
+                <DropdownMenu>
+                  <DropdownItem header>
+                    PhotoFeed Option
+                  </DropdownItem>
+                  <DropdownItem>
                     Add
                   </DropdownItem>
-                  <DropdownItem onClick={e => e.preventDefault()}>
+                  <DropdownItem>
                     Update
                   </DropdownItem>
-                  <DropdownItem onClick={e => e.preventDefault()}>
+                  <DropdownItem>
                     Delete
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-
             </div>
             <div>
-              <Button color='warning' title='좋아요'  style={{ marginLeft: "5px", }} >
+              <Button color='warning' title='좋아요' style={{ marginLeft: "5px", }} >
                 <i className="fa nc-icon nc-favourite-28" style={{ width: "50px" }}>&nbsp;{"1k"}</i>
               </Button>
-              <Button color='danger' title='신고하기'  style={{ marginLeft: "5px" }} >
+              <Button color='danger' title='신고하기' style={{ marginLeft: "5px" }} >
                 <i className="fa nc-icon nc-bell-55"></i>
               </Button>
             </div>
