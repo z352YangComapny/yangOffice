@@ -85,9 +85,9 @@ public class GuestbookController {
 		return ResponseEntity.ok(result);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/list")
 	public ResponseEntity<?> guestBookList(
-			@PathVariable int id,
+			@RequestParam int id,
 			@RequestParam int page,
 			@AuthenticationPrincipal PrincipalDetails member
 			){
@@ -99,9 +99,17 @@ public class GuestbookController {
 			);
 		int memberId = id; // 로그인 된 아이디로 세팅 
 		int totalCount = guestBookService.countAllGuestBook(id);
-		int totalPages = (int) Math.ceil((double)totalCount/limit); // 총 페이지 개수 계산
 		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params,memberId);
 		return ResponseEntity.ok(guestBooks);
+	}
+
+
+	@GetMapping("/count")
+	public ResponseEntity<?> getTotalGuestbookCount(
+			@RequestParam int id
+	){
+		int totalCount = guestBookService.countAllGuestBook(id);
+		return ResponseEntity.ok(totalCount);
 	}
 	
 }

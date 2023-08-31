@@ -4,6 +4,8 @@ import '../../assets/css/guestbook.css'
 import MyPagination from 'components/Commons/MyPagination'
 import { GuestBookContext } from 'contexts/GuestBookContextProvider'
 
+const SpringBaseURL = "http://localhost:8080"
+
 const GuestBookComponet = () => {
     const {
         states:{
@@ -14,8 +16,16 @@ const GuestBookComponet = () => {
             getGuestBookList
         },
     } = useContext(GuestBookContext)
+    const [ totalCount ,setTotalCount] = usestate(0);
+    const [ currentPage , setCurrentPage] = useState(1);
+
+
+    const getTotalCount = async (id) => {
+        return await axios.get(SpringBaseURL+`/guestbook/count?id=${id}`)
+    }
 
     useEffect(()=>{
+        // getTotalCount()
         getGuestBookList(22 , 2)
         .then((resp)=>{
             console.log(resp)
