@@ -24,20 +24,6 @@ public class StoryController {
 	@Autowired
 	private StoryService storyService;
 	
-	@GetMapping
-	public ResponseEntity<?> story() {
-//		Story story = storyService.findStoryById();
-//		model.addAttribute("story", story); 로그인멤버 id 받아서 처리
-		
-		return ResponseEntity.ok().build();
-	}
-	
-	@PostMapping("/storyCreate")
-	public ResponseEntity<?> create(@RequestBody StoryDto storyDto){
-		int result = storyService.createStory(storyDto);
-		return ResponseEntity.ok().build();
-	}
-	
 	@PatchMapping("/storyUpdate")
 	public ResponseEntity<?> update(@RequestBody StoryDto storyDto){
 		int result = storyService.updateStory(storyDto);
