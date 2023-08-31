@@ -66,19 +66,20 @@ function IndexNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const [isDown, setIsDown] = useState(false);
-
-
-
   const notificationRef = useRef(null);
 
   const navigate = useNavigate();
+
+  /** socket */
+
+  
+
+  /** socket */
 
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
     document.documentElement.classList.toggle("nav-open");
   };
-
-
 
   const handleDmClick = () => {
     setIsDown((prevState) => !prevState);
