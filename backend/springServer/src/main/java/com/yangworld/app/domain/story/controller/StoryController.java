@@ -24,9 +24,11 @@ public class StoryController {
 	private StoryService storyService;
 	
 	@GetMapping("/story")
-	public void story(Model model) {
+	public ResponseEntity<?> story(Model model) {
 //		Story story = storyService.findStoryById();
 //		model.addAttribute("story", story); 로그인멤버 id 받아서 처리
+		
+		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping("/storyCreate")
