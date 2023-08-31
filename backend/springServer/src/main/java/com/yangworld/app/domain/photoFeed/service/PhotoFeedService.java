@@ -19,7 +19,7 @@ public interface PhotoFeedService {
 
     int insertfeed(PeedCreateDto _feed, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException;
 
-    List<PhotoFeedAll> findPhotoFeedAll(int id, int feedId);
+    List<PhotoFeedAll> findPhotoFeedAll(int id);
 
     int deleteFeed(PrincipalDetails member, int feedId);
 

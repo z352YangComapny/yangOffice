@@ -60,15 +60,13 @@ public class PhotoFeedController {
 	    }
 	}
 
-	@GetMapping("/feedDetail")
-	public ResponseEntity<?> feedDetail(
-			@RequestParam int id,
-			@RequestParam int feedId){
+	@GetMapping("/feed")
+	public ResponseEntity<?> feedDetail(@RequestParam int id) {
 
-		List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(id, feedId);
+			List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(id);
 
-		return ResponseEntity.ok().body(photoDetails);
-	}
+			return ResponseEntity.ok().body(photoDetails);
+		}
 
 	@DeleteMapping("/feedDelete")
 	public ResponseEntity<?> deleteFeed(

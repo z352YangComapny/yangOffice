@@ -148,11 +148,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 	}
 
 	@Override
-	public List<PhotoFeedAll> findPhotoFeedAll(int id, int feedId) {
-		if (feedId < 0) {
-			log.error("photoFeedId is null");
-			throw new IllegalArgumentException("피드 ID가 유효하지 않습니다.");
-		}
+	public List<PhotoFeedAll> findPhotoFeedAll(int id) {
 
 		// 사진 시작
 		List<PhotoFeedAll> feedDetails = photoFeedRepository.findAllFeedByWriterId(id);
