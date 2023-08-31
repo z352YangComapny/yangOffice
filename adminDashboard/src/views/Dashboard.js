@@ -39,17 +39,22 @@ import '../assets/css/style.css'
 import { AppContext } from "variables/AppContextProvider";
 import { PhotofeedContext } from "variables/PhotofeedContextProvider";
 import { MemberContext } from "variables/MemberContnextProvider";
+import { ReportContext } from "variables/ReportContextProvider";
+
 
 function Dashboard() {
   const { states : {serverState}, actions : {ping, setServerState}} = useContext(AppContext)
   const { states : {feedTotalNo}, actions : {getTotalFeedCount , setFeedTotalNo}} = useContext(PhotofeedContext)
   const { states : {memberTotalCount}, actions : {getMemberTotlaCount , setMemberTotalCount}} = useContext(MemberContext);
+  const { states : {totalReportCount}, actions : {getTotalReportCount, setTotalReportCount}} = useContext(ReportContext);
   
   useEffect(()=>{
    handlePing();
    handleGetTotalFeedCount();
    handleGetMemberTotalCount();
+   handleGetReportTotalCount();
   },[])
+  
 
   const handlePing = () => {
     ping()
@@ -82,6 +87,13 @@ function Dashboard() {
     })
   }
   const handleGetReportTotalCount = () => {
+    getTotalReportCount()
+    .then((resp) =>{
+      setTotalReportCount(resp.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
   
   return (
@@ -153,7 +165,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">접수된 신고</p>
-                      <CardTitle tag="p">23</CardTitle>
+                      <CardTitle tag="p">{totalReportCount}</CardTitle>
                       <p />
                     </div>
                   </Col>
