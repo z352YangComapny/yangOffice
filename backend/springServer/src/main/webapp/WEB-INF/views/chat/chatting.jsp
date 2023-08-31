@@ -10,17 +10,46 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="게시판" name="title"/>
 </jsp:include>
+<style>
+.card-body {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #ffffff;
+}
+
+.card-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 6px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.card-body {
+    scrollbar-color: #cccccc #ffffff;
+}
+
+</style>
 <sec:authentication property="principal" var="dmMember"/>
 <input type='hidden' id='memberId' value='${dmMember.id}' />
 
 
-<section style="background-color: #eee;">
-    <div class="container py-5" >
-        <div class="row d-flex justify-content-center" style=" height: 70vh; width: 70vw;">
+<section style="background-color: rgba(255, 225, 148, 0.5); width:100vw;">
+    <div class="d-flex justify-content-center container py-5" >
+        <div class="row d-flex justify-content-center" style=" height: 70vh; width: 60vw;">
             <div class="col-md-10 col-lg-8 col-xl-6" style="height: 500px; width:900px;">
                 <div class="card" id="chat2" style="top:10%;">
                     <div class="card-header d-flex justify-content-between align-items-center p-3">
-                        <h5 class="mb-0">SSOY WOLRD</h5>
+                        <p class="mb-2"  style = "font-size : 35px; font-weight: bold; 
+		                background: linear-gradient(to right, #F3969A, #78C2AD);
+				        -webkit-background-clip: text;
+				    	-webkit-text-fill-color: transparent;">SSOY WORLD </p>
                     </div>
                     <div class="card-body" data-mdb-perfect-scrollbar="true"
                          style="position: relative; height: 400px; overflow-y: auto;">
@@ -53,6 +82,14 @@
     const messageInput = document.getElementById('messageInput');
     const memberId = document.getElementById('memberId').value;
 
+    // 'Enter' 키를 눌렀을 때 sendButton을 클릭하는 함수
+    const handleEnterKey = (event) => {
+        if (event.key === 'Enter') {
+            sendButton.click();
+            event.preventDefault(); // 폼이 제출되는 것을 방지합니다.
+        }
+    };
+
     sendButton.addEventListener('click', () => {
         const message = messageInput.value;
         if (message.trim() !== '') {
@@ -65,6 +102,9 @@
             messageInput.value = '';
         }
     });
+
+    // input 필드에서 'Enter' 키를 눌렀을 때 handleEnterKey 함수 호출
+    messageInput.addEventListener('keydown', handleEnterKey);
 });
 
 

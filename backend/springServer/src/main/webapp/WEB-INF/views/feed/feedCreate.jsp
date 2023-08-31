@@ -8,9 +8,17 @@
 <jsp:include page ="/WEB-INF/views/common/header.jsp">
     <jsp:param name = "title" value = "안녕 스프링"/>
 </jsp:include>
-    
-<div class="container mt-4">
-    <h1>피드 생성</h1>
+<style>
+	#photoFeedTitle{
+		font-size : 30px; font-weight: bold;
+		background: linear-gradient(to right, #F3969A, #78C2AD);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	#photoFeedCreateBox{border : 1px solid white; border-radius : 10px; box-shadow: 3px 3px 10px 5px #d2d2d2; margin-left: 300px;}
+</style>
+<div class="container mt-5" id="photoFeedCreateBox">
+    <p><span id="photoFeedTitle">포토피드 만들기</span></p>
     
     <form:form 
 		name="feedFrm" 
@@ -18,7 +26,7 @@
 		enctype="multipart/form-data" 
 		method="post">
 		<div class="input-group mb-3" style="padding:0px;">
-		  <div class="input-group-prepend" style="padding:0px;">
+		  <div class="input-group-prepend mr-2" style="padding:0px;">
 		    <span class="input-group-text">첨부파일</span>
 		  </div>
 		  <div class="custom-file">
@@ -32,9 +40,11 @@
 		  </div>
 		</div>
 		
-	    <textarea class="form-control" name="content" placeholder="내용" required></textarea>
+	    <textarea class="form-control" name="content" placeholder="내용" style="resize:none; height: 300px;"required></textarea>
 		<br />
-		<input type="submit" class="btn btn-outline-success" value="저장" >
+		<div class="d-flex justify-content-end">
+			<input type="submit" class="btn btn-outline-success mb-3" value="저장"/>
+		</div>
 	</form:form>
 </div>
 <script>
