@@ -30,4 +30,10 @@ public interface ReportRepository {
 
 	@Insert("insert into report_photo_feed (report_id, photo_feed_id)values(seq_report_id.currval, #{feedId}) ")
 	int insertReportFeed(int feedId);
+
+	@Select("select * from comments where id = #{commentsId}")
+	PhotoFeed findByCommentsId(int commentsId);
+
+	@Insert("insert into report_comments_feed (report_id, comments_id) values(seq_report_id.currval, #{commentsId}) ")
+	int insertReportFeedComments(int commentsId);
 }

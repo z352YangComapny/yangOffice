@@ -44,7 +44,7 @@ public class PhotoFeedController {
 	 * value : {content}, {File}
 	 * - Headers : Authorization ** 필수
 	 */
-	@PatchMapping("/feedCreate")
+	@PostMapping("/feedCreate")
 	public ResponseEntity<?> feedCreate(
 			@RequestPart String content,
 			@AuthenticationPrincipal PrincipalDetails member,
@@ -52,6 +52,7 @@ public class PhotoFeedController {
 					throws IllegalStateException, IOException {
 
 		int result = photoFeedService.insertfeed(content, member, upFiles);
+
 
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
