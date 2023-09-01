@@ -12,23 +12,26 @@ import { BrowserRouter } from 'react-router-dom';
 import NotificationContextProvider from 'contexts/NotificationContextProvider';
 import PhotoFeedContextProvider from 'contexts/PhotoFeedContextProvider';
 import GuestBookContextProvider from 'contexts/GuestBookContextProvider';
+import WebSocketContextProvider from 'contexts/WebSocketContextProvicer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     <BrowserRouter>
-      <NotificationContextProvider>
-        <MembetContextProvider>
-          <PhotoFeedContextProvider>
-          <GuestBookContextProvider>
-            
+      <WebSocketContextProvider>
+        <NotificationContextProvider>
+          <MembetContextProvider>
+            <PhotoFeedContextProvider>
+            <GuestBookContextProvider>
+              
 
-          <App />
+            <App />
 
-          </GuestBookContextProvider>
-          </PhotoFeedContextProvider>
-        </MembetContextProvider>
-      </NotificationContextProvider>
+            </GuestBookContextProvider>
+            </PhotoFeedContextProvider>
+          </MembetContextProvider>
+        </NotificationContextProvider>
+      </WebSocketContextProvider>
     </BrowserRouter>
   // </React.StrictMode>
 );

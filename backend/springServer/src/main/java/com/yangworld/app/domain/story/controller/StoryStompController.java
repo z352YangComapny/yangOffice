@@ -48,7 +48,7 @@ public class StoryStompController {
 		return payloads;
 	}
 	
-	@MessageMapping("send")
+	@MessageMapping("/storyCreate")
 	@SendTo("/storyMain")
 	public List<Payload> storyInsert(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int writerId = Integer.parseInt(message.get("userId"));

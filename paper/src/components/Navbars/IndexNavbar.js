@@ -40,6 +40,7 @@ import {
 import * as SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import '../../assets/css/style.css';
+import { WebSocketContext } from './WebSocketContextProvider';
 
 function IndexNavbar() {
   const {
@@ -73,24 +74,25 @@ function IndexNavbar() {
   /** socket */
 
   
-	const webSocketConnect = () => {
-    console.log('webSocketConnect 성공');
-//    console.log('token', sessionStorage.getItem('token'));
-    const ws = new SockJS(`http://localhost:8080/stomp`);
-    const stompClient = new Client({
-      connectHeaders: {
-        "Authorization": sessionStorage.getItem('token'),
-      },
-      webSocketFactory: () => ws,
-    });
-//    stompClient.webSocketFactory = () => new SockJS(`http://localhost:8080/stomp`);
-    stompClient.onConnect = () => {
-      console.log('onConnect 성공');
-    }
-    stompClient.activate();
-//    console.log('ws', ws);
-//    console.log('stompClient', stompClient);
-  };
+// 	const webSocketConnect = () => {
+//     console.log('webSocketConnect 성공');
+// //    console.log('token', sessionStorage.getItem('token'));
+//     const ws = new SockJS(`http://localhost:8080/stomp`);
+//     const stompClient = new Client({
+//       connectHeaders: {
+//         "Authorization": sessionStorage.getItem('token'),
+//       },
+//       webSocketFactory: () => ws,
+//     });
+// //    stompClient.webSocketFactory = () => new SockJS(`http://localhost:8080/stomp`);
+//     stompClient.onConnect = () => {
+//       console.log('onConnect 성공');
+//     }
+//     stompClient.activate();
+// //    console.log('ws', ws);
+// //    console.log('stompClient', stompClient);
+//   };
+
 //     });
 //     console.log('커넥트 성공');
 // 	    // 구독신청 
@@ -112,11 +114,14 @@ function IndexNavbar() {
 // 	};
 
   useEffect(() => {
-    if(userProfile){
-    }
+    // if(userProfile){
+    // }
     console.log('웹소켓 연결 시도');
-    webSocketConnect()
-  }, [])
+    const tmpFn = () => {};
+    const userId = userProfile.id;
+    const {webSocketConnect} = useContext(WebSocketContext);
+    webSocketConnect('/storyMain', '/app/init', { userId: userId}, tmpFn);
+  }, []);
 
   /** socket */
 
