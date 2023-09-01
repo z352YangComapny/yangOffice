@@ -73,25 +73,23 @@ function IndexNavbar() {
 
   const { states, actions } = useContext(WebSocketContext);
 
-  const { subject, sendGoal, wsJSON, subsFn } = states;
+  const { subject, sendGoal, wsJSON } = states;
 
-  const { setSubject, setSendGoal, setWsJSON, setSubsFn, webSocketConnect } = actions;
+  const { setSubject, setSendGoal, setWsJSON, webSocketConnect } = actions;
   // if(userProfile){
 
   useEffect(() => {
 
     console.log('웹소켓 연결 시도');
     const a = 'a';
-    const b = () => {console.log('callback B')};
     console.log('subject = ', subject);
     setSubject('/storyMain');
     setSendGoal('/app/init');
     setWsJSON({a:a});
-    setSubsFn(b);
   }, [])
 
     console.log('subject = ', subject);
-    webSocketConnect(subject, sendGoal, wsJSON, subsFn);
+    webSocketConnect(subject, sendGoal, wsJSON);
   
   // }
 
