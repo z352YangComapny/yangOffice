@@ -40,7 +40,7 @@ import { NotificationContext } from "contexts/NotificationContextProvider";
 import ReactNotificationAlert from "react-notification-alert";
 import SendMessage from "components/Icons/icons/send-message";
 import SockJS from "sockjs-client";
-import { Socket } from "net";
+import { CompatClient, Stomp } from "@stomp/stompjs";
 
 function IndexNavbar() {
   const {
@@ -74,14 +74,18 @@ function IndexNavbar() {
 
   /** socket */
 
+  
   const connect = () => {
-		const ws = new SockJS(`http:// /stomp`); // endpoint
-		const stompClient = new Socket(ws);
+    client.current = Stomp.over(() => {
+      const ws = new SockJS(`http:// /stomp`);  // endpoint
+      return ws;
+    });
+
 
 	    // 구독신청 
-	    stompClient.connect({}, () => {
+	    client.current.connect({}, () => {
 	        console.log('WebSocket 연결 성공');
-	        stompClient.subscribe('/storyMain', (payloads) => {
+	        client.subscribe('/storyMain', (payloads) => {
 	          // console.log('/story : ', payloads);
 
 //	          renderStory(payloads);
@@ -91,7 +95,7 @@ function IndexNavbar() {
 			    const userId = userProfile.id;
 			    console.log('userId = ', userId);
 
-	        stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
+	        client.current.send("/app/init", {}, JSON.stringify({ userId: userId }));
           
 	    });
 	};
@@ -99,7 +103,6 @@ function IndexNavbar() {
   useEffect(() => {
     if(userProfile){
       connect()
-
     }
   }, [])
 
