@@ -76,11 +76,9 @@ const Dm = () => {
             </div>
             </>
         )
+    };
 
-    }
 
-    useEffect(()=>{
-    },[dmDetail])
 
     useEffect(() => {
         if (!userProfile) return
@@ -91,7 +89,7 @@ const Dm = () => {
             .catch((err) => {
                 console.log(err)
             })
-    }, [isDown])
+    }, [isDown]);
 
     const getTimeAgo = (date) => {
         const currentDate = new Date();
@@ -118,7 +116,7 @@ const Dm = () => {
         } else {
             return `${seconds}초 전`;
         }
-    }
+    };
 
     const handleDetailDm = (dmRoomid) => {
         axios.get(`http://localhost:8080/dm/findDmDetails?dmRoomId=${dmRoomid}`)
@@ -128,7 +126,7 @@ const Dm = () => {
             setIsdeTail(true)
         })
         .catch((err)=> {console.log(err)})
-    }
+    };
 
     const renderDmRoomList = () => {
         const items = [];
@@ -148,7 +146,7 @@ const Dm = () => {
             )
         })
         return items;
-    }
+    };
 
     const dmContainer = {
         position: 'fixed',
@@ -156,14 +154,13 @@ const Dm = () => {
         right: '0.5vw',
         width: '400px',
         height: '50vh',
-        zIndex: '99',
+        zIndex: isDown ? '99' : '-999',
         // backgroundColor: 'red',
         display: 'flex',
         flexDirection: 'column',
         transition: 'bottom 0.3s ease-in-out, opacity 0.3s ease-in-out', // 투명도 변화도 추가
         // alignItems : 'center'
-
-    }
+    };
 
     const dmBody = {
         visibility: isDown ? 'visible' : 'hidden',
@@ -171,12 +168,13 @@ const Dm = () => {
         height: '400px',
         border: 'solid 2px rgb(81,203,206)',
         borderRadius: '2%',
+        zIndex: isDown ? '99' : '-999',
         boxShadow: '2px 2px 4px rgb(81,203,206)',
         backgroundColor: 'rgba(255,255,255,0.8)',
         transition: 'visibility 0.3s ease-in-out, opacity 0.3s ease-in-out', // 투명도 변화도 추가
         opacity: isDown ? 1 : 0,
         overflowY: 'scroll'
-    }
+    };
 
     const dmStyles = {
         backgroundColor: isDown ? "rgba(81,203,206,0.33)" : "white",
@@ -184,12 +182,14 @@ const Dm = () => {
         marginTop: isDown ? '1vh' : '0vh',
         marginLeft: '15vw',
         width: '80px',
+        zIndex: isDown ? '99' : '-999',
         height: '80px',
         padding: '18px',
         borderRadius: '50%',
         boxShadow: '2px 2px 4px rgb(81,203,206)',
         transition: 'margin-top 0.3s ease-in-out',
     };
+
     return (
         <div style={dmContainer}>
             <div className="dm-body" style={dmBody}>

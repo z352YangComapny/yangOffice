@@ -90,23 +90,20 @@ function MyCarousel(args) {
       next={next}
       previous={previous}
       {...args}
-      style={{height:"100px"}}
+      
     >
-      <CarouselIndicators
-        items={items} // AttachmentNames 를 파싱해서 준비할것.
-        activeIndex={activeIndex}
-        onClickHandler={goToIndex}
-      />
       {slides}
       <CarouselControl
         direction="prev"
         directionText="Previous"
         onClickHandler={previous}
+        className='carousel-control'
       />
       <CarouselControl
         direction="next"
         directionText="Next"
         onClickHandler={next}
+        className='carousel-control'
       />
     </Carousel>
   );
