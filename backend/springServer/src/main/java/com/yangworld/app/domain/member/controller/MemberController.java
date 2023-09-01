@@ -114,13 +114,9 @@ public class MemberController {
 		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
         List<Attachment> profileAttachments =null;
         if(profile !=null){
-        	
             // 프로필 사진 가져오기
-
             profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-            
             model.addAttribute("id",id);
-
             
     	    model.addAttribute("photoList", photoList);
             log.info("profileAttachments={}", profileAttachments);
@@ -131,7 +127,6 @@ public class MemberController {
             model.addAttribute("PrincipalDetails", principal);
             log.info("profile = {}", profile);
             log.info("profileAttachment = {}", profileAttachments);
-
         } else{
             profile = ProfileDetails.builder()
                     .attachments(null)

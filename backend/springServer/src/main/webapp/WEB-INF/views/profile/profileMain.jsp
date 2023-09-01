@@ -33,8 +33,8 @@
 <%-- <% String principalName = (String) request.getAttribute("principalName"); %>
 <p>Principal Name: ${principalName}</p> --%>
 <sec:authentication property="principal" var="loginMember"/>
-<%--<p>principalId: ${loginMember.id}</p>
-<p>profileId: ${profile.id}</p>--%>
+<%-- <p>principalId: ${loginMember.id}</p>
+<p>profileId: ${profile.id}</p> --%>
 <%-- <p>gender : ${loginMember.gender}</p> --%>
     <div class="container mt-5" >
         <h1 class="mb-4"></h1>
@@ -79,11 +79,6 @@
             </div>
     </div>
  
-    </sec:authorize>
-    
-    
-    
-    
-    
+</sec:authorize>
     
 
