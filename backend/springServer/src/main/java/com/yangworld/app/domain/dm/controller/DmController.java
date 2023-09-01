@@ -14,11 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.dm.dto.DmSendDto;
@@ -36,7 +32,10 @@ public class DmController {
 	private DmService dmService;
 
 	/**
-	 * DM 선택한 후 대화창 조회
+	 * GET : http://localhost:8080/dm/findDmDetails
+	 * Key : dmRoomId
+	 * value : {dmRoomId}
+	 * - Headers : Authorization ** 필수
 	 */
 	@GetMapping("/findDmDetails")
 	public ResponseEntity<?> findDmDetails(@AuthenticationPrincipal PrincipalDetails principal, @RequestParam int dmRoomId) {
@@ -46,9 +45,10 @@ public class DmController {
 		
 		return ResponseEntity.ok(dmDetails);
 	}
-	
+
 	/**
-	 * 가장 최신 dm List 가져오기 
+	 * GET : http://localhost:8080/dm/findMyDmList
+	 * - Headers : Authorization ** 필수
 	 */
 	@GetMapping("/findMyDmList")
 	public ResponseEntity<?> findMyDmList(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
@@ -75,7 +75,12 @@ public class DmController {
 	 }
 
 
-	
+	/**
+	 * POST : http://localhost:8080/dm/sendDm
+	 * Key : receiverId(view) , content, dmRoomId (view)
+	 * value : {receiverId, content ,dmRoomId}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PostMapping("/sendDm")
 	public ResponseEntity<?> sendDm(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody DmSendDto _dmDto) {
 		log.info("sendDm info = {}", _dmDto);
@@ -90,13 +95,19 @@ public class DmController {
 		return ResponseEntity.ok().build();
 	}
 
+
 	@GetMapping("/roomList")
 	public ResponseEntity<?> findDmRoomByParticipantId(@AuthenticationPrincipal PrincipalDetails principalDetails){
 		List<DmRoomTextDto> dmRoomTextDtos = dmService.findDmRoomByParticipantId(principalDetails.getId());
 		return ResponseEntity.ok().body(dmRoomTextDtos);
 	}
 
-
+	/**
+	 * POST : http://localhost:8080/dm/createDmRoom
+	 * Key : partner (view)
+	 * value : {partner}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PostMapping("/createDmRoom")
 	public ResponseEntity<?> insertDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody Map<String, Integer> participants) {
 		log.debug("DmRoomDto info = {}", participants);
@@ -115,18 +126,24 @@ public class DmController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/deleteDmRoom")
-	public ResponseEntity<?> deleteDmRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody Map<String, Integer> map){
-		int participant1 = principalDetails.getId();
+	/**
+	 * DELETE : http://localhost:8080/dm/deleteDmRoom
+	 * Key : dmRoomId (view)
+	 * value : {dmRoomId}
+	 * - Headers : Authorization ** 필수
+	 */
+	@DeleteMapping ("/deleteDmRoom")
+	public ResponseEntity<?> deleteDmRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam int dmRoomId /*@RequestBody Map<String, Integer> map*/){
+/*		int participant1 = principalDetails.getId();
 		int participant2 = map.get("partner");
 
 		if (participant1 > participant2) {
 			int temp = participant1;
 			participant1 = participant2;
 			participant2 = temp;
-		}
+		}*/
 
-		int result = dmService.deleteDmRoom(participant1, participant2);
+		int result = dmService.deleteDmRoom(dmRoomId);
 		if(result>0){
 			return ResponseEntity.ok().build();
 		}else {

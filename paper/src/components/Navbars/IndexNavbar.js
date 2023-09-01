@@ -24,6 +24,7 @@ import "react-notification-alert/dist/animate.css";
 import Dm from "components/DM/Dm";
 import { MemberContext } from "contexts/MembetContextProvider";
 import { NotificationContext } from "contexts/NotificationContextProvider";
+import { WebSocketContext } from "contexts/WebSocketContextProvider";
 import ReactNotificationAlert from "react-notification-alert";
 import { useNavigate } from "react-router-dom";
 import {
@@ -37,8 +38,6 @@ import {
   Navbar,
   NavbarBrand
 } from "reactstrap";
-import * as SockJS from "sockjs-client";
-import { Client } from "@stomp/stompjs";
 import '../../assets/css/style.css';
 
 function IndexNavbar() {
@@ -72,51 +71,27 @@ function IndexNavbar() {
 
   /** socket */
 
-  
-	const webSocketConnect = () => {
-    console.log('webSocketConnect 성공');
-//    console.log('token', sessionStorage.getItem('token'));
-    const ws = new SockJS(`http://localhost:8080/stomp`);
-    const stompClient = new Client({
-      connectHeaders: {
-        "Authorization": sessionStorage.getItem('token'),
-      },
-      webSocketFactory: () => ws,
-    });
-//    stompClient.webSocketFactory = () => new SockJS(`http://localhost:8080/stomp`);
-    stompClient.onConnect = () => {
-      console.log('onConnect 성공');
-    }
-    stompClient.activate();
-//    console.log('ws', ws);
-//    console.log('stompClient', stompClient);
-  };
-//     });
-//     console.log('커넥트 성공');
-// 	    // 구독신청 
-// 	    stompClient.connect({}, () => {
-// 	        console.log('WebSocket 연결 성공');
-// 	        stompClient.subscribe('/storyMain', (payloads) => {
-// 	          // console.log('/story : ', payloads);
+  const { states, actions } = useContext(WebSocketContext);
 
-// //	          renderStory(payloads);
-// 	        	console.log('구독됨');
-// 	        });
-		        
-// 			    const userId = userProfile.id;
-// 			    console.log('userId = ', userId);
+  const { subject, sendGoal, wsJSON } = states;
 
-// 	        stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
-          
-// 	    });
-// 	};
+  const { setSubject, setSendGoal, setWsJSON, webSocketConnect } = actions;
+  // if(userProfile){
 
   useEffect(() => {
-    if(userProfile){
-    }
+
     console.log('웹소켓 연결 시도');
-    webSocketConnect()
+    const a = 'a';
+    console.log('subject = ', subject);
+    setSubject('/storyMain');
+    setSendGoal('/app/init');
+    setWsJSON({a:a});
   }, [])
+
+    console.log('subject = ', subject);
+    webSocketConnect(subject, sendGoal, wsJSON);
+  
+  // }
 
   /** socket */
 
