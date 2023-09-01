@@ -20,9 +20,9 @@ const Dm = () => {
             getUserProfile
         },
     } = useContext(MemberContext);
-    const [isDetail , setIsdeTail ] = useState(false);
-    const [dmDetail , setDmDetail] = useState();
-    const [inputValue , setInputValue] = useState();
+    const [isDetail, setIsdeTail] = useState(false);
+    const [dmDetail, setDmDetail] = useState();
+    const [inputValue, setInputValue] = useState();
     const [dmRoomList, setDmRoomList] = useState([]);
     const [isDown, setIsDown] = useState(false);
 
@@ -38,42 +38,42 @@ const Dm = () => {
         };
         return await axios.get(`http://localhost:8080/dm/roomList`, axiosConfig)
     }
-    
+
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             console.log(inputValue)
             setInputValue("");
         }
-      };
+    };
 
     const renderDmRoomDetail = () => {
         let dmRoom;
         console.log(dmDetail)
-        dmRoomList.forEach((item)=>{
-            if(item.id === dmDetail[0].dmRoomId){
+        dmRoomList.forEach((item) => {
+            if (item.id === dmDetail[0].dmRoomId) {
                 dmRoom = item
                 console.log(dmRoom)
             }
         })
-        return(
+        return (
             <>
-            <div className='dm-detail-header'>
-                <div style={{fontSize:"24px", marginLeft:"10px"}}>
-                    {dmRoom.participantNickname1 !== userProfile.nickname ? dmRoom.participantNickname1 : dmRoom.participantNickname2}
+                <div className='dm-detail-header'>
+                    <div style={{ fontSize: "24px", marginLeft: "10px" }}>
+                        {dmRoom.participantNickname1 !== userProfile.nickname ? dmRoom.participantNickname1 : dmRoom.participantNickname2}
+                    </div>
+                    <div style={{ alignItems: "center", display: "flex", marginRight: "10px" }}>
+                        <i className="fa nc-icon nc-simple-remove nav-cursor" title='삭제하기'
+                            onClick={() => { setIsdeTail(false) }}
+                        ></i>
+                    </div>
                 </div>
-                <div style={{alignItems:"center", display:"flex", marginRight:"10px"}}>
-                    <i className="fa nc-icon nc-simple-remove nav-cursor" title='삭제하기'
-                    onClick={()=>{setIsdeTail(false)}}
-                    ></i>
+                <div className='dm-detail-body'>
+                    <div></div>
                 </div>
-            </div>
-            <div className='dm-detail-body'>
-                <div></div>
-            </div>
-            <div style={{border:"solid 1px rgba(81,203,206,0.7)",width:"386px",position: 'fixed', bottom:`calc(11vh + 80px)`, right:`calc(0.5vw + 11px)`, borderRadius:"2px"}}>
-                <Input type='text' value={inputValue} onChange={(e)=>{setInputValue(e.target.value)}} onKeyDown={handleKeyDown}></Input>
-            </div>
+                <div style={{ border: "solid 1px rgba(81,203,206,0.7)", width: "386px", position: 'fixed', bottom: `calc(11vh + 80px)`, right: `calc(0.5vw + 11px)`, borderRadius: "2px" }}>
+                    <Input type='text' value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} onKeyDown={handleKeyDown}></Input>
+                </div>
             </>
         )
     };
@@ -120,12 +120,12 @@ const Dm = () => {
 
     const handleDetailDm = (dmRoomid) => {
         axios.get(`http://localhost:8080/dm/findDmDetails?dmRoomId=${dmRoomid}`)
-        .then((resp)=>{
-            console.log(resp)
-            setDmDetail(resp.data)
-            setIsdeTail(true)
-        })
-        .catch((err)=> {console.log(err)})
+            .then((resp) => {
+                console.log(resp)
+                setDmDetail(resp.data)
+                setIsdeTail(true)
+            })
+            .catch((err) => { console.log(err) })
     };
 
     const renderDmRoomList = () => {
@@ -133,12 +133,12 @@ const Dm = () => {
         dmRoomList.forEach(dmRoom => {
             const timeAgo = getTimeAgo(dmRoom.lastTime);
             items.push(
-                <div className="chat-room" onClick={()=>{handleDetailDm(dmRoom.id)}}>
+                <div className="chat-room" onClick={() => { handleDetailDm(dmRoom.id) }}>
                     <div className='dm-room-profile-container'>
                         <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
                         <p>{dmRoom.participantNickname1 === userProfile.nickname ? dmRoom.participantNickname2 : dmRoom.participantNickname1}</p>
                     </div>
-                    <div className="dm-room-message">{dmRoom.lastMessage.length > 16 ? dmRoom.lastMessage.substr(0,16) : dmRoom.lastMessage}</div>
+                    <div className="dm-room-message">{dmRoom.lastMessage.length > 16 ? dmRoom.lastMessage.substr(0, 16) : dmRoom.lastMessage}</div>
                     <div className="dm-room-lasttime">
                         <p>{timeAgo}</p>
                     </div>
@@ -149,26 +149,26 @@ const Dm = () => {
     };
 
     const dmContainer = {
+        display: isDown ? 'block' : 'none',
         position: 'fixed',
-        bottom: isDown ? '9.5vh' : '10vh',
+        bottom: '12.2vh',
         right: '0.5vw',
         width: '400px',
         height: '50vh',
-        zIndex: isDown ? '99' : '-999',
         // backgroundColor: 'red',
-        display: 'flex',
         flexDirection: 'column',
-        transition: 'bottom 0.3s ease-in-out, opacity 0.3s ease-in-out', // 투명도 변화도 추가
+        opacity: isDown ? 1 : 0,
+        transition: 'opacity 0.3s ease-in-out, display 0.3s ease-in-out', // 투명도 변화도 추가
         // alignItems : 'center'
     };
 
     const dmBody = {
-        visibility: isDown ? 'visible' : 'hidden',
+        display: isDown ? 'block' : 'none',
+        visibility : isDown ? 'visible' : 'hidden',
         width: '400px',
         height: '400px',
         border: 'solid 2px rgb(81,203,206)',
         borderRadius: '2%',
-        zIndex: isDown ? '99' : '-999',
         boxShadow: '2px 2px 4px rgb(81,203,206)',
         backgroundColor: 'rgba(255,255,255,0.8)',
         transition: 'visibility 0.3s ease-in-out, opacity 0.3s ease-in-out', // 투명도 변화도 추가
@@ -177,28 +177,31 @@ const Dm = () => {
     };
 
     const dmStyles = {
+        position: 'fixed',
+        bottom: isDown ? '9.5vh' : '10vh',
+        right: '1vw',
         backgroundColor: isDown ? "rgba(81,203,206,0.33)" : "white",
         border: 'solid 2px rgb(81,203,206)',
-        marginTop: isDown ? '1vh' : '0vh',
-        marginLeft: '15vw',
+        marginRight: '1.5vw',
         width: '80px',
-        zIndex: isDown ? '99' : '-999',
         height: '80px',
         padding: '18px',
         borderRadius: '50%',
         boxShadow: '2px 2px 4px rgb(81,203,206)',
-        transition: 'margin-top 0.3s ease-in-out',
+        transition: 'bottom 0.3s ease-in-out',
     };
 
     return (
-        <div style={dmContainer}>
-            <div className="dm-body" style={dmBody}>
-                {isDetail ? renderDmRoomDetail() : renderDmRoomList()}
+        <>
+            <div style={dmContainer}>
+                <div className="dm-body" style={dmBody}>
+                    {isDetail ? renderDmRoomDetail() : renderDmRoomList()}
+                </div>
             </div>
             <div className="dm nav-cursor" style={dmStyles} title="DM" onClick={handleDmClick}>
                 <SendMessage width={40} fill={"#51CBCE"} height={40} ></SendMessage>
             </div>
-        </div>
+        </>
     )
 }
 

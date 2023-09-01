@@ -26,6 +26,9 @@ const PhotoFeedContextProvider = (props) => {
         console.log(pageNo)
         return await axios.get(SpringBaseURL + `/api/v1/feed/cli/${pageNo}`)
     }
+    const insertFeed = async (formData) => {
+        
+    }
 
     const value = {
         states: {
@@ -40,7 +43,8 @@ const PhotoFeedContextProvider = (props) => {
             setData,
             getTotalPage,
             getFeedPage,
-            setIsDetail
+            setIsDetail,
+            insertFeed
         },
     }
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import GameConfig from '../../games/config';
 import "../../assets/css/Game.css"
@@ -23,21 +23,18 @@ const GameComponent = () => {
         },
     } = useContext(MemberContext);
     const gameContainerRef = useRef(null);
-    let game = null;
+    const [game ,setGame] = useState(null);
 
 
     const handleOnClickSocket = () => {
         window.userProfile = userProfile;
         if (accessToken)
             window.token = accessToken;
-        game = new Phaser.Game({
+        const game = new Phaser.Game({
             ...GameConfig,
             parent: gameContainerRef.current
         });
-        if (isLogin && game) {
-            window.addEventListener('keydown', handleKeyDown);
-
-        }
+        setGame(game);
     }
     const handleKeyDown = (event) => {
         // || event.keyCode === 32
@@ -46,11 +43,12 @@ const GameComponent = () => {
     }
     useEffect(()=>{
         handleOnClickSocket()
+        return()=>{
+        }
     },[])
 
     useEffect(() => {
         if (isLogin && game) {
-
             window.addEventListener('keydown', handleKeyDown);
         }
         if (game && gameContainerRef.current) {
@@ -60,8 +58,14 @@ const GameComponent = () => {
         }
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-            if (game)
-                game.destroy(true);
+            console.log('언마운트')
+            if(game){ 
+                const scene = game.scene.getScene('Game');
+                if(scene) scene.network.disconnect();
+                game.destroy(true); 
+                setGame(null);
+            }
+            
         };
     }, [game]);
 

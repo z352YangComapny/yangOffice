@@ -120,7 +120,7 @@ function IndexNavbar() {
   return (
     <>
       <Navbar className={classnames("fixed-top", navbarColor)} expand="lg">
-        <Container>
+        <Container style={{display:"flex"}}>
           <div className="navbar-translate">
             <NavbarBrand
               data-placement="bottom"
