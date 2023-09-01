@@ -58,7 +58,7 @@ public interface PhotoFeedRepository {
     PhotoFeed findById(int memberId);
 
     @Update("update photo_feed set content = #{content} where id = #{feedId}")
-    int updateFeed(int feedId, String content);
+    int updateFeed(@Param("feedId") int feedId, @Param("content") String content);
 
 
     @Insert("insert into likes (photo_feed_id, member_id) values(#{photoFeedId}, #{memberId})")
@@ -68,7 +68,7 @@ public interface PhotoFeedRepository {
     int deleteLike(@Param(value = "photoFeedId") int photoFeedId, @Param(value = "memberId") int memberId);
 
     @Select("select * from likes where photo_feed_id = #{feedId} and member_id = #{memberId}")
-    Like likeCheck(int feedId,int memberId);
+    Like likeCheck(@Param("feedId") int feedId,@Param("memberId") int memberId);
 
     @Select("select * from member where userName = #{userName}")
     Member findByuserName(String userName);

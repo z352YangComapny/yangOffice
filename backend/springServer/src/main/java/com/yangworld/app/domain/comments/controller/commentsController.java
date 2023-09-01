@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -44,6 +45,18 @@ public class commentsController {
     ){
 
         int result = commentsService.commentsDelete(principalDetails, commentId);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PostMapping("/commentCreate")
+    public ResponseEntity<?> commentCreate(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @RequestParam String content,
+            @RequestParam int feedId
+    ){
+
+        int result = commentsService.commentCreate(principalDetails, content, feedId);
 
         return ResponseEntity.ok().body(result);
     }
