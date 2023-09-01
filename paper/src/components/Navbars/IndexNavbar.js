@@ -75,13 +75,21 @@ function IndexNavbar() {
   
 	const webSocketConnect = () => {
     console.log('webSocketConnect 성공');
-    const stompClient = new Client();
-    stompClient.webSocketFactory = () => new SockJS(`http://localhost:8080/stomp`);
-    stompClient.connectHeaders()
+//    console.log('token', sessionStorage.getItem('token'));
+    const ws = new SockJS(`http://localhost:8080/stomp`);
+    const stompClient = new Client({
+      connectHeaders: {
+        "Authorization": sessionStorage.getItem('token'),
+      },
+      webSocketFactory: () => ws,
+    });
+//    stompClient.webSocketFactory = () => new SockJS(`http://localhost:8080/stomp`);
     stompClient.onConnect = () => {
       console.log('onConnect 성공');
     }
     stompClient.activate();
+//    console.log('ws', ws);
+//    console.log('stompClient', stompClient);
   };
 //     });
 //     console.log('커넥트 성공');
