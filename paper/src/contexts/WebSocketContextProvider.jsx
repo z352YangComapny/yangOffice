@@ -25,6 +25,7 @@ const WebSocketContextProvider = (props) => {
                 console.log('subject = ', subject);
                 console.log('sendGoal = ', sendGoal);
                 console.log('wsJSON = ', wsJSON);
+                console.log('subsFn = ', subsFn);
                 stompClient.subscribe(subject, subsFn);
                 stompClient.send(sendGoal, {}, JSON.stringify(wsJSON));
             }
