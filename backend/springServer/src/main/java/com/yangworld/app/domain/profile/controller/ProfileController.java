@@ -105,6 +105,7 @@ public class ProfileController {
 	    model.addAttribute("profileMemberId",profile.getMemberId());
 	    log.info("profile = {}", profile);
 	    log.info("principalId ={}", principal.getId());
+	    
 //	    log.info("profileAttachment = {}",profileAttachments);
 	    
 	    
