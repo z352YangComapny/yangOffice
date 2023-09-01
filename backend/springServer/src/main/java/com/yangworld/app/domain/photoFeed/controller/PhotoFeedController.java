@@ -7,14 +7,17 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.photoFeed.dto.Like;
+import com.yangworld.app.domain.photoFeed.dto.PhotoFeedAll;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yangworld.app.commons.HelloSpringUtils;
@@ -28,64 +31,103 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+
+@RequestMapping("/feed/{username}")
 public class PhotoFeedController {
-	
+
 	@Autowired
-	private PhotoFeedService photoPeedService;
-	
-	
-	@PostMapping("/feedCreate")
-	public ResponseEntity<?> peedCreate(
-			@RequestPart @Valid PeedCreateDto _peed,
-			BindingResult bindingResult,
-			@AuthenticationPrincipal Member member,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles) // required = false 파일을 첨부하지 않아도 요청이 성공
+	private PhotoFeedService photoFeedService;
+
+	/**
+	 * Patch : http://localhost:8080/feed/user1/feedCreate
+	 * Key : content, upFile
+	 * value : {content}, {File}
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/feedCreate")
+	public ResponseEntity<?> feedCreate(
+			@RequestPart String content,
+			@AuthenticationPrincipal PrincipalDetails member,
+			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
 					throws IllegalStateException, IOException {
-		
-		log.debug("_peed = {}",_peed);
-		log.debug("member = {}",member); 
-		log.debug("upFiles = {}",upFiles); // postman 요청 방식 = post : http://localhost:8080/peedCreate.do
-		// Form:data
-		//  Key : writerId   
-		// Value : admin
-		//  key : content
-		// value : hello
-		// why?
-		
-		List<Attachment> attachments = new ArrayList<>(); 
-		for(MultipartFile upFile : upFiles){
-			if(!upFile.isEmpty()) { 
-				String originalFilename = upFile.getOriginalFilename(); // 작성자랑 내용만 보냈는데 넌 왜 NullpointException이 나는거냐구
-				String renamedFilename = HelloSpringUtils.getRenameFilename(originalFilename); // 왜 안돼 
-				File destFile = new File(renamedFilename); // postman 요청방식이 틀렸나
-				upFile.transferTo(destFile);
-				
-				// gpt형한테 물어보니 깔끔하대
-				
-				Attachment attach =  
-						Attachment.builder()
-						.originalFilename(originalFilename)
-						.renamedFilename(renamedFilename)
-						.build();
-				attachments.add(attach);
-			}
-		}
-		
-		FeedDetails peed = FeedDetails.builder()
-				.writerId(member.getId())
-				.content(_peed.getContent())
-				.attachments(attachments)
-				.build();
-		
-		
-		int result = photoPeedService.insertPeed(peed);
-		
+
+		int result = photoFeedService.insertfeed(content, member, upFiles);
+
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok().body(result);
 	    } else {
 	        // 생성 중 오류가 발생한 경우
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create peed");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create feed");
 	    }
 	}
+
+	/**
+	 * GET : http://localhost:8080/feed/user1/feed
+	 * Key : userName
+	 * value : {userName}
+	 * - Headers : Authorization ** 필수
+	 */
+	@GetMapping("/feed")
+	public ResponseEntity<?> feedDetail(@RequestParam String userName) {
+
+			List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(userName);
+
+			return ResponseEntity.ok().body(photoDetails);
+		}
+
+	/**
+	 * DELETE : http://localhost:8080/feed/2/feedDelete
+	 * Key : feedId
+	 * value : {feedId}
+	 * - Headers : Authorization ** 필수
+	 */
+	@DeleteMapping("/feedDelete")
+	public ResponseEntity<?> deleteFeed(
+			@RequestParam int feedId,
+			@AuthenticationPrincipal PrincipalDetails member
+	) {
+
+		int result = photoFeedService.deleteFeed(member,feedId);
+
+		return ResponseEntity.ok().body(result);
+	}
+
+	/**
+	 * Patch : http://localhost:8080/feed/2/feedUpdate
+	 * Key : feedId, content
+	 * valye : {feedId}, {content}
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/feedUpdate")
+	public ResponseEntity<?> updateFeed(
+		@RequestParam int feedId,
+		@RequestParam String content,
+		@AuthenticationPrincipal PrincipalDetails member
+	){
+
+		int result = photoFeedService.updateFeed(feedId, content, member);
+
+		return ResponseEntity.ok().body(result);
+	}
+
+	/**
+	 * Patch : http://localhost:8080/feed/2/like
+	 * Key : feedId
+	 * value : {feedId}
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/like")
+	public ResponseEntity<?> feedLikeUpdate(
+			@RequestParam int feedId,
+			@AuthenticationPrincipal PrincipalDetails member
+	) {
+
+		Like likeCount = photoFeedService.likeCheck(feedId, member);
+
+		return ResponseEntity.ok().build();
+	}
+
+
+
 }

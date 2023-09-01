@@ -1,20 +1,20 @@
-package com.yangworld.app.domain.comments.entity;
+package com.yangworld.app.domain.photoFeed.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class Comments {
+@Builder
+public class CommenttDto {
 
-    private int id;
-    private int writerId;
-    private String nickName;
     private String content;
+    private String nickName;
     private LocalDateTime regDate;
 }

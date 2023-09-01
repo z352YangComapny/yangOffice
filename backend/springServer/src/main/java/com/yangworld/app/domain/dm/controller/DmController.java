@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yangworld.app.domain.dm.dto.DmRoomDto;
+import com.yangworld.app.domain.dm.dto.DmRoomTextDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,6 +89,13 @@ public class DmController {
 		
 		return ResponseEntity.ok().build();
 	}
+
+	@GetMapping("/roomList")
+	public ResponseEntity<?> findDmRoomByParticipantId(@AuthenticationPrincipal PrincipalDetails principalDetails){
+		List<DmRoomTextDto> dmRoomTextDtos = dmService.findDmRoomByParticipantId(principalDetails.getId());
+		return ResponseEntity.ok().body(dmRoomTextDtos);
+	}
+
 
 	@PostMapping("/createDmRoom")
 	public ResponseEntity<?> insertDmRoom(@AuthenticationPrincipal PrincipalDetails principal, @RequestBody Map<String, Integer> participants) {
