@@ -31,25 +31,27 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/feed")
+
+@RequestMapping("/feed/{username}")
 public class PhotoFeedController {
 
 	@Autowired
 	private PhotoFeedService photoFeedService;
 
-
+	/**
+	 * Patch : http://localhost:8080/feed/user1/feedCreate
+	 * Key : content, upFile
+	 * value : {content}, {File}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PatchMapping("/feedCreate")
 	public ResponseEntity<?> feedCreate(
-			@RequestPart @Valid PeedCreateDto _feed,
-			BindingResult bindingResult,
+			@RequestPart String content,
 			@AuthenticationPrincipal PrincipalDetails member,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
 					throws IllegalStateException, IOException {
 
-		log.info("upFiles ={}",upFiles);
-
-		// file, _feed, member를 가지고 service로 이동 service에서 처리
-		int result = photoFeedService.insertfeed(_feed, member, upFiles);
+		int result = photoFeedService.insertfeed(content, member, upFiles);
 
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
@@ -60,14 +62,26 @@ public class PhotoFeedController {
 	    }
 	}
 
+	/**
+	 * GET : http://localhost:8080/feed/user1/feed
+	 * Key : userName
+	 * value : {userName}
+	 * - Headers : Authorization ** 필수
+	 */
 	@GetMapping("/feed")
-	public ResponseEntity<?> feedDetail(@RequestParam int id) {
+	public ResponseEntity<?> feedDetail(@RequestParam String userName) {
 
-			List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(id);
+			List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(userName);
 
 			return ResponseEntity.ok().body(photoDetails);
 		}
 
+	/**
+	 * DELETE : http://localhost:8080/feed/2/feedDelete
+	 * Key : feedId
+	 * value : {feedId}
+	 * - Headers : Authorization ** 필수
+	 */
 	@DeleteMapping("/feedDelete")
 	public ResponseEntity<?> deleteFeed(
 			@RequestParam int feedId,
@@ -79,6 +93,12 @@ public class PhotoFeedController {
 		return ResponseEntity.ok().body(result);
 	}
 
+	/**
+	 * Patch : http://localhost:8080/feed/2/feedUpdate
+	 * Key : feedId, content
+	 * valye : {feedId}, {content}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PatchMapping("/feedUpdate")
 	public ResponseEntity<?> updateFeed(
 		@RequestParam int feedId,
@@ -91,7 +111,12 @@ public class PhotoFeedController {
 		return ResponseEntity.ok().body(result);
 	}
 
-
+	/**
+	 * Patch : http://localhost:8080/feed/2/like
+	 * Key : feedId
+	 * value : {feedId}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PatchMapping("/like")
 	public ResponseEntity<?> feedLikeUpdate(
 			@RequestParam int feedId,

@@ -1,14 +1,12 @@
 package com.yangworld.app.domain.report.controller;
 
+import com.yangworld.app.domain.report.dto.ReportFeedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.report.dto.ReportCreateDto;
@@ -45,6 +43,15 @@ public class ReportController {
 		reportService.insertReportDm(report, dmId); // reportId = report 시퀀스값
 		
 		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/insertReportFeed")
+	public ResponseEntity<?> insertReportFeed(
+		@AuthenticationPrincipal PrincipalDetails principalDetails,
+		@RequestBody ReportFeedRequest feedRequest
+    ){
+		int result = reportService.insertReportFeed(principalDetails, feedRequest);
+	return ResponseEntity.ok().body(result);
 	}
 
 	
