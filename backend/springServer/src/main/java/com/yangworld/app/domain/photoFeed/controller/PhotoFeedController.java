@@ -39,8 +39,10 @@ public class PhotoFeedController {
 	private PhotoFeedService photoFeedService;
 
 	/**
-	 *
-	 *
+	 * Patch : http://localhost:8080/feed/user1/feedCreate
+	 * Key : content, upFile
+	 * value : {content}, {File}
+	 * - Headers : Authorization ** 필수
 	 */
 	@PatchMapping("/feedCreate")
 	public ResponseEntity<?> feedCreate(
@@ -74,6 +76,12 @@ public class PhotoFeedController {
 			return ResponseEntity.ok().body(photoDetails);
 		}
 
+	/**
+	 * DELETE : http://localhost:8080/feed/2/feedDelete
+	 * Key : feedId
+	 * value : {feedId}
+	 * - Headers : Authorization ** 필수
+	 */
 	@DeleteMapping("/feedDelete")
 	public ResponseEntity<?> deleteFeed(
 			@RequestParam int feedId,
@@ -85,6 +93,12 @@ public class PhotoFeedController {
 		return ResponseEntity.ok().body(result);
 	}
 
+	/**
+	 * Patch : http://localhost:8080/feed/2/feedUpdate
+	 * Key : feedId, content
+	 * valye : {feedId}, {content}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PatchMapping("/feedUpdate")
 	public ResponseEntity<?> updateFeed(
 		@RequestParam int feedId,
@@ -97,7 +111,12 @@ public class PhotoFeedController {
 		return ResponseEntity.ok().body(result);
 	}
 
-
+	/**
+	 * Patch : http://localhost:8080/feed/2/like
+	 * Key : feedId
+	 * value : {feedId}
+	 * - Headers : Authorization ** 필수
+	 */
 	@PatchMapping("/like")
 	public ResponseEntity<?> feedLikeUpdate(
 			@RequestParam int feedId,
