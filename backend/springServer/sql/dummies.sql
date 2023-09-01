@@ -89,7 +89,6 @@ INSERT INTO story (id, writer_id, content, reg_date) VALUES( seq_story_id.NEXTVA
 INSERT INTO story (id, writer_id, content, reg_date) VALUES( seq_story_id.NEXTVAL, 10, '엽떡 먹고 싶당', SYSDATE - DBMS_RANDOM.VALUE(1, 36) / 24);
 INSERT INTO story (id, writer_id, content, reg_date) VALUES( seq_story_id.NEXTVAL, 11, '아싸 금요일', SYSDATE - DBMS_RANDOM.VALUE(1, 36) / 24);
 
-
 --=============================================================================
 -- @Comments 테이블 테스트 데이터
 -- 게시판 댓글
@@ -363,20 +362,6 @@ insert into follow values (SEQ_FOLLOW_ID.nextval,9, 11, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,8, 9, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,9, 10, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,10, 11, default);
-
---=============================================================================
--- 프로필에 어태치먼트 연결
-insert into attachment_profile (attachment_id, profile_id) values (1, 1);
-insert into attachment_profile (attachment_id, profile_id) values (2, 2);
-insert into attachment_profile (attachment_id, profile_id) values (3, 3);
-insert into attachment_profile (attachment_id, profile_id) values (4, 4);
-insert into attachment_profile (attachment_id, profile_id) values (5, 5);
-insert into attachment_profile (attachment_id, profile_id) values (6, 6);
-insert into attachment_profile (attachment_id, profile_id) values (7, 7);
-insert into attachment_profile (attachment_id, profile_id) values (8, 8);
-insert into attachment_profile (attachment_id, profile_id) values (9, 9);
-insert into attachment_profile (attachment_id, profile_id) values (10, 10);
-insert into attachment_profile (attachment_id, profile_id) values (11, 11);
 
 --=============================================================================
 -- @dm_room dummies
