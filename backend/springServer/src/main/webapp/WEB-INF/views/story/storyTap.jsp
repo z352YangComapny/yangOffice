@@ -6,6 +6,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/storyTap.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
 <sec:authentication property="principal" var="loginMember"/>
 <input type='hidden' id='userId' value='${loginMember.id}' />
 <sec:authorize access = "isAuthenticated()">
@@ -105,6 +108,8 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+	connect();
+	
 	const storyElements = document.querySelectorAll('#storyCards');
 	const storyModal = $('#storyModal');
 	
@@ -139,7 +144,7 @@ document.querySelector("#btnStoryCreate").onclick = () => {
 	createModal.modal('show');
 };
 
-document.querySelector("#btnCreateStory2").onclick = () => {
+/*    document.querySelector("#btnCreateStory2").onclick = () => {
 	const content = document.querySelector('#message-text-create').value;
 	if(!/^.{1,100}$/.test(content)){
 		alert('글자 수는 1 - 100글자 사이입니다');
@@ -150,7 +155,7 @@ document.querySelector("#btnCreateStory2").onclick = () => {
 	document.querySelector(".createModalContent").value = content;
 	console.log(document.querySelector(".createModalContent").value);
 	document.querySelector('#creatFrm').submit();
-};
+}; */
 
 document.querySelector("#btnUpdateStory").onclick = () => {
 	const id = document.querySelector("#storyId").value;

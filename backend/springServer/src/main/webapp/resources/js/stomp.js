@@ -14,9 +14,26 @@ const connect = () => {
 	        
 		const userId = document.getElementById('userId').value;
 //		console.log('userId = ', userId);
-        const sendInterval = setInterval(() => {
-            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
-        }, 1000);
+//        const sendInterval = setInterval(() => {
+//            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
+//        }, 1000);
+		stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
+		
+		document.querySelector("#btnCreateStory2").onclick = () => {
+			const content = document.querySelector('#message-text-create').value;
+			if(!/^.{1,100}$/.test(content)){
+				alert('글자 수는 1 - 100글자 사이입니다');
+				return false;
+			}
+			
+			console.log('content = ', content);
+
+			stompClient.send("/app/create", {}, JSON.stringify({ userId: userId, content: content }));
+			
+			window.location.href = "http://localhost:8080/story/storyTap";
+
+		};
+		
     });
 };
 

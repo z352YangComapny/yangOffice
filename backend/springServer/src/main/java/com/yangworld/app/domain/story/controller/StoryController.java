@@ -62,12 +62,12 @@ public class StoryController {
 	@GetMapping("/storyMain")
 	public void storyMain() {}
 
-	@PostMapping("/create")
-	public String create(@Valid StoryDto storyDto){
-//		log.info("storyDto = {}", storyDto);
-		int result = storyService.createStory(storyDto);
-		return "redirect:/story/storyTap";
-	}
+//	@PostMapping("/create")
+//	public String create(@Valid StoryDto storyDto){
+////		log.info("storyDto = {}", storyDto);
+//		int result = storyService.createStory(storyDto);
+//		return "redirect:/story/storyTap";
+//	}
 	
 	@PostMapping("/update")
 	public String update(@Valid StoryMainDto storyDto){
