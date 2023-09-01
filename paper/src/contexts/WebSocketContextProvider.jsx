@@ -8,8 +8,9 @@ const WebSocketContextProvider = (props) => {
     const [subject, setSubject] = useState();
     const [sendGoal, setSendGoal] = useState();
     const [wsJSON, setWsJSON] = useState();
+    const [subsFn, setSubsFn] = useState();
 
-    const webSocketConnect = (subject, sendGoal, wsJSON) => {
+    const webSocketConnect = (subject, sendGoal, wsJSON, subsFn) => {
         console.log('webSocketConnect 성공');
         const ws = new SockJS(`http://localhost:8080/stomp`);
         const stompClient = new Client({
@@ -20,11 +21,11 @@ const WebSocketContextProvider = (props) => {
         });
         stompClient.onConnect = () => {
             console.log('onConnect 성공');
-            console.log('subject = ', subject);
-            console.log('sendGoal = ', sendGoal);
-            console.log('wsJSON = ', wsJSON);
             if(subject === '/storyMain'){
-                stompClient.subscribe(subject, () => {});
+                console.log('subject = ', subject);
+                console.log('sendGoal = ', sendGoal);
+                console.log('wsJSON = ', wsJSON);
+                stompClient.subscribe(subject, subsFn);
                 stompClient.send(sendGoal, {}, JSON.stringify(wsJSON));
             }
         }
@@ -36,11 +37,13 @@ const WebSocketContextProvider = (props) => {
             subject,
             sendGoal,
             wsJSON,
+            subsFn
         },
         actions: {
             setSubject,
             setSendGoal,
             setWsJSON,
+            setSubsFn,
             webSocketConnect
         }
     };
