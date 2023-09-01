@@ -12,7 +12,5 @@ public class DmRoomDto {
 	private int id;
 	@NotBlank(message ="dm 참여자 입력")
 	private List<Integer> participants;
-	
-	
-	
+
 }
