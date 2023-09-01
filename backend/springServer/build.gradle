@@ -41,6 +41,9 @@ dependencies {
 	//redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'redis.clients:jedis'
+	
+	// https://mvnrepository.com/artifact/org.webjars/sockjs-client
+	implementation group: 'org.webjars', name: 'sockjs-client', version: '1.1.2'
 
 }
 

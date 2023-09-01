@@ -21,27 +21,25 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import "react-notification-alert/dist/animate.css";
 // reactstrap components
+import Dm from "components/DM/Dm";
+import { MemberContext } from "contexts/MembetContextProvider";
+import { NotificationContext } from "contexts/NotificationContextProvider";
+import ReactNotificationAlert from "react-notification-alert";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Collapse,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container,
   Input,
-  Alert,
+  Nav,
+  NavItem,
+  NavLink,
+  Navbar,
+  NavbarBrand
 } from "reactstrap";
-import '../../assets/css/style.css'
-import { MemberContext } from "contexts/MembetContextProvider";
-import { Link, useNavigate } from "react-router-dom";
-import { NotificationContext } from "contexts/NotificationContextProvider";
-import ReactNotificationAlert from "react-notification-alert";
-import SendMessage from "components/Icons/icons/send-message";
-import {Stomp} from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
-import Dm from "components/DM/Dm";
+import { Client } from "@stomp/stompjs";
+import '../../assets/css/style.css';
 
 function IndexNavbar() {
   const {
@@ -76,26 +74,34 @@ function IndexNavbar() {
 
   
 	const webSocketConnect = () => {
-		const ws = new SockJS(`http://localhost:8080/stomp`); // endpoint
-		const stompClient = Stomp.over(ws);
-    console.log('커넥트 성공');
-	    // 구독신청 
-	    stompClient.connect({}, () => {
-	        console.log('WebSocket 연결 성공');
-	        stompClient.subscribe('/storyMain', (payloads) => {
-	          // console.log('/story : ', payloads);
+    console.log('webSocketConnect 성공');
+    const stompClient = new Client();
+    stompClient.webSocketFactory = () => new SockJS(`http://localhost:8080/stomp`);
+    stompClient.connectHeaders()
+    stompClient.onConnect = () => {
+      console.log('onConnect 성공');
+    }
+    stompClient.activate();
+  };
+//     });
+//     console.log('커넥트 성공');
+// 	    // 구독신청 
+// 	    stompClient.connect({}, () => {
+// 	        console.log('WebSocket 연결 성공');
+// 	        stompClient.subscribe('/storyMain', (payloads) => {
+// 	          // console.log('/story : ', payloads);
 
-//	          renderStory(payloads);
-	        	console.log('구독됨');
-	        });
+// //	          renderStory(payloads);
+// 	        	console.log('구독됨');
+// 	        });
 		        
-			    const userId = userProfile.id;
-			    console.log('userId = ', userId);
+// 			    const userId = userProfile.id;
+// 			    console.log('userId = ', userId);
 
-	        stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
+// 	        stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
           
-	    });
-	};
+// 	    });
+// 	};
 
   useEffect(() => {
     if(userProfile){
