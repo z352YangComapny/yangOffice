@@ -24,4 +24,6 @@ public class StoryMainDto {
 	private LocalDateTime regDate;
 	
 	private String formattedRegDate;
+	
+	private int storyFeed = 0;
 }

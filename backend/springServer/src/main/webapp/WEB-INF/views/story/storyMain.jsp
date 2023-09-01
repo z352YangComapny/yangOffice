@@ -21,12 +21,20 @@
 </section>
 
 <!-- Modal -->
+<input type="hidden" id="currentCardStoryFeed" value=""/>
 <div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title storyModalWriterId" id="storyModalTitle"></h5>
-        <button class="btn btn-sm btn-outline-secondary" style="flex: start-end;" onclick="reportThisStory();">🚨</button>
+        <div>
+        	<c:choose>
+		        <c:when test="${not empty currentCardStoryFeed and currentCardStoryFeed != '0'}">
+					<img src="${pageContext.request.contextPath}/resources/images/arrow.png" onclick="storyFeedLink();" style="width: 25px;"/>
+				</c:when>
+			</c:choose>
+	        <button class="btn btn-sm btn-outline-secondary" style="flex: start-end;" onclick="reportThisStory();">🚨</button>
+        </div>
       </div>
       <div class="modal-body">
 		<div class="container-fluid">
@@ -101,5 +109,11 @@ const reportThisStoryReal = () => {
 
 const reportModalHide = () => {
 	$('#reportModal').modal('hide');
-}
+};
+
+const storyFeedLink = () => {
+	const id = document.querySelector('#currentCardStoryFeed').value;
+	const addr = "http://localhost:8080/member/userPage/${loginMember.id}/feed/feedDetail?photoFeedId="
+	window.location.href = addr + id;
+};
 </script>

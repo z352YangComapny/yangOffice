@@ -42,5 +42,8 @@ public interface StoryRepository {
 	
 	@Select("select id from member where nickname = #{from}")
 	int findIdByUsername(String from);
+
+	@Select("select feed_id from story_feed where story_id = #{id}")
+	int findStoryFeedByStoryId(int id);
 	
 }

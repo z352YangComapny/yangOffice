@@ -56,4 +56,9 @@ public class StoryServiceImpl implements StoryService{
 	public int findIdByUsername(String from) {
 		return storyRepository.findIdByUsername(from);
 	}
+	
+	@Override
+	public int findStoryFeedByStoryId(int id) {
+		return storyRepository.findStoryFeedByStoryId(id);
+	}
 }
