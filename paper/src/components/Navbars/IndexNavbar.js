@@ -39,8 +39,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { NotificationContext } from "contexts/NotificationContextProvider";
 import ReactNotificationAlert from "react-notification-alert";
 import SendMessage from "components/Icons/icons/send-message";
-import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
+import {Stomp} from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
 import Dm from "components/DM/Dm";
 
 function IndexNavbar() {
@@ -75,7 +75,7 @@ function IndexNavbar() {
   /** socket */
 
   
-	const storyConnect = () => {
+	const webSocketConnect = () => {
 		const ws = new SockJS(`http://localhost:8080/stomp`); // endpoint
 		const stompClient = Stomp.over(ws);
     console.log('커넥트 성공');
@@ -99,9 +99,9 @@ function IndexNavbar() {
 
   useEffect(() => {
     if(userProfile){
-      console.log('웹소켓 연결 시도');
-      storyConnect()
     }
+    console.log('웹소켓 연결 시도');
+    webSocketConnect()
   }, [])
 
   /** socket */
