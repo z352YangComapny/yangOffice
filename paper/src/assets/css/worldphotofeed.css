@@ -86,10 +86,19 @@
 
 .guestbook-text-line{
     display: flex;
-    justify-content: space-between;
-    font-size: 20px;
+    font-size: 16px;
     padding: 5px;
-    
+}
+
+.guestbook-text-content{
+    width: 75%;
+}
+
+.guestbook-text-writer{
+    width: 10%
+}
+.guestbook-text-regdate{
+    width: 15%;
 }
 
 
@@ -133,12 +142,51 @@
     background: rgb(81, 203, 206, 0.8)
 }
 
-.feed-detail-image {
-    width: 100% !important;
-    height: 16vw !important;
-}
 
 .feed-contest-text {
     margin-top: 1vh;
     font-size: 24px;
+}
+
+.carousel-control{
+    height: 100%;
+    background-color: transparent !important;
+}
+
+.filebox-in{
+    width: 120px;
+    height: 86.2px;
+    
+    border-radius: 10%;
+    font-size: 40px;
+    border: solid 2px rgb(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬을 위한 속성 */
+    justify-content: center; /* 가로 중앙 정렬을 위한 속성 */
+}
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+}
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
 }

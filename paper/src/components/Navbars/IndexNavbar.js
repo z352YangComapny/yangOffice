@@ -41,6 +41,7 @@ import ReactNotificationAlert from "react-notification-alert";
 import SendMessage from "components/Icons/icons/send-message";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
+import Dm from "components/DM/Dm";
 
 function IndexNavbar() {
   const {
@@ -63,11 +64,10 @@ function IndexNavbar() {
       setMessage,
     },
   } = useContext(NotificationContext)
-
-
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const [isDown, setIsDown] = useState(false);
+
   const notificationRef = useRef(null);
 
   const navigate = useNavigate();
@@ -185,7 +185,7 @@ function IndexNavbar() {
   
 
   useEffect(() => {
-    if(userProfile) setIsDown(false);
+    if(userProfile);
     updateNavbarColor();
   }, [userProfile]);
 
@@ -227,7 +227,7 @@ function IndexNavbar() {
           >
             {userProfile ?
               <Nav navbar>
-
+                <Dm></Dm>
                 <NavItem>
                   <NavLink
                     data-placement="bottom"
@@ -299,61 +299,6 @@ function IndexNavbar() {
                     <i className="nc-icon nc-spaceship" style={{ marginRight: "10px" }}></i> LogOut
                   </Button>
                 </NavItem>
-                <div style={dmContainer}>
-        <div className="dm-body" style={dmBody}>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-        </div>
-        <div className="dm nav-cursor" style={dmStyles} title="DM" onClick={handleDmClick}>
-          <SendMessage width={40} fill={"#51CBCE"} height={40} ></SendMessage>
-        </div>
-      </div>
               </Nav>
               :
               <Nav navbar>
