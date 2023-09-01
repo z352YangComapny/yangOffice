@@ -33,8 +33,8 @@ public interface DmRepository {
 	@Insert("insert into dm_room values (seq_dm_room_id.nextval , #{participant1},#{participant2}, default)")
     void insertDmRoom(@Param("participant1") int participant1, @Param("participant2") int participant2);
 
-	@Delete("delete from dm_room where participant1=#{participant1} and participant2=#{participant2}")
-	int deleteDmRoom(int participant1, int participant2);
+	@Delete("delete from dm_room where id= #{dmRoomId}")
+	int deleteDmRoom(int dmRoomId);
 
 	@Select("select * from dm_room where PARTICIPANT2=#{id} or PARTICIPANT1=#{id}")
     List<DmRoom> findDmRoomByParticipantId(int id);

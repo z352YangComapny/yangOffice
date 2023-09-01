@@ -91,8 +91,8 @@ public class DmServiceImpl implements DmService {
 	}
 
 	@Override
-	public int deleteDmRoom(int participant1, int participant2) {
-		return dmRepository.deleteDmRoom(participant1,participant2);
+	public int deleteDmRoom(int dmRoomId) {
+		return dmRepository.deleteDmRoom(dmRoomId);
 	}
 
 }
