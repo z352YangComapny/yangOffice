@@ -19,6 +19,7 @@ import java.sql.SQLTransactionRollbackException;
 
 @Service
 @Slf4j
+//@Transactional(rollbackFor = Exception.class)
 public class ReportServiceImpl implements ReportService {
 
 	@Autowired	
