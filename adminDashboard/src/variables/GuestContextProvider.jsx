@@ -31,6 +31,9 @@ const GuestbookContextProvider = (props) => {
       console.log(axiosConfig);
       return await axios.post(SpringBaseUrl +`/api/v1/reportGuestBook?guestbookId=`+ guestbookId,{},axiosConfig);
     }
+    const getDailyGuestBook = async ()=>{
+      return await axios.get(SpringBaseUrl + `/api/v1/guestbook/dailyGuestbook`);
+    }
 
     const value = {
       states : {
@@ -46,7 +49,8 @@ const GuestbookContextProvider = (props) => {
         setGuestbookTotalNo,
         getGuestbookTotalNo,
         setGuestbookId,
-        insertReportGuestbook
+        insertReportGuestbook,
+        getDailyGuestBook
         
       }
     };

@@ -30,6 +30,10 @@ const StoryContextProvider = (props) => {
       console.log(axiosConfig);
       return await axios.post(SpringBaseUrl +`/api/v1/reportStory?storyId=`+ storyId,{},axiosConfig);
     }
+
+    const getDailyStory = async () => {
+      return await axios.get(SpringBaseUrl+`/api/v1/story/dailyStory`)
+  }
     
     const value = {
       states : {
@@ -50,7 +54,8 @@ const StoryContextProvider = (props) => {
         getTotalStoryCount,
         setReportStory,
         setStoryId,
-        insertReportStory
+        insertReportStory,
+        getDailyStory
 
       }
     };

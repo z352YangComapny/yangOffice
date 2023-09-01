@@ -30,17 +30,18 @@ public interface StoryRepository {
     Story findStoryById(int storyId);
 
 	@Select("SELECT\n" +
-			"    TRUNC(reg_date) AS story_date,\n" +
-			"    COUNT(*) AS story_count\n" +
+			"    TRUNC(dates.story_date) AS story_date,\n" +
+			"    NVL(COUNT(story.reg_date), 0) AS story_count\n" +
 			"FROM\n" +
-			"    story\n" +
-			"WHERE\n" +
-			"        reg_date > TRUNC(SYSDATE) - 10\n" +
-			"  AND reg_date <= TRUNC(SYSDATE)\n" +
+			"    (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS story_date\n" +
+			"     FROM dual\n" +
+			"     CONNECT BY LEVEL <= 10) dates\n" +
+			"        LEFT JOIN\n" +
+			"    story ON TRUNC(story.reg_date) = dates.story_date\n" +
 			"GROUP BY\n" +
-			"    TRUNC(reg_date)\n" +
+			"    TRUNC(dates.story_date)\n" +
 			"ORDER BY\n" +
-			"    TRUNC(reg_date)")
+			"    TRUNC(dates.story_date)")
 	List<StoryDailyDto> findStoryDaily();
 
 

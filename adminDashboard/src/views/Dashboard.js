@@ -34,12 +34,17 @@ import {
   dashboard24HoursPerformanceChart,
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
+  photofeedValues,
+  storyValues,
+  guestbookValues
 } from "variables/charts.js";
 import '../assets/css/style.css'
 import { AppContext } from "variables/AppContextProvider";
 import { PhotofeedContext } from "variables/PhotofeedContextProvider";
 import { MemberContext } from "variables/MemberContnextProvider";
 import { ReportContext } from "variables/ReportContextProvider";
+import { StoryContext } from "variables/StoryContextProvider";
+import { GuestbookContext } from "variables/GuestContextProvider";
 
 
 function Dashboard() {
@@ -47,14 +52,23 @@ function Dashboard() {
   const { states : {feedTotalNo}, actions : {getTotalFeedCount , setFeedTotalNo}} = useContext(PhotofeedContext)
   const { states : {memberTotalCount}, actions : {getMemberTotlaCount , setMemberTotalCount}} = useContext(MemberContext);
   const { states : {totalReportCount}, actions : {getTotalReportCount, setTotalReportCount}} = useContext(ReportContext);
-  
+  const { states : {dailyFeed}, actions : {setDailyFeed, getDailyFeed}} = useContext(PhotofeedContext);
+  const {actions : {getDailyStory}} = useContext(StoryContext);
+  const {actions : {getDailyGuestBook}} = useContext(GuestbookContext);
+
   useEffect(()=>{
    handlePing();
    handleGetTotalFeedCount();
    handleGetMemberTotalCount();
    handleGetReportTotalCount();
+   handleGetDailyFeed();
+   handleGetDailyStory();
+   handleGetDailyGuestBook();
   },[])
   
+   //const temp = dashboard24HoursPerformanceChart.values;
+    //temp();
+    //console.log(temp);
 
   const handlePing = () => {
     ping()
@@ -93,6 +107,57 @@ function Dashboard() {
     })
     .catch((err)=>{
       console.log(err)
+    })
+  }
+  const handleGetDailyFeed = () => {
+    photofeedValues = [];
+    getDailyFeed()
+    .then((resp) => {
+        //console.log(resp.data);
+        //dashboard24HoursPerformanceChart.values = [...dashboard24HoursPerformanceChart.values, ...resp.data];
+        //console.log(dashboard24HoursPerformanceChart.values);
+        resp.data.forEach((item) =>{   
+          console.log(item.photofeedCount);
+          photofeedValues.push(item.photofeedCount);
+          
+        });
+        console.log(photofeedValues);
+        
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  const handleGetDailyStory = () => {
+    storyValues = [];
+    getDailyStory()
+    .then((resp) => {
+    
+      resp.data.forEach((item) => {   
+        storyValues.push(item.storyCount);
+       // console.log("storyCount",item.storyCount);
+
+      });
+      console.log(storyValues);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  const handleGetDailyGuestBook = () => {
+    guestbookValues = [];
+    getDailyGuestBook()
+    .then((resp) => {
+      resp.data.forEach((item) => {
+        guestbookValues.push(item.guestbookCount);
+        //console.log("guestbookitem",item.guestbookCount);
+      });
+      console.log(guestbookValues);
+    })
+    .catch((err)=>{
+      console.log(err);
     })
   }
   

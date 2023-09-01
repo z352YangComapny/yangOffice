@@ -16,21 +16,31 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+const labels = [];
+const currentDate = new Date();
+// 현재일자부터 10일 전까지의 레이블 생성
+for (let i = 9; i >= 0; i--) {
+  const date = new Date(currentDate);
+  date.setDate(currentDate.getDate() - i); // 현재일자에서 i일 전의 날짜 계산
+  const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+  const day = date.getDate();
+  const formattedDate = `${month}/${day}`; // 월과 일을 문자열로 합침
+  labels.push(formattedDate);
+}
+const photofeedValues = [];
+const storyValues = [];
+const guestbookValues = [];
+
 const dashboard24HoursPerformanceChart = {
+  
   data: (canvas) => {
+    console.log(canvas);
+    console.log(labels);
+    console.log("p",photofeedValues);
+    console.log("s",storyValues);
+    console.log("g",guestbookValues);
     return {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
+      labels: labels,
       datasets: [
         {
           borderColor: "#6bd098",
@@ -40,7 +50,7 @@ const dashboard24HoursPerformanceChart = {
           borderWidth: 3,
           tension: 0.4,
           fill: true,
-          data: [300, 310, 316, 322, 330, 326, 333, 345, 338, 354],
+          data: photofeedValues,
         },
         {
           borderColor: "#f17e5d",
@@ -50,7 +60,7 @@ const dashboard24HoursPerformanceChart = {
           borderWidth: 3,
           tension: 0.4,
           fill: true,
-          data: [320, 340, 365, 360, 370, 385, 390, 384, 408, 420],
+          data: storyValues,
         },
         {
           borderColor: "#fcc468",
@@ -60,7 +70,7 @@ const dashboard24HoursPerformanceChart = {
           borderWidth: 3,
           tension: 0.4,
           fill: true,
-          data: [370, 394, 415, 409, 425, 445, 460, 450, 478, 484],
+          data: guestbookValues,
         },
       ],
     };
@@ -203,4 +213,8 @@ module.exports = {
   dashboard24HoursPerformanceChart,
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
+  photofeedValues,
+  storyValues,
+  guestbookValues
+
 };

@@ -9,6 +9,7 @@ const PhotofeedContextProvider = (props) => {
     const [feedNo , setFeedNo ] = useState(0);
     const [feedTotalNo, setFeedTotalNo] = useState(0);
     const [reportPhotoFeed, setReportPhotoFeed] = useState({});
+    const [dailyFeed, setDailyFeed] = useState([]);
 
     const getFeed = (id) => {}
     const getFeeds = async (pageNo) => {
@@ -27,7 +28,11 @@ const PhotofeedContextProvider = (props) => {
       }
       console.log(axiosConfig);
       return await axios.post(SpringBaseUrl +`/api/v1/insertReportFeed?feedId=`+ feedId,{},axiosConfig);
-  }
+    }
+
+    const getDailyFeed = async () => {
+        return await axios.get(SpringBaseUrl+`/api/v1/photoFeed/dailyPhotoFeed`)
+    }
 
 
     const value = {
@@ -35,7 +40,8 @@ const PhotofeedContextProvider = (props) => {
         photofeed, 
         feedNo,
         feedTotalNo,
-        reportPhotoFeed
+        reportPhotoFeed,
+        dailyFeed
       },
       actions: {
         getFeed,
@@ -45,7 +51,9 @@ const PhotofeedContextProvider = (props) => {
         setPhotofeed,
         deletedFeed,
         setReportPhotoFeed,
-        insertReportPhotoFeed
+        insertReportPhotoFeed,
+        getDailyFeed,
+        setDailyFeed
       }
     };
 

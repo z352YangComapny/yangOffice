@@ -30,16 +30,17 @@ public interface PhotoFeedRepository {
     PhotoFeed findPhotoFeedById(int feedId);
 
     @Select("SELECT\n" +
-            "    TRUNC(reg_date) AS photofeed_date,\n" +
-            "    COUNT(*) AS photofeed_count\n" +
+            "    TRUNC(dates.photofeed_date) AS photofeed_date,\n" +
+            "    NVL(COUNT(PHOTO_FEED.reg_date), 0) AS photofeed_count\n" +
             "FROM\n" +
-            "    PHOTO_FEED\n" +
-            "WHERE\n" +
-            "        reg_date > TRUNC(SYSDATE) - 10\n" +
-            "  AND reg_date <= TRUNC(SYSDATE)\n" +
+            "    (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS photofeed_date\n" +
+            "     FROM dual\n" +
+            "     CONNECT BY LEVEL <= 10) dates\n" +
+            "        LEFT JOIN\n" +
+            "    PHOTO_FEED ON TRUNC(PHOTO_FEED.reg_date) = dates.photofeed_date\n" +
             "GROUP BY\n" +
-            "    TRUNC(reg_date)\n" +
+            "    TRUNC(dates.photofeed_date)\n" +
             "ORDER BY\n" +
-            "    TRUNC(reg_date)")
+            "    TRUNC(dates.photofeed_date)")
     List<PhotoFeedDailyDto> findPhotoFeedDaily();
 }

@@ -150,19 +150,45 @@ GROUP BY
 ORDER BY
     TRUNC(reg_date);
 
--- 스토리 일자별 조회쿼리
 SELECT
-    TRUNC(reg_date) AS story_date,
-    COUNT(*) AS story_count
+    TRUNC(dates.guestbook_date) AS guestbook_date,
+    NVL(COUNT(GUESTBOOK.reg_date), 0) AS guestbook_count
 FROM
-    story
-WHERE
-        reg_date > TRUNC(SYSDATE) - 10
-  AND reg_date <= TRUNC(SYSDATE)
+    (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS guestbook_date
+     FROM dual
+     CONNECT BY LEVEL <= 10) dates
+        LEFT JOIN
+    GUESTBOOK ON TRUNC(GUESTBOOK.reg_date) = dates.guestbook_date
 GROUP BY
-    TRUNC(reg_date)
+    TRUNC(dates.guestbook_date)
 ORDER BY
-    TRUNC(reg_date);
+    TRUNC(dates.guestbook_date);
+
+
+
+
+
+
+-- 스토리 일자별 조회쿼리
+
+SELECT
+    TRUNC(dates.story_date) AS story_date,
+    NVL(COUNT(story.reg_date), 0) AS story_count
+FROM
+    (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS story_date
+     FROM dual
+     CONNECT BY LEVEL <= 10) dates
+        LEFT JOIN
+    story ON TRUNC(story.reg_date) = dates.story_date
+GROUP BY
+    TRUNC(dates.story_date)
+ORDER BY
+    TRUNC(dates.story_date);
+
+
+
+
+
 
 --포토피드 일자별 쿼리
 SELECT
@@ -177,3 +203,17 @@ GROUP BY
     TRUNC(reg_date)
 ORDER BY
     TRUNC(reg_date);
+
+SELECT
+    TRUNC(dates.photofeed_date) AS photofeed_date,
+    NVL(COUNT(PHOTO_FEED.reg_date), 0) AS photofeed_count
+FROM
+    (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS photofeed_date
+     FROM dual
+     CONNECT BY LEVEL <= 10) dates
+        LEFT JOIN
+    PHOTO_FEED ON TRUNC(PHOTO_FEED.reg_date) = dates.photofeed_date
+GROUP BY
+    TRUNC(dates.photofeed_date)
+ORDER BY
+    TRUNC(dates.photofeed_date);
