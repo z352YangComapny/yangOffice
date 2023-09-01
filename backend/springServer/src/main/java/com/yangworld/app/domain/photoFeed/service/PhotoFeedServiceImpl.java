@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class PhotoFeedServiceImpl implements PhotoFeedService {
 	@Autowired
 	private MemberRepository memberRepository;
@@ -95,14 +96,14 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		return feedDtos;
 	}
 
+
 	@Override
-	@Transactional
-	public int insertfeed(PeedCreateDto _feed, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException {
+	public int insertfeed(String content, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException {
 
 		int result = 0;
 
 		List<Attachment> attachments = new ArrayList<>();
-		log.info("upFiles = {}",upFiles);
+
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) {
 				String originalFilename = upFile.getOriginalFilename();
@@ -122,7 +123,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 
 		FeedDetails feed = FeedDetails.builder()
 				.writerId(member.getId())
-				.content(_feed.getContent())
+				.content(content)
 				.attachments(attachments)
 				.build();
 
@@ -148,11 +149,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 	}
 
 	@Override
-	public List<PhotoFeedAll> findPhotoFeedAll(int id, int feedId) {
-		if (feedId < 0) {
-			log.error("photoFeedId is null");
-			throw new IllegalArgumentException("피드 ID가 유효하지 않습니다.");
-		}
+	public List<PhotoFeedAll> findPhotoFeedAll(String userName) {
+
+		Member byuserName = photoFeedRepository.findByuserName(userName);
+
+		int id = byuserName.getId();
 
 		// 사진 시작
 		List<PhotoFeedAll> feedDetails = photoFeedRepository.findAllFeedByWriterId(id);
@@ -211,7 +212,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		return feedDetails;
 	}
 
-	@Transactional
+
 	@Override
 	public int deleteFeed(PrincipalDetails member, int feedId) {
 
@@ -220,18 +221,25 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		int memberId = member.getId();
 
 		PhotoFeed photoFeed = photoFeedRepository.findById(memberId);
+		List<AttachmentPhotoDto> attachmentPhotoDtos = photoFeedRepository.findAttachmentPhotoFeedByPhotoFeedId(feedId);
 
 		int writerId = photoFeed.getWriterId();
 
-		if (memberId == writerId){
 
+		if (memberId == writerId){
 			try {
-				result = photoFeedRepository.deleteFeed(feedId);
-				result += photoFeedRepository.deleteAttachment(feedId);
+
+				result += photoFeedRepository.deleteFeed(feedId);
 				result += photoFeedRepository.deleteLink(feedId);
+				for(AttachmentPhotoDto apd : attachmentPhotoDtos){
+
+					int attachmentId = apd.getAttachmentId();
+					result += photoFeedRepository.deleteAttachment(attachmentId);
+				}
 				return result;
 
 			} catch (Exception e) {
+				log.debug("다시는 눈에 띄지마라");
 				throw e;
 			}
 

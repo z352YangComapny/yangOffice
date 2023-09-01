@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.photoFeed.repository;
 
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.photoFeed.dto.AttachmentPhotoDto;
 import com.yangworld.app.domain.photoFeed.dto.Like;
 import com.yangworld.app.domain.photoFeed.dto.PhotoFeedAll;
@@ -31,8 +32,8 @@ public interface PhotoFeedRepository {
 
     @Select("select * from photo_feed where id = #{feedId}")
     List<PhotoFeedAll> findFeedById(int feedId);
-    @Select("select * from photo_feed where writer_id = #{writerId}")
-    List<PhotoFeedAll> findAllFeedByWriterId(int writerId);
+    @Select("select * from photo_feed where writer_id = #{id}")
+    List<PhotoFeedAll> findAllFeedByWriterId(int id);
 
     @Select("select * from attachment_photo_feed where photo_feed_id = #{photoFeedId}")
     List<AttachmentPhotoDto> findAttachmentPhotoFeedByPhotoFeedId(int photoFeedId);
@@ -47,8 +48,8 @@ public interface PhotoFeedRepository {
     @Delete("delete from photo_feed where id = #{feedId}")
     int deleteFeed(int feedId);
 
-    @Delete("delete from attachment where id not in (select attachment_id from attachment_photo_feed)")
-    int deleteAttachment(int feedId);
+    @Delete("delete from attachment where id = #{attachmentId}")
+    int deleteAttachment(int attachmentId);
 
     @Delete("delete from attachment_photo_feed where photo_feed_id = #{feedId}")
     int deleteLink(int feedId);
@@ -68,4 +69,7 @@ public interface PhotoFeedRepository {
 
     @Select("select * from likes where photo_feed_id = #{feedId} and member_id = #{memberId}")
     Like likeCheck(int feedId,int memberId);
+
+    @Select("select * from member where userName = #{userName}")
+    Member findByuserName(String userName);
 }

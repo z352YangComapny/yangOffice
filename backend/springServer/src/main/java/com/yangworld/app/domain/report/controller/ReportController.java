@@ -1,14 +1,12 @@
 package com.yangworld.app.domain.report.controller;
 
+import com.yangworld.app.domain.report.dto.ReportFeedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.report.dto.ReportCreateDto;
@@ -45,6 +43,42 @@ public class ReportController {
 		reportService.insertReportDm(report, dmId); // reportId = report 시퀀스값
 		
 		return ResponseEntity.ok().build();
+	}
+	/**
+	 * Patch : http://localhost:8080/report/insertReportFeed
+	 * raw/json
+	 * {
+	 *   "feedId": 30,
+	 *   "content": "이 사진에 불쾌한 내용이 포함되어 있습니다."
+	 * }
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/insertReportFeed")
+	public ResponseEntity<?> insertReportFeed(
+		@AuthenticationPrincipal PrincipalDetails principalDetails,
+		@RequestBody ReportFeedRequest feedRequest
+    ){
+		int result = reportService.insertReportFeed(principalDetails, feedRequest);
+	return ResponseEntity.ok().body(result);
+	}
+
+	/**
+	 * Patch : http://localhost:8080/report/insertReportFeedComments
+	 * raw/json
+	 * {
+	 *   "commentsId": 20,
+	 *   "content": "이 댓글에 불쾌한 내용이 포함되어 있습니다."
+	 * }
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/insertReportFeedComments")
+	public ResponseEntity<?> inserReportFeedComments(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody ReportFeedRequest feedRequest
+	){
+		int result = reportService.insertReportFeedComments(principalDetails, feedRequest);
+
+		return ResponseEntity.ok().body(result);
 	}
 
 	
