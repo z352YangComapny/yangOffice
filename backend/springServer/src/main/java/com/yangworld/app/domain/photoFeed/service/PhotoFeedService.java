@@ -17,9 +17,9 @@ public interface PhotoFeedService {
 
     List<FeedDto> getPhotoFeed(int pageNo, int pageSize);
 
-    int insertfeed(PeedCreateDto _feed, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException;
+    int insertfeed(String content, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException;
 
-    List<PhotoFeedAll> findPhotoFeedAll(int id);
+    List<PhotoFeedAll> findPhotoFeedAll(String userName);
 
     int deleteFeed(PrincipalDetails member, int feedId);
 

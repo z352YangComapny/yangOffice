@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
+@Transactional
 public class PhotoFeedServiceImpl implements PhotoFeedService {
 	@Autowired
 	private MemberRepository memberRepository;
@@ -95,9 +96,9 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		return feedDtos;
 	}
 
+
 	@Override
-	@Transactional
-	public int insertfeed(PeedCreateDto _feed, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException {
+	public int insertfeed(String content, PrincipalDetails member, List<MultipartFile> upFiles) throws IOException {
 
 		int result = 0;
 
@@ -122,7 +123,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 
 		FeedDetails feed = FeedDetails.builder()
 				.writerId(member.getId())
-				.content(_feed.getContent())
+				.content(content)
 				.attachments(attachments)
 				.build();
 
@@ -148,7 +149,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 	}
 
 	@Override
-	public List<PhotoFeedAll> findPhotoFeedAll(int id) {
+	public List<PhotoFeedAll> findPhotoFeedAll(String userName) {
+
+		Member byuserName = photoFeedRepository.findByuserName(userName);
+
+		int id = byuserName.getId();
 
 		// 사진 시작
 		List<PhotoFeedAll> feedDetails = photoFeedRepository.findAllFeedByWriterId(id);
@@ -207,7 +212,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		return feedDetails;
 	}
 
-	@Transactional
+
 	@Override
 	public int deleteFeed(PrincipalDetails member, int feedId) {
 
