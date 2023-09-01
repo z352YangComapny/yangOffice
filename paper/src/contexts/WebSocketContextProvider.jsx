@@ -23,8 +23,10 @@ const WebSocketContextProvider = (props) => {
             console.log('subject = ', subject);
             console.log('sendGoal = ', sendGoal);
             console.log('wsJSON = ', wsJSON);
-            stompClient.subscribe(subject, () => {});
-            stompClient.send(sendGoal, {}, JSON.stringify(wsJSON));
+            if(subject === '/storyMain'){
+                stompClient.subscribe(subject, () => {});
+                stompClient.send(sendGoal, {}, JSON.stringify(wsJSON));
+            }
         }
         stompClient.activate();
     };
