@@ -53,6 +53,7 @@ public class PhotoFeedController {
 
 		int result = photoFeedService.insertfeed(content, member, upFiles);
 
+
 		if (result > 0) {
 	        // 성공적으로 생성되었을 경우
 			return ResponseEntity.ok().body(result);

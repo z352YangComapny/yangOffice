@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,13 +28,24 @@ public class commentsController {
     @PatchMapping("/commentsUpdate")
     public ResponseEntity<?> commentsUpdate(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
-            @RequestParam int id
+            @RequestParam int commentId,
+            @RequestParam String content
             ){
-        // content, id
-        // update comments set content = #{content} where id = #{id}
-        int result = commentsService.commentsUpdate(principalDetails, id);
 
-        return null;
+        int result = commentsService.commentsUpdate(principalDetails, commentId, content);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @DeleteMapping("/commentsDelete")
+    public ResponseEntity<?> commentsDelete(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @RequestParam int commentId
+    ){
+
+        int result = commentsService.commentsDelete(principalDetails, commentId);
+
+        return ResponseEntity.ok().body(result);
     }
 
 
