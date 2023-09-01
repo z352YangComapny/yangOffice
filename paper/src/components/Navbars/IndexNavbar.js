@@ -40,7 +40,7 @@ import { NotificationContext } from "contexts/NotificationContextProvider";
 import ReactNotificationAlert from "react-notification-alert";
 import SendMessage from "components/Icons/icons/send-message";
 import SockJS from "sockjs-client";
-import { CompatClient, Stomp } from "@stomp/stompjs";
+import { Stomp } from "@stomp/stompjs";
 
 function IndexNavbar() {
   const {
@@ -75,17 +75,14 @@ function IndexNavbar() {
   /** socket */
 
   
-  const connect = () => {
-    client.current = Stomp.over(() => {
-      const ws = new SockJS(`http:// /stomp`);  // endpoint
-      return ws;
-    });
-
-
+	const storyConnect = () => {
+		const ws = new SockJS(`http://localhost:8080/stomp`); // endpoint
+		const stompClient = Stomp.over(ws);
+    console.log('커넥트 성공');
 	    // 구독신청 
-	    client.current.connect({}, () => {
+	    stompClient.connect({}, () => {
 	        console.log('WebSocket 연결 성공');
-	        client.subscribe('/storyMain', (payloads) => {
+	        stompClient.subscribe('/storyMain', (payloads) => {
 	          // console.log('/story : ', payloads);
 
 //	          renderStory(payloads);
@@ -95,14 +92,15 @@ function IndexNavbar() {
 			    const userId = userProfile.id;
 			    console.log('userId = ', userId);
 
-	        client.current.send("/app/init", {}, JSON.stringify({ userId: userId }));
+	        stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
           
 	    });
 	};
 
   useEffect(() => {
     if(userProfile){
-      connect()
+      console.log('웹소켓 연결 시도');
+      storyConnect()
     }
   }, [])
 
