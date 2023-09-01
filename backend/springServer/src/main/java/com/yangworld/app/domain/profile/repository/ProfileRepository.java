@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.profile.repository;
 
 
+import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.profile.entity.Profile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -10,4 +11,7 @@ public interface ProfileRepository {
 	
     @Select("select * from profile where member_id = #{id}")
     Profile findProfileByMemberIdForAdmin(int id);
+
+    @Select("select * from member where userName = #{userName}")
+	Member findByUsername(String userName);
 }

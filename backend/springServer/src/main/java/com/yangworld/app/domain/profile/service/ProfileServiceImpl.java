@@ -6,8 +6,12 @@ import com.yangworld.app.domain.attachment.repository.AttachmentRepository;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import com.yangworld.app.domain.profile.dto.AdminProfileDto;
+import com.yangworld.app.domain.profile.dto.ProfileAll;
 import com.yangworld.app.domain.profile.entity.Profile;
 import com.yangworld.app.domain.profile.repository.ProfileRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +60,17 @@ public class ProfileServiceImpl implements ProfileService {
         log.info("{}",adminProfileDto);
         return adminProfileDto;
     }
+
+
+	@Override
+	public List<ProfileAll> findProfileAll(String userName) {
+		
+		Member _userName = profileRepository.findByUsername(userName);
+		
+		log.info("userName = {}", userName);
+		log.info("_userName = {}", _userName);
+		return null;
+	}
     
     
     
