@@ -44,7 +44,15 @@ public class ReportController {
 		
 		return ResponseEntity.ok().build();
 	}
-
+	/**
+	 * Patch : http://localhost:8080/report/insertReportFeed
+	 * raw/json
+	 * {
+	 *   "feedId": 30,
+	 *   "content": "이 사진에 불쾌한 내용이 포함되어 있습니다."
+	 * }
+	 * - Headers : Authorization ** 필수
+	 */
 	@PatchMapping("/insertReportFeed")
 	public ResponseEntity<?> insertReportFeed(
 		@AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -52,6 +60,25 @@ public class ReportController {
     ){
 		int result = reportService.insertReportFeed(principalDetails, feedRequest);
 	return ResponseEntity.ok().body(result);
+	}
+
+	/**
+	 * Patch : http://localhost:8080/report/insertReportFeedComments
+	 * raw/json
+	 * {
+	 *   "commentsId": 20,
+	 *   "content": "이 댓글에 불쾌한 내용이 포함되어 있습니다."
+	 * }
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/insertReportFeedComments")
+	public ResponseEntity<?> inserReportFeedComments(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody ReportFeedRequest feedRequest
+	){
+		int result = reportService.insertReportFeedComments(principalDetails, feedRequest);
+
+		return ResponseEntity.ok().body(result);
 	}
 
 	

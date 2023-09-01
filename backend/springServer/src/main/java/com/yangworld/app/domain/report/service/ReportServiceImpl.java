@@ -52,6 +52,7 @@ public class ReportServiceImpl implements ReportService {
 			int reporterId = principalDetails.getId();
 			int feedId = feedRequest.getFeedId();
 			String content = feedRequest.getContent();
+
 			PhotoFeed photoFeed = reportRepository.findByFeedId(feedId);
 			int reportedId = photoFeed.getWriterId();
 
@@ -74,6 +75,37 @@ public class ReportServiceImpl implements ReportService {
 				log.debug("안돼..");
 			}
 			return 0;
+	}
+
+	@Override
+	public int insertReportFeedComments(PrincipalDetails principalDetails, ReportFeedRequest feedRequest) {
+
+		int result = 0;
+
+		int reporterId = principalDetails.getId();
+		int CommentsId = feedRequest.getCommentsId();
+		String content = feedRequest.getContent();
+
+		PhotoFeed Comments = reportRepository.findByCommentsId(CommentsId);
+		int reportedId = Comments.getWriterId();
+
+		Report report = Report.builder()
+				.reportedId(reportedId)
+				.reporterId(reporterId)
+				.content(content)
+				.build();
+		try {
+			result = reportRepository.insertReport(report);
+			if (result > 0) {
+				result += reportRepository.insertReportFeedComments(CommentsId);
+				return result;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			System.out.println("진짜 안돼");
+		}
+
+		 return 0;
 	}
 
 //	@Override

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportFeedRequest {
-
     private int feedId;
+    private int commentsId;
     private String content;
 }

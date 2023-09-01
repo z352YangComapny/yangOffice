@@ -12,6 +12,9 @@ public interface ReportService {
 
     int insertReportFeed(PrincipalDetails principalDetails, ReportFeedRequest feedRequest);
 
+    int insertReportFeedComments(PrincipalDetails principalDetails, ReportFeedRequest feedRequest);
+
+
 //	int insertReportDm(ReportDm reportDm);
 
 }

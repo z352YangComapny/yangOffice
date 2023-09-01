@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.comments.controller;
 
+import com.yangworld.app.domain.comments.service.CommentsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class commentsController {
 
-    //@Autowired
+//    @Autowired
+//    CommentsService commentsService;
+
 
 }
