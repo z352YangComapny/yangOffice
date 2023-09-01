@@ -24,4 +24,7 @@ public interface PhotoFeedRepository {
     int getPhotoFeedTotalCount();
     @Select("select * from photo_feed order by id DESC")
     List<PhotoFeed> getPhotoRawFeed(RowBounds rowBounds);
+
+    @Select("select * from photo_feed where id = #{feedId}")
+    PhotoFeed findPhotoFeedById(int feedId);
 }

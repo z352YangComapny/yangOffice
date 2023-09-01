@@ -4,9 +4,11 @@ import axios from 'axios';
 export const PhotofeedContext = createContext()
 
 const PhotofeedContextProvider = (props) => {
+  const SpringBaseUrl = "http://localhost:8080";
     const [photofeed , setPhotofeed ] = useState([]);
     const [feedNo , setFeedNo ] = useState(0);
     const [feedTotalNo, setFeedTotalNo] = useState(0);
+    const [reportPhotoFeed, setReportPhotoFeed] = useState({});
 
     const getFeed = (id) => {}
     const getFeeds = async (pageNo) => {
@@ -17,11 +19,16 @@ const PhotofeedContextProvider = (props) => {
     }
     const deletedFeed = (id) => {}
 
+    const insertReportPhotoFeed = async (feedId) =>{
+      return await axios.post(SpringBaseUrl +`/api/v1/insertReportFeed?feedId=`+ feedId);
+  }
+
     const value = {
       states : {
         photofeed, 
         feedNo,
-        feedTotalNo
+        feedTotalNo,
+        reportPhotoFeed
       },
       actions: {
         getFeed,
@@ -29,7 +36,9 @@ const PhotofeedContextProvider = (props) => {
         getTotalFeedCount,
         setFeedTotalNo,
         setPhotofeed,
-        deletedFeed
+        deletedFeed,
+        setReportPhotoFeed,
+        insertReportPhotoFeed
       }
     };
 

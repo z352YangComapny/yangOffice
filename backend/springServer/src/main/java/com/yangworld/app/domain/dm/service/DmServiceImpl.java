@@ -32,7 +32,8 @@ public class DmServiceImpl implements DmService {
 		List<Dm> dmDetails = dmRepository.findDmDetails(dmRoomId);
 		return dmDetails;
 	}
-	
+
+
 	@Override
 	public List<Dm> findMyDmList(int userId) {
 		List<Dm> myDms = dmRepository.findMyDmList(userId);

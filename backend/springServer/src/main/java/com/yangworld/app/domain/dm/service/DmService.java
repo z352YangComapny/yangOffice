@@ -17,4 +17,5 @@ public interface DmService {
 	int deleteDmRoom(int participant1, int participant2);
 
 	List<Dm> findDmDetails(int dmRoomId);
+
 }

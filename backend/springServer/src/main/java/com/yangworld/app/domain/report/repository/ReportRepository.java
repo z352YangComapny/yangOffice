@@ -1,14 +1,13 @@
 package com.yangworld.app.domain.report.repository;
 
 import com.yangworld.app.domain.report.dto.ReportDetailDto;
+import com.yangworld.app.domain.report.dto.ReportStoryDto2;
+import com.yangworld.app.domain.report.entity.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.data.repository.query.Param;
-
-import com.yangworld.app.domain.report.entity.Report;
-import com.yangworld.app.domain.report.entity.ReportDm;
 
 import java.util.List;
 
@@ -79,4 +78,21 @@ public interface ReportRepository {
 
 	@Select("select count(*) from report")
 	int getReportCount();
+
+	// Report_DM 테이블에 신고와 DM 관계 추가
+
+	@Insert("insert into report_guestbook(report_id, guestbook_id) values(#{reportId}, #{guestBookId})")
+	int insertReportGuestBook(ReportGuestBook reportGuestbook);
+
+	@Insert("insert into report_profile(report_id, profile_id) values(#{reportId}, #{profileId})")
+	int insertReportProfile(ReportProfile reportProfile);
+
+	@Insert("insert into report_photo_feed(report_id, photo_feed_id) values(#{reportId}, #{photoFeedId})")
+	int insertReportFeed(ReportPhotoFeed reportFeed);
+
+	@Insert("insert into report_comments_feed(report_id, comments_id) values(#{reportId}, #{commentsId})")
+	int insertReportComments(ReportCommentsFeed reportCommentsFeed);
+
+	@Insert("insert into report_story(report_id, story_id) values(#{reportId}, #{storyId})")
+	int insertReportStoryReport(ReportStory reportStory);
 }

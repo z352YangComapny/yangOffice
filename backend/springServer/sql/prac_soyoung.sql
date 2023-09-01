@@ -132,3 +132,6 @@ from report r
      join MEMBER M on r.REPORTED_ID = M.ID;
 
 select count(*) from report;
+
+
+select * from photo_feed where id = 2;

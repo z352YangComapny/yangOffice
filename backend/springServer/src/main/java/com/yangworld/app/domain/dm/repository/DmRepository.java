@@ -35,5 +35,6 @@ public interface DmRepository {
 	@Delete("delete from dm_room where participant1=#{participant1} and participant2=#{participant2}")
 	int deleteDmRoom(int participant1, int participant2);
 
-	
+
+
 }

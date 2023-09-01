@@ -1,12 +1,12 @@
 package com.yangworld.app.domain.report.service;
 
 import com.yangworld.app.domain.report.dto.ReportDetailDto;
+import com.yangworld.app.domain.report.dto.ReportStoryDto2;
+import com.yangworld.app.domain.report.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yangworld.app.domain.report.entity.Report;
-import com.yangworld.app.domain.report.entity.ReportDm;
 import com.yangworld.app.domain.report.repository.ReportRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -106,4 +106,86 @@ public class ReportDmServiceImpl implements ReportService {
 //		int result = reportRepository.insertReportDm(reportDm);
 //		return result;
 //	}
+@Override
+public int insertReportProfile(Report report, int profileId) {
+
+	int result = reportRepository.insertReport(report);
+	int reportId = report.getId();
+	ReportProfile reportProfile = ReportProfile.builder()
+			.id(reportId)
+			.profileId(profileId)
+			.build();
+	int resultReportProfile = reportRepository.insertReportProfile(reportProfile);
+
+	return resultReportProfile;
+
+
+}
+	/*
+	* GuestBook
+	* */
+	@Override
+	public int insertReportGuestBook(Report report, int guestbookId) {
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		log.info("reportId@guest = {}", reportId);
+
+		ReportGuestBook reportGuestBook = ReportGuestBook.builder()
+											.id(reportId)
+											.guestBookId(guestbookId)
+											.build();
+
+		int resultReportGuestBook= reportRepository.insertReportGuestBook(reportGuestBook);
+
+		return resultReportGuestBook;
+	}
+
+	@Override
+	public int insertReportFeed(Report report, int feedId) {
+
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		ReportPhotoFeed reportFeed = ReportPhotoFeed.builder()
+				.id(reportId)
+				.photoFeedId(feedId)
+				.build();
+		int feedReport = reportRepository.insertReportFeed(reportFeed);
+
+
+		return feedReport;
+	}
+
+	@Override
+	public int insertReportComments(Report report, int commentsId) {
+		int result = reportRepository.insertReport(report);
+		int reportId = report.getId();
+		ReportCommentsFeed reportCommentsFeed = ReportCommentsFeed.builder()
+				.id(reportId)
+				.commentsId(commentsId)
+				.build();
+		int commentsReport = reportRepository.insertReportComments(reportCommentsFeed);
+
+
+		return commentsReport;
+	}
+
+	@Override
+	public int insertReportStory(Report report, int storyId) {
+		int result =  reportRepository.insertReport(report);
+		int reportId =report.getId();
+
+		ReportStory reportStory = ReportStory.builder()
+				.id(reportId)
+				.storyId(storyId)
+				.build();
+
+		int resultReportStory = reportRepository.insertReportStoryReport(reportStory);
+
+		return resultReportStory;
+	}
+
+
+
+
+
 }

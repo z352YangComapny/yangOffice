@@ -10,21 +10,24 @@ const ReportContextProvider = (props) => {
     const [reports, setReports] = useState([]);
     const [totalReportPages, setTotalReportPages] = useState(0);
     const [pageNo, setPageNo] = useState(1);
+    
 
     const getTotalReportCount = async () => {
         return await axios.get(`/api/v1/reportCount`);
     }
     
-    const getReport = async (pageNo) => {
+    const getReport = async (pageNom ) => {
         return await axios.get(SpringBaseUrl+`/api/v1/reportList?pageNo=`+ pageNo);            
     };
+
 
     const value = {
         states : {
             totalReportCount,
             totalReportPages,
             reports,
-            pageNo
+            pageNo,
+           
         },
         actions: {
             getTotalReportCount,
@@ -32,8 +35,8 @@ const ReportContextProvider = (props) => {
             setTotalReportPages,
             getReport,
             setReports,
-            setPageNo
-
+            setPageNo,
+        
         }
       };
 

@@ -83,4 +83,9 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		return feedDtos;
 	}
 
+	@Override
+	public PhotoFeed findPhotoFeedById(int feedId) {
+		return photoPeedRepository.findPhotoFeedById(feedId);
+	}
+
 }
