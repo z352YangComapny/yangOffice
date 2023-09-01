@@ -44,7 +44,7 @@ public class PhotoFeedController {
 	 * value : {content}, {File}
 	 * - Headers : Authorization ** 필수
 	 */
-	@PatchMapping("/feedCreate")
+	@PostMapping("/feedCreate")
 	public ResponseEntity<?> feedCreate(
 			@RequestPart String content,
 			@AuthenticationPrincipal PrincipalDetails member,
