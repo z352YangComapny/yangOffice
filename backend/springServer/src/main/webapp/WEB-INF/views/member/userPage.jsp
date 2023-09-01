@@ -4,11 +4,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <fmt:requestEncoding value="utf-8"/> <!-- 한글로 제목을 변경할 경우에는 인코딩이 깨질 수 있으니 해당 설정 잡아주기 -->
-
+<style>
+    #guestBookTitle{
+        font-family:"DungGeunMo";
+        font-size: 40px; font-weight: bold;
+        margin-left: 15px;
+        background: linear-gradient(to right, #F3969A, #78C2AD);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+</style>
 <sec:authorize access="isAuthenticated()">
-
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<div class="d-flex flex-column justify-content-center align-item-center" id="userPageContainer">
     <div class="d-flex flex-column m-1 p-3">
         <div id="story" class="flex-grow-1" style="height : 25vh; margin : 0;">
             <a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton"
@@ -37,19 +47,20 @@
                         <a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton" style="color: MediumSeaGreen; font-size: 40px; font-family: 'Kalam', cursive; text-decoration: none;">Story</a>
                         <jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
                     </div>--%>
-                <div class="d-flex justify-content-end align-content-center flex-grow-1" style="margin :0;">
-                    <a href="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook">
-                        <img src="${pageContext.request.contextPath}/resources/images/wallet-symbol.png" id="guestbook-image" alt="guestbook-image" />
-                     </a>
-                </div>
-                <div id="photoFeed" class="flex-grow-1" data-mdb-perfect-scrollbar="true"
-                     style="position: relative; height: 600px; overflow-y: auto;">
-                    <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
-                </div>
-
+                        <div class="d-flex flex-row justify-content-end align-content-center flex-grow-1" style="margin :0;">
+                            <span id="guestBookTitle">GUEST BOOK</span>
+                            <a href="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook">
+                                <img src="${pageContext.request.contextPath}/resources/images/wallet-symbol.png" id="guestbook-image" alt="guestbook-image" style="width:100px;"/>
+                            </a>
+                        </div>
+                    <div id="photoFeed" class="flex-grow-1" data-mdb-perfect-scrollbar="true"
+                         style="position: relative; height: 600px; overflow-y: auto;">
+                        <jsp:include page="/WEB-INF/views/feed/feedList.jsp"/>
+                    </div>
             </div>
         </div>
     </div>
+   </div>
 </sec:authorize>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 

@@ -18,19 +18,29 @@ div#guestbook-container {
 .form-inline {
 	display: block;
 }
+#create{width: 800px;}
+#guestBookTitle{
+	font-size : 30px; font-weight: bold;
+	background: linear-gradient(to right, #F3969A, #78C2AD);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;}
 </style>
 <br>
 <br>
 <div id="guestbook-container">
-	<h6>✨방명록 남기기✨</h6>
+	<p>✨<span id="guestBookTitle">Guest Book</span>✨</p>
+	<div class="mt-5">
 	<form:form
 		action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do"
 		class="form-inline" name="createFrm" method="post">
-		<input type="text" id="create" class="form-control col-sm-10 ml-1"
-			name="content" placeholder="내용" required />&nbsp;
-		<button class="btn btn-outline-success" type="submit"
-			onclick="alert('방명록이 등록되었습니다~꒰⍤꒱')">저장</button>
+		<div class="d-flex flex-row justify-content-center">
+			<input type="text" id="create" class="form-control col-sm-10 ml-1"
+				name="content" placeholder="방명록을 남겨주세요!!!" required />&nbsp;
+			<button class="btn btn-outline-success" type="submit"
+				onclick="alert('방명록이 등록되었습니다~꒰⍤꒱')">저장</button>
+		</div>
 	</form:form>
+	</div>
 	<br> <br>
 	<table class="table">
 		<thead>
@@ -76,7 +86,7 @@ div#guestbook-container {
 						</td>
 						<td>
 							<div class="guestbookReport-box">
-								<button class="btn btn-sm btn-light btn-reportGuestbook"
+								<button id="tempSibal" class="btn btn-sm btn-light btn-reportGuestbook"
 									style="margin-left: 10px; font-size: 20px;"
 									data-guestbook-id="${guestbook.id}"
 									data-reported-id="${guestbook.writerId}"
@@ -101,7 +111,7 @@ div#guestbook-container {
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="guestbookReportModalLabel">방명록 신고</h5>
-				<button type="button" class="closeModalButton" data-dismiss="modal"
+				<button type="button" class="closeModalButton" data-dismiss="modal" id="closeModalButton"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -125,7 +135,7 @@ div#guestbook-container {
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModalButton">취소</button>
 				<button type="button" class="btn btn-primary"
 					id="confirmReportButton">신고</button>
 			</div>
@@ -293,60 +303,78 @@ document.querySelectorAll(".deleteGuestbook").forEach(btn => {
       
     };
 });
-
+let i = 0;
 // 방명록 신고
+$("#closeModalButton, #cancelModalButton").click(function (ev) {
+    	console.log(ev)
+        $("#guestbookReportModal").modal("hide");
+    });
+    
+var guestbookId;
+var reportedId;
+var reporterId; 
+
 document.querySelectorAll(".btn-reportGuestbook").forEach(btn => {
+	console.log(btn)
 	
+
     btn.onclick = (e) => {
 	e.preventDefault(); // 기본 동작 방지
-	
     	console.log(e);
-	    // 'guestbook report' 버튼 클릭 시 모달 창 열기
-	    $(".btn-reportGuestbook").click(function () {
-	        var guestbookId = $(this).data("guestbook-id");
-	        var reportedId = $(this).data("reported-id");
-	        var reporterId = $(this).data("repoter-id"); 
-			console.log(guestbookId);
-			console.log(reportedId);
-			console.log(reporterId);
-	        
-	        // 모달 창 열기
-	        $("#guestbookReportModal").modal("show");
-	        
-	        // 모달 창 x 버튼으로 닫기
-            $("#closeModalButton, #cancelModalButton").click(function () {
-                $("#guestbookReportModal").modal("hide");
-            });
+    	console.log(i++)
 	
-	        // '신고' 버튼 클릭 시 AJAX 요청 전송
-	        $("#confirmReportButton").click(function () {
-	            var content = $("#reportContent").val();
-				console.log(content);
-	            // AJAX 요청 보내는 부분
-	            $.ajax({
-	                method: "POST",
-	                url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportGuestBook.do",
-	                data: {
-	                    guestbookId: guestbookId,
-	                    reportedId: reportedId,
-	                    reporterId: reporterId,
-	                    content: content
-	                },
-	                beforeSend: function (xhr) {
-	                    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-	                },
-	                success: function (response) {
-	                    alert("신고가 접수되었습니다.");
-	                    $("#guestbookReportModal").modal("hide");
-	                },
-	                error: function (error) {
-	                    alert("Error reporting: " + error.responseText);
-	                }
-	            });
-	        });
-	        
-	    });
+    	var guestbookId = $(this).data("guestbook-id");
+        var reportedId = $(this).data("reported-id");
+        var reporterId = $(this).data("repoter-id"); 
+		console.log(guestbookId);
+		
+		guestbookId = $(this).data("guestbook-id");
+	    reportedId = $(this).data("reported-id");
+	    reporterId = $(this).data("repoter-id"); 
+		console.log(reportedId);
+		console.log(reporterId);
+         
+        // 모달 창 열기
+        $("#guestbookReportModal").modal("show");
+        
+        // 모달 창 x 버튼으로 닫기
+        
+        // '신고' 버튼 클릭 시 AJAX 요청 전송
+        
+	    
     };
+});
+
+$("#confirmReportButton").click(function (e) {
+	console.log("여기")
+	const arr=[...document.querySelector('#tempSibal').attributes]
+	console.log(arr)
+    var content = $("#reportContent").val();
+    console.log(arr[3].value);
+    console.log(arr[4].value);
+    console.log(reporterId);
+	console.log(content);
+    // AJAX 요청 보내는 부분
+    $.ajax({
+        method: "POST",
+        url: "${pageContext.request.contextPath}/member/userPage/${id}/insertReportGuestBook.do",
+        data: {
+            guestbookId: arr[3].value,
+            reportedId: arr[4].value,
+            reporterId: arr[5].value,
+            content: content
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function (response) {
+            alert("신고가 접수되었습니다.");
+            $("#guestbookReportModal").modal("hide");
+        },
+        error: function (error) {
+            alert("Error reporting: " + error.responseText);
+        }
+    });
 });
 </script>
 

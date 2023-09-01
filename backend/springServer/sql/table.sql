@@ -2,13 +2,13 @@
 create table member
 (
     id          number,
-    username    varchar2(50)  not null,
+    username    varchar2(50) not null ,
     name        varchar2(50)  not null,
-    password    varchar2(300) not null,
-    nickname    varchar2(50)  not null,
-    birthday    date          not null,
-    gender      char(1)       not null,
-    phone       varchar2(20)  not null,
+    password    varchar2(300)  not null,
+    nickname    varchar2(50),
+    birthday    date ,
+    gender      char(1) not null,
+    phone       varchar2(20) ,
     email       varchar2(200) not null,
     provider    varchar2(50),
     reg_date    date default sysdate,
@@ -21,7 +21,7 @@ create table member
     constraints u_member_email unique (email),
     constraints c_member_provider check (provider in ('YANG', 'NAVER', 'GIT', 'KAKAO', 'GOOGLE'))
 );
-
+select * from member;
 -- 회원 시퀀스
 create sequence seq_member_id;
 
@@ -147,7 +147,19 @@ create table photo_feed
 );
 -- 사진피드 시퀀스
 create sequence seq_photo_feed_id;
+
+select * from photo_feed;
+create table attachment_photo_feed
+(
+    attachment_id number,
+    photo_feed_id number,
+    constraints   p_att_photo_feed_id primary key(attachment_id),
+    constraints   f_att_photo_feed_attachment_id foreign key (attachment_id) references attachment(id) on delete cascade,
+    constraints   f_att_photo_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade
+);
+
 -- 사진피드 신고 테이블
+
 create table report_photo_feed
 (
     report_id     number,
@@ -242,8 +254,8 @@ create table report_story
     constraints f_rep_story_reprot_id foreign key (report_id) references report(id) on delete cascade,
     constraints f_rep_story_story_id foreign key (story_id) references story(id) on delete cascade
 );
-
 ------------------------------------------- 방명록 (GUESTBOOK) -----------------------------------------------
+
 create table guestbook
 (
     id          number,

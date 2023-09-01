@@ -21,8 +21,8 @@
 
     .content-box {
         width: 30vw;
-        margin-left: 7vw;
-        margin-top: 5vw;
+        margin-top: 3vw;
+        margin-left: 12vw;
         overflow-y: auto;
     }
 
@@ -31,7 +31,6 @@
         border-radius: 5%;
         width: 20vw;
         margin-left: 12vw;
-        margin-top: 5vw;
         border: 1px solid #585757;
     }
 
@@ -40,7 +39,7 @@
     }
 
     .carousel-control-next {
-        margin-right: 9vw;
+        margin-right: 6vw;
     }
 
     .carousel-item img {
@@ -50,18 +49,22 @@
 
 
     .goBackBtn {
-        margin-left: 5vw;
+        margin-left: 15vw;
         margin-top: 2.5vw;
     }
-
+    .feedDelete-box{
+    	margin-left:75vw;
+    }
+	.feedUpdate-box{
+	}
     .likes-btn {
         width: 50px;
         heght: 50px;
-        margin-top: 30vw;
+        margin-top: 27vw;
     }
 
     .likes-box {
-        position: absolute;
+       /*  position: absolute; */
         right: 30vw;
     }
 
@@ -83,26 +86,25 @@
     }
 
     #likes {
-        width: 30px;
-        height: 30px;
+        width: 60px;
+        height: 60px;
     }
 
 
-    .btns {
-        margin-left: 80vw;
-        padding: 5px;
+      .btns {
         display: flex;
-    }
-
+        flex-wrap:wrap;
+    } 
+    
     .FeedBox {
         width: 95vw;
-        height: 40vw;
+        height: 30vw;
         display: flex;
     }
 
     .photoBox {
         width: 45vw;
-        height: 30vw;
+        height: 20vw;
         margin-left: 2vw;
     }
 
@@ -111,6 +113,7 @@
         width: 45vw;
         height: 30vw;
         margin-left: 7vw;
+        margin-right : 10vw;
     }
 
 
@@ -193,6 +196,7 @@
     }
 
 </script>
+
 <div class="modal fade" id="feedReportModal" tabindex="-1" role="dialog" aria-labelledby="feedReportModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -265,21 +269,23 @@
     </div>
 </div>
 
-<form:form name="goBackBtn"
-           method="get"
-           action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
-    <div class="goBackBtn">
-        <button class="btn btn-primary">뒤로가기</button>
-    </div>
-</form:form>
+
+
 <div class="btns">
+	<form:form name="goBackBtn"
+	           method="get"
+	           action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
+	    <div class="goBackBtn">
+	        <button class="btn btn-primary">뒤로가기</button>
+	    </div>
+	</form:form>
     <!-- feed delete -->
     <c:if test="${response.writerId eq principalDetails.id}">
         <div class="feedDelete-box">
             <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedDelete"
                        method="post" id="deleteFeedForm">
                 <input type="hidden" name="feedId" value="${response.id}">
-                <button type="button" class="btn btn-danger" onclick="confirmDeleteFeed()" style="margin-right: 10px;">
+                <button type="button" class="btn btn-outline-danger" onclick="confirmDeleteFeed()" style="margin-right: 10px;">
                     피드 삭제
                 </button>
             </form:form>
@@ -289,7 +295,7 @@
     <%--  feed update button--%>
     <c:if test="${response.writerId eq principalDetails.id }">
         <div class="feedUpdate-box">
-            <button class="btn btn-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
+            <button class="btn btn-outline-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
         </div>
     </c:if>
 
@@ -310,7 +316,7 @@
 <div class="FeedBox">
     <div class="photoBox">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators" style="margin-bottom: -38px;">
+            <div class="carousel-indicators" style="margin-bottom: -38px; margin-left: 11vw;">
                 <c:forEach items="${photoDetail}" var="photo" varStatus="status">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}"
                             class="bg-dark ${status.first ? 'active' : ''}"
@@ -341,7 +347,20 @@
         </div>
         <%--  feed content  --%>
         <div class="content-box">
-
+    	
+    	<div class="likes-box" style="display: flex; align-items: center;">
+		    <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedLikeUpdate"
+		               method="post" id="likeForm">
+		        <input type="hidden" name="feedId" value="${response.id}">
+		        <input type="hidden" name="memberId" value="${principalDetails.id}">
+		        <a href="#" id="likes-btn" onclick="submitLikeForm();" style="margin-right: 10px;">
+		            <img id="likes" src="${pageContext.request.contextPath}/resources/images/favorite.png">
+		        </a>
+		    </form:form>
+		    <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
+		    <span style="font-size: 30px;">${response.likeCount}</span>
+		</div>
+    	
             <div class="feedContent-box form-control">
                 ${response.content}</div>
             <%--    feed update form   --%>
@@ -354,7 +373,7 @@
 
     </div>
 
-    <
+    
     <!-- 댓글 작성 폼 시작 -->
     <div class="commentsAll">
         <p style="font-size: 30px;
@@ -385,7 +404,7 @@
                             <div class="comment-content" id="comment-${comment.id}">
                                     ${comment.nickName} : <span class="comment-text">${comment.content}</span>
                             </div>
-                            <div class="comment-info">
+                            <div class="comment-info" style="display: flex;">
                                 <c:if test="${comment.writerId ne principalDetails.id}">
                                     <button class="btn btn-sm btn-light"
                                             style="margin-left: 10px; font-size:20px;"
@@ -399,24 +418,21 @@
                                             method="post" id="deleteCommentForm-${comment.id}">
                                         <input type="hidden" name="commentId" id="commentId" value="${comment.id}">
                                         <input type="hidden" name="photoFeedId" id="photoFeedId" value="${response.id}">
-                                        <button type="button" class="btn btn-secondary"
-                                                onclick="confirmDeleteComment(${comment.id})">삭제
-                                        </button>
+                                        <a href="#" onclick="confirmDeleteComment(${comment.id});"><img src="${pageContext.request.contextPath}/resources/images/delete.png" style="width: 40px;"/></a>
                                     </form:form>
                                 </c:if>
                                 <!-- Edit button -->
                                 <c:if test="${comment.writerId eq principalDetails.id}">
-                                    <button class="btn btn-secondary edit-comment-btn" data-comment-id="${comment.id}">
-                                        수정
-                                    </button>
+                                <a href="#" class="edit-comment-btn" data-comment-id="${comment.id}">
+                                <img src="${pageContext.request.contextPath}/resources/images/edit-button.png" style="width: 40px;"/>
+                                </a>
                                 </c:if>
                                     ${fn:substring(comment.regDate, 5, 10)} : ${fn:substring(comment.regDate, 11, 16)}
                             </div>
                         </div>
-                        <div class="edit-comment-form" id="edit-comment-form-${comment.id}" style="display: none;">
-                            <textarea class="form-control" rows="3">${comment.content}</textarea>
-                            <button class="btn btn-primary update-comment-btn" data-comment-id="${comment.id}">확인
-                            </button>
+                        <div class="edit-comment-form input-group mb-3" id="edit-comment-form-${comment.id}" style="display: none;">
+                            <input class="form-control" rows="3" value="${comment.content}"/>
+                            <button class="btn btn-secondary update-comment-btn" data-comment-id="${comment.id}">수정</button>
                         </div>
                     </li>
                 </c:forEach>
@@ -425,20 +441,7 @@
     </div>
     <!-- 댓글 목록 폼 끝 -->
 
-    <div class="likes-box">
-
-        <form:form action="${pageContext.request.contextPath}/member/userPage/${id}/feedDetails/feedLikeUpdate"
-                   method="post">
-            <input type="hidden" name="feedId" value="${response.id}">
-            <input type="hidden" name="memberId" value="${principalDetails.id}">
-            <button type="submit" class="likes-btn btn-light">
-                <img id="likes" src="${pageContext.request.contextPath}/resources/images/favorite.png">
-                <!-- 좋아요 수를 ${response.likeCount}로 변경 -->
-                <div>${response.likeCount}</div>
-            </button>
-        </form:form>
-    </div>
-
+    
 </div>
 
 
@@ -512,7 +515,7 @@
         // 확인 버튼 클릭 시
         $(".update-comment-btn").click(function () {
             var commentId = $(this).data("comment-id");
-            var newContent = $("#edit-comment-form-" + commentId + " textarea").val();
+            var newContent = $("#edit-comment-form-" + commentId + " input").val();
 
             $.ajax({
                 type: "POST",
@@ -535,6 +538,9 @@
         });
     });
 
+    function submitLikeForm() {
+        document.getElementById("likeForm").submit();
+    }
 
     function confirmDeleteFeed() {
         if (confirm("피드를 삭제하시겠습니까?")) {
@@ -548,6 +554,4 @@
         }
     }
 </script>
-
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

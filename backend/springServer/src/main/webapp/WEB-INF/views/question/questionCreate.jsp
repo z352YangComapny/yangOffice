@@ -21,21 +21,21 @@
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
-        height: 500px;
+        height: 600px;
     }
 
     div#board-container input,
     div#board-container textarea,
     div#board-container select {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 0;
+       /* width: 100%;*/
+        padding: 10px;
+       /* margin: 5px 0;*/
         font-size: 16px;
-        border-radius: 8px;
+        /*border-radius: 8px;*/
         border: 1px solid #ccc;
         box-sizing: border-box;
     }
-
+    .qnaForm{width : 100px;}
     /* 부트스트랩 : 파일라벨명 정렬 */
     div#board-container label.custom-file-label {
         text-align: left;
@@ -50,40 +50,47 @@
         background-repeat: no-repeat;
         background-position: right center;
     }
+    .qnaBtn{width:100px;}
 </style>
-		<!-- 		
-        	<h3>
-			  문의사항
-			  <small class="text-body-secondary">작성</small>
-			</h3> -->
-<div id="board-container">
+
+<div id="board-container" class="d-flex flex-column">
+    <div style="margin-right:650px; margin-bottom: 20px;">
+        <p style="font-size: 37px;
+            background: linear-gradient(to right, #F3969A, #78C2AD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;"
+        >공지사항 & 이용문의</p>
+    </div>
     <div id="board-form">
         <form:form name="boardFrm" action="${pageContext.request.contextPath}/question/createQna" method="post">
             <%--<input type="text" class="form-control" placeholder="제목을 작성하세요." name="title" id="title" required>--%>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">Title</span>
-                <input type="text" class="form-control" placeholder="제목을 작성하세요" name="title" id="title" required aria-label="Username" aria-describedby="basic-addon1">
+                <button class="btn btn-primary qnaForm" id="qnaTitle" disabled>제 목</button>
+                <input type="text" class="form-control" placeholder="제목을 작성하세요"  name="title" id="title" required aria-label="Recipient's username" aria-describedby="button-addon2">
             </div>
-            <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${pageContext.request.userPrincipal.name}" value="${pageContext.request.userPrincipal.name}" readonly disabled>
+            <div class="input-group mb-3">
+                <button class="btn btn-primary qnaForm" id="qnaWriter" disabled>작 성 자 </button>
+                <input type="text" class="form-control" name="writerId" id="writerId" value="${pageContext.request.userPrincipal.name}" readonly disabled aria-label="Recipient's username" aria-describedby="button-addon2">
+            </div>
+           <%-- <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${pageContext.request.userPrincipal.name}" value="${pageContext.request.userPrincipal.name}" readonly disabled>--%>
             <%-- <input type="text" class="form-control" name="writerId" id="writerId" placeholder="${writerId}" value="${writerId}" readonly > --%>
             <div class="form-group">
-                <label for="exampleSelect1" class="form-label mt-4"></label>
-                <select class="form-select" id="exampleSelect1" name="questionType">
+                <label for="exampleSelect1" class="form-label mt-1"></label>
+                <select class="form-select mb-2" id="exampleSelect1" name="questionType">
                 	<c:if test="${!isAdmin}">
                     <option value="Q">이용문의</option>
-                    <textarea class="form-control" name="content" placeholder="문의사항을 작성하세요." required></textarea>
                     </c:if>
                     <c:if test="${isAdmin}">
       				  <option value="N">공지사항</option>
-      				  <textarea class="form-control" name="content" placeholder="공지사항을 작성하세요." required></textarea>
    					 </c:if>
-
-
                 </select>
+                <textarea class="form-control" name="content" placeholder="내용을 작성하세요." style="resize:none; height:300px;" required></textarea>
             </div>
-			    
-            <br />
-            <button type="submit" class="btn btn-primary btn-lg">등록</button>
+            <div class="d-flex flex-row justify-content-end mt-3">
+                <button type="submit" class="btn btn-outline-primary btn-sm qnaBtn">등록</button>
+                &nbsp;
+                <button type="reset" class="btn btn-outline-danger btn-sm qnaBtn">초기화</button>
+            </div>
         </form:form>
     </div>
 </div>
