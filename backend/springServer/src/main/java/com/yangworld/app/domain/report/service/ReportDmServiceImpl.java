@@ -59,7 +59,6 @@ public class ReportDmServiceImpl implements ReportService {
 			reportTotalList.add(reportStory);
 		}
 
-
 		// DM
 		List<ReportDetailDto> reportDmList = reportRepository.getReportDm();
 		for(ReportDetailDto reportDM : reportDmList){
@@ -82,7 +81,7 @@ public class ReportDmServiceImpl implements ReportService {
 			reportTotalList.add(reportGuestBook);
 		}
 		reportTotalList.sort((o1, o2) -> {
-			return  o1.getId()- o2.getId();
+			return  -(o1.getId()- o2.getId());
 		});
 
 		int start = (pageNo-1)* pageSize;

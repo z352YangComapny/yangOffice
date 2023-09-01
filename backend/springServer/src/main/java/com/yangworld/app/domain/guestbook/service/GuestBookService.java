@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.guestbook.service;
 
 import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
+import com.yangworld.app.domain.guestbook.dto.GuestbookDailyDto;
 import com.yangworld.app.domain.guestbook.entity.GuestBook;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface GuestBookService {
     int guestbookTotalNo();
 
 	List<GuestbookAdminDto> guestbookList(int pageNo, int pageSize);
+
+    GuestBook findGuestBookById(int guestBookId);
+
+	List<GuestbookDailyDto> findGuestBookDaily();
 }

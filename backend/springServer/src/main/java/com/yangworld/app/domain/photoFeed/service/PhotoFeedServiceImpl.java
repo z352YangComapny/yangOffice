@@ -9,6 +9,7 @@ import com.yangworld.app.domain.attachment.repository.AttachmentRepository;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import com.yangworld.app.domain.photoFeed.dto.FeedDto;
+import com.yangworld.app.domain.photoFeed.dto.PhotoFeedDailyDto;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -86,6 +87,11 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 	@Override
 	public PhotoFeed findPhotoFeedById(int feedId) {
 		return photoPeedRepository.findPhotoFeedById(feedId);
+	}
+
+	@Override
+	public List<PhotoFeedDailyDto> findPhotoFeedDaily() {
+		return photoPeedRepository.findPhotoFeedDaily();
 	}
 
 }

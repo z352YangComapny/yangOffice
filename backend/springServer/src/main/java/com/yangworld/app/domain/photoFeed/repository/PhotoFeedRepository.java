@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.photoFeed.repository;
 
+import com.yangworld.app.domain.photoFeed.dto.PhotoFeedDailyDto;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +28,18 @@ public interface PhotoFeedRepository {
 
     @Select("select * from photo_feed where id = #{feedId}")
     PhotoFeed findPhotoFeedById(int feedId);
+
+    @Select("SELECT\n" +
+            "    TRUNC(reg_date) AS photofeed_date,\n" +
+            "    COUNT(*) AS photofeed_count\n" +
+            "FROM\n" +
+            "    PHOTO_FEED\n" +
+            "WHERE\n" +
+            "        reg_date > TRUNC(SYSDATE) - 10\n" +
+            "  AND reg_date <= TRUNC(SYSDATE)\n" +
+            "GROUP BY\n" +
+            "    TRUNC(reg_date)\n" +
+            "ORDER BY\n" +
+            "    TRUNC(reg_date)")
+    List<PhotoFeedDailyDto> findPhotoFeedDaily();
 }

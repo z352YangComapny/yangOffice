@@ -61,11 +61,6 @@ const Photofeed = () => {
     })
   }
 
-
-
-
-
-
   const renderImageCard = () => {
     if(!photofeed) return;
     const cards = [];

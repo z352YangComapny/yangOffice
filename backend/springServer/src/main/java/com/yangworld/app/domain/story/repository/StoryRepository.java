@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.story.repository;
 
+import com.yangworld.app.domain.story.dto.StoryDailyDto;
 import com.yangworld.app.domain.story.entity.Story;
 import org.apache.ibatis.annotations.*;
 
@@ -24,6 +25,23 @@ public interface StoryRepository {
     int getTotalStoryCount();
 	@Select("select * from story order by reg_date desc")
 	List<Story> getAdminStory(RowBounds rowBounds);
+
+	@Select("select * from story where id = #{storyId}")
+    Story findStoryById(int storyId);
+
+	@Select("SELECT\n" +
+			"    TRUNC(reg_date) AS story_date,\n" +
+			"    COUNT(*) AS story_count\n" +
+			"FROM\n" +
+			"    story\n" +
+			"WHERE\n" +
+			"        reg_date > TRUNC(SYSDATE) - 10\n" +
+			"  AND reg_date <= TRUNC(SYSDATE)\n" +
+			"GROUP BY\n" +
+			"    TRUNC(reg_date)\n" +
+			"ORDER BY\n" +
+			"    TRUNC(reg_date)")
+	List<StoryDailyDto> findStoryDaily();
 
 
 //	SELECT *

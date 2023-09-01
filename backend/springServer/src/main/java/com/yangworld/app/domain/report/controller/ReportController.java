@@ -1,17 +1,23 @@
 package com.yangworld.app.domain.report.controller;
 
+import com.yangworld.app.domain.comments.entity.Comments;
+import com.yangworld.app.domain.comments.service.CommentsService;
 import com.yangworld.app.domain.dm.entity.Dm;
 import com.yangworld.app.domain.dm.service.DmService;
+import com.yangworld.app.domain.guestbook.entity.GuestBook;
+import com.yangworld.app.domain.guestbook.service.GuestBookService;
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
 import com.yangworld.app.domain.report.dto.ReportDetailDto;
 import com.yangworld.app.domain.report.dto.ReportStoryDto;
+import com.yangworld.app.domain.story.entity.Story;
 import com.yangworld.app.domain.story.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +50,12 @@ public class ReportController {
 
 	@Autowired
 	private PhotoFeedService photoFeedService;
+
+	@Autowired
+	private CommentsService commentsService;
+
+	@Autowired
+	private GuestBookService guestBookService;
 
 	// insert 하실때 .insertReport 사용하시면 insert 됩니다. !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	/*@GetMapping("/report/createDmReport")
@@ -80,14 +92,18 @@ public class ReportController {
 	@PostMapping("/reportGuestBook")
 	public ResponseEntity<?> insertReportGuestBook(
 			@AuthenticationPrincipal PrincipalDetails principal,
-			@RequestBody ReportCreateDto _reportDto,
-			@RequestParam int guestId
+			@RequestParam int guestbookId
 	) {
+		GuestBook guestBook = guestBookService.findGuestBookById(guestbookId);
 		int reporterId = principal.getId();
-		Report report = _reportDto.toReport();
+		Report report = Report.builder()
+				.reporterId(reporterId)
+				.reportedId(guestBook.getWriterId())
+				.content(guestBook.getContent())
+				.build();
 		log.info("report@Guest={}", report);
 
-		reportService.insertReportGuestBook(report, guestId);
+		reportService.insertReportGuestBook(report, guestbookId);
 
 		return ResponseEntity.ok().build();
 	}
@@ -98,10 +114,15 @@ public class ReportController {
 	 */
 	@PostMapping("/reportStory")
 	private ResponseEntity<?> insertReportStory(@AuthenticationPrincipal PrincipalDetails principal,
-													 @RequestBody ReportCreateDto _reportDto, @RequestParam int storyId) {
+													 @RequestParam int storyId) {
 
+		Story story = storyService.findStoryById(storyId);
 		int reporterId = principal.getId();
-		Report report = _reportDto.toReport();
+		Report report = Report.builder()
+				.reporterId(reporterId)
+				.reportedId(story.getWriterId())
+				.content(story.getContent())
+				.build();
 		log.info("report@Guest={}", report);
 
 		reportService.insertReportStory(report, storyId);
@@ -111,14 +132,19 @@ public class ReportController {
 	}
 
 
+	/**
+	 * 포토피드 report
+	 * */
 	@PostMapping("/insertReportFeed")
 	private ResponseEntity<?> insertReportFeed(
 			@AuthenticationPrincipal PrincipalDetails principal,
 			@RequestParam int feedId
 	) {
 		PhotoFeed photoFeed = photoFeedService.findPhotoFeedById(feedId);
-
+	 	log.info("photoFeed@Repoart={}", photoFeed);
+		 log.info("principal@report={}", principal);
 		int reporterId = principal.getId();
+		log.info("reporterId={}", reporterId);
 		Report report = Report.builder()
 						.reporterId(reporterId)
 								.reportedId(photoFeed.getWriterId())
@@ -136,13 +162,18 @@ public class ReportController {
 	 * */
 	@PostMapping("/insertReportComment")
 	private ResponseEntity<?> insertReportComments(@AuthenticationPrincipal PrincipalDetails principal
-			, @RequestBody ReportCreateDto _reportDto, @RequestParam int commentsId) {
+			, @RequestParam int commentsId) {
+		Comments comments = commentsService.findCommentById(commentsId);
 
 		int reporterId = principal.getId();
-		Report report = _reportDto.toReport();
+		Report report = Report.builder()
+				.reporterId(reporterId)
+				.reportedId(comments.getWriterId())
+				.content(comments.getContent())
+				.build();
 		log.info("report@Guest={}", report);
 
-		reportService.insertReportComments(report, commentsId);
+		reportService.insertReportFeed(report, commentsId);
 
 		return ResponseEntity.ok().build();
 	}

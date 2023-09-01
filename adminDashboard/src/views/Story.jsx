@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
 import { Button, Card, CardHeader, CardTitle, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 import { StoryContext } from 'variables/StoryContextProvider'
 
 const Story = () => {
+  const navigate = useNavigate();
   const {
     states: {
       storyList,
       storyPage,
-      storyTotalCount
+      storyTotalCount,
+      reportStory,
+      storyId
     },
     actions: {
       getStory,
@@ -16,7 +20,10 @@ const Story = () => {
       deletedStory,
       setStoryList,
       setStoryTotalCount,
-      getTotalStoryCount
+      getTotalStoryCount,
+      setReportStory,
+      setStoryId,
+      insertReportStory
     }
   } = useContext(StoryContext);
 
@@ -46,6 +53,19 @@ const Story = () => {
       })
   }, [currentPage]);
 
+  const handleReportStory = (id) => {
+    console.log(id);
+    insertReportStory(id)
+    .then((resp)=>{
+      console.log(resp)
+      alert('스토리 신고 완료')
+      navigate('/admin/tables')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
 
   const renderStoryList = () => {
     const storyItems = storyList.map((story, index) => (
@@ -55,7 +75,7 @@ const Story = () => {
         <td>{story.content}</td>
         <td>{story.regDate}</td>
         <td>
-          <Button onClick={() => console.log(`${story.id}`)}>신고</Button>
+          <Button onClick={() => handleReportStory(story.id)}>신고</Button>
       </td>
       </tr>
     ));

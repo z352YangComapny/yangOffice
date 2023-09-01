@@ -135,3 +135,45 @@ select count(*) from report;
 
 
 select * from photo_feed where id = 2;
+
+-- 방명록 일자별 조회 쿼리
+SELECT
+    TRUNC(reg_date) AS guestbook_date,
+    COUNT(*) AS guestbook_count
+FROM
+    guestbook
+WHERE
+        reg_date > TRUNC(SYSDATE) - 10
+  AND reg_date <= TRUNC(SYSDATE)
+GROUP BY
+    TRUNC(reg_date)
+ORDER BY
+    TRUNC(reg_date);
+
+-- 스토리 일자별 조회쿼리
+SELECT
+    TRUNC(reg_date) AS story_date,
+    COUNT(*) AS story_count
+FROM
+    story
+WHERE
+        reg_date > TRUNC(SYSDATE) - 10
+  AND reg_date <= TRUNC(SYSDATE)
+GROUP BY
+    TRUNC(reg_date)
+ORDER BY
+    TRUNC(reg_date);
+
+--포토피드 일자별 쿼리
+SELECT
+    TRUNC(reg_date) AS photofeed_date,
+    COUNT(*) AS photofeed_count
+FROM
+    PHOTO_FEED
+WHERE
+        reg_date > TRUNC(SYSDATE) - 10
+  AND reg_date <= TRUNC(SYSDATE)
+GROUP BY
+    TRUNC(reg_date)
+ORDER BY
+    TRUNC(reg_date);

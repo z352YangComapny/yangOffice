@@ -3,6 +3,7 @@ package com.yangworld.app.domain.story.service;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import com.yangworld.app.domain.story.dto.StoryAdminDto;
+import com.yangworld.app.domain.story.dto.StoryDailyDto;
 import com.yangworld.app.domain.story.entity.Story;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class  StoryServiceImpl implements StoryService{
 		List<StoryAdminDto> result = new ArrayList<>();
 		List<Story> _result = storyRepository.getAdminStory(rowBounds);
 		for(Story story : _result){
-			Member username = memberRepository.findById(Integer.parseInt(story.getWriterId()));
+			Member username = memberRepository.findById(story.getWriterId());
 			StoryAdminDto storyAdminDto = StoryAdminDto.builder()
 					.id(story.getId())
 					.username(username.getUsername())
@@ -61,5 +62,15 @@ public class  StoryServiceImpl implements StoryService{
 			result.add(storyAdminDto);
 		}
 		return result;
+	}
+
+	@Override
+	public Story findStoryById(int storyId) {
+		return storyRepository.findStoryById(storyId);
+	}
+
+	@Override
+	public List<StoryDailyDto> findStoryDaily() {
+		return storyRepository.findStoryDaily();
 	}
 }

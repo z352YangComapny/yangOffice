@@ -1,6 +1,7 @@
 package com.yangworld.app.domain.guestbook.service;
 
 import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
+import com.yangworld.app.domain.guestbook.dto.GuestbookDailyDto;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,16 @@ public class GuestBookServiceImpl implements GuestBookService{
 			guestbookAdminDtos.add(guestbookAdminDto);
 		}
 		return guestbookAdminDtos;
+	}
+
+	@Override
+	public GuestBook findGuestBookById(int guestBookId) {
+		return guestBookRepository.findGuestBookById(guestBookId);
+	}
+
+	@Override
+	public List<GuestbookDailyDto> findGuestBookDaily() {
+		return guestBookRepository.findGuestBookDaily();
 	}
 
 

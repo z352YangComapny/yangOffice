@@ -1,9 +1,8 @@
-package com.yangworld.app.domain.guestbook.entity;
+package com.yangworld.app.domain.comments.dto;
 
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,13 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GuestBook {
-	
+public class CommentAllDto {
+
 	private int id;
 	private int writerId;
-	private int memberId;
+	private String nickName;
 	private String content;
 	private LocalDateTime regDate;
 	
-
 }

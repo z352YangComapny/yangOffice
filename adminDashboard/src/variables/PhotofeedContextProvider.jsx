@@ -20,8 +20,15 @@ const PhotofeedContextProvider = (props) => {
     const deletedFeed = (id) => {}
 
     const insertReportPhotoFeed = async (feedId) =>{
-      return await axios.post(SpringBaseUrl +`/api/v1/insertReportFeed?feedId=`+ feedId);
+      const axiosConfig = {
+        headers:{
+          "Authorization":localStorage.getItem('Authorization')
+        }
+      }
+      console.log(axiosConfig);
+      return await axios.post(SpringBaseUrl +`/api/v1/insertReportFeed?feedId=`+ feedId,{},axiosConfig);
   }
+
 
     const value = {
       states : {
