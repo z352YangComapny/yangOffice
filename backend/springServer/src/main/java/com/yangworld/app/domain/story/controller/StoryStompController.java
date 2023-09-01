@@ -36,7 +36,8 @@ public class StoryStompController {
 //			log.info("username = {}", username);
 			Payload tmp = Payload.builder()
 				    .type(PayloadType.STORY)
-				    .writerId(username)
+				    .writerId(story.getWriterId())
+				    .username(username)
 				    .content(story.getContent())
 				    .formattedCreatedAt(story.getFormattedRegDate())
 				    .id(story.getId())
@@ -73,7 +74,8 @@ public class StoryStompController {
 //			log.info("username = {}", username);
 			Payload tmp = Payload.builder()
 				    .type(PayloadType.STORY)
-				    .writerId(username)
+				    .writerId(story.getWriterId())
+				    .username(username)
 				    .content(story.getContent())
 				    .formattedCreatedAt(story.getFormattedRegDate())
 				    .id(story.getId())

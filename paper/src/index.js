@@ -12,7 +12,7 @@ import { BrowserRouter } from 'react-router-dom';
 import NotificationContextProvider from 'contexts/NotificationContextProvider';
 import PhotoFeedContextProvider from 'contexts/PhotoFeedContextProvider';
 import GuestBookContextProvider from 'contexts/GuestBookContextProvider';
-import WebSocketContextProvider from 'contexts/WebSocketContextProvicer';
+import WebSocketContextProvider from 'contexts/WebSocketContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class StoryDto {
 	private int id;
 	private int writerId;
+	private String username;
 	private String content;
 	private LocalDateTime regDate;
 	

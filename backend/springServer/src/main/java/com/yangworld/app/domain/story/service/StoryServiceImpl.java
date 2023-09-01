@@ -50,7 +50,7 @@ public class  StoryServiceImpl implements StoryService{
 		List<StoryAdminDto> result = new ArrayList<>();
 		List<Story> _result = storyRepository.getAdminStory(rowBounds);
 		for(Story story : _result){
-			Member username = memberRepository.findById(Integer.parseInt(story.getWriterId()));
+			Member username = memberRepository.findById(story.getWriterId());
 			StoryAdminDto storyAdminDto = StoryAdminDto.builder()
 					.id(story.getId())
 					.username(username.getUsername())
