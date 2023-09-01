@@ -301,7 +301,6 @@ insert into profile (id, member_id, state, introduction) values (seq_profile_id.
 insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 10, 'E', '안녕 와따시와 제임슨데스.');
 insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, 11, 'A', '미아월드에 오신걸 환영해용');
 
-
 -- @attachment_profile 프로필에 어태치먼트 연결
 insert into attachment_profile (attachment_id, profile_id) values (12, 1);
 insert into attachment_profile (attachment_id, profile_id) values (13, 2);
