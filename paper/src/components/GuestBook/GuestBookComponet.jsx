@@ -6,17 +6,28 @@ import { GuestBookContext } from 'contexts/GuestBookContextProvider'
 import { useParams } from 'react-router-dom'
 import { MemberContext } from 'contexts/MembetContextProvider'
 import axios from 'axios'
+import { NotificationContext } from 'contexts/NotificationContextProvider'
 
 const SpringBaseURL = "http://localhost:8080"
 
 const GuestBookComponet = () => {
     const {
         states: {
+          message,
+        },
+        actions: {
+          setMessage
+        },
+      } = useContext(NotificationContext)
+    const {
+        states: {
             guestBookList
         },
         actions: {
             setGuestBookList,
-            getGuestBookList
+            getGuestBookList,
+            enrollguestBook,
+            deleteGuestbook
         },
     } = useContext(GuestBookContext)
     const {
@@ -32,54 +43,76 @@ const GuestBookComponet = () => {
             getUserProfile
         },
     } = useContext(MemberContext)
-    const [pageNo, setPageNo] = useState(1);
+
     const [totalCount, setTotalCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const { id } = useParams();
+    const [maxPage , setMaxPage] = useState(0);
+    const [re , setRe] = useState(false)
+    const [ guestbookInput , setGuestbookInput] = useState('');
+    const { hostname } = useParams();
     const PageNoPerLine = 5;
 
+
     useEffect(() => {
-        if(!userProfile) return
-        getTotalCount(userProfile.id)
+        getTotalCount(hostname)
             .then((resp) => {
                 setTotalCount(resp.data);
+                setMaxPage(Math.ceil(resp.data / 2))
             })
-    }, [])
+    }, [hostname])
 
 
     useEffect(() => {
-        console.log(id)
-        getGuestBookList(userProfile && userProfile.id, pageNo)
+        setRe(false)
+        getGuestBookList(hostname, currentPage)
             .then((resp) => {
+                console.log(resp)
                 setGuestBookList(resp.data)
             })
             .catch((err) => {
                 console.log(err)
             })
-    }, [userProfile]);
+            getTotalCount(hostname)
+            .then((resp) => {
+                setTotalCount(resp.data);
+                setMaxPage(Math.ceil(resp.data / 2))
+            })
+            
+    }, [currentPage, re]);
 
-    useEffect(() => {
-    }, [guestBookList])
 
-
-    const getTotalCount = async (id) => {
-        return await axios.get(SpringBaseURL + `/guestbook/count?id=${id}`)
+    const getTotalCount = async (hostname) => {
+        return await axios.get(SpringBaseURL + `/guestbook/count?hostname=${hostname}`)
+    }
+    const handleDeleteGuetbook = (id) => {
+        deleteGuestbook(id)
+        .then((resp)=>{
+            setMessage({
+                color:"success", value:"방명록 삭제 성공!!"
+            })
+            setRe(true)
+        })
+        .catch((err)=>{
+            console.log(err);
+            setMessage({
+                color:"danger", value:"방명록 삭제 실패!!"
+            })
+        })
     }
 
 
     const renderPaginationItems = () => {
         const paginationItems = [];
-        const maxPage = Math.ceil(totalCount / 2);
         let end = Math.ceil(currentPage / PageNoPerLine) * PageNoPerLine;
         const start = (Math.ceil(currentPage / PageNoPerLine) - 1) * PageNoPerLine + 1;
         if (maxPage < end) {
             end = maxPage
         }
-        console.log(start + "," + end)
+        
         for (let pageIndex = start; pageIndex <= end; pageIndex++) {
             paginationItems.push(
                 <PaginationItem>
-                    <PaginationLink onClick={() => { console.log("hi") }}>
+                    <PaginationLink onClick={() => { setCurrentPage(pageIndex) }}>
                         {pageIndex}
                     </PaginationLink>
                 </PaginationItem>
@@ -88,11 +121,26 @@ const GuestBookComponet = () => {
         return paginationItems;
     };
 
-
+    const submitGuestbook = () => {
+        enrollguestBook(hostname, guestbookInput)
+        .then((resp)=>{
+            setMessage({
+                color:'success', value:'방명록 등록 완료😊'
+            })
+        })
+        .catch((err)=>{
+            setMessage({
+                color:'danger', value:'방명록 등록 실패😵'
+            })
+        })
+        .finally(()=>{
+            setGuestbookInput('');
+        })
+        setRe(true)
+    }
 
     const renderGuestbook = () => {
         const guestbookarr = []
-        console.log(guestBookList)
         if (guestBookList.length > 0) {
             guestBookList.forEach(element => {
                 guestbookarr.push(
@@ -100,6 +148,7 @@ const GuestBookComponet = () => {
                         <p className='guestbook-text-content' style={{ marginLeft: "15px", fontWeight: "500" }}>{element.content}</p>
                         <p className='guestbook-text-writer' style={{ marginRight: "15px", fontWeight: "500" }}>{element.nickname}</p>
                         <p className='guestbook-text-regdate'>{element.regDate.replaceAll('-', '/')}</p>
+                        <i className="fa nc-icon nc-simple-remove" title='삭제하기' onClick={()=>{handleDeleteGuetbook(element.id)}}></i>
                     </div>
                 );
             });
@@ -136,33 +185,37 @@ const GuestBookComponet = () => {
                                 <PaginationItem>
                                     <PaginationLink
                                         first
-                                        onClick={() => { console.log("hi") }}
+                                        onClick={() => { setCurrentPage(1) }}
                                     />
                                 </PaginationItem>
                                 <PaginationItem>
                                     <PaginationLink
-                                        onClick={() => { console.log("hi") }}
+                                        onClick={() => { 
+                                            if( currentPage === 1 ) return;
+                                            setCurrentPage(prev=>prev-1) }}
                                         previous
                                     />
                                 </PaginationItem>
                                 {renderPaginationItems()}
                                 <PaginationItem>
                                     <PaginationLink
-                                        onClick={() => { console.log("hi") }}
+                                        onClick={() => { 
+                                            if( currentPage === maxPage ) return;
+                                            setCurrentPage(prev=>prev+1) }}
                                         next
                                     />
                                 </PaginationItem>
                                 <PaginationItem>
                                     <PaginationLink
-                                        onClick={() => { console.log("hi") }}
+                                        onClick={() => { setCurrentPage(maxPage) }}
                                         last
                                     />
                                 </PaginationItem>
                             </Pagination>
                         </div>
                         <div style={{ width: '50%', display: "flex" }}>
-                            <Input type='text' name='guestbook' style={{ width: "85%", height: "35px" }} />
-                            <Button color='primary' style={{ width: "15%", height: "35px" }}><i className="fa nc-icon nc-simple-add" title='등록하기'></i></Button>
+                            <Input type='text' name='guestbook' style={{ width: "85%", height: "35px" }} value={guestbookInput} onChange={(e)=>{setGuestbookInput(e.target.value)}}/>
+                            <Button color='primary' style={{ width: "15%", height: "35px" }} onClick={submitGuestbook}><i className="fa nc-icon nc-simple-add" title='등록하기'></i></Button>
                         </div>
                     </div>
                 </div>

@@ -29,9 +29,11 @@ class Network {
         console.log("onOnpen")
     }
     handleSocketClose(close) {
+        
         console.log(close)
         this.access = false;
         this.socket.close();
+        console.log("소켓 닫힘")
     }
     handleSocketError(error) {
         console.log(error)

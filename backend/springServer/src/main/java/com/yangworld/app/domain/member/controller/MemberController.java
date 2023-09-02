@@ -19,7 +19,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Response;
 
+
 import javax.validation.constraints.NotBlank;
+
 import java.util.List;
 import java.util.Map;
 
@@ -127,12 +129,11 @@ public class MemberController {
         return ResponseEntity.ok(oauthMemberCountList);
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<SearchMemberDto>> memberSearch(@RequestParam String keyword){
+        List<SearchMemberDto> memberList = memberService.searchMember(keyword);
+        return ResponseEntity.ok(memberList);
+    }
  }
-
-
-
-
-
-
 
 

@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, DropdownItem, DropdownM
 import '../../assets/css/worldprofile.css'
 
 const WorldProfileComponent = (props) => {
-        return (
+    return (
         <Card style={{
             border: 'solid 3px rgba(81, 203, 206, 1)',
             transform: 'none',
@@ -14,27 +14,29 @@ const WorldProfileComponent = (props) => {
         }}>
             <CardHeader>
                 <div style={{ display: 'flex', justifyContent: "space-between" }}>
-                    <UncontrolledDropdown>
+                    <UncontrolledDropdown
+                        className="me-2"
+                        direction="down"
+                    >
                         <DropdownToggle
-                            aria-expanded={false}
-                            aria-haspopup={true}
-                            outline
                             color="primary"
-                            data-toggle="dropdown"
-                            id="dropdownMenuButton"
-                            type="button"
+                            outline
                         >
                             <i className="fa nc-icon nc-simple-add" title='등록하기'></i>
                         </DropdownToggle>
-                        <DropdownMenu aria-labelledby="dropdownMenuButton">
-                            <DropdownItem onClick={e => e.preventDefault()}>
+                        <DropdownMenu>
+                            <DropdownItem header>
+                                "username"
+                            </DropdownItem>
+                            <DropdownItem>
                                 Follow
                             </DropdownItem>
-                            <DropdownItem onClick={e => e.preventDefault()}>
-                                DM
+                            <DropdownItem>
+                                Dm
                             </DropdownItem>
-                            <DropdownItem onClick={e => e.preventDefault()}>
-                                ProfileSetting
+                            <DropdownItem divider />
+                            <DropdownItem>
+                                Profile Setting
                             </DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
@@ -50,7 +52,7 @@ const WorldProfileComponent = (props) => {
                         className="world-profile-img"
                         src={require("assets/img/faces/clem-onojeghuo-2.jpg")}
                     />
-                    <div style={{width:"80%"}}>
+                    <div style={{ width: "80%" }}>
                         <div className='world-nickname'>"NickName"</div>
                         <div className='world-username'>"Username"</div>
                         <div className='world-state'>

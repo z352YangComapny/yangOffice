@@ -1,6 +1,9 @@
 import { Tab } from "bootstrap";
 import DemoFooter from "components/Footers/DemoFooter";
 import ProfileComponent from "components/Member/ProfileComponent";
+import WorldProfileComponent from "components/Member/WorldProfileComponent";
+import Qna from "components/Qna/Qna";
+
 import { MemberContext } from "contexts/MembetContextProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,8 +32,27 @@ const UserPage = (props) => {
   console.log(userProfile);
 
   useEffect(() => {
-    if (!userProfile) navigate(`/`)
+    if(!userProfile)
+    getUserProfile(sessionStorage.getItem('username'))
+    .then((resp)=>{
+      setUserProfile(resp.data)
+      setMemberFrm(resp.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }, [])
+
+  useEffect(() => {
+    if(!userProfile)
+    getUserProfile(sessionStorage.getItem('username'))
+    .then((resp)=>{
+      setUserProfile(resp.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }, [userProfile])
 
   const handleOnChange = (e) => {
     setMemberFrm({
@@ -102,7 +124,8 @@ const UserPage = (props) => {
           <div className='user-blank'></div>
           <Row style={{ height: "100%", width: "100%" }}>
             <Col className='user-left' md={4}>
-              <ProfileComponent />
+              <WorldProfileComponent/>
+              <Qna></Qna>
             </Col>
             <Col className='user-right' md={8}>
               <Card style={{

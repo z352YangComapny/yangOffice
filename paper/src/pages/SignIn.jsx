@@ -1,8 +1,13 @@
 import WarningSign from "components/Icons/icons/warning-sign";
+import Google from "components/Oauth/Google";
+import Kakao from "components/Oauth/Kakao";
+import Naver from "components/Oauth/Naver";
+import Sportify from "components/Oauth/Sportify";
 import { MemberContext } from "contexts/MembetContextProvider";
 import { NotificationContext } from "contexts/NotificationContextProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 // reactstrap components
 import { Button, Card, Form, Input, Container, Row, Col, FormGroup, Label, Modal } from "reactstrap";
@@ -33,15 +38,15 @@ function SignIn() {
   }
 
   useEffect(() => {
-    if (userProfile && sessionStorage.getItem('token')) {
-      console.log(isLogin)
-      console.log(userProfile)
-      navigate(`/feed/${userProfile.username}`)
+    if (isLogin && sessionStorage.getItem('token')) {
+      
     } else {
-      setUserProfile(null);
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('nickname');
+      sessionStorage.removeItem('username');
       setIsLogin(false);
     }
-  }, [userProfile])
+  }, [isLogin])
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -54,14 +59,15 @@ function SignIn() {
 
     signin(signInFrm).then((resp) => {
       sessionStorage.setItem("token", resp.headers.authorization);
-      setMessage({ color: "success", value: `${signInFrm.username}님 환영합니다.🖤` })
-
       getUserProfile(signInFrm.username)
       .then((resp)=>{
-        setUserProfile(resp.data)
+        console.log(resp.data)
+        sessionStorage.setItem('nickname',resp.data.nickname);
+        sessionStorage.setItem('username',resp.data.username);
+        setMessage({ color: "success", value: `${resp.data.nickname}님 환영합니다.🖤` })
+        navigate(`/feed/${sessionStorage.getItem('username')}`)
+        setIsLogin(true);
       })
-      
-      setIsLogin(true);
     })
       .catch((err) => {
         switch (err.response.data.status) {
@@ -100,30 +106,10 @@ function SignIn() {
               <Card className="card-register ml-auto mr-auto">
                 <h3 className="title mx-auto">Welcome</h3>
                 <div className="social-line text-center">
-                  <Button
-                    className="btn-neutral btn-just-icon mr-1"
-                    color="facebook"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="fa fa-facebook-square" />
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-just-icon mr-1"
-                    color="google"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="fa fa-google-plus" />
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-just-icon"
-                    color="twitter"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="fa fa-twitter" />
-                  </Button>
+                  <Naver></Naver>
+                  <Kakao></Kakao>
+                  <Sportify></Sportify>
+                  <Google></Google>
                 </div>
                 <Form className="register-form" onSubmit={onSubmit}>
                   <label>Id</label>

@@ -30,4 +30,7 @@ public interface MemberService {
     List<MonthlyMemberCountDto> findMonthlyDeletedMemberCount();
 
     List<OAuthMemberDto> findOAuthMemberCount();
+
+    List<SearchMemberDto> searchMember(String keyword);
+
 }

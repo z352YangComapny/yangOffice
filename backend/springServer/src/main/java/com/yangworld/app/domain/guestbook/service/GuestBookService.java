@@ -1,5 +1,7 @@
 package com.yangworld.app.domain.guestbook.service;
 
+import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
 import com.yangworld.app.domain.guestbook.dto.GuestbookDailyDto;
@@ -10,7 +12,7 @@ import java.util.Map;
 
 public interface GuestBookService {
 
-	int insertGuestBook(GuestBook guestBook);
+	int insertGuestBook(GuestBookCreateDto guestBook, PrincipalDetails member);
 
 	int deleteGuestBook(GuestBook guestBook);
 
@@ -24,7 +26,7 @@ public interface GuestBookService {
 
 	List<GuestbookDailyDto> findGuestBookDaily();
 
-	List<GuestBookWithNicknameDto> findAll(Map<String, Object> params, int memberId);
+	List<GuestBookWithNicknameDto> findAll(Map<String, Object> params, String memberId);
 
-	int countAllGuestBook(int id);
+	int countAllGuestBook(String hostname);
 }

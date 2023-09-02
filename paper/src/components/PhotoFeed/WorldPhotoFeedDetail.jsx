@@ -20,6 +20,7 @@ const WorldPhotoFeedDetail = () => {
       setIsDetail
     },
   } = useContext(PhotoFeedContext);
+  
 
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -31,6 +32,7 @@ const WorldPhotoFeedDetail = () => {
     'http://localhost:8080/resources/upload/attachment/2.jpg',
     'http://localhost:8080/resources/upload/attachment/3.jpg'
   ];
+
 
   const handleClose = () => {
     setIsDetail(false);
@@ -62,7 +64,7 @@ const WorldPhotoFeedDetail = () => {
         <div style={{ width: "92%", height: "100%" }}>
           <div style={{ fontSize: "20px" }}>Contents</div>
           <div>
-            [contents]
+            {selectedFeed.content}
           </div>
         </div>
       )

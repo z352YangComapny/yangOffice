@@ -101,4 +101,9 @@ public class MemberServiceImpl implements MemberService{
     public List<OAuthMemberDto> findOAuthMemberCount() {
         return memberRepository.findOAuthMemberCount();
     }
+    public List<SearchMemberDto> searchMember(String keyword) {
+        List<SearchMemberDto> memberDtos = memberRepository.findMemberByKeyword(keyword);
+        return memberDtos;
+
+    }
 }
