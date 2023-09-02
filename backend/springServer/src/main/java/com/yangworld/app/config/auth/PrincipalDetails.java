@@ -2,6 +2,7 @@ package com.yangworld.app.config.auth;
 
 import com.yangworld.app.domain.member.entity.Member;
 import lombok.Data;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,4 +40,6 @@ public class PrincipalDetails extends Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

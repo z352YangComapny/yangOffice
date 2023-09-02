@@ -1,9 +1,8 @@
 package com.yangworld.app.domain.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
+import com.yangworld.app.domain.member.entity.Member;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -14,6 +13,9 @@ import java.sql.Date;
  * 개발환경에서는 not black 만 으로 설정.
  * */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class SignUpDto {
     private int id;
     @NotBlank(message="아이디")
@@ -34,4 +36,5 @@ public class SignUpDto {
     @NotBlank(message ="생일")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String birthday;
+    private String provider;
 }

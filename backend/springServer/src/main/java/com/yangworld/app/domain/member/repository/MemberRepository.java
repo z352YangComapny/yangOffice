@@ -41,6 +41,9 @@ public interface MemberRepository {
     @Select("select username from member where email = #{email}")
     String findMemberByEmail(FindIdDto findIdDto);
 
+    @Select("select * from member where email=#{email}")
+    Member findMemberByEamilThisIsReal(String email);
+
     @Select("select count(*) from member")
     int getMemberTotalCount();
 
