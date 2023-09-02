@@ -26,4 +26,6 @@ public interface MemberService {
     List<Member> getMemberPage(int pageNo, int pageSize);
 
     int updateMemberByAdmin(UpdateMemberDto memberUpdate);
+
+    List<SearchMemberDto> searchMember(String keyword);
 }

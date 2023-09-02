@@ -39,6 +39,7 @@ import {
   NavbarBrand
 } from "reactstrap";
 import '../../assets/css/style.css';
+import axios from "axios";
 
 function IndexNavbar() {
   const {
@@ -64,6 +65,8 @@ function IndexNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const [isDown, setIsDown] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
 
   const notificationRef = useRef(null);
 
@@ -100,10 +103,13 @@ function IndexNavbar() {
     document.documentElement.classList.toggle("nav-open");
   };
 
-  const handleDmClick = () => {
-    setIsDown((prevState) => !prevState);
-
-  };
+  const handleSearchBarOnChange = (e) => {
+    setKeyword(e.target.value);
+    axios.get(`http://localhost:8080/member?keyword=${e.target.value}`)
+      .then((resp) => {
+        setSearchResult(resp.data)
+      })
+  }
 
   const dmContainer = {
     position: 'fixed',
@@ -139,7 +145,7 @@ function IndexNavbar() {
     marginLeft: '15vw',
     width: '80px',
     height: '80px',
-    padding : '18px',
+    padding: '18px',
     borderRadius: '50%',
     boxShadow: '2px 2px 4px rgb(81,203,206)',
     transition: 'margin-top 0.3s ease-in-out',
@@ -163,20 +169,36 @@ function IndexNavbar() {
 
   const updateNavbarColor = () => {
     if (
-      userProfile
+      isLogin
     ) {
       setNavbarColor("");
     } else {
       setNavbarColor("navbar-transparent");
     }
   };
-
-  
+  const renderSearchResult = () => {
+    if(!keyword || keyword=='') return;
+    const arr = [];
+    searchResult.forEach(element => {
+      arr.push(
+        <div className="search-result-item" onClick={()=>{
+          setKeyword('');
+          navigate(`/feed/${element.username}`)}}>
+          <img
+            className="search-profile-pic"
+            src={`http://localhost:8080/resources/upload/attachment/${element.renamedFilename}`}
+            alt="Attachment"
+          />
+          <div className="search-nickname">{element.nickname}</div>
+        </div>
+      )
+    });
+    return arr
+  }
 
   useEffect(() => {
-    if(userProfile);
     updateNavbarColor();
-  }, [userProfile]);
+  }, [isLogin]);
 
   useEffect(() => {
     if (message !== null) {
@@ -188,12 +210,12 @@ function IndexNavbar() {
   return (
     <>
       <Navbar className={classnames("fixed-top", navbarColor)} expand="lg">
-        <Container>
+        <Container style={{ display: "flex" }}>
           <div className="navbar-translate">
             <NavbarBrand
               data-placement="bottom"
               className="nav-cursor"
-              onClick={()=>{navigate('/')}}
+              onClick={() => { navigate('/') }}
             >
               Yang World
             </NavbarBrand>
@@ -214,7 +236,7 @@ function IndexNavbar() {
             navbar
             isOpen={navbarCollapse}
           >
-            {userProfile ?
+            {isLogin ?
               <Nav navbar>
                 <Dm></Dm>
                 <NavItem>
@@ -222,7 +244,7 @@ function IndexNavbar() {
                     data-placement="bottom"
                     title="내 정보 보기"
                     className="nav-cursor"
-                    onClick={() => { navigate(`/user/${userProfile.username}`) }}
+                    onClick={() => { navigate(`/user/${sessionStorage.getItem('username')}`) }}
                   >
                     <i className="fa nc-icon nc-circle-10" />
                     <p className="d-lg-none">내 정보 보기</p>
@@ -234,10 +256,10 @@ function IndexNavbar() {
                     data-placement="bottom"
                     title="내 피드 보기"
                     className="nav-cursor"
-                    onClick={() => { navigate(`/feed/${userProfile.username}`) }}
+                    onClick={() => { navigate(`/feed/${sessionStorage.getItem('username')}`) }}
                   >
                     <i className="fa nc-icon nc-layout-11" />
-                    <p style={{ fontSize: "14px", fontStyle: "italic", cursor: "pointer" }}>{userProfile.username}</p>
+                    <p style={{ fontSize: "14px", fontStyle: "italic", cursor: "pointer" }}>{sessionStorage.getItem('username')}</p>
                     <p className="d-lg-none">내 피드 보기</p>
                   </NavLink>
                 </NavItem>
@@ -246,7 +268,7 @@ function IndexNavbar() {
                     data-placement="bottom"
                     title="World 접속하기"
                     className="nav-cursor"
-                    onClick={() => { navigate(`/world/${userProfile.username}`) }}
+                    onClick={() => { navigate(`/world/${sessionStorage.getItem('username')}`) }}
                   >
                     <i className="fa nc-icon nc-world-2" />
                     <p className="d-lg-none">World 접속하기</p>
@@ -265,13 +287,16 @@ function IndexNavbar() {
                 </NavItem>
                 <NavItem>
                   <div className="sreach-container">
-                    <Input className="memberSearchBar" placeholder="검색 할 회원 정보 "></Input>
+                    <Input className="memberSearchBar" placeholder="검색 할 회원 정보" value={keyword} onChange={handleSearchBarOnChange}></Input>
                     <Button
                       className="btn-round"
                       color="warning"
                     > <i className="nc-icon nc-zoom-split" /></Button>
                   </div>
                 </NavItem>
+                <div className="search-result-container">
+                  {renderSearchResult()}
+                </div>
                 <NavItem>
                   <Button
                     className="btn-round"
@@ -280,7 +305,8 @@ function IndexNavbar() {
                     onClick={() => {
                       setIsLogin(false);
                       sessionStorage.removeItem('token');
-                      setUserProfile(null);
+                      sessionStorage.removeItem('nickname');
+                      sessionStorage.removeItem('username');
                       navigate('/');
                       setMessage({ color: "success", value: `Good By! 다음에봐요~🖐🖐` });
                     }}
@@ -322,7 +348,7 @@ function IndexNavbar() {
         </Alert>
       )} */}
       <ReactNotificationAlert ref={notificationRef} zIndex={9999} />
-      
+
     </>
   );
 }

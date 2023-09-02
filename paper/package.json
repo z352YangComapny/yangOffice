@@ -52,10 +52,6 @@
     "bootstrap": "^4.6.2",
     "web-vitals": "^3.4.0"
   },
-  "peerDependencies": {
-    "react": ">=16.0.0",
-    "react-dom": ">=16.0.0"
-  },
   "overrides": {
     "svgo": "3.0.2"
   },

@@ -44,12 +44,24 @@
 }
 
 
-
+.feed-content-input{
+    resize: none;
+    padding: 10px;
+    height: 330px !important;
+    border: solid 2px rgba(0, 0, 0, 0.5) !important;
+}
 .feed-comments {
     height: 7vw !important;
     margin-bottom: 0.4vw;
     text-align: center;
     overflow-y: auto;
+}
+.add-img-tmp{
+    width: 431px !important;
+    height: 300px ;
+    border: solid 2px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.5);
 }
 
 .comments {

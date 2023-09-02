@@ -2,6 +2,7 @@ import { PhotoFeedContext } from 'contexts/PhotoFeedContextProvider';
 import { max } from 'moment';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
+import { useParams } from 'react-router-dom';
 import { Button, Input } from 'reactstrap';
 
 const imgBaseUrl = "http://localhost:8080/resources/upload/attachment/"
@@ -21,6 +22,8 @@ const PhotoFeedListComponent = () => {
             getFeedPage
         },
     } = useContext(PhotoFeedContext);
+    const { hostname } = useParams();
+
     const [page, setPage] = useState(1);
     const [isloading, setIsloading] = useState(false);
     const [feedId , setFeedId] = useState(0)
@@ -28,7 +31,7 @@ const PhotoFeedListComponent = () => {
     const feedBox = useRef(null);
 
     const loadFeed = () => {
-        getFeedPage(page).then(resp => {
+        getFeedPage(page, hostname).then(resp => {
             setData(prev => [...prev, ...resp.data])
             setIsloading(false);
         });
@@ -58,9 +61,13 @@ const PhotoFeedListComponent = () => {
             .then((resp) => {
                 setMaxPage(Math.ceil(resp.data / pageSize))
             })
-        getFeedPage(page).then(resp => {
+            .catch((err)=> console.log(err))
+        getFeedPage(page, hostname).then(resp => {
             setData(resp.data)
             setFeedId(resp.data[0].id)
+        })
+        .catch((err)=>{
+            console.log(err)
         });
         const feedBoxContainer = feedBox.current;
         feedBoxContainer.addEventListener("scroll", handleScroll);
@@ -68,25 +75,24 @@ const PhotoFeedListComponent = () => {
         return () => {
             feedBoxContainer.removeEventListener("scroll", handleScroll);
         };
-    }, [])
+    }, [hostname])
 
     useEffect(()=>{
         data.forEach((feed,index)=>{
-            if(feed.id==feedId) setSelectedFeed(data[index])
+            if(feed.id==feedId){
+                setComments(feed.comments)
+                setSelectedFeed(data[index])
+            }
         })
     },[feedId])
 
 
     const handleImgClick = (itemId) => {
-        const commArray = []
-        for (let i = 0; i < itemId; i++) {
-            commArray.push(`아이디 : ${itemId} 사진의 ${i}번째 댓글`)
-        }
         setFeedId(itemId)
-        setComments(commArray)
     };
 
 
+    console.log(data)
     const renderComments = () => {
         return (
             <>
@@ -111,9 +117,9 @@ const PhotoFeedListComponent = () => {
                 <div className='grid-container'>
                     {data.map((item, index) => (
                         <div key={index} className="grid-item item">
-                            {item.attachmentNames && item.attachmentNames.length > 0 && (
+                            {item.attachments && item.attachments.length > 0 && (
                                 <img
-                                    src={`http://localhost:8080/resources/upload/attachment/${item.attachmentNames[0]}`}
+                                    src={`http://localhost:8080/resources/upload/attachment/${item.attachments[0].renamedFilename}`}
                                     alt="Attachment"
                                     onClick={() => handleImgClick(item.id)}
                                 />

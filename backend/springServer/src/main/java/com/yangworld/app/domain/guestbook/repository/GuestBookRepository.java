@@ -24,8 +24,8 @@ public interface GuestBookRepository {
 	@Select("select * from guestbook order by reg_date desc")
 	List<GuestBook> guestBookList(RowBounds rowBounds);
 
-	@Select("select g.*, m.nickName from guestbook g left join member m on g.writer_id = m.id where g.member_id = #{memberId} order by g.reg_date desc")
-	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int memberId);
+	@Select("select g.*, m.nickName from guestbook g left join member m on g.writer_id = m.id where g.member_id = #{username} order by g.reg_date desc")
+	List<GuestBookWithNicknameDto> findAll(RowBounds rowBounds, int username);
 
 	@Select("select count(*) from guestbook where member_id = #{id}")
 	int countAllGuestBook(int id);

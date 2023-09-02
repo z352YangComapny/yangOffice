@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -44,30 +45,26 @@ public class GuestbookController {
 			BindingResult bindingResult,
 			@AuthenticationPrincipal PrincipalDetails member
 			) {
-		
-		GuestBook guestBook = _guestBook.guestBook();
-	
-		log.info("_guestBook={}",_guestBook);
-		guestBook.setWriterId(member.getId());
-		log.info("guestBook={}",guestBook);
-		int result = guestBookService.insertGuestBook(guestBook);
-		return ResponseEntity.ok(200);
+		int result = guestBookService.insertGuestBook(_guestBook, member);
+		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping()
 	public ResponseEntity<?> guestBookDelete(
-			@RequestBody Map<String, Integer> requestBody,
+			@RequestParam int id,
 			@AuthenticationPrincipal PrincipalDetails member
 			) {
-		int id = requestBody.get("id");
 		GuestBook guestBook = GuestBook.builder()
 							.id(id)
 							.writerId(member.getId())
 							.build();
 		log.info("guestBook={}",guestBook);
 		int result = guestBookService.deleteGuestBook(guestBook);
-		
-		return ResponseEntity.ok(200);
+		if (result>0) {
+			return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.status(403).build();
+		}
 	}
 	
 	@PatchMapping()
@@ -87,9 +84,8 @@ public class GuestbookController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<?> guestBookList(
-			@RequestParam int id,
-			@RequestParam int page,
-			@AuthenticationPrincipal PrincipalDetails member
+			@RequestParam String hostname,
+			@RequestParam int page
 			){
 		log.info("page={}",page);
 		int limit = 2;
@@ -97,18 +93,16 @@ public class GuestbookController {
 				"page",page,
 				"limit",limit
 			);
-		int memberId = id; // 로그인 된 아이디로 세팅 
-		int totalCount = guestBookService.countAllGuestBook(id);
-		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params,memberId);
+		List<GuestBookWithNicknameDto> guestBooks = guestBookService.findAll(params,hostname);
 		return ResponseEntity.ok(guestBooks);
 	}
 
 
 	@GetMapping("/count")
 	public ResponseEntity<?> getTotalGuestbookCount(
-			@RequestParam int id
+			@RequestParam String hostname
 	){
-		int totalCount = guestBookService.countAllGuestBook(id);
+		int totalCount = guestBookService.countAllGuestBook(hostname);
 		return ResponseEntity.ok(totalCount);
 	}
 	

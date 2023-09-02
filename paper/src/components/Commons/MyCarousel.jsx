@@ -39,11 +39,11 @@ function MyCarousel(args) {
   useEffect(()=>{
     const parseItems = [];
     console.log(selectedFeed)
-    if (selectedFeed.attachmentNames && selectedFeed.attachmentNames.length>0) {
-      selectedFeed.attachmentNames.forEach((renamedFilename, index) => {
-        console.log(renamedFilename)
+    if (selectedFeed.attachments && selectedFeed.attachments.length>0) {
+      selectedFeed.attachments.forEach((src, index) => {
+        console.log(src)
         const parsedItem = {
-          src: `http://localhost:8080/resources/upload/attachment/${renamedFilename}`,
+          src: `http://localhost:8080/resources/upload/attachment/${src.renamedFilename}`,
           altText: `Slide ${index + 1}`,
           key: index + 1,
         };

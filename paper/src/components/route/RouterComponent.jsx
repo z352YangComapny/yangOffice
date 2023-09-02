@@ -20,13 +20,13 @@ const RouterComponent = () => {
         <Route path='' element={<IndexHeader />} />
         <Route path='signin' element={<SignIn />} />
         <Route path='docs' element={<Index />} />
-        <Route path='feed/:id' element={<FeedPage />}>
+        <Route path='feed/:hostname' element={<FeedPage />}>
 
         </Route>
-        <Route path='world/:id' element={<WroldPage />}>
+        <Route path='world/:hostname' element={<WroldPage />}>
 
         </Route>
-        <Route path='user/:id' element={<UserPage />}>
+        <Route path='user/:username' element={<UserPage />}>
 
         </Route>
         <Route path='axiosex' element={<AxiosEx/>}></Route>

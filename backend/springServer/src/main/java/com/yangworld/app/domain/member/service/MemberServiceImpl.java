@@ -91,4 +91,10 @@ public class MemberServiceImpl implements MemberService{
         result += memberRepository.insertAuthorities(memberUpdate.getId(), authorityList);
         return result;
     }
+
+    @Override
+    public List<SearchMemberDto> searchMember(String keyword) {
+        List<SearchMemberDto> memberDtos = memberRepository.findMemberByKeyword(keyword);
+        return memberDtos;
+    }
 }
