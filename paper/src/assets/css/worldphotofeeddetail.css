@@ -41,7 +41,7 @@
 }
 
 .dm-body::-webkit-scrollbar {
-    width: 8px !important;
+    width: 3px !important;
 }
 
 /* 스크롤바 트랙 */
@@ -78,7 +78,7 @@
 .dm-detail-header{
     display: flex;
     position: fixed;
-    width: 388px;
+    width: 392px;
     background-color: rgb(81, 203, 206, 0.6);
     justify-content: space-between;
 }

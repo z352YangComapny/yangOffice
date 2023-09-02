@@ -33,15 +33,15 @@ function SignIn() {
   }
 
   useEffect(() => {
-    if (userProfile && sessionStorage.getItem('token')) {
-      console.log(isLogin)
-      console.log(userProfile)
-      navigate(`/feed/${userProfile.username}`)
+    if (isLogin && sessionStorage.getItem('token')) {
+      
     } else {
-      setUserProfile(null);
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('nickname');
+      sessionStorage.removeItem('username');
       setIsLogin(false);
     }
-  }, [userProfile])
+  }, [isLogin])
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -54,14 +54,15 @@ function SignIn() {
 
     signin(signInFrm).then((resp) => {
       sessionStorage.setItem("token", resp.headers.authorization);
-      setMessage({ color: "success", value: `${signInFrm.username}님 환영합니다.🖤` })
-
       getUserProfile(signInFrm.username)
       .then((resp)=>{
-        setUserProfile(resp.data)
+        console.log(resp.data)
+        sessionStorage.setItem('nickname',resp.data.nickname);
+        sessionStorage.setItem('username',resp.data.username);
+        setMessage({ color: "success", value: `${resp.data.nickname}님 환영합니다.🖤` })
+        navigate(`/feed/${sessionStorage.getItem('username')}`)
+        setIsLogin(true);
       })
-      
-      setIsLogin(true);
     })
       .catch((err) => {
         switch (err.response.data.status) {

@@ -6,11 +6,35 @@ import ErrImg from '../../assets/images/ErrImg.jpg';
 import { PhotoFeedContext } from 'contexts/PhotoFeedContextProvider';
 import MyCarousel from 'components/Commons/MyCarousel';
 import PhotoFeedListComponent from './PhotoFeedListComponent';
+import { MemberContext } from 'contexts/MembetContextProvider';
+import { NotificationContext } from 'contexts/NotificationContextProvider';
+import { useParams } from 'react-router-dom';
 
 
 
 
 const PhotoFeedComponent = () => {
+  const {
+    states: {
+      message,
+    },
+    actions: {
+      setMessage
+    },
+  } = useContext(NotificationContext);
+  const {
+    states: {
+      isLogin,
+      userProfile
+    },
+    actions: {
+      setUserProfile,
+      setIsLogin,
+      LogOut,
+      signin,
+      getUserProfile
+    },
+  } = useContext(MemberContext);
   const {
     states: {
       selectedFeed,
@@ -22,14 +46,16 @@ const PhotoFeedComponent = () => {
       setMaxPage,
       setData,
       getTotalPage,
-      getFeedPage
+      getFeedPage,
+      insertFeed
     },
   } = useContext(PhotoFeedContext)
-  const [feedContent , setFeedContent] = useState('');
+  const { hostname } = useParams();
+  const [feedContent, setFeedContent] = useState('');
 
   const [addModal, setAddModal] = useState(false);
-  const [updateModal , setUpdateModal] = useState(false);
-  const [src, SetSrc] = useState('');
+  const [updateModal, setUpdateModal] = useState(false);
+  const [src, setSrc] = useState(0);
 
   const [upLoadFile1, setUpLoadFile1] = useState(null);
   const [preViewFile1, setPreViewFile1] = useState(null);
@@ -40,19 +66,7 @@ const PhotoFeedComponent = () => {
   const [upLoadFile3, setUpLoadFile3] = useState(null);
   const [preViewFile3, setPreViewFile3] = useState(null);
 
-  const toggle = () => {
-    const formData = new FormData();
-    formData.append("content",JSON.stringify(feedContent));
-  
-    if(upLoadFile1) formData.append("upfile[]", upLoadFile1)
-    if(upLoadFile2) formData.append("upfile[]", upLoadFile2)
-    if(upLoadFile3) formData.append("upfile[]", upLoadFile3)
-
-
-    formData.forEach((value, key) => {
-      console.log(key)
-      console.dir(value);
-    });
+  const toggle = () => {   
     setAddModal(prev => !prev);
     setFeedContent('');
     setUpLoadFile1(null);
@@ -61,9 +75,29 @@ const PhotoFeedComponent = () => {
     setPreViewFile1(null);
     setPreViewFile2(null);
     setPreViewFile3(null);
+    setSrc()
   }
 
   const toggleUpdate = () => setUpdateModal(prev => !prev);
+
+  const addFeed = () => {
+    const formData = new FormData();
+    formData.append("content", JSON.stringify(feedContent));
+
+    if (upLoadFile1) formData.append("upFile", upLoadFile1)
+    if (upLoadFile2) formData.append("upFile", upLoadFile2)
+    if (upLoadFile3) formData.append("upFile", upLoadFile3)
+
+    insertFeed(formData)
+    .then((resp)=>{
+      setMessage({ color: "success", value: `피드 등록 성공👌`})
+      getFeedPage(1,hostname).then((resp)=> setData(resp.data))
+    })
+    .catch((err)=>{
+      setMessage({ color: "waring", value: `피드 등록 실패😔`})
+    })
+    toggle();
+  }
 
   const handleFileChange1 = (event) => {
     console.log(event)
@@ -115,7 +149,7 @@ const PhotoFeedComponent = () => {
         };
         reader.readAsDataURL(file);
       } else {
-        alert('Please upload an image file under 3MB.');
+        alert('3MB 이하의 이미지만 가능합니다.');
       }
     }
   };
@@ -123,37 +157,74 @@ const PhotoFeedComponent = () => {
   const handleFrmChange = (e) => {
     console.log(e.target.value)
     setFeedContent(e.target.value);
-
   }
 
-  // useEffect(()=>{},[selectedFeed])
+  const removeData = (e) => {
+    console.log(e.target.name)
+    switch (e.target.name) {
+      case "1":
+        setPreViewFile1(null);
+        setUpLoadFile1(null);
+        break;
+
+      case "2":
+        setPreViewFile2(null);
+        setUpLoadFile2(null);
+
+        break;
+
+      case "3":
+        setPreViewFile3(null);
+        setUpLoadFile3(null);
+
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  useEffect(()=>{console.log(hostname)},[hostname])
 
   const renderFileSet = () => {
     return (
-      <div style={{ width: "100%", height: "85%"}}>
+      <div style={{ width: "100%", height: "85%" }}>
         <h4>Add photos</h4>
         <div style={{ width: "100%", height: "85%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
-        { !preViewFile1 ? <div class="filebox">
-          <label className='filebox-in thumb-nail' title='썸네일' for="file1"  >+</label>
-          <input type="file" id="file1" onChange={handleFileChange1} />
-        </div> : 
-        <div className='filebox' style={{backgroundColor:"red"}}>
-          <img src="preViewFile1" alt="" srcset="" className='fliebox-in' />
-        </div> }
-        { !preViewFile2 ? <div class="filebox">
-          <label className='filebox-in' title='사진1' for="file2">+</label>
-          <input type="file" id="file2" onChange={handleFileChange2} />
-        </div>
-        : "" }
-        { !preViewFile3 ? <div class="filebox">
-          <label className='filebox-in' title='사진2' for="file3">+</label>
-          <input type="file" id="file3" onChange={handleFileChange3} />
-        </div> : 
-        ""
-        }
+          {!preViewFile1 ?
+            <div class="filebox">
+              <label className='filebox-in thumb-nail' title='썸네일' for="file1"  >+</label>
+              <input type="file" id="file1" onChange={handleFileChange1} />
+            </div> :
+            <div className='filebox' >
+              <img src={preViewFile1} alt="" srcset="" name="1" className='preview-img' onClick={removeData} onMouseEnter={() => { setSrc(1) }} />
+            </div>}
+          {!preViewFile2 ? <div class="filebox">
+            <label className='filebox-in' title='사진1' for="file2">+</label>
+            <input type="file" id="file2" onChange={handleFileChange2} />
+          </div>
+            : <div className='filebox' >
+              <img src={preViewFile2} alt="" srcset="" name="2" className='preview-img' onClick={removeData} onMouseEnter={(e) => { setSrc(2) }} />
+            </div>}
+          {!preViewFile3 ? <div class="filebox">
+            <label className='filebox-in' title='사진2' for="file3">+</label>
+            <input type="file" id="file3" onChange={handleFileChange3} />
+          </div> :
+            <div className='filebox' >
+              <img src={preViewFile3} alt="" srcset="" name="3" className='preview-img' onClick={removeData} onMouseEnter={() => { setSrc(3) }} />
+            </div>
+          }
         </div>
       </div>
     )
+  }
+
+  const rednerLikeCount = () => {
+    if(selectedFeed.likeCount>=1000){
+      return Math.floor(selectedFeed.likeCount/1000)+"k"
+    }else{
+      return selectedFeed.likeCount;
+    }
   }
 
   return (
@@ -200,7 +271,7 @@ const PhotoFeedComponent = () => {
             </div>
             <div>
               <Button color='warning' title='좋아요' style={{ marginLeft: "5px", }} >
-                <i className="fa nc-icon nc-favourite-28" style={{ width: "50px" }}>&nbsp;{"1k"}</i>
+                <i className="fa nc-icon nc-favourite-28" style={{ width: "50px" }}>&nbsp;{rednerLikeCount()}</i>
               </Button>
               <Button color='danger' title='신고하기' style={{ marginLeft: "5px" }} >
                 <i className="fa nc-icon nc-bell-55"></i>
@@ -243,15 +314,19 @@ const PhotoFeedComponent = () => {
             <Col md={2} style={{ height: "450px" }}>
               {renderFileSet()}
             </Col>
-            <Col md={6} style={{ height: "450px", display: 'flex', justifyContent: 'center', alignItems: 'center' , paddingTop:"0px"}}>
-              <img src={src} onError={(e) => {
-                e.target.src = ErrImg; // Set the error image source on error
-              }} className='add-img-tmp' />
+            <Col md={6} style={{ height: "450px", display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "0px" }}>
+
+              <div>
+                <img src={src == 1 ? preViewFile1 : (src == 2 ? preViewFile2 : (src ==3 ? preViewFile3 : ErrImg))} onError={(e) => {
+                  e.target.src = ErrImg; // Set the error image source on error
+                }} className='add-img-tmp' />
+              </div>
+
             </Col>
           </Row>
         </ModalBody>
         <ModalFooter style={{ height: "70px" }}>
-          <Button color="primary" onClick={toggle}>
+          <Button color="primary" onClick={addFeed}>
             Confirm
           </Button>{' '}
           <Button color="secondary" onClick={toggle}>
@@ -281,13 +356,13 @@ const PhotoFeedComponent = () => {
             <Col md={4} style={{ height: "450px", padding: "17px" }}>
               <h4 style={{ margin: "10px" }}>Content</h4>
               <div>
-                <Input type='textarea' className='feed-content-input' onChange={()=>{}}/>
+                <Input type='textarea' className='feed-content-input' onChange={() => { }} />
               </div>
             </Col>
             <Col md={2} style={{ height: "450px" }}>
               {renderFileSet()}
             </Col>
-            <Col md={6} style={{ height: "450px", display: 'flex', justifyContent: 'center', alignItems: 'center' , paddingTop:"0px"}}>
+            <Col md={6} style={{ height: "450px", display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "0px" }}>
               <img src={src} onError={(e) => {
                 e.target.src = ErrImg; // Set the error image source on error
               }} className='add-img-tmp' />

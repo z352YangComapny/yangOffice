@@ -153,10 +153,17 @@
     background-color: transparent !important;
 }
 
+.preview-img{
+    width: 120px !important;
+    height: 86.2px !important;
+    border-radius: 10%;
+    border: solid 2px rgb(0, 0, 0, 0.5);
+}
+
+
 .filebox-in{
-    width: 120px;
-    height: 86.2px;
-    
+    width: 120px !important;
+    height: 86.2px !important;
     border-radius: 10%;
     font-size: 40px;
     border: solid 2px rgb(0, 0, 0, 0.5);

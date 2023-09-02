@@ -30,7 +30,7 @@ const Dm = () => {
         setIsDown((prevState) => !prevState);
     };
 
-    const getDmRoomList = async (id) => {
+    const getDmRoomList = async () => {
         const axiosConfig = {
             headers: {
                 "Authorization": sessionStorage.getItem('token'),
@@ -71,7 +71,7 @@ const Dm = () => {
                 <div className='dm-detail-body'>
                     <div></div>
                 </div>
-                <div style={{ border: "solid 1px rgba(81,203,206,0.7)", width: "386px", position: 'fixed', bottom: `calc(11vh + 80px)`, right: `calc(0.5vw + 11px)`, borderRadius: "2px" }}>
+                <div style={{ border: "solid 1px rgba(81,203,206,0.7)", width: "392px", position: 'fixed', bottom: `calc(11vh + 78px)`, right: `calc(0.5vw + 7px)`, borderRadius: "8px" }}>
                     <Input type='text' value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} onKeyDown={handleKeyDown}></Input>
                 </div>
             </>
@@ -81,8 +81,7 @@ const Dm = () => {
 
 
     useEffect(() => {
-        if (!userProfile) return
-        getDmRoomList(userProfile.id)
+        getDmRoomList()
             .then((resp) => {
                 setDmRoomList(resp.data)
             })
@@ -136,7 +135,7 @@ const Dm = () => {
                 <div className="chat-room" onClick={() => { handleDetailDm(dmRoom.id) }}>
                     <div className='dm-room-profile-container'>
                         <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-                        <p>{dmRoom.participantNickname1 === userProfile.nickname ? dmRoom.participantNickname2 : dmRoom.participantNickname1}</p>
+                        <p>{dmRoom.participantNickname1 === sessionStorage.getItem('nickname') ? dmRoom.participantNickname2 : dmRoom.participantNickname1}</p>
                     </div>
                     <div className="dm-room-message">{dmRoom.lastMessage.length > 16 ? dmRoom.lastMessage.substr(0, 16) : dmRoom.lastMessage}</div>
                     <div className="dm-room-lasttime">

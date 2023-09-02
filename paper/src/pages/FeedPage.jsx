@@ -9,12 +9,11 @@ import PhotoFeedComponent from 'components/PhotoFeed/PhotoFeedComponent';
 import GuestBookComponet from 'components/GuestBook/GuestBookComponet';
 
 const FeedPage = (props) => {
+  const { hostname } = useParams();
   const [leftState, setLeftState] = useState(0);
-  
+  const navigate =useNavigate();
 
-  const navigate = useNavigate();
-  const params = useParams();
-  const { id } = params;
+  useEffect(()=>{console.log(hostname)},[hostname])
 
 
   return (

@@ -59,5 +59,18 @@ public interface MemberRepository {
     int findFollowerCountByMemberId(int id);
     @Select("select count(*) from follow where followee= #{id}")
     int findFolloweeCountByMemberId(int id);
+    @Select("select * from member where username=#{username}")
+    Member findByUsername(String username);
+
+    @Select("SELECT *\n" +
+            "FROM ATTACHMENT_PROFILE ap\n" +
+            "         LEFT JOIN PROFILE p ON ap.PROFILE_ID = p.ID\n" +
+            "         JOIN ATTACHMENT a ON ap.ATTACHMENT_ID = a.ID\n" +
+            "         JOIN MEMBER m ON p.MEMBER_ID = m.ID\n" +
+            "WHERE PHONE LIKE '%' || #{keyword} || '%' OR USERNAME LIKE '%' || #{keyword} || '%' OR NICKNAME LIKE '%' || #{keyword} || '%' OR EMAIL LIKE '%' || #{keyword} || '%'")
+    List<SearchMemberDto> findMemberByKeyword(@Param("keyword") String keyword);
+
+
+
 }
 

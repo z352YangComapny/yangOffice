@@ -104,6 +104,9 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 
 		List<Attachment> attachments = new ArrayList<>();
 
+		log.info("upFiles = {}",upFiles);
+		log.info("member={}", member);
+
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) {
 				String originalFilename = upFile.getOriginalFilename();

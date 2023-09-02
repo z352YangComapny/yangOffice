@@ -31,8 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-
-@RequestMapping("/feed/{username}")
+@RequestMapping("/feed/")
 public class PhotoFeedController {
 
 	@Autowired
@@ -50,6 +49,9 @@ public class PhotoFeedController {
 			@AuthenticationPrincipal PrincipalDetails member,
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
 					throws IllegalStateException, IOException {
+
+		log.info("upFiles={}",upFiles);
+		log.info("Content = {}", content);
 
 		int result = photoFeedService.insertfeed(content, member, upFiles);
 
@@ -70,10 +72,8 @@ public class PhotoFeedController {
 	 * - Headers : Authorization ** 필수
 	 */
 	@GetMapping("/feed")
-	public ResponseEntity<?> feedDetail(@RequestParam String userName) {
-
-			List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(userName);
-
+	public ResponseEntity<?> feedDetail(@RequestParam String username) {
+			List<PhotoFeedAll> photoDetails = photoFeedService.findPhotoFeedAll(username);
 			return ResponseEntity.ok().body(photoDetails);
 		}
 
