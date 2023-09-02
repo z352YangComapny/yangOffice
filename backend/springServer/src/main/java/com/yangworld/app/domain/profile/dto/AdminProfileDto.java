@@ -2,7 +2,9 @@ package com.yangworld.app.domain.profile.dto;
 
 import com.yangworld.app.domain.profile.entity.State;
 import lombok.AllArgsConstructor;
+
 import lombok.Builder;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AdminProfileDto {
+
     private int id;
     private String username;
     private State state;

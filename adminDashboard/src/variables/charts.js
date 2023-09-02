@@ -27,18 +27,76 @@ for (let i = 9; i >= 0; i--) {
   const formattedDate = `${month}/${day}`; // 월과 일을 문자열로 합침
   labels.push(formattedDate);
 }
-const photofeedValues = [];
-const storyValues = [];
-const guestbookValues = [];
+let photofeedValues = [];
+let storyValues = [];
+let guestbookValues = [];
 
 const dashboard24HoursPerformanceChart = {
-  
+
+
   data: (canvas) => {
-    console.log(canvas);
-    console.log(labels);
-    console.log("p",photofeedValues);
-    console.log("s",storyValues);
-    console.log("g",guestbookValues);
+    fetch(`http://localhost:8080/api/v1/photoFeed/dailyPhotoFeed`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        photofeedValues = [];
+        data.map((value, index)=>{
+          photofeedValues.push(value.photofeedCount)
+        })
+        console.log(photofeedValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+
+      fetch(`http://localhost:8080/api/v1/story/dailyStory`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        storyValues = [];
+        data.map((value, index)=>{
+          storyValues.push(value.storyCount)
+        })
+        console.log(storyValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      fetch(`http://localhost:8080/api/v1/guestbook/dailyGuestbook`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        guestbookValues = [];
+        data.map((value, index)=>{
+          guestbookValues.push(value.guestbookCount)
+        })
+        console.log(guestbookValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+
+
+
+
     return {
       labels: labels,
       datasets: [
@@ -111,7 +169,7 @@ const dashboardEmailStatisticsChart = {
   data: (canvas) => {
     return {
       //
-      labels: [1, 2, 3, 4, 5, 6, 7 ],
+      labels: [1, 2, 3, 4, 5, 6, 7],
       datasets: [
         {
           label: "Emails",
@@ -119,7 +177,7 @@ const dashboardEmailStatisticsChart = {
           pointHoverRadius: 0,
           backgroundColor: ["#e3e3e3", "#4acccd", "#fcc468", "#ef8157", "#6d88bf", "#c98bc9", "#60b19e"],
           borderWidth: 0,
-          data: [342, 480, 530, 80, 388, 210 ,661],
+          data: [342, 480, 530, 80, 388, 210, 661],
         },
       ],
     };
