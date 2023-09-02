@@ -7,10 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class AttachmentDto {
+public class AttachmentProfileDto {
 	
-	private String renamedFilename;
+	private int attachmentId;
+    private int profileId;
 }
