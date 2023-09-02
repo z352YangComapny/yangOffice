@@ -1,8 +1,13 @@
 import WarningSign from "components/Icons/icons/warning-sign";
+import Google from "components/Oauth/Google";
+import Kakao from "components/Oauth/Kakao";
+import Naver from "components/Oauth/Naver";
+import Sportify from "components/Oauth/Sportify";
 import { MemberContext } from "contexts/MembetContextProvider";
 import { NotificationContext } from "contexts/NotificationContextProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 // reactstrap components
 import { Button, Card, Form, Input, Container, Row, Col, FormGroup, Label, Modal } from "reactstrap";
@@ -101,30 +106,10 @@ function SignIn() {
               <Card className="card-register ml-auto mr-auto">
                 <h3 className="title mx-auto">Welcome</h3>
                 <div className="social-line text-center">
-                  <Button
-                    className="btn-neutral btn-just-icon mr-1"
-                    color="facebook"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="fa fa-facebook-square" />
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-just-icon mr-1"
-                    color="google"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="fa fa-google-plus" />
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-just-icon"
-                    color="twitter"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <i className="fa fa-twitter" />
-                  </Button>
+                  <Naver></Naver>
+                  <Kakao></Kakao>
+                  <Sportify></Sportify>
+                  <Google></Google>
                 </div>
                 <Form className="register-form" onSubmit={onSubmit}>
                   <label>Id</label>
