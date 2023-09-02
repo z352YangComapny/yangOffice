@@ -32,8 +32,27 @@ const UserPage = (props) => {
   console.log(userProfile);
 
   useEffect(() => {
-    if (!userProfile) navigate(`/`)
+    if(!userProfile)
+    getUserProfile(sessionStorage.getItem('username'))
+    .then((resp)=>{
+      setUserProfile(resp.data)
+      setMemberFrm(resp.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }, [])
+
+  useEffect(() => {
+    if(!userProfile)
+    getUserProfile(sessionStorage.getItem('username'))
+    .then((resp)=>{
+      setUserProfile(resp.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }, [userProfile])
 
   const handleOnChange = (e) => {
     setMemberFrm({
