@@ -16,7 +16,7 @@ public interface ProfileService {
 
     List<ProfileAll> findProfileAll(String userName);
 
-    int updateProfile(int profileId, State state, String introduction, PrincipalDetails member, List<MultipartFile> upFiles) throws IllegalStateException, IOException;
+    int updateProfile(int profileId, State state, String introduction, int loginMemberId, List<MultipartFile> upFiles) throws IOException;
 
     int defaultUpdateProfile(PrincipalDetails member, String userName);
 

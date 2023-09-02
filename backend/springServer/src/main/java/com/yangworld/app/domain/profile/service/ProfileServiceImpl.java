@@ -111,8 +111,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 
 	@Override
-	public int updateProfile(int profileId, State state, String introduction, PrincipalDetails member,
-			List<MultipartFile> upFiles) throws IllegalStateException, IOException {
+	public int updateProfile(int profileId, State state, String introduction, int loginMemberId,
+			List<MultipartFile> upFiles) throws IOException {
 
 		int result = 0;
 
@@ -134,9 +134,9 @@ public class ProfileServiceImpl implements ProfileService {
 			}
 
 		}
-		log.info("member.getId() ={}",member.getId());
+		log.info("member.getId() ={}",loginMemberId);
 		ProfileDetails profile = ProfileDetails.builder()
-				.memberId(member.getId())
+				.memberId(loginMemberId)
 				.state(state)
 				.introduction(introduction)
 				.attachments(attachments)

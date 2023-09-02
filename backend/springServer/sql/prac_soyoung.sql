@@ -217,3 +217,60 @@ GROUP BY
     TRUNC(dates.photofeed_date)
 ORDER BY
     TRUNC(dates.photofeed_date);
+
+
+SELECT TO_CHAR(reg_date, 'MM') AS registration_month,
+       COUNT(*) AS member_count
+FROM member
+GROUP BY TO_CHAR(reg_date, 'MM')
+ORDER BY TO_CHAR(reg_date, 'MM');
+
+-- 월별 가입자
+WITH Months AS (
+    SELECT LEVEL AS month
+    FROM DUAL
+    CONNECT BY LEVEL <= 12
+)
+SELECT TO_CHAR(Months.month, 'FM00') AS month,
+       COUNT(member.id) AS member_count
+FROM Months
+         LEFT JOIN member ON TO_CHAR(member.reg_date, 'MM') = TO_CHAR(Months.month, 'FM00')
+GROUP BY Months.month
+ORDER BY Months.month;
+
+-- 월별 탈퇴자 수
+WITH Months AS (
+    SELECT LEVEL AS month
+    FROM DUAL
+    CONNECT BY LEVEL <= 12
+)
+SELECT TO_CHAR(Months.month, 'FM00') AS month,
+       COALESCE(COUNT(DELETED_MEMBER.username), 0) AS member_count
+FROM Months
+         LEFT JOIN deleted_member
+                   ON TO_CHAR(deleted_member.deleted_date, 'MM') = TO_CHAR(Months.month, 'FM00')
+GROUP BY Months.month
+ORDER BY Months.month;
+
+-- OAuth별 회원수 조회
+SELECT provider, COUNT(*) AS member_count
+FROM (
+         SELECT
+             CASE
+                 WHEN username like '%kakao%' THEN 'kakao'
+                 WHEN username like '%naver%' THEN 'naver'
+                 -- 다른 provider에 대한 패턴을 추가
+                 ELSE 'unknown'
+                 END AS provider
+         FROM Member
+     ) provider_subquery
+GROUP BY provider
+ORDER BY provider;
+-- 다른 provider에 대한 패턴도 필요한 경우 이어서 추가
+
+
+SELECT provider, COUNT(*) AS member_count
+FROM member
+GROUP BY provider
+ORDER BY provider;
+

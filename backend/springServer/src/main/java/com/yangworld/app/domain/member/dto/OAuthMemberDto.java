@@ -1,4 +1,4 @@
-package com.yangworld.app.domain.photoFeed.entity;
+package com.yangworld.app.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentFeed {
-    private int commentsId;
-    private int photoFeedId;
+public class OAuthMemberDto {
+
+    private String provider;
+    private int memberCount;
 }

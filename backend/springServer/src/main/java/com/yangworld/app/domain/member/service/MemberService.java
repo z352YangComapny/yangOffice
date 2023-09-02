@@ -19,11 +19,15 @@ public interface MemberService {
 
     int deleteFollowee(FollowDto unfollow);
 
-    String findMemberByEmail(FindIdDto findIdDto);
-
     int memberTotalCount();
 
     List<Member> getMemberPage(int pageNo, int pageSize);
 
     int updateMemberByAdmin(UpdateMemberDto memberUpdate);
+
+    List<MonthlyMemberCountDto> findMonthlyMemberCount();
+
+    List<MonthlyMemberCountDto> findMonthlyDeletedMemberCount();
+
+    List<OAuthMemberDto> findOAuthMemberCount();
 }

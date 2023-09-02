@@ -317,19 +317,20 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Naver{" "}
-                  <i className="fa fa-circle text-warning" /> Steam{" "}
-                  <i className="fa fa-circle text-danger" /> Google{" "}
+                  <i className="fa fa-circle custom-text-three" /> Spotify&nbsp;&nbsp;
+                  <i className="fa fa-circle text-danger" /> Google&nbsp;&nbsp;
+                  <i className="fa fa-circle text-warning" /> Kakao&nbsp;&nbsp;
+                  <i className="fa fa-circle text-primary" /> Naver&nbsp;&nbsp;
                   <br />
-                  <i className="fa fa-circle text-gray" /> Git{" "}
-                  <i className="fa fa-circle custom-text-one" /> Instagram{" "}
-                  <i className="fa fa-circle custom-text-two" /> Apple{" "}
-                  <i className="fa fa-circle custom-text-three" /> Kakao
+                  <i className="fa fa-circle custom-text-two" /> SSoy Story{" "}
+                  {/* <i className="fa fa-circle custom-text-one" /> Instagram{" "} */}
+                  {/* <i className="fa fa-circle custom-text-two" /> Apple{" "} */}
+                  
 
                 </div>
                 <hr />
-                <div className="stats">
-                  <i className="fa fa-calendar" /> Number of emails sent
+                <div className="stats" onClick={handleRefresh} style={{ cursor: "point" }}>
+                  <i className="fa fa-history" /> Refresh
                 </div>
               </CardFooter>
             </Card>

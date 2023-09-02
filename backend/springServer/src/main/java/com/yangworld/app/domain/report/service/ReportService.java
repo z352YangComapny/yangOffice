@@ -30,7 +30,7 @@ public interface ReportService {
 
     int insertReportProfile(Report report, int profileId);
 
-    int insertReportFeed(Report report, int feedId);
+    int insertReportPhotoFeed(Report report, int feedId);
 
     int insertReportComments(Report report, int commentsId);
 

@@ -2,10 +2,7 @@ package com.yangworld.app.domain.member.controller;
 
 
 import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.member.dto.FindIdDto;
-import com.yangworld.app.domain.member.dto.FollowDto;
-import com.yangworld.app.domain.member.dto.SignUpDto;
-import com.yangworld.app.domain.member.dto.UpdateDto;
+import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +16,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Response;
 
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Map;
 
 @Validated
@@ -37,9 +33,11 @@ public class MemberController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignUpDto signUpDto){
         log.info("signUp info = {}",signUpDto);
+
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
         return ResponseEntity.ok().build();
@@ -71,7 +69,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> delete(@AuthenticationPrincipal PrincipalDetails principal){
 
         log.info("princial ={}", principal);
@@ -102,24 +100,31 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/findId")
-    public ResponseEntity<?> findId(@RequestBody FindIdDto findIdDto){
-
-        String username = memberService.findMemberByEmail(findIdDto);
-        if(username == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("msg", "일치하는 이메일 주소가 없습니다. 확인 바랍니다."));
-        } else{
-            log.info("username = {}", username);
-            return ResponseEntity.status(HttpStatus.OK).body(Map.of("username", username));
-        }
-
-    }
-
     @GetMapping("/memberDetail")
     public ResponseEntity<Member> memberDetail(Authentication authentication) {
         Member member = (Member) authentication.getPrincipal();
         return ResponseEntity.ok(member);
+    }
+    
+    @GetMapping("/memberCount")
+    public ResponseEntity<?> memberCount(){
+
+        List<MonthlyMemberCountDto> monthlyCountList = memberService.findMonthlyMemberCount();
+
+        return ResponseEntity.ok(monthlyCountList);
+    }
+
+    @GetMapping("/deletedMemberCount")
+    public ResponseEntity<?> deletedMemberCount(){
+
+        List<MonthlyMemberCountDto> monthlyDeletedCountList = memberService.findMonthlyDeletedMemberCount();
+        return ResponseEntity.ok(monthlyDeletedCountList);
+    }
+
+    @GetMapping("/OAuthMemberCount")
+    public ResponseEntity<?> OAuthMemberCount(){
+        List<OAuthMemberDto> oauthMemberCountList = memberService.findOAuthMemberCount();
+        return ResponseEntity.ok(oauthMemberCountList);
     }
 
  }

@@ -31,6 +31,11 @@ let photofeedValues = [];
 let storyValues = [];
 let guestbookValues = [];
 
+let memberCountValues = [];
+let deletedMemberCountValues = [];
+
+let memberCountByProvider = [];
+
 const dashboard24HoursPerformanceChart = {
 
 
@@ -92,10 +97,6 @@ const dashboard24HoursPerformanceChart = {
       .catch((error) => {
         console.error(error);
       });
-
-
-
-
 
     return {
       labels: labels,
@@ -167,17 +168,38 @@ const dashboard24HoursPerformanceChart = {
 
 const dashboardEmailStatisticsChart = {
   data: (canvas) => {
+
+    fetch(`http://localhost:8080/member/OAuthMemberCount`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        memberCountByProvider = [];
+        data.map((value, index)=>{
+          memberCountByProvider.push(value.memberCount)
+        })
+        console.log(memberCountByProvider);
+    
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     return {
-      //
-      labels: [1, 2, 3, 4, 5, 6, 7],
+      
+      labels: [1, 2, 3, 4, 5],
       datasets: [
         {
           label: "Emails",
           pointRadius: 0,
           pointHoverRadius: 0,
-          backgroundColor: ["#e3e3e3", "#4acccd", "#fcc468", "#ef8157", "#6d88bf", "#c98bc9", "#60b19e"],
+          backgroundColor: ["#60b19e", "#ef8157", "#fcc468", "#4acccd", "#c98bc9"],
           borderWidth: 0,
-          data: [342, 480, 530, 80, 388, 210, 661],
+          data: memberCountByProvider,
         },
       ],
     };
@@ -219,6 +241,46 @@ const dashboardEmailStatisticsChart = {
 
 const dashboardNASDAQChart = {
   data: (canvas) => {
+
+
+    fetch(`http://localhost:8080/member/memberCount`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        memberCountValues = [];
+        data.map((value, index)=>{
+          memberCountValues.push(value.memberCount)
+        })
+        console.log(memberCountValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      fetch(`http://localhost:8080/member/deletedMemberCount`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        deletedMemberCountValues = [];
+        data.map((value, index)=>{
+          deletedMemberCountValues.push(value.memberCount)
+        })
+        console.log(deletedMemberCountValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     return {
       labels: [
         "Jan",
@@ -236,7 +298,7 @@ const dashboardNASDAQChart = {
       ],
       datasets: [
         {
-          data: [0, 19, 15, 20, 30, 40, 40, 50, 25, 30, 50, 70],
+          data: memberCountValues,
           fill: false,
           borderColor: "#fbc658",
           backgroundColor: "transparent",
@@ -247,7 +309,7 @@ const dashboardNASDAQChart = {
           tension: 0.4,
         },
         {
-          data: [0, 5, 10, 12, 20, 27, 30, 34, 42, 45, 55, 63],
+          data: deletedMemberCountValues,
           fill: false,
           borderColor: "#51CACF",
           backgroundColor: "transparent",

@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/profile/{userName}")
+@RequestMapping("/profile")
 public class ProfileController {
 
     @Autowired
@@ -45,9 +45,9 @@ public class ProfileController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<?> feedDetail(@RequestParam String userName) {
+    public ResponseEntity<?> feedDetail(@RequestParam String username) {
 
-        List<ProfileAll> profileDetails = profileService.findProfileAll(userName);
+        List<ProfileAll> profileDetails = profileService.findProfileAll(username);
 
         return ResponseEntity.ok().body(profileDetails);
     }
@@ -60,9 +60,9 @@ public class ProfileController {
             @AuthenticationPrincipal PrincipalDetails member,
             @RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
             throws IllegalStateException, IOException {
+        int loginMemberId = member.getId();
 
-
-        int result = profileService.updateProfile(profileId, state, introduction, member, upFiles);
+        int result = profileService.updateProfile(profileId, state, introduction, loginMemberId, upFiles);
 
         return ResponseEntity.ok().body(result);
     }

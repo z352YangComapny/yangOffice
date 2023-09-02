@@ -62,11 +62,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public String findMemberByEmail(FindIdDto findIdDto) {
-        return memberRepository.findMemberByEmail(findIdDto);
-    }
-
-    @Override
     public int memberTotalCount() {
         return memberRepository.getMemberTotalCount();
     }
@@ -90,5 +85,20 @@ public class MemberServiceImpl implements MemberService{
         }
         result += memberRepository.insertAuthorities(memberUpdate.getId(), authorityList);
         return result;
+    }
+
+    @Override
+    public List<MonthlyMemberCountDto> findMonthlyMemberCount() {
+        return memberRepository.findMonthlyMemberCount();
+    }
+
+    @Override
+    public List<MonthlyMemberCountDto> findMonthlyDeletedMemberCount() {
+        return memberRepository.findMonthlyDeletedMemberCount();
+    }
+
+    @Override
+    public List<OAuthMemberDto> findOAuthMemberCount() {
+        return memberRepository.findOAuthMemberCount();
     }
 }

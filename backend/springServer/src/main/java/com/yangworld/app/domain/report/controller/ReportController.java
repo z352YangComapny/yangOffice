@@ -173,7 +173,7 @@ public class ReportController {
 	 * 포토피드 report
 	 * */
 	@PostMapping("/insertReportFeed")
-	private ResponseEntity<?> insertReportFeed(
+	private ResponseEntity<?> insertReportPhotoFeed(
 			@AuthenticationPrincipal PrincipalDetails principal,
 			@RequestParam int feedId
 	) {
@@ -189,7 +189,7 @@ public class ReportController {
 												.build();
 		log.info("report@Guest={}", report);
 
-		reportService.insertReportFeed(report, feedId);
+		reportService.insertReportPhotoFeed(report, feedId);
 
 		return ResponseEntity.ok().build();
 	}
@@ -210,7 +210,7 @@ public class ReportController {
 				.build();
 		log.info("report@Guest={}", report);
 
-		reportService.insertReportFeed(report, commentsId);
+		reportService.insertReportComments(report, commentsId);
 
 		return ResponseEntity.ok().build();
 	}

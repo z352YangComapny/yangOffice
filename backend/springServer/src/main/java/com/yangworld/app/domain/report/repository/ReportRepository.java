@@ -93,7 +93,7 @@ public interface ReportRepository {
 	int insertReportProfile(ReportProfile reportProfile);
 
 	@Insert("insert into report_photo_feed(report_id, photo_feed_id) values(#{reportId}, #{photoFeedId})")
-	int insertReportFeed(ReportPhotoFeed reportFeed);
+	int insertReportPhotoFeed(ReportPhotoFeed reportFeed);
 
 	@Insert("insert into report_comments_feed(report_id, comments_id) values(#{reportId}, #{commentsId})")
 	int insertReportComments(ReportCommentsFeed reportCommentsFeed);
