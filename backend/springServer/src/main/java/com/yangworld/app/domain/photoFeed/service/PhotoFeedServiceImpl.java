@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class PhotoFeedServiceImpl implements PhotoFeedService {
 	@Autowired
 	private MemberRepository memberRepository;
@@ -103,7 +103,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		int result = 0;
 
 		List<Attachment> attachments = new ArrayList<>();
-		log.info("upFiles = {}",upFiles);
+
 		for(MultipartFile upFile : upFiles){
 			if(!upFile.isEmpty()) {
 				String originalFilename = upFile.getOriginalFilename();
@@ -221,18 +221,25 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		int memberId = member.getId();
 
 		PhotoFeed photoFeed = photoFeedRepository.findById(memberId);
+		List<AttachmentPhotoDto> attachmentPhotoDtos = photoFeedRepository.findAttachmentPhotoFeedByPhotoFeedId(feedId);
 
 		int writerId = photoFeed.getWriterId();
 
-		if (memberId == writerId){
 
+		if (memberId == writerId){
 			try {
-				result = photoFeedRepository.deleteFeed(feedId);
-				result += photoFeedRepository.deleteAttachment(feedId);
+
+				result += photoFeedRepository.deleteFeed(feedId);
 				result += photoFeedRepository.deleteLink(feedId);
+				for(AttachmentPhotoDto apd : attachmentPhotoDtos){
+
+					int attachmentId = apd.getAttachmentId();
+					result += photoFeedRepository.deleteAttachment(attachmentId);
+				}
 				return result;
 
 			} catch (Exception e) {
+				log.debug("다시는 눈에 띄지마라");
 				throw e;
 			}
 

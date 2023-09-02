@@ -16,4 +16,8 @@ public interface StoryService {
     int getTotalStoryCount();
 
 	List<StoryAdminDto> getAdminStory(int pageNo, int pageSize);
+
+	List<StoryDto> findStoryById(int id);
+
+	String findMemberUsername(int writerId);
 }

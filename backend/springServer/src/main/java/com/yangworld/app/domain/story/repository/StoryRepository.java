@@ -25,18 +25,13 @@ public interface StoryRepository {
 	@Select("select * from story order by reg_date desc")
 	List<Story> getAdminStory(RowBounds rowBounds);
 
-
-//	SELECT *
-//	FROM (
-//	    SELECT *
-//	    FROM Story
-//	    WHERE writer_id = 1
-//	      AND reg_date >= (SYSDATE - 1)
-//	    UNION
-//	    SELECT s.*
-//	    FROM Story s
-//	    JOIN follow f ON s.writer_id = f.followee
-//	    WHERE f.follower = 1
-//	      AND s.reg_date >= (SYSDATE - 1)
-//	); 메인에 띄울 스토리를 찾아내는 쿼리
+//	@Select("select * from (select * from story where writer_id = #{id} and reg_date >= (sysdate - 1) union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = #{id} and s.reg_date >= (sysdate - 1)) order by reg_date")
+	@Select("select * from (select * from story where writer_id = #{id} union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = #{id}) order by reg_date")
+	List<StoryDto> findStoryById(int id);
+	
+	@Select("select nickname from member where id = #{writerId}")
+	String findMemberUsername(int writerId);
+	
+	@Select("select id from member where nickname = #{id}")
+	int findIdByUsername(int id);
 }

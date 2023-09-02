@@ -1,6 +1,5 @@
 package com.yangworld.app.domain.story.entity;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -12,10 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Story {
+public class Payload {
+	private PayloadType type;
 	private int id;
 	private int writerId;
 	private String username;
 	private String content;
-	private LocalDateTime regDate;
+	private LocalDateTime createdAt;
+	
+	private String formattedCreatedAt;
 }
