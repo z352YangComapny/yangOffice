@@ -19,7 +19,11 @@ public interface StoryService {
 
 	List<StoryAdminDto> getAdminStory(int pageNo, int pageSize);
 
-    Story findStoryById(int storyId);
+    Story findStoryOriginById(int storyId);
 
 	List<StoryDailyDto> findStoryDaily();
+
+	String findMemberUsername(int writerId);
+
+	List<StoryDto> findStoryById(int id);
 }

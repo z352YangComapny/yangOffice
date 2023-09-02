@@ -35,7 +35,7 @@
 .feed-box {
     margin-right: 5px;
     width: 100%;
-    height: 14.7vw;
+    height: 14vw !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,7 +46,7 @@
 
 
 .feed-comments {
-    height: 4vw;
+    height: 7vw !important;
     margin-bottom: 0.4vw;
     text-align: center;
     overflow-y: auto;
@@ -85,14 +85,14 @@
     /* 이미지 크기 확대 */
 }
 
-.guestbook-text-line{
-    display: flex;
-    justify-content: space-between;
-    font-size: 20px;
-    padding: 5px;
-    
+.filebox:hover{
+    transform: scale(1.05);
 }
 
+
+.drop-feed{
+    z-index: 999;
+}
 
 /* 스크롤바 */
 .feed-box::-webkit-scrollbar {
@@ -137,6 +137,7 @@
 .feed-detail-image {
     width: 100% !important;
     height: 16vw !important;
+    border-bottom: 10% !important;
 }
 
 .feed-contest-text {
@@ -148,7 +149,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 72% !important;
+    height: 62% !important;
     
 }
 .carousel-inner {

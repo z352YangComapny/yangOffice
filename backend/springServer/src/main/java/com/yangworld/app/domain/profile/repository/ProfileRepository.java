@@ -7,7 +7,7 @@ import com.yangworld.app.domain.profile.dto.AttachmentProfileDto;
 import com.yangworld.app.domain.profile.dto.ProfileAll;
 import com.yangworld.app.domain.profile.entity.Profile;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
-import com.yangworld.app.domain.profile.entity.State;
+
 
 import java.util.List;
 
@@ -38,17 +38,11 @@ public interface ProfileRepository {
     Profile findbyId(int memberId);
 
 
-
-
-
-
     @Update("update profile set state = #{state}, introduction = #{introduction} where member_id = #{memberId}")
     int updateProfile(ProfileDetails profile);
 
     @Update("update attachment set original_filename = #{originalFilename}, renamed_filename= #{renamedFilename} where id = #{id}")
     int updateAttachment(Attachment attach);
-
-
 
 
     @Insert("insert into profile (id, member_id, state, introduction) values (seq_profile_id.nextval, #{memberId}, #{state}, #{introduction})")
@@ -60,23 +54,8 @@ public interface ProfileRepository {
     @Insert("insert into attachment_profile (attachment_id, profile_id) values (seq_attachment_id.currval, seq_profile_id.currval)")
     int insertAttachmentProfile();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 }
+
+
+

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class  StoryServiceImpl implements StoryService{
+public class  StoryServiceImpl implements StoryService {
 
 	@Autowired
 	private StoryRepository storyRepository;
@@ -46,11 +46,11 @@ public class  StoryServiceImpl implements StoryService{
 	@Override
 	@Transactional
 	public List<StoryAdminDto> getAdminStory(int pageNo, int pageSize) {
-		int offset = (pageNo-1)*pageSize;
+		int offset = (pageNo - 1) * pageSize;
 		RowBounds rowBounds = new RowBounds(offset, pageSize);
 		List<StoryAdminDto> result = new ArrayList<>();
 		List<Story> _result = storyRepository.getAdminStory(rowBounds);
-		for(Story story : _result){
+		for (Story story : _result) {
 			Member username = memberRepository.findById(story.getWriterId());
 			StoryAdminDto storyAdminDto = StoryAdminDto.builder()
 					.id(story.getId())
@@ -65,12 +65,22 @@ public class  StoryServiceImpl implements StoryService{
 	}
 
 	@Override
-	public Story findStoryById(int storyId) {
-		return storyRepository.findStoryById(storyId);
+	public Story findStoryOriginById(int storyId) {
+		return storyRepository.findStoryOriginById(storyId);
 	}
 
 	@Override
 	public List<StoryDailyDto> findStoryDaily() {
 		return storyRepository.findStoryDaily();
+
+	}
+	@Override
+	public String findMemberUsername ( int writerId){
+		return storyRepository.findMemberUsername(writerId);
+	}
+
+	@Override
+	public List<StoryDto> findStoryById ( int id){
+		return storyRepository.findStoryById(id);
 	}
 }

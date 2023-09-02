@@ -13,6 +13,7 @@ import com.yangworld.app.domain.report.dto.ReportStoryDto;
 import com.yangworld.app.domain.story.entity.Story;
 import com.yangworld.app.domain.story.service.StoryService;
 import lombok.RequiredArgsConstructor;
+import com.yangworld.app.domain.report.dto.ReportFeedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -85,6 +86,42 @@ public class ReportController {
 
 		return ResponseEntity.ok().build();
 	}
+	/**
+	 * Patch : http://localhost:8080/report/insertReportFeed
+	 * raw/json
+	 * {
+	 *   "feedId": 30,
+	 *   "content": "이 사진에 불쾌한 내용이 포함되어 있습니다."
+	 * }
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/insertReportFeed")
+	public ResponseEntity<?> insertReportFeed(
+		@AuthenticationPrincipal PrincipalDetails principalDetails,
+		@RequestBody ReportFeedRequest feedRequest
+    ){
+		int result = reportService.insertReportFeed(principalDetails, feedRequest);
+	return ResponseEntity.ok().body(result);
+	}
+
+	/**
+	 * Patch : http://localhost:8080/report/insertReportFeedComments
+	 * raw/json
+	 * {
+	 *   "commentsId": 20,
+	 *   "content": "이 댓글에 불쾌한 내용이 포함되어 있습니다."
+	 * }
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping("/insertReportFeedComments")
+	public ResponseEntity<?> inserReportFeedComments(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody ReportFeedRequest feedRequest
+	){
+		int result = reportService.insertReportFeedComments(principalDetails, feedRequest);
+
+		return ResponseEntity.ok().body(result);
+	}
 
 	/*
 	* GuestBook Report 생성
@@ -116,7 +153,7 @@ public class ReportController {
 	private ResponseEntity<?> insertReportStory(@AuthenticationPrincipal PrincipalDetails principal,
 													 @RequestParam int storyId) {
 
-		Story story = storyService.findStoryById(storyId);
+		Story story = storyService.findStoryOriginById(storyId);
 		int reporterId = principal.getId();
 		Report report = Report.builder()
 				.reporterId(reporterId)

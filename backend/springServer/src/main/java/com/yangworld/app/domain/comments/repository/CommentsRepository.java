@@ -13,10 +13,12 @@ import org.apache.ibatis.annotations.Update;
 import com.yangworld.app.domain.comments.dto.CommentAllDto;
 import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
-import com.yangworld.app.domain.member.entity.Member;
+
+
 
 @Mapper
 public interface CommentsRepository {
+
 
     // ok
     @Insert("insert into comments values(seq_comments_id.nextval, #{writerId}, #{comment}, sysdate)")
@@ -44,8 +46,6 @@ public interface CommentsRepository {
     List<Comments> commentByPhotoFeedId(int commentId);
 
 
-
-
     //---------------------------------------------------------------------------------------------------------
 
     @Insert("insert into comments_question (comments_id, question_id) values (seq_comments_id.currval, #{questionId})")
@@ -66,4 +66,25 @@ public interface CommentsRepository {
 
     @Select("select * from comments where id = #{commentsId}")
     Comments findCommentById(int commentsId);
+
+
+    @Select("select * from comments where id = #{commentId}")
+    Comments commentByCommentId(int commentId);
+
+    @Update("update comments set content = #{content}, reg_date = sysdate where id = #{commentId}")
+    int commentUpdate(@Param(value ="commentId")int commentId, @Param("content") String content);
+    @Delete("delete from comments where id = #{commentId}")
+    int commentDelete(int commentId);
+
+    @Delete("delete from comments_feed where comments_id = #{commentId}")
+    int commentFeedDelete(int commentId);
+    @Insert("insert into comments values(seq_comments_id.nextval, #{writerId}, #{content}, sysdate)")
+    int commentsCreate(@Param("writerId") int writerId,@Param("content") String content);
+
+    @Select("select * from (select * from comments where writer_id = #{writerId} and content = #{content} order by id desc) where rownum = 1")
+    Comments commentsIdByWriterIdContent(@Param("writerId") int writerId, @Param("content") String content);
+
+    @Insert("insert into comments_feed (comments_id, photo_feed_id) values(#{id}, #{feedId})")
+    int commentFeedCreate(@Param("id") int id, @Param("feedId") int feedId);
 }
+

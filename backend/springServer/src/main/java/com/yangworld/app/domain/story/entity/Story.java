@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Story {
 	private int id;
 	private int writerId;
+	private String username;
 	private String content;
 	private LocalDateTime regDate;
 }

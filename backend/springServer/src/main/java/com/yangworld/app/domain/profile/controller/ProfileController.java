@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yangworld.app.commons.HelloSpringUtils;
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.photoFeed.dto.PhotoFeedAll;
 import com.yangworld.app.domain.profile.dto.ProfileAll;
 import com.yangworld.app.domain.profile.dto.ProfileDto;
 import com.yangworld.app.domain.profile.entity.ProfileDetails;
@@ -84,17 +85,15 @@ public class ProfileController {
         int result = profileService.insertProfile(state, introduction, member, upFiles);
         return ResponseEntity.ok().body(result);
     }
-
-
-
-    @PatchMapping("/defaultCreate")
-    public ResponseEntity<?> defaultCreate(
-            @AuthenticationPrincipal PrincipalDetails member,
-            @RequestParam String userName){
-        int result = profileService.defaultCreateProfile(member, userName);
-
-        return ResponseEntity.ok().body(result);
-    }
-
-
 }
+
+
+
+
+
+
+
+
+
+
+

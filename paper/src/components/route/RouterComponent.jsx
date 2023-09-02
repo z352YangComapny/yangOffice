@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom'
 import Index from 'views/Index'
 import PageNotFound from 'components/Commons/PageNotFound'
 import UserPage from 'pages/UserPage'
+import AxiosEx from 'components/Commons/AxiosEx'
 
 const RouterComponent = () => {
   return (
@@ -28,6 +29,7 @@ const RouterComponent = () => {
         <Route path='user/:id' element={<UserPage />}>
 
         </Route>
+        <Route path='axiosex' element={<AxiosEx/>}></Route>
         <Route path='*' element={<PageNotFound />} />
       </Route>
     </Routes>

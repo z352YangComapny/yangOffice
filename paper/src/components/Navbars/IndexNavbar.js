@@ -21,24 +21,24 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import "react-notification-alert/dist/animate.css";
 // reactstrap components
+import Dm from "components/DM/Dm";
+import { MemberContext } from "contexts/MembetContextProvider";
+import { NotificationContext } from "contexts/NotificationContextProvider";
+import { WebSocketContext } from "contexts/WebSocketContextProvider";
+import ReactNotificationAlert from "react-notification-alert";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Collapse,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container,
   Input,
-  Alert,
+  Nav,
+  NavItem,
+  NavLink,
+  Navbar,
+  NavbarBrand
 } from "reactstrap";
-import '../../assets/css/style.css'
-import { MemberContext } from "contexts/MembetContextProvider";
-import { Link, useNavigate } from "react-router-dom";
-import { NotificationContext } from "contexts/NotificationContextProvider";
-import ReactNotificationAlert from "react-notification-alert";
-import SendMessage from "components/Icons/icons/send-message";
+import '../../assets/css/style.css';
 
 function IndexNavbar() {
   const {
@@ -61,24 +61,44 @@ function IndexNavbar() {
       setMessage,
     },
   } = useContext(NotificationContext)
-
-
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const [isDown, setIsDown] = useState(false);
-
-
 
   const notificationRef = useRef(null);
 
   const navigate = useNavigate();
 
+  /** socket */
+
+  const { states, actions } = useContext(WebSocketContext);
+
+  const { subject, sendGoal, wsJSON } = states;
+
+  const { setSubject, setSendGoal, setWsJSON, webSocketConnect } = actions;
+  // if(userProfile){
+
+  useEffect(() => {
+
+    console.log('웹소켓 연결 시도');
+    const a = 'a';
+    console.log('subject = ', subject);
+    setSubject('/storyMain');
+    setSendGoal('/app/init');
+    setWsJSON({a:a});
+  }, [])
+
+    console.log('subject = ', subject);
+    webSocketConnect(subject, sendGoal, wsJSON);
+  
+  // }
+
+  /** socket */
+
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
     document.documentElement.classList.toggle("nav-open");
   };
-
-
 
   const handleDmClick = () => {
     setIsDown((prevState) => !prevState);
@@ -154,7 +174,7 @@ function IndexNavbar() {
   
 
   useEffect(() => {
-    if(userProfile) setIsDown(false);
+    if(userProfile);
     updateNavbarColor();
   }, [userProfile]);
 
@@ -196,7 +216,7 @@ function IndexNavbar() {
           >
             {userProfile ?
               <Nav navbar>
-
+                <Dm></Dm>
                 <NavItem>
                   <NavLink
                     data-placement="bottom"
@@ -268,61 +288,6 @@ function IndexNavbar() {
                     <i className="nc-icon nc-spaceship" style={{ marginRight: "10px" }}></i> LogOut
                   </Button>
                 </NavItem>
-                <div style={dmContainer}>
-        <div className="dm-body" style={dmBody}>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-          <div className="chat-room">
-            <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
-            <div className="dm-room-message">'Last Message'</div>
-            <div className="dm-room-lasttime">
-              <p>3 min</p>
-              <p>ago</p>
-            </div>
-          </div>
-        </div>
-        <div className="dm nav-cursor" style={dmStyles} title="DM" onClick={handleDmClick}>
-          <SendMessage width={40} fill={"#51CBCE"} height={40} ></SendMessage>
-        </div>
-      </div>
               </Nav>
               :
               <Nav navbar>

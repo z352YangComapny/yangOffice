@@ -1,10 +1,14 @@
 package com.yangworld.app.domain.comments.service;
 
+
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,17 +23,16 @@ import com.yangworld.app.domain.profile.service.ProfileServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Primary
 @Service("QnACommentsServiceImpl")
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class QnACommentsServiceImpl implements CommentsService{
-
 	
 	@Autowired
 	CommentsRepository commentsRepository;
 
-	
 	@Override
 	public int insertQnaComment(PrincipalDetails principalDetails, QnaCommentAllDto qnaCommentCreateDto) {
 		int result = 0;
@@ -84,6 +87,21 @@ public class QnACommentsServiceImpl implements CommentsService{
 		return null;
 	}
 
+	@Override
+	public int commentsUpdate(PrincipalDetails principalDetails, int commentId, String content) {
+		return 0;
+	}
+
+	@Override
+	public int commentsDelete(PrincipalDetails principalDetails, int commentId) {
+		return 0;
+	}
+
+	@Override
+	public int commentCreate(PrincipalDetails principalDetails, String content, int feedId) {
+		return 0;
+	}
+
 
 	@Override
 	public int deleteComment(int commentId) {
@@ -110,6 +128,5 @@ public class QnACommentsServiceImpl implements CommentsService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
+
 }

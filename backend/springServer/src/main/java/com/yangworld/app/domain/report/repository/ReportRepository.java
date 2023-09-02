@@ -9,6 +9,12 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.data.repository.query.Param;
 
+import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
+import org.apache.ibatis.annotations.*;
+
+
+import java.util.List;
+
 import java.util.List;
 
 @Mapper
@@ -27,7 +33,6 @@ public interface ReportRepository {
 	// Report_DM 테이블에 신고와 DM 관계 추가
 	@Insert("insert into report_dm(report_id, dm_id) values(#{reportId}, #{dmId})")
 	int insertReportDm(ReportDm reportDm);
-
 
 	@Select("select r.id as id, m.username as writer, r.content as content, r.REG_DATE as regdate from report r join REPORT_PHOTO_FEED rpf on r.ID = rpf.REPORT_ID join PHOTO_FEED pf on rpf.PHOTO_FEED_ID=pf.id join MEMBER m on r.REPORTED_ID = m.id")
 	List<ReportDetailDto> getPotofeedReport();
@@ -95,4 +100,17 @@ public interface ReportRepository {
 
 	@Insert("insert into report_story(report_id, story_id) values(#{reportId}, #{storyId})")
 	int insertReportStoryReport(ReportStory reportStory);
+
+	@Select("select * from photo_feed where id = #{feedId}")
+	PhotoFeed findByFeedId(int feedId);
+
+	@Insert("insert into report_photo_feed (report_id, photo_feed_id)values(seq_report_id.currval, #{feedId}) ")
+	int insertReportFeed(int feedId);
+
+	@Select("select * from comments where id = #{commentsId}")
+	PhotoFeed findByCommentsId(int commentsId);
+
+	@Insert("insert into report_comments_feed (report_id, comments_id) values(seq_report_id.currval, #{commentsId}) ")
+	int insertReportFeedComments(int commentsId);
+
 }

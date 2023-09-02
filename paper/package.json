@@ -2,6 +2,7 @@
   "name": "paper-kit-react",
   "version": "1.3.2",
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "axios": "^1.4.0",
     "classnames": "2.3.2",
     "jquery": "^3.7.0",
@@ -16,7 +17,9 @@
     "react-router-dom": "6.11.1",
     "react-scripts": "5.0.1",
     "reactstrap": "8.10.0",
-    "sass": "1.62.1"
+    "sass": "1.62.1",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3"
   },
   "scripts": {
     "start": "react-scripts start",

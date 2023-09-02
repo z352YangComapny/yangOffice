@@ -24,3 +24,5 @@ public interface ProfileService {
 
     int defaultCreateProfile(PrincipalDetails member, String userName);
 }
+
+

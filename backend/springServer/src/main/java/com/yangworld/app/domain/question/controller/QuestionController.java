@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.question.dto.QuestionCreateQnaDto;
@@ -26,20 +23,23 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionService questionService;
-	
+
 	/**
 	 * 윤아
-	 * 공지사항 orderby로 상단에뜨게 하는 findAllQuestionList 
+	 * GET : http://localhost:8080/question/questionList
+	 * - Headers : Authorization ** 필수
 	 */
 	@GetMapping("/questionList")
 	public ResponseEntity<?> questionList(){
 		List<Question> questions = questionService.findAllQuestion();	
 		return ResponseEntity.ok(questions);
 	}
-	
+
 	/**
-	 * 윤아
-	 * - 이용문의작성 
+	 * POST : http://localhost:8080/question/createQna
+	 * Key : title, content
+	 * value : {title, content}
+	 * - Headers : Authorization ** 필수
 	 */
 	@PostMapping("/createQna")
 	public ResponseEntity<?> createQna(@AuthenticationPrincipal PrincipalDetails principal , @RequestBody QuestionCreateQnaDto _qnaDto) {
@@ -56,8 +56,13 @@ public class QuestionController {
 		
 		return ResponseEntity.ok().build();
 	}
-	
-	@PostMapping("/updateQna")
+	/**
+	 * PATCH  : http://localhost:8080/question/updateQna
+	 * Key : id(수정할 문의사항 번호/ view), title, content
+	 * value : {id, title, content}
+	 * - Headers : Authorization ** 필수
+	 */
+	@PatchMapping ("/updateQna")
 	public ResponseEntity<?> updateQna(@AuthenticationPrincipal PrincipalDetails principal , @RequestBody QuestionUpdateQnaDto _qnaDto) {
 		
 		Question updateQna = _qnaDto.toQna();
@@ -66,10 +71,7 @@ public class QuestionController {
 
 		// question 데이터 update
 		questionService.updateQna(updateQna);
-		
 		return ResponseEntity.ok().build();
-		
 	}
-	
-	
+
 }

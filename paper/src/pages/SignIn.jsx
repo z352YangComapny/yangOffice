@@ -45,11 +45,13 @@ function SignIn() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     const regex = /^[a-zA-Z0-9]{4,}$/;
     if(!regex.test(signInFrm.username) || !regex.test(setSignInFrm.password)){
       setMessage({ color: "warning", value: `아이디와 비밀번호 4글자 이상 입력해주세요.`})
       return;
     }
+
     signin(signInFrm).then((resp) => {
       sessionStorage.setItem("token", resp.headers.authorization);
       setMessage({ color: "success", value: `${signInFrm.username}님 환영합니다.🖤` })
@@ -70,7 +72,7 @@ function SignIn() {
             setMessage({ color: "danger", value: `아이디와 비밀번호를 확인해주세요.` })
             break;
           default:
-            setMessage({ color: "danger", value: `알 수 없는 에러 관리자에게 문의 해주세요 ERRCODE : ${err.response.data.status}` })
+            setMessage({ color: "danger", value: `알 수 없는 에러 관리자에게 문의 해주세요 ERRCODE : ${err.response.data.status}`})
         };
       })
   }

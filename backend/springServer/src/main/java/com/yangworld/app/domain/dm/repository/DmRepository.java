@@ -2,6 +2,7 @@ package com.yangworld.app.domain.dm.repository;
 
 import java.util.List;
 
+import com.yangworld.app.domain.dm.entity.DmRoom;
 import org.apache.ibatis.annotations.*;
 
 import com.yangworld.app.domain.dm.entity.Dm;
@@ -19,7 +20,7 @@ public interface DmRepository {
 	)
 	int insertDm(Dm dm);
 
-	@Select("select * from dm where dm_room_id = #{dmRoomId} order by reg_date asc")
+	@Select("select * from dm where dm_room_id = #{dmRoomId} order by reg_date desc")
 	List<Dm> findDmDetails(int dmRoomId);
 	
 	@Select("SELECT dr.id AS dm_room_id, dr.participant1, dr.participant2, dm.id AS dm_id, dm.receiver_id, dm.sender_id, dm.content, dm.reg_date " +
@@ -32,9 +33,11 @@ public interface DmRepository {
 	@Insert("insert into dm_room values (seq_dm_room_id.nextval , #{participant1},#{participant2}, default)")
     void insertDmRoom(@Param("participant1") int participant1, @Param("participant2") int participant2);
 
-	@Delete("delete from dm_room where participant1=#{participant1} and participant2=#{participant2}")
-	int deleteDmRoom(int participant1, int participant2);
+	@Delete("delete from dm_room where id= #{dmRoomId}")
+	int deleteDmRoom(int dmRoomId);
 
 
+	@Select("select * from dm_room where PARTICIPANT2=#{id} or PARTICIPANT1=#{id}")
+    List<DmRoom> findDmRoomByParticipantId(int id);
 
 }

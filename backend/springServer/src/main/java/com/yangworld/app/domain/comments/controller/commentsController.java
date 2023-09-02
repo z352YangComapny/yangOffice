@@ -46,7 +46,6 @@ public class commentsController {
     @Qualifier("FeedCommentsServiceImpl")
     private CommentsService commentService;
 
-
     @Autowired
     @Qualifier("QnACommentsServiceImpl")
     private CommentsService qnaCommentService;
@@ -216,3 +215,4 @@ public class commentsController {
 
 
 }
+
