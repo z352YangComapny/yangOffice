@@ -37,67 +37,54 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/profile/{userName}")
+@RequestMapping("/profile")
 public class ProfileController {
 
-	@Autowired
-	private ProfileService profileService;
+    @Autowired
+    private ProfileService profileService;
 
 
-	@GetMapping("/profile")
-	public ResponseEntity<?> feedDetail(@RequestParam String userName) {
+    @GetMapping("/profile")
+    public ResponseEntity<?> feedDetail(@RequestParam String username) {
 
-		List<ProfileAll> profileDetails = profileService.findProfileAll(userName);
+        List<ProfileAll> profileDetails = profileService.findProfileAll(username);
 
-		return ResponseEntity.ok().body(profileDetails);
-	}
+        return ResponseEntity.ok().body(profileDetails);
+    }
 
-	@PatchMapping("/updateProfile")
-	public ResponseEntity<?> updateProfile(
-			@RequestParam int profileId,
-			@RequestParam State state,
-			@RequestParam String introduction,
-			@AuthenticationPrincipal PrincipalDetails member,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
-					throws IllegalStateException, IOException {
+    @PatchMapping("/updateProfile")
+    public ResponseEntity<?> updateProfile(
+            @RequestParam int profileId,
+            @RequestParam State state,
+            @RequestParam String introduction,
+            @AuthenticationPrincipal PrincipalDetails member,
+            @RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
+            throws IllegalStateException, IOException {
+        int loginMemberId = member.getId();
 
+        int result = profileService.updateProfile(profileId, state, introduction, loginMemberId, upFiles);
 
-			int result = profileService.updateProfile(profileId, state, introduction, member, upFiles);
-	
-			return ResponseEntity.ok().body(result);
-		}
+        return ResponseEntity.ok().body(result);
+    }
 
-	@PatchMapping("/defaultUpdate")
-	public ResponseEntity<?> defaultUpdate(
-			@AuthenticationPrincipal PrincipalDetails member,
-			@RequestParam String userName){
-		int result = profileService.defaultUpdateProfile(member, userName);
-		return ResponseEntity.ok().body(result);
-	}
-	
-	@PatchMapping("/createProfile")
-	public ResponseEntity<?> createProfile(
-			@RequestParam State state,
-			@RequestParam String introduction,
-			@AuthenticationPrincipal PrincipalDetails member,
-			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
-					throws IllegalStateException, IOException {
-		int result = profileService.insertProfile(state, introduction, member, upFiles);
-		return ResponseEntity.ok().body(result);
-	}
-	
-	
+    @PatchMapping("/defaultUpdate")
+    public ResponseEntity<?> defaultUpdate(
+            @AuthenticationPrincipal PrincipalDetails member,
+            @RequestParam String userName){
+        int result = profileService.defaultUpdateProfile(member, userName);
+        return ResponseEntity.ok().body(result);
+    }
 
-	@PatchMapping("/defaultCreate")
-	public ResponseEntity<?> defaultCreate(
-			@AuthenticationPrincipal PrincipalDetails member,
-			@RequestParam String userName){
-		int result = profileService.defaultCreateProfile(member, userName);
-		
-		return ResponseEntity.ok().body(result);
-	}
-
-
+    @PatchMapping("/createProfile")
+    public ResponseEntity<?> createProfile(
+            @RequestParam State state,
+            @RequestParam String introduction,
+            @AuthenticationPrincipal PrincipalDetails member,
+            @RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
+            throws IllegalStateException, IOException {
+        int result = profileService.insertProfile(state, introduction, member, upFiles);
+        return ResponseEntity.ok().body(result);
+    }
 }
 
 

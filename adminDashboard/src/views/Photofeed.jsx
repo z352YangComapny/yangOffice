@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
 import { Button, Card, CardBody, CardGroup, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Col, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap'
 import { PhotofeedContext } from 'variables/PhotofeedContextProvider';
 
 const Photofeed = () => {
   const imageUrlRoot = "http://localhost:8080/resources/upload/attachment/"
+  const navigate = useNavigate();
 
   const {
     states: {
       photofeed,
       FeedNo,
-      feedTotalNo
+      feedTotalNo,
+      reportPhotoFeed
     },
     actions: {
       getFeed,
@@ -17,7 +20,9 @@ const Photofeed = () => {
       getTotalFeedCount,
       setFeedTotalNo,
       setPhotofeed,
-      deletedFeed
+      deletedFeed,
+      setReportPhotoFeed,
+      insertReportPhotoFeed
     } } = useContext(PhotofeedContext);
   const feedSize = 5;
   const MaxPageNo = Math.ceil(feedTotalNo / feedSize);
@@ -29,13 +34,32 @@ const Photofeed = () => {
   useEffect(() => {
     getFeeds(currentPage)
       .then((resp) => {
-        console.log(resp)
+        //console.log(resp)
         setPhotofeed(resp.data)
       })
       .catch((err) => {
         console.log(err)
       })
   }, [currentPage])
+
+  // 로드 될때 무조건 1번은 실행(컴포넌트가 마운트될때)
+  useEffect(()=>{
+    
+  },[]);
+
+
+  const handleReportPhotoFeed = (id) => {
+    console.log(id);
+    insertReportPhotoFeed(id)
+    .then((resp)=>{
+      console.log(resp)
+      alert('포토피드 신고 완료')
+      navigate('/admin/tables')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
 
   const renderImageCard = () => {
     if(!photofeed) return;
@@ -62,7 +86,7 @@ const Photofeed = () => {
           <CardText>
             {photofeed[i].content}
           </CardText>
-          <Button>
+          <Button onClick={() => handleReportPhotoFeed(photofeed[i].id)}>
             신고하기
           </Button>
         </CardBody>

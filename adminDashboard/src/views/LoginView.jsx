@@ -7,11 +7,20 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+    dashboard24HoursPerformanceChart,
+    dashboardEmailStatisticsChart,
+    dashboardNASDAQChart,
+    photofeedValues,
+    storyValues,
+    guestbookValues
+  } from "variables/charts.js";
 
 const LoginView = () => {
     const [isLogin, setIsLogin] = useState(false);
     const [count , setCount ] = useState(0);
     const navigate = useNavigate();
+    console.log(dashboard24HoursPerformanceChart)
     
     const getAuth = async () => {
         const token = localStorage.getItem("Authorization");

@@ -38,7 +38,7 @@ public class PhotoFeedController {
 	private PhotoFeedService photoFeedService;
 
 	/**
-	 * Patch : http://localhost:8080/feed/user1/feedCreate
+	 * Post : http://localhost:8080/feed/user1/feedCreate
 	 * Key : content, upFile
 	 * value : {content}, {File}
 	 * - Headers : Authorization ** 필수

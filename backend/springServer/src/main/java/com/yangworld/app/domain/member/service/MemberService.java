@@ -15,11 +15,9 @@ public interface MemberService {
 
     int deleteMember(String username);
 
-    int insertFollowee(FollowDto followDto);
+    int insertFollowee(PrincipalDetails principal, String hostname);
 
-    int deleteFollowee(FollowDto unfollow);
-
-    String findMemberByEmail(FindIdDto findIdDto);
+    int deleteFollowee(PrincipalDetails principal, String hostname);
 
     int memberTotalCount();
 
@@ -27,5 +25,15 @@ public interface MemberService {
 
     int updateMemberByAdmin(UpdateMemberDto memberUpdate);
 
+    List<MonthlyMemberCountDto> findMonthlyMemberCount();
+
+    List<MonthlyMemberCountDto> findMonthlyDeletedMemberCount();
+
+    List<OAuthMemberDto> findOAuthMemberCount();
+
     List<SearchMemberDto> searchMember(String keyword);
+
+    Member findByNickname(String nickname);
+
+    Member findByPhone(String phone);
 }

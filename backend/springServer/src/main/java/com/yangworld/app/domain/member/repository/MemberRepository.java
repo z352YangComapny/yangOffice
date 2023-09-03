@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface MemberRepository {
-    @Insert("insert into member values(seq_member_id.nextval, #{username},  #{name}, #{password}, #{nickname}, #{birthday}, #{gender}, #{phone}, #{email, jdbcType=VARCHAR}, 'YANG', default)")
+    @Insert("insert into member values(seq_member_id.nextval, #{username},  #{name}, #{password}, #{nickname}, #{birthday}, #{gender}, #{phone}, #{email, jdbcType=VARCHAR}, #{provider}, default)")
     @SelectKey(
             before = false,
             keyProperty = "id",
@@ -25,7 +25,6 @@ public interface MemberRepository {
     @Update("update member set password=#{password} where username = #{username}")
     void updatePassword(@Param("username") String username, @Param("password") String password);
 
-
     @Update("update member set password = #{updateDto.password}, nickname = #{updateDto.nickname}, phone = #{updateDto.phone}, email=#{updateDto.email}, birthday = #{updateDto.birthday} where username = #{username}")
     int updateMember(@Param("updateDto") UpdateDto updateDto, @Param("username") String username);
 
@@ -37,9 +36,6 @@ public interface MemberRepository {
 
     @Delete("delete from follow where follower = #{follower} and followee = #{followee}")
     int deleteFollowee(FollowDto unfollow);
-
-    @Select("select username from member where email = #{email}")
-    String findMemberByEmail(FindIdDto findIdDto);
 
     @Select("select * from member where email=#{email}")
     Member findMemberByEamilThisIsReal(String email);
@@ -62,6 +58,41 @@ public interface MemberRepository {
     int findFollowerCountByMemberId(int id);
     @Select("select count(*) from follow where followee= #{id}")
     int findFolloweeCountByMemberId(int id);
+
+
+    @Select("WITH Months AS (\n" +
+            "    SELECT LEVEL AS month\n" +
+            "    FROM DUAL\n" +
+            "    CONNECT BY LEVEL <= 12\n" +
+            ")\n" +
+            "SELECT TO_CHAR(Months.month, 'FM00') AS month,\n" +
+            "       COUNT(member.id) AS member_count\n" +
+            "FROM Months\n" +
+            "         LEFT JOIN member ON TO_CHAR(member.reg_date, 'MM') = TO_CHAR(Months.month, 'FM00')\n" +
+            "GROUP BY Months.month\n" +
+            "ORDER BY Months.month")
+    List<MonthlyMemberCountDto> findMonthlyMemberCount();
+
+    @Select("WITH Months AS (\n" +
+            "    SELECT LEVEL AS month\n" +
+            "    FROM DUAL\n" +
+            "    CONNECT BY LEVEL <= 12\n" +
+            ")\n" +
+            "SELECT TO_CHAR(Months.month, 'FM00') AS month,\n" +
+            "       COALESCE(COUNT(DELETED_MEMBER.username), 0) AS member_count\n" +
+            "FROM Months\n" +
+            "         LEFT JOIN deleted_member\n" +
+            "                   ON TO_CHAR(deleted_member.deleted_date, 'MM') = TO_CHAR(Months.month, 'FM00')\n" +
+            "GROUP BY Months.month\n" +
+            "ORDER BY Months.month")
+    List<MonthlyMemberCountDto> findMonthlyDeletedMemberCount();
+
+    @Select("SELECT provider, COUNT(*) AS member_count\n" +
+            "FROM member\n" +
+            "GROUP BY provider\n" +
+            "ORDER BY provider")
+    List<OAuthMemberDto> findOAuthMemberCount();
+
     @Select("select * from member where username=#{username}")
     Member findByUsername(String username);
 
@@ -74,6 +105,9 @@ public interface MemberRepository {
     List<SearchMemberDto> findMemberByKeyword(@Param("keyword") String keyword);
 
 
-
+    @Select("select * from member where nickname = #{nickname}")
+    Member findByNickname(String nickname);
+    @Select("select * from member where phone = #{phone}")
+    Member findByPhone(String phone);
 }
 

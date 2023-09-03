@@ -40,7 +40,7 @@ function IndexHeader() {
         <div className="content-center">
           <Container>
             <div className="title-brand">
-              <h1 className="presentation-title">Yang World</h1>
+              <h1 className="presentation-title">SSOY STORY</h1>
               <div className="fog-low">
                 <img alt="..." src={require("assets/img/fog-low.png")} />
               </div>
@@ -49,7 +49,7 @@ function IndexHeader() {
               </div>
             </div>
             <h2 className="presentation-subtitle text-center">
-              대화하고 소통하는 공간 Yang World 에 오신걸 환영합니다!
+              대화하고 소통하는 공간 SSOY STORY 에 오신걸 환영합니다!
             </h2>
           </Container>
         </div>
@@ -60,7 +60,7 @@ function IndexHeader() {
           }}
         />
         <h6 className="category category-absolute">
-          2023 @ Yang world Project
+          2023 @ Yang Company Project
         </h6>
       </div>
     </>

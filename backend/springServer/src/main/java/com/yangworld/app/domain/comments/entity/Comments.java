@@ -1,11 +1,15 @@
 package com.yangworld.app.domain.comments.entity;
+import java.time.LocalDateTime;
+
+import com.yangworld.app.domain.profile.entity.Profile;
+import com.yangworld.app.domain.profile.entity.State;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +21,6 @@ public class Comments {
     private String nickName;
     private String content;
     private LocalDateTime regDate;
+
 }
+

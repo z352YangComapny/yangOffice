@@ -13,4 +13,6 @@ import lombok.NoArgsConstructor;
 public class OAuthDto {
     private String provider;
     private String kakaoCode;
+    private String naverCode;
+    private String naverState;
 }

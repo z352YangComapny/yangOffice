@@ -25,9 +25,11 @@ function Tables() {
   const [currentPage, setCurrentPage] = useState(1);
   const PageNoPerLine = 10;
 
-  const { states: { memberPage, memberTotalCount, memberTotalPages }, actions: { setMemberTotalPages, getMemberPage, setMemberPage } } = useContext(MemberContext);
+  const { states: { memberPage, memberTotalCount, memberTotalPages, pageNo }, actions: { setMemberTotalPages, getMemberPage, setMemberPage, setPageNo } } = useContext(MemberContext);
+  
 
   const PageSize = 10;
+
   setMemberTotalPages(Math.ceil(memberTotalCount / PageSize))
   useEffect(()=>{
     getMemberPage(currentPage)

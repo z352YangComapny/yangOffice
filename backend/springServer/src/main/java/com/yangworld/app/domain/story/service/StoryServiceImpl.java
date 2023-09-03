@@ -3,6 +3,7 @@ package com.yangworld.app.domain.story.service;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import com.yangworld.app.domain.story.dto.StoryAdminDto;
+import com.yangworld.app.domain.story.dto.StoryDailyDto;
 import com.yangworld.app.domain.story.entity.Story;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class  StoryServiceImpl implements StoryService{
+public class  StoryServiceImpl implements StoryService {
 
 	@Autowired
 	private StoryRepository storyRepository;
@@ -45,11 +46,11 @@ public class  StoryServiceImpl implements StoryService{
 	@Override
 	@Transactional
 	public List<StoryAdminDto> getAdminStory(int pageNo, int pageSize) {
-		int offset = (pageNo-1)*pageSize;
+		int offset = (pageNo - 1) * pageSize;
 		RowBounds rowBounds = new RowBounds(offset, pageSize);
 		List<StoryAdminDto> result = new ArrayList<>();
 		List<Story> _result = storyRepository.getAdminStory(rowBounds);
-		for(Story story : _result){
+		for (Story story : _result) {
 			Member username = memberRepository.findById(story.getWriterId());
 			StoryAdminDto storyAdminDto = StoryAdminDto.builder()
 					.id(story.getId())
@@ -62,14 +63,24 @@ public class  StoryServiceImpl implements StoryService{
 		}
 		return result;
 	}
-	
+
 	@Override
-	public String findMemberUsername(int writerId) {
+	public Story findStoryOriginById(int storyId) {
+		return storyRepository.findStoryOriginById(storyId);
+	}
+
+	@Override
+	public List<StoryDailyDto> findStoryDaily() {
+		return storyRepository.findStoryDaily();
+
+	}
+	@Override
+	public String findMemberUsername ( int writerId){
 		return storyRepository.findMemberUsername(writerId);
 	}
-	
+
 	@Override
-	public List<StoryDto> findStoryById(int id) {
+	public List<StoryDto> findStoryById ( int id){
 		return storyRepository.findStoryById(id);
 	}
 }

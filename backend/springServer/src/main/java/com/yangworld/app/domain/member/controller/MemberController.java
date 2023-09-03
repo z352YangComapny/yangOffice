@@ -2,6 +2,7 @@ package com.yangworld.app.domain.member.controller;
 
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
@@ -13,11 +14,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Response;
+
+
+import javax.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Map;
@@ -31,10 +37,14 @@ public class MemberController {
     private MemberService memberService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    PrincipalDetailsService principalDetailsService;
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignUpDto signUpDto){
         log.info("signUp info = {}",signUpDto);
+
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         memberService.insertMember(signUpDto);
         return ResponseEntity.ok().build();
@@ -66,7 +76,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> delete(@AuthenticationPrincipal PrincipalDetails principal){
 
         log.info("princial ={}", principal);
@@ -78,37 +88,20 @@ public class MemberController {
 
     @PostMapping("/follow")
     public ResponseEntity<?> follow(@AuthenticationPrincipal PrincipalDetails principal,
-                                    @RequestBody FollowDto followDto){
-        log.info("followDto = {}", followDto);
-        followDto.setFollower(principal.getId());
-        log.info("followDto={}", followDto);
+                                    @RequestParam String hostname){
 
-        memberService.insertFollowee(followDto);
+        memberService.insertFollowee(principal, hostname);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/unfollow")
+    @DeleteMapping("/unfollow")
     public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
-                                      @RequestBody FollowDto unfollow){
-        unfollow.setFollower(principal.getId());
-        memberService.deleteFollowee(unfollow);
+                                      @RequestParam String hostname){
+
+        memberService.deleteFollowee(principal, hostname);
 
         return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/findId")
-    public ResponseEntity<?> findId(@RequestBody FindIdDto findIdDto){
-
-        String username = memberService.findMemberByEmail(findIdDto);
-        if(username == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("msg", "일치하는 이메일 주소가 없습니다. 확인 바랍니다."));
-        } else{
-            log.info("username = {}", username);
-            return ResponseEntity.status(HttpStatus.OK).body(Map.of("username", username));
-        }
-
     }
 
     @GetMapping("/memberDetail")
@@ -116,12 +109,77 @@ public class MemberController {
         Member member = (Member) authentication.getPrincipal();
         return ResponseEntity.ok(member);
     }
+    
+    @GetMapping("/memberCount")
+    public ResponseEntity<?> memberCount(){
+
+        List<MonthlyMemberCountDto> monthlyCountList = memberService.findMonthlyMemberCount();
+
+        return ResponseEntity.ok(monthlyCountList);
+    }
+
+    @GetMapping("/deletedMemberCount")
+    public ResponseEntity<?> deletedMemberCount(){
+
+        List<MonthlyMemberCountDto> monthlyDeletedCountList = memberService.findMonthlyDeletedMemberCount();
+        return ResponseEntity.ok(monthlyDeletedCountList);
+    }
+
+    @GetMapping("/OAuthMemberCount")
+    public ResponseEntity<?> OAuthMemberCount(){
+        List<OAuthMemberDto> oauthMemberCountList = memberService.findOAuthMemberCount();
+        return ResponseEntity.ok(oauthMemberCountList);
+    }
 
     @GetMapping("")
     public ResponseEntity<List<SearchMemberDto>> memberSearch(@RequestParam String keyword){
         List<SearchMemberDto> memberList = memberService.searchMember(keyword);
         return ResponseEntity.ok(memberList);
     }
+
+    /*
+    * 아이디 중복검사
+    * */
+    @GetMapping("/checkIdDuplicate")
+    public ResponseEntity<?> checkIdDuplicate(@RequestParam String username){
+        boolean available = false;
+        try {
+            UserDetails principal = principalDetailsService.loadUserByUsername(username);
+
+        } catch (UsernameNotFoundException e) {
+            available = true; // 찾았는데 없으면 오류가 발생하고, 해당 Id는 사용이 가능해짐
+        }
+        return ResponseEntity.ok(available);
+
+    }
+
+    /**
+     * nickname 중복검사
+     * */
+    @GetMapping("/checkNicknameDuplicate")
+    public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname){
+        boolean available = false;
+        Member member = memberService.findByNickname(nickname);
+        if (member == null) {
+            available = true;
+        }
+        return ResponseEntity.ok(available);
+
+    }
+
+    /**
+     * 휴대전화 중복검사
+     * */
+    @GetMapping("/checkPhoneDuplicate")
+    public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone){
+        boolean available = false;
+        Member member = memberService.findByPhone(phone);
+        if (member == null) {
+            available = true;
+        }
+        return ResponseEntity.ok(available);
+    }
+
  }
 
 

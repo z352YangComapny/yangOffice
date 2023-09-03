@@ -4,6 +4,7 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.guestbook.dto.GuestBookCreateDto;
 import com.yangworld.app.domain.guestbook.dto.GuestBookWithNicknameDto;
 import com.yangworld.app.domain.guestbook.dto.GuestbookAdminDto;
+import com.yangworld.app.domain.guestbook.dto.GuestbookDailyDto;
 import com.yangworld.app.domain.member.repository.MemberRepository;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class GuestBookServiceImpl implements GuestBookService{
+public class GuestBookServiceImpl implements GuestBookService {
 
 	@Autowired
 	private GuestBookRepository guestBookRepository;
@@ -54,11 +55,11 @@ public class GuestBookServiceImpl implements GuestBookService{
 
 	@Override
 	public List<GuestbookAdminDto> guestbookList(int pageNo, int pageSize) {
-		int offset = (pageNo-1)*pageSize;
+		int offset = (pageNo - 1) * pageSize;
 		RowBounds rowBounds = new RowBounds(offset, pageSize);
 		List<GuestBook> guestBooks = guestBookRepository.guestBookList(rowBounds);
 		List<GuestbookAdminDto> guestbookAdminDtos = new ArrayList<>();
-		for(GuestBook guestBook : guestBooks){
+		for (GuestBook guestBook : guestBooks) {
 			String writer = memberRepository.findById(guestBook.getWriterId()).getUsername();
 			String toMember = memberRepository.findById(guestBook.getMemberId()).getUsername();
 			GuestbookAdminDto guestbookAdminDto = GuestbookAdminDto.builder()
@@ -74,6 +75,16 @@ public class GuestBookServiceImpl implements GuestBookService{
 	}
 
 	@Override
+	public GuestBook findGuestBookById(int guestBookId) {
+		return guestBookRepository.findGuestBookById(guestBookId);
+	}
+
+	@Override
+	public List<GuestbookDailyDto> findGuestBookDaily() {
+		return guestBookRepository.findGuestBookDaily();
+
+	}
+
 	public List<GuestBookWithNicknameDto> findAll(Map<String, Object> params, String hostname) {
 		int page = (int) params.get("page");
 		int limit = (int) params.get("limit");
@@ -86,6 +97,5 @@ public class GuestBookServiceImpl implements GuestBookService{
 	public int countAllGuestBook(String hostname) {
 		return guestBookRepository.countAllGuestBook(memberRepository.findByUsername(hostname).getId());
 	}
-
 
 }

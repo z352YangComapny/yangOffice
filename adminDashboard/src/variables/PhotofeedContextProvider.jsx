@@ -4,9 +4,12 @@ import axios from 'axios';
 export const PhotofeedContext = createContext()
 
 const PhotofeedContextProvider = (props) => {
+  const SpringBaseUrl = "http://localhost:8080";
     const [photofeed , setPhotofeed ] = useState([]);
     const [feedNo , setFeedNo ] = useState(0);
     const [feedTotalNo, setFeedTotalNo] = useState(0);
+    const [reportPhotoFeed, setReportPhotoFeed] = useState({});
+    const [dailyFeed, setDailyFeed] = useState([]);
 
     const getFeed = (id) => {}
     const getFeeds = async (pageNo) => {
@@ -17,11 +20,28 @@ const PhotofeedContextProvider = (props) => {
     }
     const deletedFeed = (id) => {}
 
+    const insertReportPhotoFeed = async (feedId) =>{
+      const axiosConfig = {
+        headers:{
+          "Authorization":localStorage.getItem('Authorization')
+        }
+      }
+      console.log(axiosConfig);
+      return await axios.post(SpringBaseUrl +`/api/v1/insertReportFeed?feedId=`+ feedId,{},axiosConfig);
+    }
+
+    const getDailyFeed = async () => {
+        return await axios.get(SpringBaseUrl+`/api/v1/photoFeed/dailyPhotoFeed`)
+    }
+
+
     const value = {
       states : {
         photofeed, 
         feedNo,
-        feedTotalNo
+        feedTotalNo,
+        reportPhotoFeed,
+        dailyFeed
       },
       actions: {
         getFeed,
@@ -29,7 +49,11 @@ const PhotofeedContextProvider = (props) => {
         getTotalFeedCount,
         setFeedTotalNo,
         setPhotofeed,
-        deletedFeed
+        deletedFeed,
+        setReportPhotoFeed,
+        insertReportPhotoFeed,
+        getDailyFeed,
+        setDailyFeed
       }
     };
 

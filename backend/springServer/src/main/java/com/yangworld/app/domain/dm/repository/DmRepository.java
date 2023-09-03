@@ -36,6 +36,8 @@ public interface DmRepository {
 	@Delete("delete from dm_room where id= #{dmRoomId}")
 	int deleteDmRoom(int dmRoomId);
 
+
 	@Select("select * from dm_room where PARTICIPANT2=#{id} or PARTICIPANT1=#{id}")
     List<DmRoom> findDmRoomByParticipantId(int id);
+
 }

@@ -5,10 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class FindIdDto {
-    private String email;
+@NoArgsConstructor
+@AllArgsConstructor
+public class MonthlyMemberCountDto {
+
+    private String month;
+    private int memberCount;
 }

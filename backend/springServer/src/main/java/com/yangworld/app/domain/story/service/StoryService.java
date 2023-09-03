@@ -1,7 +1,9 @@
 package com.yangworld.app.domain.story.service;
 
 import com.yangworld.app.domain.story.dto.StoryAdminDto;
+import com.yangworld.app.domain.story.dto.StoryDailyDto;
 import com.yangworld.app.domain.story.dto.StoryDto;
+import com.yangworld.app.domain.story.entity.Story;
 
 import java.util.List;
 
@@ -17,7 +19,11 @@ public interface StoryService {
 
 	List<StoryAdminDto> getAdminStory(int pageNo, int pageSize);
 
-	List<StoryDto> findStoryById(int id);
+    Story findStoryOriginById(int storyId);
+
+	List<StoryDailyDto> findStoryDaily();
 
 	String findMemberUsername(int writerId);
+
+	List<StoryDto> findStoryById(int id);
 }

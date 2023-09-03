@@ -34,56 +34,140 @@ import {
   dashboard24HoursPerformanceChart,
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
+  photofeedValues,
+  storyValues,
+  guestbookValues
 } from "variables/charts.js";
 import '../assets/css/style.css'
 import { AppContext } from "variables/AppContextProvider";
 import { PhotofeedContext } from "variables/PhotofeedContextProvider";
 import { MemberContext } from "variables/MemberContnextProvider";
+import { ReportContext } from "variables/ReportContextProvider";
+import { StoryContext } from "variables/StoryContextProvider";
+import { GuestbookContext } from "variables/GuestContextProvider";
+
 
 function Dashboard() {
-  const { states : {serverState}, actions : {ping, setServerState}} = useContext(AppContext)
-  const { states : {feedTotalNo}, actions : {getTotalFeedCount , setFeedTotalNo}} = useContext(PhotofeedContext)
-  const { states : {memberTotalCount}, actions : {getMemberTotlaCount , setMemberTotalCount}} = useContext(MemberContext);
-  
-  useEffect(()=>{
-   handlePing();
-   handleGetTotalFeedCount();
-   handleGetMemberTotalCount();
-  },[])
+  const { states: { serverState }, actions: { ping, setServerState } } = useContext(AppContext)
+  const { states: { feedTotalNo }, actions: { getTotalFeedCount, setFeedTotalNo } } = useContext(PhotofeedContext)
+  const { states: { memberTotalCount }, actions: { getMemberTotlaCount, setMemberTotalCount } } = useContext(MemberContext);
+  const { states: { totalReportCount }, actions: { getTotalReportCount, setTotalReportCount } } = useContext(ReportContext);
+  const { states: { dailyFeed }, actions: { setDailyFeed, getDailyFeed } } = useContext(PhotofeedContext);
+  const { actions: { getDailyStory } } = useContext(StoryContext);
+  const { actions: { getDailyGuestBook } } = useContext(GuestbookContext);
+  const [re, setRe] = useState(false);
+
+  useEffect(() => {
+    console.log("mount")
+    handlePing();
+    handleGetTotalFeedCount();
+    handleGetMemberTotalCount();
+    handleGetReportTotalCount();
+    //  handleGetDailyFeed();
+    //  handleGetDailyStory();
+    //  handleGetDailyGuestBook();
+    setRe(false)
+  }, [re])
+
+  //const temp = dashboard24HoursPerformanceChart.values;
+  //temp();
+  //console.log(temp);
 
   const handlePing = () => {
     ping()
-    .then((resp)=>{
-      setServerState(true)
-    })
-    .catch((err)=>{
-      console.log(err)
-      setServerState(false)
-    })   
+      .then((resp) => {
+        setServerState(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        setServerState(false)
+      })
   }
-  
+
   const handleGetTotalFeedCount = () => {
     getTotalFeedCount()
-    .then((resp)=>{
-      setFeedTotalNo(resp.data)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+      .then((resp) => {
+        setFeedTotalNo(resp.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   const handleGetMemberTotalCount = () => {
     getMemberTotlaCount()
-    .then((resp)=>{
-      setMemberTotalCount(resp.data)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+      .then((resp) => {
+        setMemberTotalCount(resp.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   const handleGetReportTotalCount = () => {
+    getTotalReportCount()
+      .then((resp) => {
+        setTotalReportCount(resp.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
-  
+  // const handleGetDailyFeed = () => {
+  //   photofeedValues = [];
+  //   getDailyFeed()
+  //   .then((resp) => {
+  //       //console.log(resp.data);
+  //       //dashboard24HoursPerformanceChart.values = [...dashboard24HoursPerformanceChart.values, ...resp.data];
+  //       //console.log(dashboard24HoursPerformanceChart.values);
+  //       resp.data.forEach((item) =>{   
+  //         console.log(item.photofeedCount);
+  //         photofeedValues.push(item.photofeedCount);
+
+  //       });
+  //       console.log(photofeedValues);
+
+  //   })
+  //   .catch((err)=>{
+  //     console.log(err);
+  //   })
+  // }
+
+  const handleRefresh = () => {
+    console.log("hi")
+    setRe(true);
+  }
+  // const handleGetDailyStory = () => {
+  //   storyValues = [];
+  //   getDailyStory()
+  //     .then((resp) => {
+
+  //       resp.data.forEach((item) => {
+  //         storyValues.push(item.storyCount);
+  //         // console.log("storyCount",item.storyCount);
+
+  //       });
+  //       console.log(storyValues);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
+
+  // const handleGetDailyGuestBook = () => {
+  //   guestbookValues = [];
+  //   getDailyGuestBook()
+  //     .then((resp) => {
+  //       resp.data.forEach((item) => {
+  //         guestbookValues.push(item.guestbookCount);
+  //         //console.log("guestbookitem",item.guestbookCount);
+  //       });
+  //       console.log(guestbookValues);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
+
   return (
     <>
       <div className="content">
@@ -153,7 +237,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">접수된 신고</p>
-                      <CardTitle tag="p">23</CardTitle>
+                      <CardTitle tag="p">{totalReportCount}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -211,8 +295,8 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <hr />
-                <div className="stats">
-                  <i className="fa fa-history" /> Updated 3 minutes ago
+                <div className="stats" onClick={handleRefresh} style={{ cursor: "point" }}>
+                  <i className="fa fa-history" /> Refresh
                 </div>
               </CardFooter>
             </Card>
@@ -233,19 +317,20 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Naver{" "}
-                  <i className="fa fa-circle text-warning" /> Steam{" "}
-                  <i className="fa fa-circle text-danger" /> Google{" "}
-                  <br/>
-                  <i className="fa fa-circle text-gray" /> Git{" "}
-                  <i className="fa fa-circle custom-text-one" /> Instagram{" "}
-                  <i className="fa fa-circle custom-text-two" /> Apple{" "}
-                  <i className="fa fa-circle custom-text-three" /> Kakao
+                  <i className="fa fa-circle custom-text-three" /> Spotify&nbsp;&nbsp;
+                  <i className="fa fa-circle text-danger" /> Google&nbsp;&nbsp;
+                  <i className="fa fa-circle text-warning" /> Kakao&nbsp;&nbsp;
+                  <i className="fa fa-circle text-primary" /> Naver&nbsp;&nbsp;
+                  <br />
+                  <i className="fa fa-circle custom-text-two" /> SSoy Story{" "}
+                  {/* <i className="fa fa-circle custom-text-one" /> Instagram{" "} */}
+                  {/* <i className="fa fa-circle custom-text-two" /> Apple{" "} */}
                   
+
                 </div>
                 <hr />
-                <div className="stats">
-                  <i className="fa fa-calendar" /> Number of emails sent
+                <div className="stats" onClick={handleRefresh} style={{ cursor: "point" }}>
+                  <i className="fa fa-history" /> Refresh
                 </div>
               </CardFooter>
             </Card>
