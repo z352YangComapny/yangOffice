@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer';
 import { Button, Input } from 'reactstrap';
 import '../../assets/css/worldphotofeed.css'
+import { useParams } from 'react-router-dom';
 
 const imgBaseUrl = "http://localhost:8080/resources/upload/attachment/"
 
@@ -24,15 +25,15 @@ const WorldPhotoFeedListComponent = () => {
             setIsDetail
         },
     } = useContext(PhotoFeedContext);
-
+    const { hostname } = useParams();
     const [page, setPage] = useState(1);
     const [isloading, setIsloading] = useState(false);
-    const [feedId , setFeedId] = useState(0)
+    const [feedId, setFeedId] = useState(0)
     const [comments, setComments] = useState([]);
     const feedBox = useRef(null);
 
     const loadFeed = () => {
-        getFeedPage(page).then(resp => {
+        getFeedPage(page, hostname).then(resp => {
             setData(prev => [...prev, ...resp.data])
             setIsloading(false);
         });
@@ -62,23 +63,31 @@ const WorldPhotoFeedListComponent = () => {
             .then((resp) => {
                 setMaxPage(Math.ceil(resp.data / pageSize))
             })
-        getFeedPage(page).then(resp => {
+            .catch((err) => {
+                console.log(err)
+            })
+
+        getFeedPage(page, hostname).then(resp => {
             setData(resp.data)
             setFeedId(resp.data[0].id)
-        });
+        })
+            .catch((err) => {
+                console.log(err)
+            });
+
         const feedBoxContainer = feedBox.current;
         feedBoxContainer.addEventListener("scroll", handleScroll);
 
         return () => {
             feedBoxContainer.removeEventListener("scroll", handleScroll);
         };
-    }, [])
+    }, [hostname])
 
-    useEffect(()=>{
-        data.forEach((feed,index)=>{
-            if(feed.id==feedId) setSelectedFeed(data[index])
+    useEffect(() => {
+        data.forEach((feed, index) => {
+            if (feed.id == feedId) setSelectedFeed(data[index])
         })
-    },[feedId])
+    }, [feedId])
 
 
     const handleImgClick = (itemId) => {

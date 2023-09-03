@@ -1,9 +1,42 @@
 import SmilingFaceSunglasses from 'components/Icons/icons/smiling-face-sunglasses'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap'
 import '../../assets/css/worldprofile.css'
+import { NotificationContext } from 'contexts/NotificationContextProvider'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
+
 
 const WorldProfileComponent = (props) => {
+    const {
+        states: { message },
+        actions: { setMessage }
+    } = useContext(NotificationContext)
+    const { hostname , username } = useParams();
+    console.log(hostname)
+    console.log(username)
+
+
+    const handleFollow = () => {
+        const headers = {
+            headers: {
+                "Authorization": sessionStorage.getItem('token')
+            }
+        }
+        axios.post('http://localhost:8080/member/follow', { hostname: hostname }, headers)
+            .then((resp) => {
+                setMessage({
+                    color: "success", value: `${hostname}님 팔로우를 시작합니다💓`
+                })
+            })
+            .catch((err) => {
+                setMessage({
+                    color: "danger", value: `팔로우실패😰 관리자에게 문의해주세요.`
+                })
+            })
+    }
+
+
     return (
         <Card style={{
             border: 'solid 3px rgba(81, 203, 206, 1)',
@@ -26,18 +59,20 @@ const WorldProfileComponent = (props) => {
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem header>
-                                "username"
+                                {hostname}
                             </DropdownItem>
-                            <DropdownItem>
+                            {(hostname && hostname != sessionStorage.getItem('username')) ? <DropdownItem onClick={handleFollow}> 
                                 Follow
-                            </DropdownItem>
-                            <DropdownItem>
+                            </DropdownItem> : (!username&&!hostname) ? <DropdownItem onClick={handleFollow}> 
+                                Follow
+                            </DropdownItem> : "" }
+                            {(hostname && hostname != sessionStorage.getItem('username')) ? <DropdownItem>
                                 Dm
                             </DropdownItem>
-                            <DropdownItem divider />
-                            <DropdownItem>
-                                Profile Setting
-                            </DropdownItem>
+                                : 
+                                <DropdownItem>
+                                    Profile Setting
+                                </DropdownItem> }
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <Button color='danger' outline title='신고하기' style={{ marginLeft: "5px" }} >

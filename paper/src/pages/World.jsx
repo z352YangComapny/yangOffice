@@ -9,6 +9,7 @@ import WorldPhotoFeedComponent from 'components/PhotoFeed/WorldPhotoFeedComponen
 import WorldGuestBookComponet from 'components/GuestBook/WorldGuestBookComponent';
 import WorldProfileComponent from 'components/Member/WorldProfileComponent';
 import GameComponent from 'components/game/GameComponent';
+import GuestBookComponet from 'components/GuestBook/GuestBookComponet';
 
 const WroldPage = (props) => {
   const [leftState, setLeftState] = useState(0);
@@ -30,7 +31,7 @@ const WroldPage = (props) => {
             <Col className='user-right' md={8}>
             <WorldStoryComponent/>
             <GameComponent/>
-            <WorldGuestBookComponet/>
+            <GuestBookComponet/>
             </Col>
           </Row>
         </div>

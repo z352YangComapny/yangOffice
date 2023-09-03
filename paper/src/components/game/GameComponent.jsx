@@ -27,9 +27,6 @@ const GameComponent = () => {
 
 
     const handleOnClickSocket = () => {
-        window.userProfile = userProfile;
-        if (accessToken)
-            window.token = accessToken;
         const game = new Phaser.Game({
             ...GameConfig,
             parent: gameContainerRef.current
