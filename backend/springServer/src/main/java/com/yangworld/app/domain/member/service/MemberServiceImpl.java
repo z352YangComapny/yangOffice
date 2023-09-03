@@ -52,12 +52,25 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int insertFollowee(FollowDto followDto) {
+    public int insertFollowee(PrincipalDetails principal, String hostname) {
+        Member host = memberRepository.findByUsername(hostname);
+
+        FollowDto followDto = FollowDto.builder()
+                .follower(principal.getId())
+                .followee(host.getId())
+                .build();
+
         return memberRepository.insertFollowee(followDto);
     }
 
     @Override
-    public int deleteFollowee(FollowDto unfollow) {
+    public int deleteFollowee(PrincipalDetails principal, String hostname) {
+        Member host = memberRepository.findByUsername(hostname);
+        FollowDto unfollow = FollowDto.builder()
+                .follower(principal.getId())
+                .followee(host.getId())
+                .build();
+
         return memberRepository.deleteFollowee(unfollow);
     }
 
@@ -105,5 +118,15 @@ public class MemberServiceImpl implements MemberService{
         List<SearchMemberDto> memberDtos = memberRepository.findMemberByKeyword(keyword);
         return memberDtos;
 
+    }
+
+    @Override
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
+    }
+
+    @Override
+    public Member findByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
     }
 }

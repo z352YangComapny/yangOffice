@@ -1,5 +1,6 @@
 package com.yangworld.app.domain.OAuth.controller;
 
+import com.yangworld.app.domain.OAuth.dto.NaverDto;
 import com.yangworld.app.domain.OAuth.dto.OAuthDto;
 import com.yangworld.app.domain.OAuth.service.OAuthService;
 import com.yangworld.app.domain.member.service.MemberService;
@@ -29,9 +30,13 @@ public class OAuthController {
             case "kakao" :
                 String[] result = oAuthService.kakao(oAuthDto);
                 return ResponseEntity.ok().body(result);
+            case "naver":
+                String[] naverResult = oAuthService.naver(oAuthDto);
+               return ResponseEntity.ok().body(naverResult);
             default:
                 return ResponseEntity.status(500).build();
         }
 
     }
+
 }

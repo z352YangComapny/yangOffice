@@ -2,6 +2,7 @@ package com.yangworld.app.domain.member.controller;
 
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.config.auth.PrincipalDetailsService;
 import com.yangworld.app.domain.member.dto.*;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
@@ -13,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +37,8 @@ public class MemberController {
     private MemberService memberService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    PrincipalDetailsService principalDetailsService;
 
 
     @PostMapping("/signup")
@@ -83,21 +88,18 @@ public class MemberController {
 
     @PostMapping("/follow")
     public ResponseEntity<?> follow(@AuthenticationPrincipal PrincipalDetails principal,
-                                    @RequestBody FollowDto followDto){
-        log.info("followDto = {}", followDto);
-        followDto.setFollower(principal.getId());
-        log.info("followDto={}", followDto);
+                                    @RequestParam String hostname){
 
-        memberService.insertFollowee(followDto);
+        memberService.insertFollowee(principal, hostname);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/unfollow")
+    @DeleteMapping("/unfollow")
     public ResponseEntity<?> unfollow(@AuthenticationPrincipal PrincipalDetails principal,
-                                      @RequestBody FollowDto unfollow){
-        unfollow.setFollower(principal.getId());
-        memberService.deleteFollowee(unfollow);
+                                      @RequestParam String hostname){
+
+        memberService.deleteFollowee(principal, hostname);
 
         return ResponseEntity.ok().build();
     }
@@ -134,6 +136,50 @@ public class MemberController {
         List<SearchMemberDto> memberList = memberService.searchMember(keyword);
         return ResponseEntity.ok(memberList);
     }
+
+    /*
+    * 아이디 중복검사
+    * */
+    @GetMapping("/checkIdDuplicate")
+    public ResponseEntity<?> checkIdDuplicate(@RequestParam String username){
+        boolean available = false;
+        try {
+            UserDetails principal = principalDetailsService.loadUserByUsername(username);
+
+        } catch (UsernameNotFoundException e) {
+            available = true; // 찾았는데 없으면 오류가 발생하고, 해당 Id는 사용이 가능해짐
+        }
+        return ResponseEntity.ok(available);
+
+    }
+
+    /**
+     * nickname 중복검사
+     * */
+    @GetMapping("/checkNicknameDuplicate")
+    public ResponseEntity<?> checkNicknameDuplicate(@RequestParam String nickname){
+        boolean available = false;
+        Member member = memberService.findByNickname(nickname);
+        if (member == null) {
+            available = true;
+        }
+        return ResponseEntity.ok(available);
+
+    }
+
+    /**
+     * 휴대전화 중복검사
+     * */
+    @GetMapping("/checkPhoneDuplicate")
+    public ResponseEntity<?> checkPhoneDuplicate(@RequestParam String phone){
+        boolean available = false;
+        Member member = memberService.findByPhone(phone);
+        if (member == null) {
+            available = true;
+        }
+        return ResponseEntity.ok(available);
+    }
+
  }
 
 

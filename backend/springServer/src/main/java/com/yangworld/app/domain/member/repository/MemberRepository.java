@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface MemberRepository {
-    @Insert("insert into member values(seq_member_id.nextval, #{username},  #{name}, #{password}, #{nickname}, #{birthday}, #{gender}, #{phone}, #{email, jdbcType=VARCHAR}, 'YANG', default)")
+    @Insert("insert into member values(seq_member_id.nextval, #{username},  #{name}, #{password}, #{nickname}, #{birthday}, #{gender}, #{phone}, #{email, jdbcType=VARCHAR}, #{provider}, default)")
     @SelectKey(
             before = false,
             keyProperty = "id",
@@ -105,5 +105,9 @@ public interface MemberRepository {
     List<SearchMemberDto> findMemberByKeyword(@Param("keyword") String keyword);
 
 
+    @Select("select * from member where nickname = #{nickname}")
+    Member findByNickname(String nickname);
+    @Select("select * from member where phone = #{phone}")
+    Member findByPhone(String phone);
 }
 

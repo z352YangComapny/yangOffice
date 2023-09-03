@@ -1,6 +1,5 @@
 package com.yangworld.app.domain.OAuth.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OAuthDto {
+public class NaverDto {
     private String provider;
-    private String kakaoCode;
+    private String state;
     private String naverCode;
-    private String naverState;
 }

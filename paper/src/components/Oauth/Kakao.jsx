@@ -18,7 +18,7 @@ const Kakao = () => {
 
   const handleLogin = () => {
     // 3000포트에서 해야 할 작업
-    // Credentail code 받아서 > 8080서버로 넘겨주기.
+    // Credential code 받아서 > 8080서버로 넘겨주기.
 
     // 0. RedirectURL = http://localhost:3000으로 하기.
 

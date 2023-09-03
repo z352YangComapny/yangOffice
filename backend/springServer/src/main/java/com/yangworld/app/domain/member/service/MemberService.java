@@ -15,9 +15,9 @@ public interface MemberService {
 
     int deleteMember(String username);
 
-    int insertFollowee(FollowDto followDto);
+    int insertFollowee(PrincipalDetails principal, String hostname);
 
-    int deleteFollowee(FollowDto unfollow);
+    int deleteFollowee(PrincipalDetails principal, String hostname);
 
     int memberTotalCount();
 
@@ -33,4 +33,7 @@ public interface MemberService {
 
     List<SearchMemberDto> searchMember(String keyword);
 
+    Member findByNickname(String nickname);
+
+    Member findByPhone(String phone);
 }
