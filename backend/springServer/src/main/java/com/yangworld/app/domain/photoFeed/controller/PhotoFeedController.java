@@ -50,9 +50,6 @@ public class PhotoFeedController {
 			@RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles)
 					throws IllegalStateException, IOException {
 
-		log.info("upFiles={}",upFiles);
-		log.info("Content = {}", content);
-
 		int result = photoFeedService.insertfeed(content, member, upFiles);
 
 
