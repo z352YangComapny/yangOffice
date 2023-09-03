@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 import { MemberContext } from 'contexts/MembetContextProvider'
 import { useNavigate } from 'react-router-dom'
+import { NotificationContext } from 'contexts/NotificationContextProvider'
 
 
 const Kakao = () => {
@@ -12,6 +13,10 @@ const Kakao = () => {
     states: { isLogin, userProfile },
     actions: { setUserProfile, setIsLogin, LogOut, signin , getUserProfile},
   } = useContext(MemberContext)
+  const {
+    states: { message },
+    actions: { setMessage }
+  } = useContext(NotificationContext)
   const navigate = useNavigate();
 
   const SpringBaseUrl = 'http://localhost:8080'
@@ -55,6 +60,7 @@ const Kakao = () => {
           sessionStorage.setItem('token',"Bearer "+resp.data[0])
           sessionStorage.setItem('nickname',jwtDecode(resp.data[0]).nickname)
           sessionStorage.setItem('username',jwtDecode(resp.data[0]).username)
+          setMessage({ color: "success", value: `${jwtDecode(resp.data[0]).nickname}님 회원정보를 마저 입력해주세요.🙌`})
           setIsLogin(true)
           navigate('/user/'+jwtDecode(resp.data[0]).username)
         }else {
@@ -62,6 +68,7 @@ const Kakao = () => {
           sessionStorage.setItem('token',"Bearer "+resp.data[1])
           sessionStorage.setItem('nickname',jwtDecode(resp.data[1]).nickname)
           sessionStorage.setItem('username',jwtDecode(resp.data[1]).username)
+          setMessage({ color: "success", value: `${jwtDecode(resp.data[1]).nickname}님 환영합니다.🖤` })
           setIsLogin(true)
           navigate('/feed/'+jwtDecode(resp.data[1]).username)
         }
