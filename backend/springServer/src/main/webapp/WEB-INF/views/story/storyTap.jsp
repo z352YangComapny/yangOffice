@@ -16,7 +16,7 @@
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
         <div class="containerStoryTap d-flex flex-row">
-            <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
+            <div class ="" id="profile" >
             	<jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
         	</div>
         	<div id="storyDiv">
