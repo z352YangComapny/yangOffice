@@ -114,6 +114,10 @@
         button.classList.add('d-none'); 
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        loadDmDetails();
+        setInterval(loadDmDetails, 1000);
+    });
 
     function loadDmDetails() {
         const dmRoomId = <%= dmRoomId %>;
@@ -129,15 +133,12 @@
             success: function (data) {
                 const dmDetailsContainer = document.getElementById('dmDetailsContainer');
 
-                // Clear existing content
                 dmDetailsContainer.innerHTML = '';
 
-                // Loop through the data and generate HTML
                 data.forEach(dm => {
                     const dmDiv = document.createElement('div');
+                    // 상대방의 DM
                     if (dm.receiverId == id) {
-                        console.log("왼짝")
-                        // If the receiver ID is not the logged-in user, place on the left
                         dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-start', 'align-items-center', 'mb-4', 'pt-1');
                         dmDiv.innerHTML = `
 					            <img src="${pageContext.request.contextPath}/resources/upload/attachment/profile/\${dm.renamedFileName}"
@@ -155,8 +156,7 @@
 					        `;
 					        
                     } else {
-                        console.log("오른짝")
-                        // If the receiver ID is the logged-in user, place on the right
+                        // 내가 보낸 DM
                         dmDiv.classList.add('d-flex', 'flex-row', 'justify-content-end', 'mb-4', 'pt-1');
                         dmDiv.innerHTML = `
 			            <div>
@@ -165,7 +165,6 @@
 			            </div>
 			        `;
                     }
-
                     dmDetailsContainer.appendChild(dmDiv);
                 });
                 scrollToBottom(dmDetailsContainer);
@@ -175,17 +174,9 @@
             }
         });
     }
-
     function scrollToBottom(element) {
         element.scrollTop = element.scrollHeight;
     }
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        loadDmDetails();
-        setInterval(loadDmDetails, 1000); 
-    });
-
 
     function goReport(dmId, reportedId) {
         fetch("${pageContext.request.contextPath}/report/createDmReport?dmId=" + dmId + "&reportedId=" + reportedId)
