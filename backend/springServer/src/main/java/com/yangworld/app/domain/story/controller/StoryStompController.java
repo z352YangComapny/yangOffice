@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -35,9 +36,9 @@ public class StoryStompController {
 	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
 	
-	@MessageMapping("/init")
-	@SendTo("/storyMain")
-	public List<Payload> story(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
+	@MessageMapping("/init/{userId}")
+	@SendTo("/storyMain/{userId}")
+	public List<Payload> story(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
 //	    log.info("Received ID: {}", id);
 		List<StoryMainDto> stories = storyService.findStoryById(id);
@@ -86,9 +87,9 @@ public class StoryStompController {
 		return payloads;
 	}
 	
-	@MessageMapping("/create")
-	@SendTo("/storyMain")
-	public List<Payload> storyCreate(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
+	@MessageMapping("/create/{userId}")
+	@SendTo("/storyMain/{userId}")
+	public List<Payload> storyCreate(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
 	    String content = message.get("content");
 	    StoryDto storyDto = StoryDto.builder()
