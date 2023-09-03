@@ -34,13 +34,13 @@
 	background-color: #CCFFE5;
 }
 .modal-header{
-	background-color: #E0E0E0;
+	background-color: white;
 }
 .modal-body {
-	background-color: #FFFFFF;
+	background-color: white;
 }
 .modal-footer{
-	background-color: #E0E0E0;
+	background-color: white;
 	
 }
 .storyModalContent{

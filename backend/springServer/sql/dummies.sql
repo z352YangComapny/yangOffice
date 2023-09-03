@@ -331,7 +331,7 @@ insert into follow values (SEQ_FOLLOW_ID.nextval,5, 3, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,6, 3, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,6, 5, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,5, 2, default);
-insert into follow values (SEQ_FOLLOW_ID.nextval,5, 3, default);
+
 insert into follow values (SEQ_FOLLOW_ID.nextval,3, 2, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,6, 2, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,7, 2, default);
@@ -426,8 +426,8 @@ INSERT INTO dm_room (id, participant1, participant2, reg_date)
 VALUES (seq_dm_room_id.NEXTVAL, 5, 7, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열여섯 번째 INSERT 문
-INSERT INTO dm_room (id, participant1, participant2, reg_date)
-VALUES (seq_dm_room_id.NEXTVAL, 6, 8, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+-- INSERT INTO dm_room (id, participant1, participant2, reg_date)
+-- VALUES (seq_dm_room_id.NEXTVAL, 6, 8, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열일곱 번째 INSERT 문
 INSERT INTO dm_room (id, participant1, participant2, reg_date)
@@ -509,12 +509,12 @@ INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
 VALUES (seq_dm_id.NEXTVAL, 7, 5, '좋아요, 한번 가보겠습니다!', 15, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열여섯 번째 dm 인서트 문
-INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
-VALUES (seq_dm_id.NEXTVAL, 9, 2, '오늘 지하철 사람이 너무 많아 ㅠㅠ', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+-- INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+-- VALUES (seq_dm_id.NEXTVAL, 9, 2, '오늘 지하철 사람이 너무 많아 ㅠㅠ', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열일곱 번째 dm 인서트 문
-INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
-VALUES (seq_dm_id.NEXTVAL, 2, 9, '조심해!!', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+-- INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+-- VALUES (seq_dm_id.NEXTVAL, 2, 9, '조심해!!', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열여덟 번째 dm 인서트 문
 INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)

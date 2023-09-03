@@ -36,7 +36,9 @@
 <section>
     <%--<div class="d-flex mb-3">--%>
        <%-- <div style ="width:10vw; height:50px;">--%>
-            <a href="#" class="nav-link" onclick="openList()"><img src="${pageContext.request.contextPath}/resources/images/follow_logo.png" style="width:50px; height: 50px;"/></a>
+            <a href="#" class="nav-link" onclick="openList()"><img src="${pageContext.request.contextPath}/resources/images/follow_logo.png" style="width:50px; height: 50px;"/>
+                <p class="headerName">Follow</p>
+            </a>
      <%--   </div>--%>
 <%--    </div>--%>
 

@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member.css"/>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
 <style>
     /* 스타일링 기본 설정 */
     body {
@@ -115,7 +115,12 @@
         margin-left: 7vw;
         margin-right : 10vw;
     }
-
+    #photoFeedTitle{
+        font-size : 30px; font-weight: bold;
+        background: linear-gradient(to right, #F3969A, #78C2AD);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
 </style>
 <script>
@@ -271,14 +276,32 @@
 
 
 
-<div class="btns">
-	<form:form name="goBackBtn"
-	           method="get"
-	           action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
-	    <div class="goBackBtn">
-	        <button class="btn btn-primary">뒤로가기</button>
-	    </div>
-	</form:form>
+<div class="btns d-flex justify-content-end">
+    <div class="d-flex flex-row mt-2">
+        <div class="btn-goback ">
+            <form:form name="goBackBtn"
+                       method="get"
+                       action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
+                <div class="goBackBtn">
+                    <button class="btn btn-primary mb-2">뒤로가기</button>
+                </div>
+            </form:form>
+        </div>
+        <div>
+            <%-- feed report --%>
+            <c:if test="${response.writerId ne principalDetails.id}">
+                <div class="feedReport-box">
+                    <button class="btn btn-sm btn-light btn-toggle mb-0"
+                            style="margin-left: 10px; font-size:20px;"
+                            data-feed-id="${response.id}" data-reported-id="${response.writerId}"
+                            data-repoter-id="${principalDetails.id}">
+                        🚨 신고
+                    </button>
+                </div>
+            </c:if>
+        </div>
+    </div>
+
     <!-- feed delete -->
     <c:if test="${response.writerId eq principalDetails.id}">
         <div class="feedDelete-box">
@@ -298,21 +321,10 @@
             <button class="btn btn-outline-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
         </div>
     </c:if>
-
-    <%-- feed report --%>
-    <c:if test="${response.writerId ne principalDetails.id}">
-        <div class="feedReport-box">
-            <button class="btn btn-sm btn-light btn-toggle"
-                    style="margin-left: 10px; font-size:20px;"
-                    data-feed-id="${response.id}" data-reported-id="${response.writerId}"
-                    data-repoter-id="${principalDetails.id}">
-                🚨 신고
-            </button>
-        </div>
-    </c:if>
-
 </div>
-
+<div style="margin-left : 250px; margin-bottom : 20px;">
+    <p><span id="photoFeedTitle">PhotoFeed</span></p>
+</div>
 <div class="FeedBox">
     <div class="photoBox">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -364,13 +376,11 @@
             <div class="feedContent-box form-control">
                 ${response.content}</div>
             <%--    feed update form   --%>
-            <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
-                <textarea class="form-control">${response.content}</textarea>
-                <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+            <div class="edit-feed-form d-flex flex-row" id="edit-feed-form-${response.id}" style="display: none;">
+                    <textarea class="form-control" style="resize:none; width : 250px;">${response.content}</textarea>
+                    <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
             </div>
         </div>
-
-
     </div>
 
     

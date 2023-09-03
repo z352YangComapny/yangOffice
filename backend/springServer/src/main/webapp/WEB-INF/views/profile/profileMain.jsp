@@ -36,7 +36,7 @@
 <%-- <p>principalId: ${loginMember.id}</p>
 <p>profileId: ${profile.id}</p> --%>
 <%-- <p>gender : ${loginMember.gender}</p> --%>
-    <div class="container mt-5" >
+    <div class="container mt-5" style="margin-left: 25px;">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px; margin-bottom: 3vw;">
 		        <label for="upFile"></label>
@@ -67,15 +67,18 @@
             <div class="form-group">
                 <label for="introduction"></label>
                 <textarea class="form-control" id="introduction" name="introduction" rows="4" required 
-                style="width: 350px; height: 200px; resize: none; text-align: center; display: block; padding-top: 50px;" 
+                style="width: 350px; height: 150px; resize: none; text-align: center; display: block; padding-top: 50px;"
                 disabled>${profile.introduction} </textarea>
             </div>
             
-            <div style="display: flex; justify-content: center; align-items: center; font-size: 22px; margin-right: 150px;" >
+            <div style="display: flex; justify-content: center; align-items: center; font-size: 22px; margin-right:30px;" >
+				<div id="nameInfo">
             ${principalName}&nbsp;<span style="color: ${loginMember.gender eq 'M' ? 'skyblue' : loginMember.gender eq 'F' ? 'pink' : 'black'};">${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}</span>&nbsp;${principalBday}
             <c:if test="${loginMember.id eq profile.memberId}">
-            <button type="button" class="btn btn-primary" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>
+				<a href='${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do'><img style="width: 30px;" src="${pageContext.request.contextPath}/resources/images/settings.png"/></a>
+           	 <%--<button type="button" class="btn btn-primary ml-3" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>--%>
            	</c:if>
+				</div>
             </div>
     </div>
  
