@@ -110,6 +110,7 @@ public class DmServiceImpl implements DmService {
 	
 	
 	@Override
+	@Transactional
 	public List<DmListDto> findDmRoom(int userId) {
 		
 		// participant1, 2, dmRoomId

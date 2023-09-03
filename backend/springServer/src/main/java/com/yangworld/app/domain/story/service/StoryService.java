@@ -26,4 +26,6 @@ public interface StoryService {
 
 	int findIdByUsername(String from);
 
+	int findStoryFeedByStoryId(int id);
+
 }

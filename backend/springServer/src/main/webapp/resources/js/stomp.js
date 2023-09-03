@@ -5,18 +5,36 @@ const connect = () => {
     // 구독신청 
     stompClient.connect({}, () => {
         console.log('WebSocket 연결 성공');
-        stompClient.subscribe('/storyMain', (payloads) => {
+        const userId = document.getElementById('userId').value;
+        stompClient.subscribe(`/storyMain/${userId}`, (payloads) => {
 //            console.log('구독됨');
 //            console.log('/story : ', payloads);
 
             renderStory(payloads);
         });
 	        
-		const userId = document.getElementById('userId').value;
+
 //		console.log('userId = ', userId);
-        const sendInterval = setInterval(() => {
-            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
-        }, 1000);
+//        const sendInterval = setInterval(() => {
+//            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
+//        }, 1000);
+		stompClient.send(`/app/init/${userId}`, {}, JSON.stringify({ userId: userId }));
+		
+		document.querySelector("#btnCreateStory2").onclick = () => {
+			const content = document.querySelector('#message-text-create').value;
+			if(!/^.{1,100}$/.test(content)){
+				alert('글자 수는 1 - 100글자 사이입니다');
+				return false;
+			}
+			
+			console.log('content = ', content);
+
+			stompClient.send(`/app/create/${userId}`, {}, JSON.stringify({ userId: userId, content: content }));
+			
+			window.location.href = "http://localhost:8080/story/storyTap";
+
+		};
+		
     });
 };
 
@@ -39,6 +57,7 @@ const renderStory = (payloads) => {
 			<input type="hidden" id="cardIndex" value="${i + 1}"/>
 			<input type="hidden" id="storyAttach" value="${story.attach}"/>
 			<input type="hidden" id="storyCardId" value="${story.id}"/>
+			<input type="hidden" id="storyFeedId" value="${story.storyFeed}"/>
 		</div>
 		`;
 		i = i + 1;
@@ -97,15 +116,19 @@ const updateModal = (e) => {
 	const storyAttach = e.querySelector('#storyAttach').value;
 	const currentCardIndex = e.querySelector('#cardIndex').value;
 	const storyCardId = e.querySelector('#storyCardId').value;
+	const currentCardStoryFeed = e.querySelector('#storyFeedId').value;
+	
+//	console.log('currentCardStoryFeed = ', currentCardStoryFeed);
 
 //	console.log(storyAttach);
-	console.log('currentCardIndex = ', currentCardIndex);
-	console.log('storyCardId =', storyCardId);
+//	console.log('currentCardIndex = ', currentCardIndex);
+//	console.log('storyCardId =', storyCardId);
 	
 	document.querySelector('.storyModalWriterId').textContent = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
 	document.querySelector('#reportStoryId').value = storyCardId;
+	document.querySelector('#currentCardStoryFeed').value = currentCardStoryFeed;
 	
 	const imgElement = document.createElement('img');
 	imgElement.id = 'storyModalProfile';
