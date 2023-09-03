@@ -417,7 +417,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 댓글 작성 폼 시작 -->
     <div class="commentsAll">
         <p style="font-size: 30px;
