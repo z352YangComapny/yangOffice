@@ -5,19 +5,20 @@ const connect = () => {
     // 구독신청 
     stompClient.connect({}, () => {
         console.log('WebSocket 연결 성공');
-        stompClient.subscribe('/storyMain', (payloads) => {
+        const userId = document.getElementById('userId').value;
+        stompClient.subscribe(`/storyMain/${userId}`, (payloads) => {
 //            console.log('구독됨');
 //            console.log('/story : ', payloads);
 
             renderStory(payloads);
         });
 	        
-		const userId = document.getElementById('userId').value;
+
 //		console.log('userId = ', userId);
 //        const sendInterval = setInterval(() => {
 //            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
 //        }, 1000);
-		stompClient.send("/app/init", {}, JSON.stringify({ userId: userId }));
+		stompClient.send(`/app/init/${userId}`, {}, JSON.stringify({ userId: userId }));
 		
 		document.querySelector("#btnCreateStory2").onclick = () => {
 			const content = document.querySelector('#message-text-create').value;
@@ -28,7 +29,7 @@ const connect = () => {
 			
 			console.log('content = ', content);
 
-			stompClient.send("/app/create", {}, JSON.stringify({ userId: userId, content: content }));
+			stompClient.send(`/app/create/${userId}`, {}, JSON.stringify({ userId: userId, content: content }));
 			
 			window.location.href = "http://localhost:8080/story/storyTap";
 
