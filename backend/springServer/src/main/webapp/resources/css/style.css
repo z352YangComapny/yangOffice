@@ -26,7 +26,8 @@ header div#header-container {height:100px;}
 header div#header-container h2 	{margin:30px 10px 0px 10px;}
 .nav-link{color :white; font-weight: bold; font-size: 20px;}
 .navImg{height : 50px; width:50px;}
-
+.headerName{font-size : 10px; font-weight: bold; text-align:center; background: linear-gradient(to right, #F3969A, #78C2AD);
+     -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
 /*index content*/
 .index-container{background-position: center; font-family: 'DungGeunMo'; background-size: cover; background-repeat: no-repeat; width: 100vw; height: 80vh;}
 #main-image{width: 300px;}
