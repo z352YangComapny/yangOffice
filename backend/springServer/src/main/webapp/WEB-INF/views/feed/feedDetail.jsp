@@ -104,6 +104,7 @@
         width: 95vw;
         height: 30vw;
         display: flex;
+        margin-bottom: 10vw;
     }
 
     .photoBox {
@@ -120,6 +121,15 @@
         margin-right : 10vw;
     }
 
+    .edit-feed-form {
+        display: flex;
+    }
+    textarea {
+        width: 100%;
+        height: 6.25em;
+        border: none;
+        resize: none;
+    }
 
 </style>
 <script>
@@ -389,7 +399,7 @@
             <%--    feed update form   --%>
             <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
                 <textarea class="form-control">${response.content}</textarea>
-                <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+                <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}"id="updateOk">수정  ❤️ 완료️️</button>
             </div>
         </div>
 
