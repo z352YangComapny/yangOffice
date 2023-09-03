@@ -26,7 +26,7 @@ const PhotoFeedListComponent = () => {
 
     const [page, setPage] = useState(1);
     const [isloading, setIsloading] = useState(false);
-    const [feedId , setFeedId] = useState(0)
+    const [feedId, setFeedId] = useState(0)
     const [comments, setComments] = useState([]);
     const feedBox = useRef(null);
 
@@ -61,14 +61,15 @@ const PhotoFeedListComponent = () => {
             .then((resp) => {
                 setMaxPage(Math.ceil(resp.data / pageSize))
             })
-            .catch((err)=> console.log(err))
+            .catch((err) => console.log(err))
         getFeedPage(page, hostname).then(resp => {
+            console.log(resp.data)
             setData(resp.data)
             setFeedId(resp.data[0].id)
         })
-        .catch((err)=>{
-            console.log(err)
-        });
+            .catch((err) => {
+                console.log(err)
+            });
         const feedBoxContainer = feedBox.current;
         feedBoxContainer.addEventListener("scroll", handleScroll);
 
@@ -77,14 +78,14 @@ const PhotoFeedListComponent = () => {
         };
     }, [hostname])
 
-    useEffect(()=>{
-        data.forEach((feed,index)=>{
-            if(feed.id==feedId){
+    useEffect(() => {
+        data.forEach((feed, index) => {
+            if (feed.id == feedId) {
                 setComments(feed.comments)
                 setSelectedFeed(data[index])
             }
         })
-    },[feedId])
+    }, [feedId])
 
 
     const handleImgClick = (itemId) => {
@@ -92,12 +93,23 @@ const PhotoFeedListComponent = () => {
     };
 
 
-    console.log(data)
     const renderComments = () => {
+        console.log(comments)
         return (
             <>
                 {comments.map((comment, index) => (
-                    <p key={index} className='comments'>{comment}</p>
+                    <div style={{ border: "rgba(0,0,0,0.3) solid 1px", borderRadius: "10px", padding:"5px", paddingTop:"15px" }}>
+                        <div style={{ display: 'flex', justifyContent: "space-between", paddingLeft: "2%", paddingRight: "2%" }}>
+                            <p key={index} className='comments'>{comment.content}</p>
+                            <p key={index} className='comments'>{comment.nickName}</p>
+
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: "space-between", alignItems:"center", paddingLeft: "2%", paddingRight: "2%" }}>
+                            <p key={index} className='comments'>{comment.regDate ? comment.regDate : "2023-09-01T00:57:52"}</p>
+                            <Button size="sm" className="btn-link"><i className="fa nc-icon nc-simple-remove" title='삭제하기'></i></Button>
+                        </div>
+
+                    </div>
                 ))}
             </>
         );

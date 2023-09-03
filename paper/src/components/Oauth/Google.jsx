@@ -26,4 +26,4 @@ const Google = () => {
   )
 }
 
-export default Google
+export default Google;

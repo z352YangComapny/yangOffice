@@ -137,7 +137,7 @@ const Dm = () => {
                         <img className="dm-room-profile-image" src={require("assets/img/faces/clem-onojeghuo-2.jpg")} />
                         <p>{dmRoom.participantNickname1 === sessionStorage.getItem('nickname') ? dmRoom.participantNickname2 : dmRoom.participantNickname1}</p>
                     </div>
-                    <div className="dm-room-message">{dmRoom.lastMessage.length > 16 ? dmRoom.lastMessage.substr(0, 16) : dmRoom.lastMessage}</div>
+                    <div className="dm-room-message">{dmRoom.lastMessage && dmRoom.lastMessage.length > 16 ? dmRoom.lastMessage.substr(0, 16) : dmRoom.lastMessage}</div>
                     <div className="dm-room-lasttime">
                         <p>{timeAgo}</p>
                     </div>

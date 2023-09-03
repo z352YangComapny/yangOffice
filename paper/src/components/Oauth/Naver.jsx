@@ -14,7 +14,7 @@ const Naver = () => {
   } = useContext(MemberContext)
   const navigate = useNavigate();
 
-  const SpringBaseUrl = 'http://localhost:8080'
+  const SpringBaseUrl = 'http://localhost:8080';
 
 
   const handleLogin = () => {
@@ -22,7 +22,7 @@ const Naver = () => {
     const client_id = "qMXozarpkt37ZQhal0iY";
     const redirect_uri = "http://localhost:3000/signin";
     const state = "ssoystory";
-    const NaverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}`
+    const NaverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}`;
     
     sessionStorage.setItem("provider","naver");
 
@@ -31,28 +31,27 @@ const Naver = () => {
   }
 
   useEffect(()=>{
-    
-    if(sessionStorage.getItem('provider')=='naver') {
-      const searchParams = new URLSearchParams(window.location.search);
-    const [code, state] = [...searchParams]
-      sessionStorage.removeItem('provider')
+    const searchParams = new URLSearchParams(window.location.search);
+    if(sessionStorage.getItem('provider')=='naver' && searchParams) {
+      const [code, state] = [...searchParams];
+      sessionStorage.removeItem('provider');
       axios.post(SpringBaseUrl + `/oauth`,{provider:'naver', naverCode:code[1], naverState : state[1]})
       .then((resp)=> {
         console.log(resp);
         if(resp.data[0]){
           console.log(jwtDecode(resp.data[0]))  
-          sessionStorage.setItem('token',"Bearer "+resp.data[0])
-          sessionStorage.setItem('nickname',jwtDecode(resp.data[0]).nickname)
-          sessionStorage.setItem('username',jwtDecode(resp.data[0]).username)
-          setIsLogin(true)
-          navigate('/user/'+jwtDecode(resp.data[0]).username)
+          sessionStorage.setItem('token',"Bearer "+resp.data[0]);
+          sessionStorage.setItem('nickname',jwtDecode(resp.data[0]).nickname);
+          sessionStorage.setItem('username',jwtDecode(resp.data[0]).username);
+          setIsLogin(true);
+          navigate('/user/'+jwtDecode(resp.data[0]).username);
         }else {
-          console.log(jwtDecode(resp.data[1]))  
-          sessionStorage.setItem('token',"Bearer "+resp.data[1])
-          sessionStorage.setItem('nickname',jwtDecode(resp.data[1]).nickname)
-          sessionStorage.setItem('username',jwtDecode(resp.data[1]).username)
-          setIsLogin(true)
-          navigate('/feed/'+jwtDecode(resp.data[1]).username)
+          console.log(jwtDecode(resp.data[1]))  ;
+          sessionStorage.setItem('token',"Bearer "+resp.data[1]);
+          sessionStorage.setItem('nickname',jwtDecode(resp.data[1]).nickname);
+          sessionStorage.setItem('username',jwtDecode(resp.data[1]).username);
+          setIsLogin(true);
+          navigate('/feed/'+jwtDecode(resp.data[1]).username);
         }
       })
       .catch((err)=>{
@@ -74,4 +73,4 @@ const Naver = () => {
   )
 }
 
-export default Naver
+export default Naver;
