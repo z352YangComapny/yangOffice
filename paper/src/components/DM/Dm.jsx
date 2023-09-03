@@ -50,6 +50,7 @@ const Dm = () => {
     const renderDmRoomDetail = () => {
         let dmRoom;
         console.log(dmDetail)
+        if(!dmDetail || dmDetail.length==0) return null;
         dmRoomList.forEach((item) => {
             if (item.id === dmDetail[0].dmRoomId) {
                 dmRoom = item
@@ -60,7 +61,7 @@ const Dm = () => {
             <>
                 <div className='dm-detail-header'>
                     <div style={{ fontSize: "24px", marginLeft: "10px" }}>
-                        {dmRoom.participantNickname1 !== userProfile.nickname ? dmRoom.participantNickname1 : dmRoom.participantNickname2}
+                        {dmRoom.participantNickname1 !== sessionStorage.getItem('nickname') ? dmRoom.participantNickname1 : dmRoom.participantNickname2}
                     </div>
                     <div style={{ alignItems: "center", display: "flex", marginRight: "10px" }}>
                         <i className="fa nc-icon nc-simple-remove nav-cursor" title='삭제하기'
@@ -83,6 +84,7 @@ const Dm = () => {
     useEffect(() => {
         getDmRoomList()
             .then((resp) => {
+                console.log(resp.data)
                 setDmRoomList(resp.data)
             })
             .catch((err) => {
@@ -129,6 +131,7 @@ const Dm = () => {
 
     const renderDmRoomList = () => {
         const items = [];
+        if(!dmRoomList || dmRoomList.length==0) return <p style={{textAlign:"center", fontSize:"20px", marginTop:"100px"}}>새로운 대화를 시작해보세요!</p>
         dmRoomList.forEach(dmRoom => {
             const timeAgo = getTimeAgo(dmRoom.lastTime);
             items.push(
@@ -204,4 +207,4 @@ const Dm = () => {
     )
 }
 
-export default Dm
+export default Dm;

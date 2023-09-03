@@ -43,7 +43,9 @@ public class DmServiceImpl implements DmService {
 	@Override
 	public List<DmRoomTextDto> findDmRoomByParticipantId(int id) {
 		List<DmRoomTextDto> dmRoomTextDtos = new ArrayList<>();
+		log.info("id={}",id);
 		List<DmRoom> dmRooms = dmRepository.findDmRoomByParticipantId(id);
+		log.info("dmrooms!={}",dmRooms);
 		Member member = memberRepository.findById(id);
 		for (DmRoom dmRoom: dmRooms ) {
 			String participantNickname1;

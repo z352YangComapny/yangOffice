@@ -117,7 +117,7 @@ const PhotoFeedListComponent = () => {
 
     return (
         <>
-            <h5>Comments</h5>
+            <h5 style={{fontWeight:"400"}}>Comments</h5>
             <div className='feed-comments'>
                 {renderComments()}
             </div>
