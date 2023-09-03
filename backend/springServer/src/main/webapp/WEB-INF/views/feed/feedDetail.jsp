@@ -85,6 +85,10 @@
         border-radius: 3px;
     }
 
+    .feedReport-box{
+        margin-left: 55vw;
+    }
+
     #likes {
         width: 60px;
         height: 60px;
@@ -155,11 +159,20 @@
                     }
                 });
             });
+
+            // 취소 버튼 클릭 시 모달 창 닫기
+            $("#cancelModalButton").click(function () {
+                $("#feedReportModal").modal("hide");
+            });
+
+            // X 버튼 클릭 시 모달 창 닫기
+            $("#closeModalButton").click(function () {
+                $("#feedReportModal").modal("hide");
+            });
         });
     });
 
-    //     comments report start
-    // '댓글 신고' 버튼 클릭 시
+    // 댓글 신고 모달 창 열기
     function goReportComments(commentsId, reportedId, feedId) {
         var reporterId = ${principalDetails.id};
 
@@ -186,16 +199,26 @@
                 },
                 success: function (response) {
                     alert("신고가 접수되었습니다.");
-                    $("#commentReportModal").modal("hide");
+                    $("#commentReportModal").modal("hide"); // 모달 창 닫기
                 },
                 error: function (error) {
                     alert("Error reporting comment: " + error.responseText);
                 }
             });
         });
-    }
 
+        // 취소 버튼 클릭 시 모달 창 닫기
+        $("#cancelModalButton").click(function () {
+            $("#commentReportModal").modal("hide");
+        });
+
+        // X 버튼 클릭 시 모달 창 닫기
+        $("#closeModalButton").click(function () {
+            $("#commentReportModal").modal("hide");
+        });
+    }
 </script>
+
 
 <div class="modal fade" id="feedReportModal" tabindex="-1" role="dialog" aria-labelledby="feedReportModalLabel"
      aria-hidden="true">
@@ -204,7 +227,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="feedReportModalLabel">피드 신고</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" id="cancelModalButton">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -225,7 +248,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModalButton">취소</button>
                 <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
             </div>
         </div>
@@ -240,7 +263,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="commentReportModalLabel">댓글 신고</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" id="closeModalButton">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -262,7 +285,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalButton">취소</button>
                 <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
             </div>
         </div>
