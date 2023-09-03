@@ -12,21 +12,20 @@ import (
 var (
 	MongoClient *mongo.Client
 	RedisClient *redis.Client
+	AccessLog   *mongo.Collection
+	ChatLog     *mongo.Collection
 )
 
 func InitMongoDB() error {
-	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	clientOptions := options.Client().ApplyURI("mongodb+srv://gryu:Xk06pOAu4BMJ5gMR@cluster0.ixt7euc.mongodb.net/?retryWrites=true&w=majority").SetServerAPIOptions(serverAPI)
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 	var err error
 	MongoClient, err = mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal("Failed to connect to MongoDB:", err)
 		return err
 	}
-	//Collection = MongoClient.Database("ssoystory").Collection("common")
-	if err != nil {
-		log.Fatal("디비 ping pong 실패")
-	}
+	ChatLog = MongoClient.Database("ssoystory").Collection("chat_log")
+	AccessLog = MongoClient.Database("ssoystory").Collection("access_log")
 	return err
 }
 

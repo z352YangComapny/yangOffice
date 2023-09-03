@@ -1,7 +1,9 @@
 package game
 
 import (
+	"GoServer/db"
 	"GoServer/internal/auth/jwt"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -10,6 +12,7 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 )
 
 var (
@@ -40,6 +43,7 @@ func HandleConnection(conn *websocket.Conn) {
 	_, p, err := conn.ReadMessage()
 	if err != nil {
 		log.Println("Error reading message", err)
+
 		safeClose(conn)
 		delete(clients, conn)
 		return
@@ -53,6 +57,7 @@ func HandleConnection(conn *websocket.Conn) {
 
 	if err := json.Unmarshal(p, &authData); err != nil {
 		log.Println("Error decoding message:", err)
+
 		safeClose(conn)
 		delete(clients, conn)
 		return
@@ -63,6 +68,7 @@ func HandleConnection(conn *websocket.Conn) {
 			accessToken = authData.Token[7:]
 		} else {
 			log.Println("token does not start with 'Bearer '")
+
 			safeClose(conn)
 			delete(clients, conn)
 			return
@@ -70,6 +76,7 @@ func HandleConnection(conn *websocket.Conn) {
 		authorities, err, _ := jwt.VerifyAccessToken(accessToken)
 		if err != nil {
 			log.Println("failed to verify token", err)
+
 			safeClose(conn)
 			delete(clients, conn)
 			return
@@ -88,7 +95,26 @@ func HandleConnection(conn *websocket.Conn) {
 			for conn := range clients {
 				connectedNames = append(connectedNames, clients[conn])
 			}
-			fmt.Println(connectedNames)
+
+			for key, client := range clients {
+				if client == authData.Name {
+					log.Println("이미 접속한 사용자 입니다.", err)
+					errMsg := struct {
+						MsgType string `json:"msgType"`
+						ErrMsg  string `json:"errMsg"`
+					}{
+						MsgType: "errmsg",
+						ErrMsg:  "이미 접속한 사용자 입니다.",
+					}
+					errMsgJson, _ := json.Marshal(errMsg)
+					conn.WriteMessage(websocket.TextMessage, errMsgJson)
+
+					safeClose(conn)
+					delete(clients, conn)
+					delete(clients, key)
+					return
+				}
+			}
 			clients[conn] = authData.Name
 			connectedNamesMessage := struct {
 				MsgType       string   `json:"msgType"`
@@ -102,13 +128,32 @@ func HandleConnection(conn *websocket.Conn) {
 			conn.WriteMessage(websocket.TextMessage, connectedNamesJSON)
 
 			nameMessage := struct {
-				MsgType string `json:"msgType"`
-				Name    string `json:"name"`
+				MsgType string    `json:"msgType"`
+				Name    string    `json:"name"`
+				Time    time.Time `json:"time"`
 			}{
 				MsgType: "joinNotification",
 				Name:    authData.Name,
+				Time:    time.Now(), // 현재 시간을 가져와서 추가합니다.
 			}
 			joinNotification, _ := json.Marshal(nameMessage)
+			_, err := db.AccessLog.InsertOne(context.TODO(), nameMessage)
+			if err != nil {
+				fmt.Println(err)
+				ConnectErr := struct {
+					MsgType string `json:"msgType"`
+					ErrMsg  string `json:"errMsg"`
+				}{
+					MsgType: "errmsg",
+					ErrMsg:  "Interval Server ERROR!",
+				}
+				errNotification, _ := json.Marshal(ConnectErr)
+				conn.WriteMessage(websocket.TextMessage, errNotification)
+
+				safeClose(conn)
+				delete(clients, conn)
+				return
+			}
 			for client := range clients {
 				err := client.WriteMessage(websocket.TextMessage, joinNotification)
 				if err != nil {
@@ -119,6 +164,7 @@ func HandleConnection(conn *websocket.Conn) {
 
 		} else {
 			log.Println("unAuthorized 403")
+
 			safeClose(conn)
 			delete(clients, conn)
 			return
@@ -158,9 +204,40 @@ func readMessages(conn *websocket.Conn, ch chan<- []byte) {
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
+
 			safeClose(conn)
 			delete(clients, conn)
 			return
+		}
+
+		var msgData struct {
+			MsgType string `json:"msgType"`
+			Text    string `json:"text"`
+		}
+
+		if err := json.Unmarshal(message, &msgData); err != nil {
+			log.Println("Error decoding message:", err)
+			continue // Skip processing this message
+		}
+
+		if msgData.MsgType == "chat" {
+			// Insert the message into MongoDB
+
+			currentTime := time.Now()
+			chatMessage := struct {
+				MsgType string    `json:"msgType"`
+				Text    string    `json:"text"`
+				Time    time.Time `json:"time"`
+			}{
+				MsgType: "chat",
+				Text:    msgData.Text,
+				Time:    currentTime,
+			}
+			_, err := db.ChatLog.InsertOne(context.TODO(), chatMessage)
+			if err != nil {
+				log.Println("Error inserting message into MongoDB:", err)
+				continue // Skip processing this message
+			}
 		}
 		ch <- message
 	}
@@ -183,14 +260,18 @@ func safeClose(conn *websocket.Conn) {
 		name := clients[conn]
 		conn.Close()
 
+		currentTime := time.Now()
 		leaveMessage := struct {
-			MsgType string `json:"msgType"`
-			Name    string `json:"name"`
+			MsgType string    `json:"msgType"`
+			Name    string    `json:"name"`
+			Time    time.Time `json:"time"`
 		}{
 			MsgType: "leaveNotification",
 			Name:    name,
+			Time:    currentTime,
 		}
 		leaveNotification, _ := json.Marshal(leaveMessage)
+		db.AccessLog.InsertOne(context.TODO(), leaveMessage)
 		for client := range clients {
 			err := client.WriteMessage(websocket.TextMessage, leaveNotification)
 			if err != nil {
