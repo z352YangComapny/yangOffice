@@ -168,15 +168,7 @@ create table report_photo_feed
     constraints   f_rep_photo_feed_reprot_id foreign key (report_id) references report(id) on delete cascade,
     constraints   f_rep_photo_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade
 );
--- 사진피드 첨부파일 테이블
-create table attachment_photo_feed
-(
-    attachment_id number,
-    photo_feed_id number,
-    constraints   p_att_photo_feed_id primary key(attachment_id),
-    constraints   f_att_photo_feed_attachment_id foreign key (attachment_id) references attachment(id) on delete cascade,
-    constraints   f_att_photo_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade
-);
+
 -- 사진피드 좋아요 테이블
 create table likes
 (
@@ -349,7 +341,7 @@ BEGIN
 END;
 /
 
-
+--
 --
 -- -- 계정에 속한 모든 테이블를 삭제합니다.
 -- BEGIN

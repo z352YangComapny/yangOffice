@@ -331,7 +331,6 @@ insert into follow values (SEQ_FOLLOW_ID.nextval,5, 3, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,6, 3, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,6, 5, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,5, 2, default);
-insert into follow values (SEQ_FOLLOW_ID.nextval,5, 3, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,3, 2, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,6, 2, default);
 insert into follow values (SEQ_FOLLOW_ID.nextval,7, 2, default);
@@ -425,9 +424,7 @@ VALUES (seq_dm_room_id.NEXTVAL, 4, 6, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 INSERT INTO dm_room (id, participant1, participant2, reg_date)
 VALUES (seq_dm_room_id.NEXTVAL, 5, 7, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
--- 열여섯 번째 INSERT 문
-INSERT INTO dm_room (id, participant1, participant2, reg_date)
-VALUES (seq_dm_room_id.NEXTVAL, 6, 8, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+
 
 -- 열일곱 번째 INSERT 문
 INSERT INTO dm_room (id, participant1, participant2, reg_date)
