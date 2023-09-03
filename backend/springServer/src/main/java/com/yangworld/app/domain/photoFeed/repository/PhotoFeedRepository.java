@@ -52,7 +52,7 @@ public interface PhotoFeedRepository {
 	int deleteFeed(int feedId);
 
 	// attachment_photo_feed delete (link table)
-	@Delete("delete from attachment where id not in (select attachment_id from attachment_photo_feed)")
+	@Delete("delete from attachment where id = #{feedId}")
 	int deleteAttachment(int feedId);
 
 	// attachment delete
