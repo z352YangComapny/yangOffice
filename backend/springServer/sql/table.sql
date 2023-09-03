@@ -21,7 +21,7 @@ create table member
     constraints u_member_email unique (email),
     constraints c_member_provider check (provider in ('YANG', 'NAVER', 'GIT', 'KAKAO', 'GOOGLE'))
 );
-
+select * from member;
 -- 회원 시퀀스
 create sequence seq_member_id;
 

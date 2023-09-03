@@ -106,6 +106,7 @@ public class MemberController {
 		@PathVariable("id") int id, Model model) {
         Member member = memberService.findById(id);
         log.info("member@Home={}", member);
+        log.info("업데에에엣password={}", passwordEncoder.encode(member.getPassword()));
         model.addAttribute("member", member);
         // 프로필 정보 가져오기
         ProfileDetails profile = profileService.getProfileByMemberId(id);
