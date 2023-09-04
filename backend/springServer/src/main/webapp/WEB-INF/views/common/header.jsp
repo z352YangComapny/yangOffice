@@ -76,12 +76,15 @@
                   <ul class="navbar-nav me-auto">
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/userPage/${loginMember.id}">
                         <img src = "${pageContext.request.contextPath}/resources/images/home.png" class="navImg"/>
+                        <p class="headerName">HOME</p>
                      </a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/chat/chatList.do">
                         <img src="${pageContext.request.contextPath}/resources/images/light.png" class="navImg"/>
+                        <p class="headerName">WORLD</p>
                      </a></li>
                      <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/question/questionList">
                         <img src="${pageContext.request.contextPath}/resources/images/q.png" class="navImg"/>
+                        <p class="headerName">Q&A</p>
                      </a></li>
                      <li class="nav-item">
                            <jsp:include page="/WEB-INF/views/member/follow.jsp"/>

@@ -24,7 +24,7 @@
 </head>
 <style>
 #loginContent {
-    height: 800px;
+    height: 745px;
 }
 </style>
 <body>

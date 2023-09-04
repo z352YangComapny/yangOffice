@@ -15,8 +15,9 @@
     <jsp:include page ="/WEB-INF/views/common/header.jsp">
         <jsp:param name = "title" value = "안녕 스프링"/>
     </jsp:include>
+
         <div class="containerStoryTap d-flex flex-row">
-            <div class ="" id="profile" style="width: 30vw; height: 80vh; margin : 0 0;">
+            <div class ="" id="profile" >
             	<jsp:include page="/WEB-INF/views/profile/profileMain.jsp"/>
         	</div>
         	<div id="storyDiv">
@@ -56,7 +57,7 @@
 	      <div class="modal-body">
 	        <form>
 	          <div class="form-group">
-	            <textarea class="form-control storyModalContent" id="message-text-modal-content"></textarea>
+	            <textarea class="form-control storyModalContent" id="message-text-modal-content" ></textarea>
 	          </div>
 	        </form>
 	      </div>
@@ -77,7 +78,7 @@
 	      <div class="modal-body">
 	      	<form>
 	          <div class="form-group">
-	            <textarea class="form-control createStoryContent" id="message-text-create"></textarea>
+	            <textarea class="form-control createStoryContent" id="message-text-create" style="resize:none;"></textarea>
 	          </div>
 	        </form>
 	      </div>

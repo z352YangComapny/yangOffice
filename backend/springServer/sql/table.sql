@@ -15,7 +15,6 @@ create table member
     constraints p_member_id primary key( id),
     constraints c_member_gender check (gender in ('M', 'F')),
     constraints u_member_username unique(username),
-    constraints u_member_name unique( name),
     constraints u_member_nickname unique(nickname),
     constraints u_member_phone unique (phone),
     constraints u_member_email unique (email),
@@ -233,6 +232,8 @@ create table follow(
 -- 팔로우 시퀀스
 create sequence seq_follow_id;
 
+drop table follow;
+
 ------------------------------------------- 스토리 (STORY) -----------------------------------------------
 create table story
 (
@@ -254,6 +255,9 @@ create table report_story
     constraints f_rep_story_reprot_id foreign key (report_id) references report(id) on delete cascade,
     constraints f_rep_story_story_id foreign key (story_id) references story(id) on delete cascade
 );
+select * from story;
+select * from follow where follower = 1;
+select * from (select * from story where writer_id = 1 union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = 1);
 ------------------------------------------- 방명록 (GUESTBOOK) -----------------------------------------------
 
 create table guestbook
@@ -351,7 +355,7 @@ END;
 
 
 --
--- -- 계정에 속한 모든 테이블를 삭제합니다.
+-- 계정에 속한 모든 테이블를 삭제합니다.
 -- BEGIN
 --    FOR tab IN (SELECT table_name FROM user_tables) LOOP
 --        EXECUTE IMMEDIATE 'DROP TABLE ' || tab.table_name || ' CASCADE CONSTRAINTS';

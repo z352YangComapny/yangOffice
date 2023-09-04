@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member.css"/>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
 <style>
     /* 스타일링 기본 설정 */
     body {
@@ -85,6 +85,10 @@
         border-radius: 3px;
     }
 
+    .feedReport-box{
+        margin-left: 55vw;
+    }
+
     #likes {
         width: 60px;
         height: 60px;
@@ -100,6 +104,7 @@
         width: 95vw;
         height: 30vw;
         display: flex;
+        margin-bottom: 10vw;
     }
 
     .photoBox {
@@ -115,7 +120,22 @@
         margin-left: 7vw;
         margin-right : 10vw;
     }
+    #photoFeedTitle{
+        font-size : 30px; font-weight: bold;
+        background: linear-gradient(to right, #F3969A, #78C2AD);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .edit-feed-form {
+        display: flex;
+    }
+    textarea {
+        width: 100%;
+        height: 6.25em;
+        border: none;
+        resize: none;
 
+    }
 
 </style>
 <script>
@@ -155,11 +175,20 @@
                     }
                 });
             });
+
+            // 취소 버튼 클릭 시 모달 창 닫기
+            $("#cancelModalButton").click(function () {
+                $("#feedReportModal").modal("hide");
+            });
+
+            // X 버튼 클릭 시 모달 창 닫기
+            $("#closeModalButton").click(function () {
+                $("#feedReportModal").modal("hide");
+            });
         });
     });
 
-    //     comments report start
-    // '댓글 신고' 버튼 클릭 시
+    // 댓글 신고 모달 창 열기
     function goReportComments(commentsId, reportedId, feedId) {
         var reporterId = ${principalDetails.id};
 
@@ -186,16 +215,26 @@
                 },
                 success: function (response) {
                     alert("신고가 접수되었습니다.");
-                    $("#commentReportModal").modal("hide");
+                    $("#commentReportModal").modal("hide"); // 모달 창 닫기
                 },
                 error: function (error) {
                     alert("Error reporting comment: " + error.responseText);
                 }
             });
         });
-    }
 
+        // 취소 버튼 클릭 시 모달 창 닫기
+        $("#cancelModalButton").click(function () {
+            $("#commentReportModal").modal("hide");
+        });
+
+        // X 버튼 클릭 시 모달 창 닫기
+        $("#closeModalButton").click(function () {
+            $("#commentReportModal").modal("hide");
+        });
+    }
 </script>
+
 
 <div class="modal fade" id="feedReportModal" tabindex="-1" role="dialog" aria-labelledby="feedReportModalLabel"
      aria-hidden="true">
@@ -204,7 +243,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="feedReportModalLabel">피드 신고</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" id="cancelModalButton">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -225,7 +264,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModalButton">취소</button>
                 <button type="button" class="btn btn-primary" id="confirmReportButton">신고</button>
             </div>
         </div>
@@ -240,7 +279,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="commentReportModalLabel">댓글 신고</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" id="closeModalButton">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -262,7 +301,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalButton">취소</button>
                 <button type="button" class="btn btn-primary" id="commentconfirmReportButton">신고</button>
             </div>
         </div>
@@ -271,14 +310,32 @@
 
 
 
-<div class="btns">
-	<form:form name="goBackBtn"
-	           method="get"
-	           action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
-	    <div class="goBackBtn">
-	        <button class="btn btn-primary">뒤로가기</button>
-	    </div>
-	</form:form>
+<div class="btns d-flex justify-content-end">
+    <div class="d-flex flex-row mt-2">
+        <div class="btn-goback ">
+            <form:form name="goBackBtn"
+                       method="get"
+                       action="${pageContext.request.contextPath}/member/userPage/${id}/goBackPage">
+                <div class="goBackBtn">
+                    <button class="btn btn-primary mb-2">뒤로가기</button>
+                </div>
+            </form:form>
+        </div>
+        <div>
+            <%-- feed report --%>
+            <c:if test="${response.writerId ne principalDetails.id}">
+                <div class="feedReport-box">
+                    <button class="btn btn-sm btn-light btn-toggle mb-0"
+                            style="margin-left: 10px; font-size:20px;"
+                            data-feed-id="${response.id}" data-reported-id="${response.writerId}"
+                            data-repoter-id="${principalDetails.id}">
+                        🚨 신고
+                    </button>
+                </div>
+            </c:if>
+        </div>
+    </div>
+
     <!-- feed delete -->
     <c:if test="${response.writerId eq principalDetails.id}">
         <div class="feedDelete-box">
@@ -298,21 +355,10 @@
             <button class="btn btn-outline-secondary edit-feed-btn" data-feed-id="${response.id}">피드 수정</button>
         </div>
     </c:if>
-
-    <%-- feed report --%>
-    <c:if test="${response.writerId ne principalDetails.id}">
-        <div class="feedReport-box">
-            <button class="btn btn-sm btn-light btn-toggle"
-                    style="margin-left: 10px; font-size:20px;"
-                    data-feed-id="${response.id}" data-reported-id="${response.writerId}"
-                    data-repoter-id="${principalDetails.id}">
-                🚨 신고
-            </button>
-        </div>
-    </c:if>
-
 </div>
-
+<div style="margin-left : 250px; margin-bottom : 20px;">
+    <p><span id="photoFeedTitle">PhotoFeed</span></p>
+</div>
 <div class="FeedBox">
     <div class="photoBox">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -364,16 +410,14 @@
             <div class="feedContent-box form-control">
                 ${response.content}</div>
             <%--    feed update form   --%>
+
             <div class="edit-feed-form" id="edit-feed-form-${response.id}" style="display: none;">
                 <textarea class="form-control">${response.content}</textarea>
-                <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}">수정 완료</button>
+                <button class="btn btn-primary update-feed-btn" data-feed-id="${response.id}"id="updateOk">수정  ❤️ 완료️️</button>
             </div>
         </div>
-
-
     </div>
 
-    
     <!-- 댓글 작성 폼 시작 -->
     <div class="commentsAll">
         <p style="font-size: 30px;

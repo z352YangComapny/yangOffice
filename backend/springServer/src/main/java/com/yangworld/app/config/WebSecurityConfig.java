@@ -34,8 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/index.jsp", "/oauth/**").permitAll()
-                .antMatchers("/member/memberCreate.do", "/member/checkIdDuplicate.do",
+                .antMatchers("/", "/index.jsp", "/oauth/**", "/member/memberCreate.do").permitAll()
+                .antMatchers( "/member/checkIdDuplicate.do",
                         "/member/checkNicknameDuplicate.do", "/member/checkPhoneDuplicate.do",
                         "/member/checkEmail.do", "/member/checkEmailSearch.do",
                             "/member/resetPassword.do","/profile/profileCreate","/profile/defaultcreate.do").anonymous()
