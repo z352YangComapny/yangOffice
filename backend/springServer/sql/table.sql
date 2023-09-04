@@ -18,7 +18,7 @@ create table member
     constraints u_member_nickname unique(nickname),
     constraints u_member_phone unique (phone),
     constraints u_member_email unique (email),
-    constraints c_member_provider check (provider in ('YANG', 'NAVER', 'GIT', 'KAKAO', 'GOOGLE'))
+    constraints c_member_provider check (provider in ('YANG', 'NAVER', 'KAKAO', 'GOOGLE'))
 );
 select * from member;
 -- 회원 시퀀스
@@ -168,14 +168,14 @@ create table report_photo_feed
     constraints   f_rep_photo_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade
 );
 -- 사진피드 첨부파일 테이블
-create table attachment_photo_feed
-(
-    attachment_id number,
-    photo_feed_id number,
-    constraints   p_att_photo_feed_id primary key(attachment_id),
-    constraints   f_att_photo_feed_attachment_id foreign key (attachment_id) references attachment(id) on delete cascade,
-    constraints   f_att_photo_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade
-);
+-- create table attachment_photo_feed
+-- (
+--     attachment_id number,
+--     photo_feed_id number,
+--     constraints   p_att_photo_feed_id primary key(attachment_id),
+--     constraints   f_att_photo_feed_attachment_id foreign key (attachment_id) references attachment(id) on delete cascade,
+--     constraints   f_att_photo_feed_photo_feed_id foreign key (photo_feed_id) references photo_feed(id) on delete cascade
+-- );
 -- 사진피드 좋아요 테이블
 create table likes
 (
@@ -255,9 +255,6 @@ create table report_story
     constraints f_rep_story_reprot_id foreign key (report_id) references report(id) on delete cascade,
     constraints f_rep_story_story_id foreign key (story_id) references story(id) on delete cascade
 );
-select * from story;
-select * from follow where follower = 1;
-select * from (select * from story where writer_id = 1 union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = 1);
 ------------------------------------------- 방명록 (GUESTBOOK) -----------------------------------------------
 
 create table guestbook
@@ -355,7 +352,7 @@ END;
 
 
 --
--- 계정에 속한 모든 테이블를 삭제합니다.
+계정에 속한 모든 테이블를 삭제합니다.
 -- BEGIN
 --    FOR tab IN (SELECT table_name FROM user_tables) LOOP
 --        EXECUTE IMMEDIATE 'DROP TABLE ' || tab.table_name || ' CASCADE CONSTRAINTS';

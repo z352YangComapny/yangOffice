@@ -2,19 +2,17 @@ const connect = () => {
 	const ws = new SockJS(`http://${location.host}/stomp`); // endpoint
 	const stompClient = Stomp.over(ws);
 	
-    // 구독신청 
     stompClient.connect({}, () => {
-        console.log('WebSocket 연결 성공');
+
         const userId = document.getElementById('userId').value;
+        
+        // 구독
         stompClient.subscribe(`/storyMain/${userId}`, (payloads) => {
-            console.log('구독됨');
-//            console.log('/story : ', payloads);
 
             renderStory(payloads);
         });
-	        
-
-//		console.log('userId = ', userId);
+	    
+	    // 메인페이지 스토리 요청
 		stompClient.send(`/app/init/${userId}`, {}, JSON.stringify({ userId: userId }));
 		
 		document.querySelector("#btnCreateStory2").onclick = () => {
@@ -24,8 +22,7 @@ const connect = () => {
 				return false;
 			}
 			
-			console.log('content = ', content);
-
+			// 스토리 작성
 			stompClient.send(`/app/create/${userId}`, {}, JSON.stringify({ userId: userId, content: content }));
 			
 			window.location.href = "http://localhost:8080/story/storyTap";
@@ -36,8 +33,7 @@ const connect = () => {
 };
 
 const renderStory = (payloads) => {
-//	console.log('renderStory 호출 성공');
-//	console.log('payloads = ', payloads);
+
 	const stories = JSON.parse(payloads.body);
 
 	const view = document.querySelector('#storyMainUpdate');
@@ -73,25 +69,23 @@ const renderStory = (payloads) => {
             
             $('#storyModal').on('wheel', (e) => {
 			    e.preventDefault();
-//			    console.log('wheeeeeeeeeeeel');
+				
+				// 현재 카드 인덱스
 			    const currentCardIndex = parseInt(document.querySelector('#currentCard').value);
-//			    console.log('currentCardIndex : ', currentCardIndex);
+
 			    const nextCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex + 1}"]`);
 			    const beforeCardIndex = document.querySelector(`#cardIndex[value="${currentCardIndex - 1}"]`);
-//			    console.log('nextCardIndex : ', nextCardIndex);
-//			    console.log('beforeCardIndex : ', beforeCardIndex);
-			    if (event.deltaY < 0){
+
+			    if (event.deltaY < 0){ // 마우스 휠 업
 			    	if (beforeCardIndex) {
-				    	const beforeCard = beforeCardIndex.closest('.card');
-//				    	console.log('beforeCard = ', beforeCard);
+				    	const beforeCard = beforeCardIndex.closest('.card'); // 이전 카드 선택
 				        updateModal(beforeCard);
 				    }else{
 				    	storyModal.modal('hide');
 				    }
-			    }else if (event.deltaY > 0){
+			    }else if (event.deltaY > 0){ // 마우스 휠 다운
 				    if (nextCardIndex) {
-				    	const nextCard = nextCardIndex.closest('.card');
-//				    	console.log('nextCard = ', nextCard);
+				    	const nextCard = nextCardIndex.closest('.card'); // 다음 카드 선택
 				        updateModal(nextCard);
 				    }else{
 				    	storyModal.modal('hide');
