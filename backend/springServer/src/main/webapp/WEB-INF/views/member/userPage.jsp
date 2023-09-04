@@ -51,7 +51,7 @@
                     </div>--%>
                         <div class="d-flex flex-row justify-content-between align-content-center flex-grow-1" style="">
                             <div class="mainGif">
-                                <img src="${pageContext.request.contextPath}/resources/images/메인움짤구름.gif" id="guestbook-gif" style="margin-left: 13vw; border: none; box-shadow: 0 0 20px 10px rgba(195, 237, 255, 0.4); border-radius: 90px; height: 210px; margin-top: 0.6vw;"/>
+                                <img src="${pageContext.request.contextPath}/resources/images/메인움짤구름.gif" id="guestbook-gif" style="margin-left: 5vw; border: none; box-shadow: 0 0 20px 10px rgba(195, 237, 255, 0.4); border-radius: 90px; height: 210px; margin-top: 0.6vw;"/>
                             </div>
                             <div style="margin-top: 3vw;">
                             <span id="guestBookTitle">GUEST BOOK</span>
