@@ -18,7 +18,7 @@ create table member
     constraints u_member_nickname unique(nickname),
     constraints u_member_phone unique (phone),
     constraints u_member_email unique (email),
-    constraints c_member_provider check (provider in ('YANG', 'NAVER', 'GIT', 'KAKAO', 'GOOGLE'))
+    constraints c_member_provider check (provider in ('YANG', 'NAVER', 'KAKAO', 'GOOGLE'))
 );
 select * from member;
 -- 회원 시퀀스
