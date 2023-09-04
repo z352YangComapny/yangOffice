@@ -73,10 +73,8 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	    // 피드 디테일 조회
 	    List<PhotoAttachmentFeedDto> photoFeedDetail = photoFeedRepository.selectFeedDetail(photoFeedId);
 	    
-	    // 몇장 있는지 조회
-	    log.info("List size: [{}]", photoFeedDetail.size());
-	    
 	    for (PhotoAttachmentFeedDto photoFeed : photoFeedDetail) {
+
 	        // 사진 첨부 정보 조회
 	        List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhotoDetail(photoFeed.getId());
 	        
@@ -94,6 +92,7 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	                attachmentList.add(attachment);
 	            }
 	        }
+
 	        // 좋아요 수 조회 및 photoFeed 객체에 추가
 	        int likeCount = photoFeedRepository.getLikeCount(photoFeed.getId());
 	        photoFeed.setLikeCount(likeCount);
