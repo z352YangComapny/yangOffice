@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -40,13 +41,32 @@ public class StoryStompController {
 	@SendTo("/storyMain/{userId}")
 	public List<Payload> story(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
-//	    log.info("Received ID: {}", id);
 
     	List<StoryMainDto> stories = storyService.findStoryById(id);
-//		log.info("stories : {}", stories);
+//    	@Select("select 
+//    				* 
+//    			from 
+//    				(select 
+//    					* 
+//    				from 
+//    					story 
+//    				where 
+//    					writer_id = #{id} and reg_date >= (sysdate - 1) 
+//    					
+//    				union 
+//    				
+//    				select 
+//    					s.* 
+//    				from 
+//    					story s join follow f
+//    						on s.writer_id = f.followee 
+//    				where 
+//    					f.follower = #{id} 
+//    					and 
+//    					s.reg_date >= (sysdate - 1)) 
+//    			order by reg_date")
     	
     	List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(id);
-//		log.info("attachProfs = {}", attachProfs);
     	
     	String attach = "default.jpg";
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
@@ -60,7 +80,7 @@ public class StoryStompController {
     			
     		} catch (Exception ignore) {}
     		String username = storyService.findMemberUsername(story.getWriterId());
-//			log.info("username = {}", username);
+
     		Payload tmp = Payload.builder()
     				.type(PayloadType.STORY)
     				.from(username)
@@ -84,35 +104,33 @@ public class StoryStompController {
     			payload.setAttach(attach);
     		}
     	}
- //   	log.info("payloads : {}", payloads);
 
     	return payloads;
     }
 	
 	@MessageMapping("/create/{userId}")
 	public void storyCreate(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
-	    int id = Integer.parseInt(message.get("userId"));
+	    // 스토리 생성
+		int id = Integer.parseInt(message.get("userId"));
 	    String content = message.get("content");
 	    StoryDto storyDto = StoryDto.builder()
 	    		.writerId(id)
 	    		.content(content)
 	    		.build();
 	    storyService.createStory(storyDto);
-//	    log.info("/create 호출됨");
 	    
-//	    log.info("Received ID: {}", id);
-	    
+	    // 나를 팔로우한 사람
 	    List<FollowDto> followers = memberService.findFollowerById(id);
 	    FollowDto user = new FollowDto();
 	    user.setFollower(id);
 	    followers.add(user);
+	    
 	    for(FollowDto follower : followers) {
 	    	log.info("user = {}", follower.getFollower());
 	    	List<StoryMainDto> stories = storyService.findStoryById(follower.getFollower());
 			log.info("stories : {}", stories);
 	    	
 	    	List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(follower.getFollower());
-//			log.info("attachProfs = {}", attachProfs);
 	    	
 	    	String attach = "default.jpg";
 	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
@@ -126,7 +144,7 @@ public class StoryStompController {
 	    			
 	    		} catch (Exception ignore) {}
 	    		String username = storyService.findMemberUsername(story.getWriterId());
-//			log.info("username = {}", username);
+	    		
 	    		Payload tmp = Payload.builder()
 	    				.type(PayloadType.STORY)
 	    				.from(username)
@@ -150,8 +168,8 @@ public class StoryStompController {
 	    			payload.setAttach(attach);
 	    		}
 	    	}
-	    	log.info("payloads : {}", payloads);
 	    	
+	    	// forEach를 통해 id별로 payloads를 만든 후 각각의 심플브로커에 송신
 	    	String channel = "/storyMain/" + follower.getFollower();
 	    	messagingTemplate.convertAndSend(channel, payloads);
 	    }

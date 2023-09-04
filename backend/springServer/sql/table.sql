@@ -255,9 +255,6 @@ create table report_story
     constraints f_rep_story_reprot_id foreign key (report_id) references report(id) on delete cascade,
     constraints f_rep_story_story_id foreign key (story_id) references story(id) on delete cascade
 );
-select * from story;
-select * from follow where follower = 1;
-select * from (select * from story where writer_id = 1 union select s.* from story s join follow f on s.writer_id = f.followee where f.follower = 1);
 ------------------------------------------- 방명록 (GUESTBOOK) -----------------------------------------------
 
 create table guestbook

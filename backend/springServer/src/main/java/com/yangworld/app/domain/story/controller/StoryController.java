@@ -114,7 +114,7 @@ public class StoryController {
 	
 	@PostMapping("/update")
 	public String update(@Valid StoryMainDto storyDto){
-//		log.info("storyDto = {}", storyDto);
+		log.info("storyDto = {}", storyDto);
 		int result = storyService.updateStory(storyDto);
 		return "redirect:/story/storyTap";
 	}
