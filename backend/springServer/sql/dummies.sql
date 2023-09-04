@@ -517,8 +517,8 @@ VALUES (seq_dm_id.NEXTVAL, 7, 5, '좋아요, 한번 가보겠습니다!', 15, SY
 -- VALUES (seq_dm_id.NEXTVAL, 2, 9, '조심해!!', 17, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열여덟 번째 dm 인서트 문
-INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
-VALUES (seq_dm_id.NEXTVAL, 2, 11, '오늘 평택에서 볼거지?!', 20, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
+-- INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
+-- VALUES (seq_dm_id.NEXTVAL, 2, 11, '오늘 평택에서 볼거지?!', 20, SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 -- 열아홉 번째 dm 인서트 문
 INSERT INTO dm (id, receiver_id, sender_id, content, dm_room_id, reg_date)
@@ -574,10 +574,10 @@ INSERT INTO report  (id, reporter_id, reported_id, content, reg_date) VALUES (se
 INSERT INTO report  (id, reporter_id, reported_id, content, reg_date) VALUES (seq_report_id.NEXTVAL, 2, 8, '말도안되는 헛소리를 합니다.', SYSDATE - DBMS_RANDOM.VALUE(1, 365));
 
 --@REPORT_DM 테이블 테스트 데이터
-INSERT INTO report_dm (report_id, dm_id) VALUES (1, 19);
+-- INSERT INTO report_dm (report_id, dm_id) VALUES (1, 19);
 INSERT INTO report_dm (report_id, dm_id) VALUES (2, 7);
 INSERT INTO report_dm (report_id, dm_id) VALUES (3, 9);
-INSERT INTO report_dm (report_id, dm_id) VALUES (4, 18);
+-- INSERT INTO report_dm (report_id, dm_id) VALUES (4, 18);
 INSERT INTO report_dm (report_id, dm_id) VALUES (5, 14);
 
 --@REPORT_PROFILE 테이블 테스트 데이터
