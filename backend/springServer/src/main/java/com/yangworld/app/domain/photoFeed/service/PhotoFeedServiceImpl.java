@@ -117,8 +117,6 @@ public class PhotoFeedServiceImpl implements PhotoFeedService{
 	    	// 인증된 회원 아이디를 갖고 피드 검색
 	        List<PhotoAttachmentFeedDto> photoFeedList = photoFeedRepository.selectFeed(writerId);
 	        
-	        log.info("List size: [{}]", photoFeedList.size());
-	        
 	        for (PhotoAttachmentFeedDto photoFeed : photoFeedList) {
 	        	// 검색 결과 id를 가지고 연결 테이블 검색
 	            List<AttachmentPhotoDto> attachmentPhotoDto = photoFeedRepository.selectAttachmentPhoto(photoFeed.getId());

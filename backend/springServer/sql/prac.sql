@@ -136,6 +136,11 @@ select * from photo_feed where writer_id = 12;
 
 select * from photo_feed;
 
+select * from profile;
+select * from report_profile;
+select * from report;
+
+
 select * from attachment_photo_feed;
 select * from attachment_photo_feed where photo_feed_Id = 50;
 select * from attachment where id = 54;

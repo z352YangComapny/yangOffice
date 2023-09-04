@@ -92,27 +92,29 @@ public class ReportController {
 	    }
 
 
-	    @PostMapping("/report/insertReportProfile")
-	    public ResponseEntity<?> insertReportProfile(
-	            @AuthenticationPrincipal PrincipalDetails principalDetails,
-	            @RequestBody ReportCreateDto _reportDto,
-	            @RequestParam int profileId
-	    ) {
+	@PostMapping("/report/insertReportProfile")
+	public ResponseEntity<?> insertReportProfile(
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestParam int profileId,
+			@ModelAttribute ReportCreateDto _reportDto,
+			RedirectAttributes redirectAttributes
+	) {
+			log.info("profileId = {}", profileId);
+		int reporterId = principalDetails.getId();
+		Report report = _reportDto.toReport();
+		log.info("report = {}", report);
+		report.setReporterId(reporterId);
 
-	        int reporterId = principalDetails.getId();
+		reportService.insertReportProfile(report, profileId);
 
-	        Report report = _reportDto.toReport();
-	        log.info("report = {}", report);
-	        report.setReporterId(reporterId);
+		redirectAttributes.addFlashAttribute("msg", "신고가 정상적으로 접수되었습니다.");
 
-
-	        reportService.insertReportProfile(report, profileId);
-
-	        return ResponseEntity.ok().build();
-	    }
+		return ResponseEntity.ok().build();
+	}
 
 
-    @PostMapping("/member/userPage/{id}/insertReportFeed")
+
+	@PostMapping("/member/userPage/{id}/insertReportFeed")
     private String insertReportFeed(
             @AuthenticationPrincipal PrincipalDetails principal,
             @RequestParam String content,
