@@ -1,7 +1,5 @@
 package com.yangworld.app.domain.story.controller;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +12,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import com.yangworld.app.config.auth.PrincipalDetails;
-import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.dto.FollowDto;
+import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.story.dto.AttachmentProfileDto;
 import com.yangworld.app.domain.story.dto.Payload;
 import com.yangworld.app.domain.story.dto.PayloadType;
@@ -23,7 +21,6 @@ import com.yangworld.app.domain.story.dto.StoryDto;
 import com.yangworld.app.domain.story.dto.StoryMainDto;
 import com.yangworld.app.domain.story.service.StoryService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -34,6 +31,9 @@ public class StoryStompController {
 	private StoryService storyService;
 	
 	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
 	
 	@MessageMapping("/init/{userId}")
@@ -41,55 +41,56 @@ public class StoryStompController {
 	public List<Payload> story(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
 //	    log.info("Received ID: {}", id);
-		List<StoryMainDto> stories = storyService.findStoryById(id);
+
+    	List<StoryMainDto> stories = storyService.findStoryById(id);
 //		log.info("stories : {}", stories);
-		
-		List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(id);
+    	
+    	List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(id);
 //		log.info("attachProfs = {}", attachProfs);
-		
-		String attach = "default.jpg";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
-		
-		List<Payload> payloads = new ArrayList<>();
-		for(StoryMainDto story : stories) {
-			story.setFormattedRegDate((story.getRegDate()).format(formatter));
-			try {
-				int feed = storyService.findStoryFeedByStoryId(story.getId());
-				story.setStoryFeed(feed);
-				
-			} catch (Exception ignore) {}
-			String username = storyService.findMemberUsername(story.getWriterId());
+    	
+    	String attach = "default.jpg";
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
+    	
+    	List<Payload> payloads = new ArrayList<>();
+    	for(StoryMainDto story : stories) {
+    		story.setFormattedRegDate((story.getRegDate()).format(formatter));
+    		try {
+    			int feed = storyService.findStoryFeedByStoryId(story.getId());
+    			story.setStoryFeed(feed);
+    			
+    		} catch (Exception ignore) {}
+    		String username = storyService.findMemberUsername(story.getWriterId());
 //			log.info("username = {}", username);
-			Payload tmp = Payload.builder()
-				    .type(PayloadType.STORY)
-				    .from(username)
-				    .content(story.getContent())
-				    .formattedCreatedAt(story.getFormattedRegDate())
-				    .id(story.getId())
-				    .storyFeed(story.getStoryFeed())
-				    .build();
-			payloads.add(tmp);
-		}
-		for(Payload payload : payloads) {
-			int payloadId = storyService.findIdByUsername(payload.getFrom());
-			for(AttachmentProfileDto attachProf : attachProfs) {
-				if(payloadId == attachProf.getProfileId()) {
-					payload.setAttach(attachProf.getRenamedFilename());
-				}
-			}
-		}
-		for(Payload payload : payloads) {
-			if(payload.getAttach() == null) {
-				payload.setAttach(attach);
-			}
-		}
-//		log.info("payloads : {}", payloads);
-		return payloads;
-	}
+    		Payload tmp = Payload.builder()
+    				.type(PayloadType.STORY)
+    				.from(username)
+    				.content(story.getContent())
+    				.formattedCreatedAt(story.getFormattedRegDate())
+    				.id(story.getId())
+    				.storyFeed(story.getStoryFeed())
+    				.build();
+    		payloads.add(tmp);
+    	}
+    	for(Payload payload : payloads) {
+    		int payloadId = storyService.findIdByUsername(payload.getFrom());
+    		for(AttachmentProfileDto attachProf : attachProfs) {
+    			if(payloadId == attachProf.getProfileId()) {
+    				payload.setAttach(attachProf.getRenamedFilename());
+    			}
+    		}
+    	}
+    	for(Payload payload : payloads) {
+    		if(payload.getAttach() == null) {
+    			payload.setAttach(attach);
+    		}
+    	}
+ //   	log.info("payloads : {}", payloads);
+
+    	return payloads;
+    }
 	
 	@MessageMapping("/create/{userId}")
-	@SendTo("/storyMain/{userId}")
-	public List<Payload> storyCreate(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
+	public void storyCreate(@DestinationVariable String userId, @org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
 	    String content = message.get("content");
 	    StoryDto storyDto = StoryDto.builder()
@@ -97,53 +98,62 @@ public class StoryStompController {
 	    		.content(content)
 	    		.build();
 	    storyService.createStory(storyDto);
-	    
 //	    log.info("/create 호출됨");
 	    
 //	    log.info("Received ID: {}", id);
-		List<StoryMainDto> stories = storyService.findStoryById(id);
-//		log.info("stories : {}", stories);
-		
-		List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(id);
-//		log.info("attachProfs = {}", attachProfs);
-		
-		String attach = "default.jpg";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
-		
-		List<Payload> payloads = new ArrayList<>();
-		for(StoryMainDto story : stories) {
-			story.setFormattedRegDate((story.getRegDate()).format(formatter));
-			try {
-				int feed = storyService.findStoryFeedByStoryId(story.getId());
-				story.setStoryFeed(feed);
-				
-			} catch (Exception ignore) {}
-			String username = storyService.findMemberUsername(story.getWriterId());
+	    
+	    List<FollowDto> followers = memberService.findFollowerById(id);
+	    FollowDto user = new FollowDto();
+	    user.setFollower(id);
+	    followers.add(user);
+	    for(FollowDto follower : followers) {
+	    	log.info("user = {}", follower.getFollower());
+	    	List<StoryMainDto> stories = storyService.findStoryById(follower.getFollower());
+			log.info("stories : {}", stories);
+	    	
+	    	List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(follower.getFollower());
+//			log.info("attachProfs = {}", attachProfs);
+	    	
+	    	String attach = "default.jpg";
+	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
+	    	
+	    	List<Payload> payloads = new ArrayList<>();
+	    	for(StoryMainDto story : stories) {
+	    		story.setFormattedRegDate((story.getRegDate()).format(formatter));
+	    		try {
+	    			int feed = storyService.findStoryFeedByStoryId(story.getId());
+	    			story.setStoryFeed(feed);
+	    			
+	    		} catch (Exception ignore) {}
+	    		String username = storyService.findMemberUsername(story.getWriterId());
 //			log.info("username = {}", username);
-			Payload tmp = Payload.builder()
-				    .type(PayloadType.STORY)
-				    .from(username)
-				    .content(story.getContent())
-				    .formattedCreatedAt(story.getFormattedRegDate())
-				    .id(story.getId())
-				    .storyFeed(story.getStoryFeed())
-				    .build();
-			payloads.add(tmp);
-		}
-		for(Payload payload : payloads) {
-			int payloadId = storyService.findIdByUsername(payload.getFrom());
-			for(AttachmentProfileDto attachProf : attachProfs) {
-				if(payloadId == attachProf.getProfileId()) {
-					payload.setAttach(attachProf.getRenamedFilename());
-				}
-			}
-		}
-		for(Payload payload : payloads) {
-			if(payload.getAttach() == null) {
-				payload.setAttach(attach);
-			}
-		}
-//		log.info("payloads : {}", payloads);
-		return payloads;
+	    		Payload tmp = Payload.builder()
+	    				.type(PayloadType.STORY)
+	    				.from(username)
+	    				.content(story.getContent())
+	    				.formattedCreatedAt(story.getFormattedRegDate())
+	    				.id(story.getId())
+	    				.storyFeed(story.getStoryFeed())
+	    				.build();
+	    		payloads.add(tmp);
+	    	}
+	    	for(Payload payload : payloads) {
+	    		int payloadId = storyService.findIdByUsername(payload.getFrom());
+	    		for(AttachmentProfileDto attachProf : attachProfs) {
+	    			if(payloadId == attachProf.getProfileId()) {
+	    				payload.setAttach(attachProf.getRenamedFilename());
+	    			}
+	    		}
+	    	}
+	    	for(Payload payload : payloads) {
+	    		if(payload.getAttach() == null) {
+	    			payload.setAttach(attach);
+	    		}
+	    	}
+	    	log.info("payloads : {}", payloads);
+	    	
+	    	String channel = "/storyMain/" + follower.getFollower();
+	    	messagingTemplate.convertAndSend(channel, payloads);
+	    }
 	}
 }

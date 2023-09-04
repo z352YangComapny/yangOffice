@@ -17,8 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yangworld.app.config.auth.PrincipalDetails;
+import com.yangworld.app.domain.attachment.entity.Attachment;
+import com.yangworld.app.domain.member.entity.Member;
+import com.yangworld.app.domain.member.service.MemberService;
 import com.yangworld.app.domain.photoFeed.dto.PhotoAttachmentFeedDto;
 import com.yangworld.app.domain.photoFeed.service.PhotoFeedService;
+import com.yangworld.app.domain.profile.entity.ProfileDetails;
+import com.yangworld.app.domain.profile.entity.State;
+import com.yangworld.app.domain.profile.service.ProfileService;
 import com.yangworld.app.domain.story.dto.StoryDto;
 import com.yangworld.app.domain.story.dto.StoryMainDto;
 import com.yangworld.app.domain.story.service.StoryService;
@@ -35,6 +41,12 @@ public class StoryController {
 	
     @Autowired
     private PhotoFeedService photoFeedService; 
+    
+    @Autowired
+    private ProfileService profileService;
+    
+    @Autowired
+    private MemberService memberService;
 	
 	@GetMapping("/storyTap")
 	public void storyTap(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
@@ -47,8 +59,39 @@ public class StoryController {
 				story.setStoryFeed(feed);
 			} catch (Exception ignore) {}
 		}
+		int id = principal.getId();
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
 //		log.info("stories = {}", stories);
+        ProfileDetails profile = profileService.getProfileByMemberId(id);
+        log.info("profile={}", profile);
 
+		List<PhotoAttachmentFeedDto> photoList = photoFeedService.selectFeed(id);
+        List<Attachment> profileAttachments =null;
+        if(profile !=null){
+            // 프로필 사진 가져오기
+            profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
+            model.addAttribute("id",id);
+            
+    	    model.addAttribute("photoList", photoList);
+            log.info("profileAttachments={}", profileAttachments);
+            model.addAttribute("profile", profile);
+            model.addAttribute("profileAttachments", profileAttachments);
+            model.addAttribute("principalBday", member.getBirthday());
+            model.addAttribute("principalName", member.getName());
+            model.addAttribute("PrincipalDetails", principal);
+            log.info("profile = {}", profile);
+            log.info("profileAttachment = {}", profileAttachments);
+        } else{
+            profile = ProfileDetails.builder()
+                    .attachments(null)
+                    .state(State.A)
+                    .introduction("새롭게 작성해주세요")
+                    .build();
+        }
+       // log.info("profileAttachment={}", profileAttachments);
+        model.addAttribute("profileAttachments", profileAttachments);
+        model.addAttribute("profile", profile);
 		model.addAttribute("stories", stories);
 	}
 	

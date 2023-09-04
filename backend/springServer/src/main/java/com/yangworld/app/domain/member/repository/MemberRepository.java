@@ -78,5 +78,8 @@ public interface MemberRepository {
 
     @Select("select count(*) from member where username like '%' || #{inputText} || '%'")
     int findTotalMemberCountByInput(String inputText);
+
+    @Select("select follower from follow where followee = #{id}")
+	List<FollowDto> findFollowerById(int id);
 }
 
