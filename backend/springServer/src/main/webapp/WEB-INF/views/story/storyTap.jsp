@@ -103,6 +103,7 @@
 	
 	<form:form id="deleteFrm" method="POST" action="${pageContext.request.contextPath}/story/delete">
 		<input type="hidden" id="deleteModalId" name="id" value=""/>
+		<input type="hidden" id="deleteModalWriterId" name="writerId" value=""/>
 	</form:form>
 	
 </sec:authorize>
@@ -179,7 +180,9 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 document.querySelector("#btnDelete").onclick = () => {
 	if(confirm('정말로 삭제하시겠습니까?')){
 		const id = document.querySelector("#storyModalId").value;
+		const writerId = document.querySelector('#storyModalWriterId').value;
 		document.querySelector("#deleteModalId").value = id;
+		document.querySelector("#deleteModalWriterId").value = id;
 		
 		const frm = document.querySelector("#deleteFrm");
 		

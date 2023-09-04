@@ -185,6 +185,60 @@ public class StoryController {
 	@PostMapping("/delete")
 	public String delete(StoryMainDto storyDto){
 		int result = storyService.deleteStory(storyDto);
+
+	    List<FollowDto> followers = memberService.findFollowerById(storyDto.getWriterId());
+	    FollowDto user = new FollowDto();
+	    user.setFollower(storyDto.getWriterId());
+	    followers.add(user);
+	    
+	    for(FollowDto follower : followers) {
+	    	log.info("user = {}", follower.getFollower());
+	    	List<StoryMainDto> stories = storyService.findStoryById(follower.getFollower());
+			log.info("stories : {}", stories);
+	    	
+	    	List<AttachmentProfileDto> attachProfs = storyService.findAttachProf(follower.getFollower());
+	    	
+	    	String attach = "default.jpg";
+	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
+	    	
+	    	List<Payload> payloads = new ArrayList<>();
+	    	for(StoryMainDto story : stories) {
+	    		story.setFormattedRegDate((story.getRegDate()).format(formatter));
+	    		try {
+	    			int feed = storyService.findStoryFeedByStoryId(story.getId());
+	    			story.setStoryFeed(feed);
+	    			
+	    		} catch (Exception ignore) {}
+	    		String username = storyService.findMemberUsername(story.getWriterId());
+	    		
+	    		Payload tmp = Payload.builder()
+	    				.type(PayloadType.STORY)
+	    				.from(username)
+	    				.content(story.getContent())
+	    				.formattedCreatedAt(story.getFormattedRegDate())
+	    				.id(story.getId())
+	    				.storyFeed(story.getStoryFeed())
+	    				.build();
+	    		payloads.add(tmp);
+	    	}
+	    	for(Payload payload : payloads) {
+	    		int payloadId = storyService.findIdByUsername(payload.getFrom());
+	    		for(AttachmentProfileDto attachProf : attachProfs) {
+	    			if(payloadId == attachProf.getProfileId()) {
+	    				payload.setAttach(attachProf.getRenamedFilename());
+	    			}
+	    		}
+	    	}
+	    	for(Payload payload : payloads) {
+	    		if(payload.getAttach() == null) {
+	    			payload.setAttach(attach);
+	    		}
+	    	}
+	    	
+	    	// forEach를 통해 id별로 payloads를 만든 후 각각의 심플브로커에 송신
+	    	String channel = "/storyMain/" + follower.getFollower();
+	    	messagingTemplate.convertAndSend(channel, payloads);
+	    }
 		return "redirect:/story/storyTap";
 	}
 }
