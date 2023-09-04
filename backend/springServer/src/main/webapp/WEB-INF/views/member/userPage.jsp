@@ -49,11 +49,16 @@
                         <a href="${pageContext.request.contextPath}/story/storyTap" id="storyTapButton" style="color: MediumSeaGreen; font-size: 40px; font-family: 'Kalam', cursive; text-decoration: none;">Story</a>
                         <jsp:include page="/WEB-INF/views/story/storyMain.jsp"/>
                     </div>--%>
-                        <div class="d-flex flex-row justify-content-end align-content-center flex-grow-1" style="">
+                        <div class="d-flex flex-row justify-content-between align-content-center flex-grow-1" style="">
+                            <div class="mainGif">
+                                <img src="${pageContext.request.contextPath}/resources/images/메인움짤구름.gif" id="guestbook-gif" style="margin-left: 13vw; border: none; box-shadow: 0 0 20px 10px rgba(195, 237, 255, 0.4); border-radius: 90px; height: 210px; margin-top: 0.6vw;"/>
+                            </div>
+                            <div style="margin-top: 3vw;">
                             <span id="guestBookTitle">GUEST BOOK</span>
                             <a href="${pageContext.request.contextPath}/member/userPage/${member.id}/guestbook/guestbook">
                                 <img src="${pageContext.request.contextPath}/resources/images/wallet-symbol.png" id="guestbook-image" alt="guestbook-image" style="width:100px;"/>
                             </a>
+                            </div>
                         </div>
                     <div id="photoFeed" class="flex-grow-1" data-mdb-perfect-scrollbar="true"
                          style="position: relative; height: 600px; overflow-y: auto; border-radius: 10px; box-shadow: 3px 3px 10px 5px rgba(120, 194, 173, 0.3); padding: 10px;">
