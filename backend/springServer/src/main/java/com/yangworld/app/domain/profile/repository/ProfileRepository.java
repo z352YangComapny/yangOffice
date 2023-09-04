@@ -94,13 +94,6 @@ public interface ProfileRepository {
 
 
 
-	
-	
-	
-	
-	
-	
-	
 
 //	@Update("update profile set state = 'A', introduction = '' where member_id = #{memberId}")
 //	int resetProfile(ProfileDto profile);

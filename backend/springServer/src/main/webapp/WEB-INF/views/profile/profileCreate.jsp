@@ -6,24 +6,25 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="프로필 생성" name="title"/>
 </jsp:include>
-<!DOCTYPE html>
-<html>
-<head>
+
 <meta charset="UTF-8">
 <title>프로필 생성</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
 <style>
 
 .col-md-6 {
-	border: 1px solid #ccc;
+	border: 2px solid #ccc;
+	border-radius: 10px;
     padding: 20px; 
 }
 .preview-image {
-    width: 200px;
-    height: 200px;
+    width: 350px;
+	height: 250px;
+	border-radius: 10%;
     margin-top: 10px;
 }
 .radio-inline {
@@ -31,6 +32,7 @@
     font-size: 1.5rem; 
 }
 .form-group {
+	margin-top: 20px;
     margin-bottom: 0; 
     border-bottom: 1px solid #ccc; 
 }
@@ -39,20 +41,18 @@
 	width: 40px;
 	margin: 10px;
 }
-      
 </style>
-</head>
-<body>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1 class="mb-4 text-center">프로필 생성</h1>
+            <h1 class="mb-4 text-center">프로필 만들기</h1>
 
             <form:form name="profileForm" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/profile/profileCreate">
                 <div class="form-group">
                     <label for="upFile">프로필 사진</label>
                     <div class="text-center">
-                        <img id="imagePreview" class="preview-image rounded-circle" src="${pageContext.request.contextPath}/resources/upload/attachment/default.jpg" alt="프로필 사진">
+                        <img id="imagePreview" class="preview-image " src="${pageContext.request.contextPath}/resources/upload/attachment/default.jpg" alt="프로필 사진">
                         <input type="file" class="form-control-file mt-2" id="upFile" name="upFile" multiple onchange="showPreview(this);">
                     </div>
                 </div>
@@ -60,8 +60,8 @@
                 <div class="form-group">
                 
                     <label>상태</label>
-                    <div class="d-flex justify-content-center" style="margin-top: -20px;">
-                        <label class="form-check-label radio-inline">
+                    <div class="d-flex justify-content-center" style="margin-top: -20px; margin-left: -30px;">
+                        <label class="form-check-label radio-inline" >
                             <input class="form-check-input" type="radio" name="state" id="A" value="A" checked/>
                             <img src="${pageContext.request.contextPath}/resources/images/stateA.png" alt="상태 A 이미지" class="emoji-image"/>
                         </label>&nbsp;&nbsp;
@@ -85,22 +85,24 @@
                 </div>
                 <c:if test="${not empty member}">
                 <div class="form-group">
-                    <label for="introduction">간단소개</label>
+                    <label for="introduction" style="margin-top: 20px;">간단소개</label>
                     <textarea class="form-control" id="introduction" name="introduction" rows="4" required style="resize: none;">안녕하세요.${member.nickname}입니다. </textarea>
                     <input type="hidden" value = "${member.id}" name ="memberId"/>
                 </div>
               </c:if>
-                <div class="text-center" style="margin-top: 10px;">
-                    <button type="submit" class="btn btn-primary">생성</button>
+              	<div class="text-center" style="margin-top: 10px;">
+                    <button type="submit" class="btn btn-primary">만들기</button>
+                </div>
+            </form:form>
+                <div class="text-center" >
                     <c:if test="${not empty member}">
 			          	<form:form name = "defaultFrm" action = "${pageContext.request.contextPath}/profile/defaultcreate.do" method="POST">
 			         	<input type="hidden" name="memberId" value="${member.id}"/>
 			         	<input type="hidden" name="memberUsername" value="${member.username}"/>
-			            <button type="submit" class="btn btn-secondary" >나중에 하기</button>
+			            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;" >나중에 하기</button>
 			        	</form:form>
 		        	</c:if>
                 </div>
-            </form:form>
             
         </div>
     </div>
@@ -117,5 +119,4 @@
         }
     }
 </script>
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

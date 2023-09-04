@@ -110,6 +110,7 @@ public class DmServiceImpl implements DmService {
 	
 	
 	@Override
+	@Transactional
 	public List<DmListDto> findDmRoom(int userId) {
 		
 		// participant1, 2, dmRoomId
@@ -138,7 +139,7 @@ public class DmServiceImpl implements DmService {
 			Member member = dmRepository.findUsernameForDm(otherId);
 			String name = member.getName();
 			String nickname = member.getNickname();
-			
+			log.info("otherId={}", otherId);
 			Profile profile = dmRepository.findProfileIdForDm(otherId);
 				int profileId = profile.getId();
 				System.out.println("profileId= " + profileId);

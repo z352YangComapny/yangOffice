@@ -18,19 +18,29 @@ div#guestbook-container {
 .form-inline {
 	display: block;
 }
+#create{width: 800px;}
+#guestBookTitle{
+	font-size : 30px; font-weight: bold;
+	background: linear-gradient(to right, #F3969A, #78C2AD);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;}
 </style>
 <br>
 <br>
 <div id="guestbook-container">
-	<h6>✨방명록 남기기✨</h6>
+	<p>✨<span id="guestBookTitle">Guest Book</span>✨</p>
+	<div class="mt-5">
 	<form:form
 		action="${pageContext.request.contextPath}/member/userPage/${id}/guestbook/create.do"
 		class="form-inline" name="createFrm" method="post">
-		<input type="text" id="create" class="form-control col-sm-10 ml-1"
-			name="content" placeholder="내용" required />&nbsp;
-		<button class="btn btn-outline-success" type="submit"
-			onclick="alert('방명록이 등록되었습니다~꒰⍤꒱')">저장</button>
+		<div class="d-flex flex-row justify-content-center">
+			<input type="text" id="create" class="form-control col-sm-10 ml-1"
+				name="content" placeholder="방명록을 남겨주세요!!!" required />&nbsp;
+			<button class="btn btn-outline-success" type="submit"
+				onclick="alert('방명록이 등록되었습니다~꒰⍤꒱')">저장</button>
+		</div>
 	</form:form>
+	</div>
 	<br> <br>
 	<table class="table">
 		<thead>

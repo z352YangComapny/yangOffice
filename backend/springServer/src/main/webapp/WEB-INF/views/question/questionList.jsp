@@ -13,10 +13,10 @@
 </jsp:include>
 <style>
 /*글쓰기버튼*/
-input#btn-add{float: left;
-   						 margin: 40px;}
+input#btn-add{float: left; margin: 40px;}
+#board-container{margin-left: 300px;}
 </style>
-<section id="board-container" class="container">
+<section id="board-container" class="container d-flex flex-column justify-content-center" >
 	<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 60px;">
         <p style="font-size: 37px; 
         background: linear-gradient(to right, #F3969A, #78C2AD);
@@ -24,7 +24,7 @@ input#btn-add{float: left;
     	-webkit-text-fill-color: transparent;"
         >공지사항 & 이용문의</p>
         <a href="${pageContext.request.contextPath}/question/questionCreate">
-            <img src="${pageContext.request.contextPath}/resources/images/edit-button.png" id="btn-add" alt="edit-button" style="width: 70px; margin: 10px;"/>
+            <img src="${pageContext.request.contextPath}/resources/images/edit-button.png" id="btn-add" alt="edit-button" style="width: 50px; margin: 10px;"/>
         </a>
     </div>
 	<table id="tbl-board" class="table table-bordered border-primary table-hover align-middle">
@@ -35,7 +35,6 @@ input#btn-add{float: left;
 				<th>제목</th>
 				<th>작성자</th>
 				<th>작성일</th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -63,7 +62,7 @@ input#btn-add{float: left;
 						    <a href="${pageContext.request.contextPath}/question/questionDetail?id=${question.id}">${question.title}
 						    </a>
 						     <c:choose>
-						        <c:when test="${hasCommentsList[vs.index]}"><span>[1]</span></c:when>
+						        <c:when test="${hasCommentsList[vs.index]}"><span>[답변완료]</span></c:when>
 						        <c:otherwise><span></span></c:otherwise>
 						    </c:choose>
 						</td>
@@ -84,14 +83,7 @@ input#btn-add{float: left;
 							<fmt:parseDate value="${question.regDate}" pattern="yyyy-MM-dd'T'HH:mm" var="regDate"/>
 							<fmt:formatDate value="${regDate}" pattern="yy/MM/dd HH:mm"/>
 						</td>
-						<c:if test="${ writerNames[vs.index] eq principalUsername }"> 
-						<td>
-						<a href="${pageContext.request.contextPath}/question/questionUpdate?id=${question.id}" class="btn btn-primary btn-sm">수정</a>
-						</td>
-						</c:if>
-						<c:if test="${ writerNames[vs.index] ne principalUsername }">
-						<td></td>
-						</c:if> 
+						
 					</tr>				
 				</c:forEach>
 			</c:if>

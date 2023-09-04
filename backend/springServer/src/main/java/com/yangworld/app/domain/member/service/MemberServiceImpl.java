@@ -124,5 +124,10 @@ public class MemberServiceImpl implements MemberService{
     public int findTotalMemberCountByInput(String inputText) {
         return memberRepository.findTotalMemberCountByInput(inputText);
     }
+    
+    @Override
+    public List<FollowDto> findFollowerById(int id) {
+    	return memberRepository.findFollowerById(id);
+    }
 
 }

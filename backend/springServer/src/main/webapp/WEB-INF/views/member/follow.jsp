@@ -18,16 +18,29 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- bootstrap css -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<%--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">--%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
+
+
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css"/>
+<style>
+    .text-ellipsis {
+        min-width: 150px; /* 최대 너비 설정 */
+        overflow: hidden; /* 내용이 넘칠 경우 감추기 */
+        text-overflow: ellipsis; /* 내용이 넘칠 경우 ...으로 표시 */
+        white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    }
+
+</style>
 <section>
-    <div class="d-flex mb-3">
-        <div style ="width:10vw;">
-            <a href="#" onclick="openList()"><img src="${pageContext.request.contextPath}/resources/images/follow_logo.png" style="width:50px;"/></a>
-        </div>
-    </div>
+    <%--<div class="d-flex mb-3">--%>
+       <%-- <div style ="width:10vw; height:50px;">--%>
+            <a href="#" class="nav-link" onclick="openList()"><img src="${pageContext.request.contextPath}/resources/images/follow_logo.png" style="width:50px; height: 50px;"/>
+                <p class="headerName">Follow</p>
+            </a>
+     <%--   </div>--%>
+<%--    </div>--%>
 
 <%--    1. 회원 검색용 모달--%>
     <div class="modal " id="searchFollow">
@@ -41,7 +54,7 @@
                 </div>
                 <div class="input-group align-items-center mr-4 mt-2">
                     <button class="btn btn-outline-secondary" type="button" id="searchBtn" onclick="openList()">Search</button>
-                    <input type="text" class="form-control" placeholder="검색할 유저(ID)를 입력하세요" id="inputText" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" placeholder="검색할 유저(ID)를 입력하세요" id="inputText"/>
                 </div>
                 <div class="d-flex flex-column justify-content-center align-items-center"  >
                     <div class="modal-body" style="height: 530px; width : 740px;">
@@ -49,8 +62,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center">No</th>
-                                    <th scope="col" class="text-center">ID</th>
-                                    <th scope="col" class="text-center">Nick Name</th>
+                                    <th scope="col" class="text-center" style="width:200px;">ID</th>
+                                    <th scope="col" class="text-center" style="width:250px;">Nick Name</th>
                                     <th scope="col" class="text-center">Follow</th>
                                 </tr>
                             </thead>
@@ -59,7 +72,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="paginationContainer"><ul class="pagination"></ul></div>
+                    <div id="paginationContainer"><ul class="pagination mb-3"></ul></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -124,9 +137,16 @@
 
                        const usernameCell = document.createElement("td");
                        const usernameLink = document.createElement("a");
-                       usernameLink.textContent = member.username;
+                       if(member.username && member.username.length >=10){
+                                usernameLink.textContent = member.username.substr(0,10)+"...";
+                       } else{
+                           usernameLink.textContent = member.username;
+                       }
+
                        usernameLink.href="${pageContext.request.contextPath}/member/userPage/"+id;
                        usernameCell.classList.add("text-center");
+                       //usernameCell.classList.add("text-ellipsis");
+                       usernameLink.classList.add("text-ellipsis"); // text-ellipsis 클래스 추가
                        usernameCell.appendChild(usernameLink);
                        row.appendChild(usernameCell);
 

@@ -24,12 +24,11 @@
 </head>
 <style>
 #loginContent {
-    margin-top: 50px;
-    height: 800px;
+    height: 745px;
 }
 </style>
 <body>
-<div id="container">
+<!-- <div id="container"> -->
    <header>
       <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
       <nav class="navbar navbar-expand-lg bg-light">
