@@ -6,15 +6,14 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
     <jsp:param value="프로필 생성" name="title"/>
 </jsp:include>
-<!DOCTYPE html>
-<html>
-<head>
+
 <meta charset="UTF-8">
 <title>프로필 생성</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/minty/bootstrap.min.css">
 <style>
 
 .col-md-6 {
@@ -42,10 +41,8 @@
 	width: 40px;
 	margin: 10px;
 }
-      
 </style>
-</head>
-<body>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -94,7 +91,7 @@
                 </div>
               </c:if>
               	<div class="text-center" style="margin-top: 10px;">
-                    <button type="submit" class="btn btn-primary">생성</button>
+                    <button type="submit" class="btn btn-primary">만들기</button>
                 </div>
             </form:form>
                 <div class="text-center" >
@@ -122,5 +119,4 @@
         }
     }
 </script>
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
