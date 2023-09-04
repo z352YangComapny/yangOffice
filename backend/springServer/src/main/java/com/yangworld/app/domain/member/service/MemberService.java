@@ -42,4 +42,6 @@ public interface MemberService {
     int findTotalMemberCount();
 
     int findTotalMemberCountByInput(String inputText);
+
+	List<FollowDto> findFollowerById(int id);
 }

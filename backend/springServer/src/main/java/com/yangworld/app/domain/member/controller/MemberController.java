@@ -143,7 +143,7 @@ public class MemberController {
         model.addAttribute("PrincipalDetails", principal);
 	    model.addAttribute("photoList", photoList);
 	    model.addAttribute("id",id);
-
+	    
         return "member/userPage";
     }
 

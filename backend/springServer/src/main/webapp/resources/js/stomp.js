@@ -7,7 +7,7 @@ const connect = () => {
         console.log('WebSocket 연결 성공');
         const userId = document.getElementById('userId').value;
         stompClient.subscribe(`/storyMain/${userId}`, (payloads) => {
-//            console.log('구독됨');
+            console.log('구독됨');
 //            console.log('/story : ', payloads);
 
             renderStory(payloads);
@@ -15,9 +15,6 @@ const connect = () => {
 	        
 
 //		console.log('userId = ', userId);
-//        const sendInterval = setInterval(() => {
-//            stompClient.send("/app/send", {}, JSON.stringify({ userId: userId }));
-//        }, 1000);
 		stompClient.send(`/app/init/${userId}`, {}, JSON.stringify({ userId: userId }));
 		
 		document.querySelector("#btnCreateStory2").onclick = () => {
