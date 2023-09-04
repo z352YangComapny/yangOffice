@@ -45,7 +45,7 @@ const renderStory = (payloads) => {
 	let i = 0;
 	stories.forEach((story) => {
 		const html = `
-		<div class="card border-primary  m-3">
+		<div class="card border-primary  ml-3 mb-2">
 		  <ul class="list-group list-group-flush">
 		    <li class="list-group-item writerId">${story.from}</li>
 		    <li class="list-group-item content">${story.content}</li>

@@ -15,7 +15,6 @@ create table member
     constraints p_member_id primary key( id),
     constraints c_member_gender check (gender in ('M', 'F')),
     constraints u_member_username unique(username),
-    constraints u_member_name unique( name),
     constraints u_member_nickname unique(nickname),
     constraints u_member_phone unique (phone),
     constraints u_member_email unique (email),
@@ -356,7 +355,7 @@ END;
 
 
 --
--- -- 계정에 속한 모든 테이블를 삭제합니다.
+-- 계정에 속한 모든 테이블를 삭제합니다.
 -- BEGIN
 --    FOR tab IN (SELECT table_name FROM user_tables) LOOP
 --        EXECUTE IMMEDIATE 'DROP TABLE ' || tab.table_name || ' CASCADE CONSTRAINTS';
