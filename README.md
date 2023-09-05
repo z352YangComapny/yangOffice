@@ -1,6 +1,6 @@
 # SSOY STORY BY YangCompany
 - PPT TO INTRODUCE @ https://www.miricanvas.com/v/12cduwe
-- OVERVIEW CLIP @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
+- OVERVIEW CLIP 0.0.1 @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
 ## 📖목차
 - 개요
