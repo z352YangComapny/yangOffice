@@ -1,4 +1,4 @@
-![파이널_쏘이스토리_최종발표-001](https://github.com/z352YangComapny/yangOffice/assets/125647772/6c939601-1540-4d6b-9cc3-fe2247ecacbf)# SSOY STORY BY YangCompany
+# SSOY STORY BY YangCompany
 - PPT TO INTRODUCE @ https://www.miricanvas.com/v/12cduwe
 - OVERVIEW CLIP @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
