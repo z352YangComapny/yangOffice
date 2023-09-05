@@ -10,7 +10,7 @@ const WebSocketContextProvider = (props) => {
     const [wsJSON, setWsJSON] = useState();
     const [subsFn, setSubsFn] = useState();
 
-    const webSocketConnect = (subject, sendGoal, wsJSON) => {
+    const webSocketConnect = (subject, sendGoal, wsJSON, subsFn) => {
         console.log('webSocketConnect 성공');
         const ws = new SockJS(`http://localhost:8080/stomp`);
         const stompClient = new Client({
@@ -26,7 +26,7 @@ const WebSocketContextProvider = (props) => {
                 console.log('sendGoal = ', sendGoal);
                 console.log('wsJSON = ', wsJSON);
                 // console.log('subsFn = ', subsFn);
-                stompClient.subscribe(subject, () => {});
+                stompClient.subscribe(subject, subsFn);
                 stompClient.send(sendGoal, {}, JSON.stringify(wsJSON));
             }
         }

@@ -76,9 +76,9 @@ function IndexNavbar() {
 
   const { states, actions } = useContext(WebSocketContext);
 
-  const { subject, sendGoal, wsJSON } = states;
+  const { subject, sendGoal, wsJSON, subsFn } = states;
 
-  const { setSubject, setSendGoal, setWsJSON, webSocketConnect } = actions;
+  const { setSubject, setSendGoal, setWsJSON, setSubsFn, webSocketConnect } = actions;
   // if(userProfile){
 
   useEffect(() => {
@@ -89,10 +89,13 @@ function IndexNavbar() {
     setSubject('/storyMain');
     setSendGoal('/app/init');
     setWsJSON({a:a});
+    
+    const b = () => {console.log('bbbbbbbbbbbbbbbbbbbbb');}
+    setSubsFn(b);
   }, [])
 
     console.log('subject = ', subject);
-    webSocketConnect(subject, sendGoal, wsJSON);
+    webSocketConnect(subject, sendGoal, wsJSON, setSubsFn);
   
   // }
 
