@@ -89,16 +89,22 @@ username98865 - BE,DBE
 - 준비중
 ## 🌏OVERVIEW
 |INDEX|
+|---|
 |![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/e43f07b1-1259-470d-aa21-07b3e96c4b07)|
 |SIGN IN|
+|---|
 |![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/834683a9-64f1-47f6-8125-4239b3b40071)|
 |SIGN UP|
+|---|
 |![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/fda8826e-af27-40ec-b419-d1190644ca96)|   
 |FEED|
+|---|
 |![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/0049c987-655e-428e-9705-41e8d145fb09)|   
 |USER|
+|---|
 |![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/c9c9d4ce-6832-4848-9567-d0631c209805)|
 |WORLD|
+|---|
 |![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/b979390c-021a-415d-86e8-a0d1079cae5b)|
 
 ## 👓프로젝트 목적
