@@ -1,4 +1,4 @@
-# SSOY STORY BY YangCompany
+![파이널_쏘이스토리_최종발표-001](https://github.com/z352YangComapny/yangOffice/assets/125647772/6c939601-1540-4d6b-9cc3-fe2247ecacbf)# SSOY STORY BY YangCompany
 - PPT TO INTRODUCE @ https://www.miricanvas.com/v/12cduwe
 - OVERVIEW CLIP @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
@@ -64,6 +64,7 @@ username98865 - BE,DBE
 
 ### 💿아키텍쳐
 - Project
+ ![파이널_쏘이스토리_최종발표-001](https://github.com/z352YangComapny/yangOffice/assets/125647772/12a96cda-7185-41dc-bbb0-efc94e357e06)
 - Spring Server
 - GIN Server
 
