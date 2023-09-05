@@ -48,10 +48,18 @@ username98865 - BE,DBE
 
 #### Front End
 - JS React.js 18
+- BootStrap5
 
 #### Back End
 - JAVA 11, Spring Boot 2.7.14
-- GO 1.24 GiN
+- Spring Security
+- MyBatis
+- Lombok
+- STOMP
+  
+- GO 1.24
+- GIN
+- WebSocket
 
 #### Build Tool
 - Gradle
@@ -70,11 +78,26 @@ username98865 - BE,DBE
 - GIN Server
   ![파이널_쏘이스토리_최종발표-003](https://github.com/z352YangComapny/yangOffice/assets/125647772/4defba48-07f0-404b-bb50-e9c738510989)
 
-### E-R 다이어그램
+### 🔑E-R 다이어그램
+- https://www.erdcloud.com/d/29Wk3hSMH9Nn4KmyF
+![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/4e71cdfe-0c0c-4340-9703-4d182fb1d712)
+### 💎Api 명세서
+- 준비중
+### OVERVIEW
+|INDEX|SIGN IN|SIGN UP|FEED|
+|:---:|:---:|:---:|:---:|
+|내용 9|내용 10|내용 11|내용 12|
+|WORLD|USER|READY FOR UPDATE|READY FOR UPDATE|
+|:---:|:---:|:---:|:---:|
+|내용 5|내용 6|내용 7|내용 8|
 
-### Api 명세서
-
-### 프로젝트 목적
-
+### 👓프로젝트 목적
+'Dev-Grow' 성장함에 따라 얻은 지식 및 기술스택을 적용해보고, 소통 할 수 있는 공간을 만들어갑니다.
 ### 🔎핵심 기능
--
+로그인 , 회원가입 , 소셜로그인
+프로필 설정 - 개인의 사진 , 소개말 , 상태를 표현 할 수 있는 기능   
+Follower / Followee - 다른 사용자를 팔로우 할수 있음.   
+사진피드 - 사진 첨부가 되는 게시판 CRUD   
+방명록 , 댓글 , QNA - CRUD   
+DM - webSocket / 사용자의 접속 상태를 알려주며, 1:1 메세지 기능  
+STORY - webSocket / 24시간만 지속되는 문자열 상태알림 기능
