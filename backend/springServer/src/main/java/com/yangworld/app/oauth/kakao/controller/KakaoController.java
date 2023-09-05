@@ -107,7 +107,7 @@ public class KakaoController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new RedirectView(request.getContextPath() + "/member/userPage/" + member.getId());
+        return new RedirectView(request.getContextPath() + "/member/memberDetail.do");
     }
 
 
