@@ -23,7 +23,7 @@ web3.0 SNS 을 만들기 위한 토대로써, web2 기반입니다.
 
 ### 👨‍👦‍👦개발 기간 및 개발 인원
 
-08.18 ~ 09.05 JSP&SB 0.0.1 버전 완료
+08.18 ~ 09.05 JSP&SB 0.0.1 버전 완료    
 08.25 ~  FE : REACT,PHASER / BE : SB,GIN 1.0.1 버전 개발중
 
 soyoung0420 - PM,FE,BE,DBE   
