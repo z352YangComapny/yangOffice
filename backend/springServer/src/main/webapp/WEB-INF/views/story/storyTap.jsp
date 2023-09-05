@@ -175,6 +175,7 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 	document.querySelector("#updateModalContent").value = content;
 	
 	frm.submit();
+	window.location.href = "http://localhost:8080/story/storyTap";
 };
 
 document.querySelector("#btnDelete").onclick = () => {
