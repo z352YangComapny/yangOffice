@@ -49,6 +49,10 @@ username98865 - BE,DBE
 #### Front End
 - JS React.js 18
 - BootStrap5
+- JSP
+- HTML
+- CSS
+- JS
 
 #### Back End
 - JAVA 11, Spring Boot 2.7.14
