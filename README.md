@@ -88,16 +88,24 @@ username98865 - BE,DBE
 ### 💎Api 명세서
 - 준비중
 ### OVERVIEW
-|INDEX|SIGN IN|SIGN UP|FEED|
-|:---:|:---:|:---:|:---:|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/e43f07b1-1259-470d-aa21-07b3e96c4b07)
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/834683a9-64f1-47f6-8125-4239b3b40071)
-|내용 11|내용 12|   
-
-
-|WORLD|USER|READY FOR UPDATE|READY FOR UPDATE|
-|:---:|:---:|:---:|:---:|
-|내용 5|내용 6|내용 7|내용 8|
+|INDEX|
+|:---:|
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/e43f07b1-1259-470d-aa21-07b3e96c4b07)|
+|SIGN IN|
+|:---:|
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/834683a9-64f1-47f6-8125-4239b3b40071)|
+|SIGN UP|FEED|
+|:---:|
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/fda8826e-af27-40ec-b419-d1190644ca96)|   
+|FEED|
+|:---:|
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/0049c987-655e-428e-9705-41e8d145fb09)|   
+|USER|
+|:---:|
+|내용 5|
+|WORLD|
+|:---:|
+|내용 5|
 
 ### 👓프로젝트 목적
 'Dev-Grow' 성장함에 따라 얻은 지식 및 기술스택을 적용해보고, 소통 할 수 있는 공간을 만들어갑니다.
