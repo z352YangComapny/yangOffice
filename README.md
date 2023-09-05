@@ -66,7 +66,15 @@ username98865 - BE,DBE
 - Project
  ![파이널_쏘이스토리_최종발표-001](https://github.com/z352YangComapny/yangOffice/assets/125647772/12a96cda-7185-41dc-bbb0-efc94e357e06)
 - Spring Server
+ ![파이널_쏘이스토리_최종발표-002](https://github.com/z352YangComapny/yangOffice/assets/125647772/c7e41629-149c-4211-92c0-d7546fa0a3fc)
 - GIN Server
+  ![파이널_쏘이스토리_최종발표-003](https://github.com/z352YangComapny/yangOffice/assets/125647772/4defba48-07f0-404b-bb50-e9c738510989)
+
+### E-R 다이어그램
+
+### Api 명세서
+
+### 프로젝트 목적
 
 ### 🔎핵심 기능
 -
