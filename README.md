@@ -26,13 +26,13 @@ web3.0 SNS 을 만들기 위한 토대로써, web2 기반입니다.
 08.18 ~ 09.05 JSP&SB 0.0.1 버전 완료
 08.25 ~  FE : REACT,PHASER / BE : SB,GIN 1.0.1 버전 개발중
 
-soyoung0420 - PM,FE,BE,DBE
-GRyu1 - PL,AE,BE,FE,DBE
-ejum01 - BE,DBE
-eunc823 - BE,DBE
-hongseungyoung - BE,DBE
-joohyee - BE,DBE
-username98865 - BE,DBE
+soyoung0420 - PM,FE,BE,DBE   
+GRyu1 - PL,AE,BE,FE,DBE   
+ejum01 - BE,DBE   
+eunc823 - BE,DBE   
+hongseungyoung - BE,DBE   
+joohyee - BE,DBE   
+username98865 - BE,DBE   
 
 ### 💻개발 환경
 - windows10
