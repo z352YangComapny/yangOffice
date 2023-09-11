@@ -30,7 +30,7 @@
 						 	<input type="hidden" id="storyId" value="${story.id}"/>
 						  <ul class="list-group list-group-flush">
 						    <li class="list-group-item writerId">${loginMember.username}</li>
-						    <input type="hidden" class="writerId" value="${story.writerId}"/>
+						    <input type="hidden" id="writerId" value="${story.writerId}"/>
 						    <li class="list-group-item content">${story.content}</li>
 						    <li class="list-group-item formattedRegDate">${story.formattedRegDate}</li>
 						    <input type="hidden" class="storyFeed" value="${story.storyFeed}"/>
@@ -47,7 +47,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	      	${loginMember.username}
-	      	<input type="hidden" class="storyModalWriterId" value=""/>
+	      	<input type="hidden" class="storyModalWriterId" id="storyModalWriterId" value=""/>
 			<c:choose>
 			    <c:when test="${not empty currentCardStoryFeed and currentCardStoryFeed != '0'}">
 			    	<img src="${pageContext.request.contextPath}/resources/images/arrow.png" onclick="storyFeedLink();" style="width: 25px;"/>
@@ -103,6 +103,7 @@
 	
 	<form:form id="deleteFrm" method="POST" action="${pageContext.request.contextPath}/story/delete">
 		<input type="hidden" id="deleteModalId" name="id" value=""/>
+		<input type="hidden" id="deleteModalWriterId" name="writerId" value=""/>
 	</form:form>
 	
 </sec:authorize>
@@ -126,13 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const updateModal2 = (e) => {
-	const writerId = e.querySelector('.writerId').value;
+	const writerId = e.querySelector('#writerId').value;
 	const content = e.querySelector('.content').textContent;
 	const createdAt = e.querySelector('.formattedRegDate').textContent;
 	const id = e.querySelector("#storyId").value;
 	const storyFeed = e.querySelector(".storyFeed").value;
 	
-	document.querySelector('.storyModalWriterId').value = writerId;
+	document.querySelector('#storyModalWriterId').value = writerId;
 	document.querySelector('.storyModalContent').textContent = content;
 	document.querySelector('.storyModalCreatedAt').textContent = createdAt;
 	document.querySelector('#storyModalId').value = id;
@@ -160,7 +161,7 @@ document.querySelector("#btnStoryCreate").onclick = () => {
 
 document.querySelector("#btnUpdateStory").onclick = () => {
 	const id = document.querySelector("#storyId").value;
-	const writerId = document.querySelector(".storyModalWriterId").value;
+	const writerId = document.querySelector("#storyModalWriterId").value;
 	const content = document.querySelector('#message-text-modal-content').value;
 	
 	if(!/^.{1,100}$/.test(content)){
@@ -168,20 +169,21 @@ document.querySelector("#btnUpdateStory").onclick = () => {
 		return false;
 	}
 	
-	console.log(id, writerId, content);
-	
 	const frm = document.querySelector("#updateFrm");
 	document.querySelector("#updateModalId").value = id;
 	document.querySelector("#updateModalWriterId").value = writerId;
 	document.querySelector("#updateModalContent").value = content;
 	
 	frm.submit();
+	window.location.href = "http://localhost:8080/story/storyTap";
 };
 
 document.querySelector("#btnDelete").onclick = () => {
 	if(confirm('정말로 삭제하시겠습니까?')){
 		const id = document.querySelector("#storyModalId").value;
+		const writerId = document.querySelector('#storyModalWriterId').value;
 		document.querySelector("#deleteModalId").value = id;
+		document.querySelector("#deleteModalWriterId").value = id;
 		
 		const frm = document.querySelector("#deleteFrm");
 		
