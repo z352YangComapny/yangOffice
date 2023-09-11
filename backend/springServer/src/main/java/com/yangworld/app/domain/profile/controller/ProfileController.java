@@ -47,16 +47,6 @@ public class ProfileController {
 	@Autowired
 	private ServletContext application;
 	
-	/*@GetMapping("/create.do")
-	public String showCreateProfileForm(Model model) {
-	    ProfileDto profile = new ProfileDto();
-	    // 필요한 필드들을 설정
-	    profile.getState();
-	    profile.getIntroduction();집에가고싶다 . 
-
-	    model.addAttribute("profile", profile);
-	    return "/profile/profileCreate";
-	}*/
 	@GetMapping("/profile/profileCreate")
 	public String  profileCreate(@ModelAttribute("member") SignUpDto signUpDto) {
 		return "redirect:/profile/profileCreate";
@@ -66,10 +56,8 @@ public class ProfileController {
 	public String showUpdateProfileForm(Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 	    int memberId = principal.getId();
 
-//	    log.info("upPrincipalId = {} ", principal.getId());
 	    // 프로필 정보 가져오기
 	    ProfileDetails profile = profileService.getProfileByMemberId(memberId);
-//	    log.info("profile = {}", profile);
 	    // 프로필 사진 가져오기
 	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
 
@@ -88,12 +76,9 @@ public class ProfileController {
 	public String profileMain(@PathVariable("id") int id, Model model, @AuthenticationPrincipal PrincipalDetails principal) {
 		
 		
-		//int memberId = principal.getId();
-//		log.info("principal = {} ", principal.getId());
 		ProfileDetails profile = profileService.getProfileByMemberId(id);
 	    
 	    List<Attachment> profileAttachments = profileService.getAttachmentsByProfileId(profile.getId());
-	   
 	    model.addAttribute("profile", profile);
 	    log.info("profile@main={}", profile);
 	    model.addAttribute("profileAttachments", profileAttachments);
@@ -121,11 +106,6 @@ public class ProfileController {
 			@AuthenticationPrincipal PrincipalDetails principal,
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) 
 					throws IllegalStateException, IOException {
-		log.info("_ProfileDto ={}", _profile);
-//		log.info("_profile = {}", _profile);
-//		log.info("principal = {}",principal); 
-//		log.info("upFiles = {}", upFiles); 
-//		log.info("principal = {}", principal.getId());
 
 		// 이미지 상대경로 지정
 		String saveDirectory = application.getRealPath("/resources/upload/attachment");
@@ -176,8 +156,6 @@ public class ProfileController {
 	    int memberId = principal.getId();
 	    
 	    ProfileDetails originalProfile = profileService.getProfileByMemberId(memberId);
-	    log.info("profile = {}", _profile);
-	    log.info("upfiles = {}", upFiles);
 
 		// 이미지 상대경로 지정
 		String saveDirectory = application.getRealPath("/resources/upload/attachment");
@@ -229,21 +207,17 @@ public class ProfileController {
 			@RequestParam("memberId") int memberId, 
 			@RequestParam("memberUsername") String memberUsername){
 		
-		log.info("memberId = {}", memberId);
-		log.info("memberUsername = {}", memberUsername);
 	    ProfileDetails profile = ProfileDetails.builder()
 	            .memberId(memberId)
 	            .state(State.A)
 	            .introduction("안녕하세요, " + memberUsername + "입니다.")
 	            .build();
 
-	    log.info("profile = {}", profile);
 	    // 첨부 파일 생성 및 추가
 	    Attachment defaultAttachment = Attachment.builder()
 	            .originalFilename("default.jpg")
 	            .renamedFilename("default.jpg") // 실제 파일명으로 수정
 	            .build();
-	    log.info("defaultAttachment = {}",defaultAttachment);
 	    List<Attachment> attachments = new ArrayList<>();
 	    attachments.add(defaultAttachment);
 	    profile.setAttachments(attachments);

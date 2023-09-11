@@ -35,7 +35,7 @@
 <sec:authentication property="principal" var="loginMember"/>
 <%-- <p>principalId: ${loginMember.id}</p>
 <p>profileId: ${profile.id}</p> --%>
-<%-- <p>gender : ${loginMember.gender}</p> --%>
+
     <div class="container mt-5" style="margin-left: 25px;">
         <h1 class="mb-4"></h1>
 		    <div class="form-group" style="height: 230px; margin-bottom: 3vw;">
@@ -73,7 +73,7 @@
             
             <div style="display: flex; justify-content: center; align-items: center; font-size: 22px; margin-right:30px;" >
 				<div id="nameInfo">
-            ${principalName}&nbsp;<span style="color: ${loginMember.gender eq 'M' ? 'skyblue' : loginMember.gender eq 'F' ? 'pink' : 'black'};">${loginMember.gender eq 'M' ? '♀' : loginMember.gender eq 'F' ? '♂' : ''}</span>&nbsp;${principalBday}
+            ${principalName}&nbsp;<span style="color: ${memberGender eq 'M' ? 'skyblue' : memberGender eq 'F' ? 'pink' : 'black'};">${memberGender eq 'M' ? '♀' : memberGender eq 'F' ? '♂' : ''}</span>&nbsp;${principalBday}
             <c:if test="${loginMember.id eq profile.memberId}">
 				<a href='${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do'><img style="width: 30px;" src="${pageContext.request.contextPath}/resources/images/settings.png"/></a>
            	 <%--<button type="button" class="btn btn-primary ml-3" onclick="location.href= '${pageContext.request.contextPath}/member/userPage/${loginMember.id}/profile/update.do';">수정</button>--%>

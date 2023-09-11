@@ -126,6 +126,7 @@ public class MemberController {
             model.addAttribute("principalBday", member.getBirthday());
             model.addAttribute("principalName", member.getName());
             model.addAttribute("PrincipalDetails", principal);
+            model.addAttribute("memberGender", member.getGender());
             log.info("profile = {}", profile);
             log.info("profileAttachment = {}", profileAttachments);
         } else{
