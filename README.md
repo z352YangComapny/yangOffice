@@ -24,15 +24,15 @@ web3.0 SNS 을 만들기 위한 토대로써, web2 기반입니다.
 ## 👨‍👦‍👦개발 기간 및 개발 인원
 
 08.18 ~ 09.05 JSP&SB 0.0.1 버전 완료    
-08.25 ~  FE : REACT,PHASER / BE : SB,GIN 1.0.1 버전 개발중
+08.25 ~  FE : REACT,PHASER / BE : Spring Boot , GIN 1.0.1 버전 개발중
 
-soyoung0420 - PM,FE,BE,DBE   
-GRyu1 - PL,AE,BE,FE,DBE   
-ejum01 - BE,DBE   
-eunc823 - BE,DBE   
-hongseungyoung - BE,DBE   
-joohyee - BE,DBE   
-username98865 - BE,DBE   
+soyoung0420 - PM,DBA,Dev(Be,Fe)   
+GRyu1 - PL,AA,DBA,Dev(Be,Fe)   
+ejum01 - DBA,Dev(Be,Fe)      
+eunc823 - DBA,Dev(Be,Fe)      
+hongseungyoung - DBA,Dev(Be,Fe)      
+joohyee - DBA,Dev(Be,Fe)      
+username98865 - DBA,Dev(Be,Fe)      
 
 ## 💻개발 환경
 - windows10
