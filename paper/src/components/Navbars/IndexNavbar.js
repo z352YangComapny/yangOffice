@@ -181,7 +181,7 @@ function IndexNavbar() {
     const arr = [];
     searchResult.forEach(element => {
       arr.push(
-        <div className="search-result-item" onClick={()=>{
+        <div className="search-result-item nav-cursor" onClick={()=>{
           setKeyword('');
           navigate(`/feed/${element.username}`)}}>
           <img

@@ -9,7 +9,7 @@ class Network {
         this.socket.onmessage = this.handleSocketMessage.bind(this);
         this.logoffMember = [];
         this.pendingNotification = [];
-        this.uiNotification = [];
+        this.uiNotification  = [];
         this.access = false;
     }
 

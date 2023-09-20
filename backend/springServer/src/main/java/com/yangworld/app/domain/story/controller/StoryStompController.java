@@ -24,7 +24,7 @@ public class StoryStompController {
 	public List<Payload> story(@org.springframework.messaging.handler.annotation.Payload Map<String, String> message) {
 	    int id = Integer.parseInt(message.get("userId"));
 //	    log.info("Received ID: {}", id);
-		List<StoryDto> stories = storyService.findStoryById(id);
+		List<StoryDto> stories = (List<StoryDto>) storyService.findStoryById(id);
 //		log.info("stories : {}", stories);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");

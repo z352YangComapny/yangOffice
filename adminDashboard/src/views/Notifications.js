@@ -17,7 +17,7 @@
 
 */
 /*eslint-disable*/
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 // react plugin for creating notifications over the dashboard
 import NotificationAlert from "react-notification-alert";
 // reactstrap components
@@ -31,7 +31,12 @@ import {
   CardTitle,
   Row,
   Col,
+  Table,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
 } from "reactstrap";
+import { ReportContext } from "variables/ReportContextProvider";
 
 function Notifications() {
   const notificationAlert = React.useRef();
@@ -74,209 +79,123 @@ function Notifications() {
     };
     notificationAlert.current.notificationAlert(options);
   };
+
+  
+  const { states: { totalReportCount,reports, totalReportPages, pageNo }, actions: { getTotalReportCount, getReport, setReports,setTotalReportPages, setPageNo } } = useContext(ReportContext);
+  
+  const pageSize= 10;
+  const PageNoPerLine = 10;
+  setTotalReportPages(Math.ceil(totalReportCount/pageSize));
+  console.log("totalreportpages" + totalReportPages);
+ console.log("pageNo"+pageNo);
+  useEffect(()=>{
+    getReport(pageNo)
+    .then((response) => {
+        console.log(response.data);
+        setReports(response.data);
+      })
+  .catch((err)=>{
+      console.log(err)
+  })},[pageNo]);
+
+  const renderReportRows =() =>{
+  
+    return reports ? 
+    reports.map((report) => (
+      <tr key={report.id}>
+        <td>{report.id}</td>
+        <td>{report.type}</td>
+        <td>{report.writer}</td>
+        <td>{report.content}</td>
+        <td>{report.regDate}</td>
+      </tr>
+    )) : null ;
+  };
+  
+  const renderPaginationItems = () => {
+    const paginationItems = [];
+    let end = Math.ceil(pageNo/PageNoPerLine)* PageNoPerLine;
+    const start = (Math.ceil(pageNo/PageNoPerLine)-1)* PageNoPerLine+1;
+    if(totalReportPages < end){
+      end = totalReportPages
+    }
+    for (let pageIndex = start ; pageIndex <= end ; pageIndex++) {
+      paginationItems.push(
+        <PaginationItem key={pageIndex} active={pageIndex === pageNo}>
+          <PaginationLink href="#table" onClick={() => {
+            setPageNo(pageIndex);
+          }}>
+            {pageIndex}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    return paginationItems;
+  };
+
+
   return (
     <>
-      <div className="content">
-        <NotificationAlert ref={notificationAlert} />
+      <div className='content'>
+        <Card className='card-plain'>
+          <CardHeader>
+            <CardTitle tag="h4">Report 전체 조회</CardTitle>
+            <p className="card-category">
+              시간순으로 정렬되어 있습니다.
+            </p>
+          </CardHeader>
+        </Card>
+        <Table striped>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Type</th>
+              <th>Writer</th>
+              <th>Content</th>
+              <th>RegDate</th>
+            </tr>
+          </thead>
+          <tbody>
+            {renderReportRows()}
+          </tbody>
+        </Table>
+
         <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">Notifications</CardTitle>
-                <p className="card-category">
-                  Handcrafted by our former colleague{" "}
-                  <a
-                    target="_blank"
-                    href="https://www.instagram.com/manu.nazare/"
-                  >
-                    Nazare Emanuel-Ioan (Manu)
-                  </a>
-                  . Please checkout the{" "}
-                  <a
-                    href="https://github.com/creativetimofficial/react-notification-alert"
-                    target="_blank"
-                  >
-                    full documentation.
-                  </a>
-                </p>
-              </CardHeader>
-              <CardBody>
-                <Row>
-                  <Col md="6">
-                    <Card className="card-plain">
-                      <CardHeader>
-                        <CardTitle tag="h5">Notifications Style</CardTitle>
-                      </CardHeader>
-                      <CardBody>
-                        <Alert color="info">
-                          <span>This is a plain notification</span>
-                        </Alert>
-                        <UncontrolledAlert color="info" fade={false}>
-                          <span>This is a notification with close button.</span>
-                        </UncontrolledAlert>
-                        <UncontrolledAlert
-                          className="alert-with-icon"
-                          color="info"
-                          fade={false}
-                        >
-                          <span
-                            data-notify="icon"
-                            className="nc-icon nc-bell-55"
-                          />
-                          <span data-notify="message">
-                            This is a notification with close button and icon.
-                          </span>
-                        </UncontrolledAlert>
-                        <UncontrolledAlert
-                          className="alert-with-icon"
-                          color="info"
-                          fade={false}
-                        >
-                          <span
-                            data-notify="icon"
-                            className="nc-icon nc-chart-pie-36"
-                          />
-                          <span data-notify="message">
-                            This is a notification with close button and icon
-                            and have many lines. You can see that the icon and
-                            the close button are always vertically aligned. This
-                            is a beautiful notification. So you don't have to
-                            worry about the style.
-                          </span>
-                        </UncontrolledAlert>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                  <Col md="6">
-                    <Card className="card-plain">
-                      <CardHeader>
-                        <CardTitle tag="h5">Notification states</CardTitle>
-                      </CardHeader>
-                      <CardBody>
-                        <UncontrolledAlert color="primary" fade={false}>
-                          <span>
-                            <b>Primary - </b>
-                            This is a regular notification made with
-                            color="primary"
-                          </span>
-                        </UncontrolledAlert>
-                        <UncontrolledAlert color="info" fade={false}>
-                          <span>
-                            <b>Info - </b>
-                            This is a regular notification made with
-                            color="info"
-                          </span>
-                        </UncontrolledAlert>
-                        <UncontrolledAlert color="success" fade={false}>
-                          <span>
-                            <b>Success - </b>
-                            This is a regular notification made with
-                            color="success"
-                          </span>
-                        </UncontrolledAlert>
-                        <UncontrolledAlert color="warning" fade={false}>
-                          <span>
-                            <b>Warning - </b>
-                            This is a regular notification made with
-                            color="warning"
-                          </span>
-                        </UncontrolledAlert>
-                        <UncontrolledAlert color="danger" fade={false}>
-                          <span>
-                            <b>Danger - </b>
-                            This is a regular notification made with
-                            color="danger"
-                          </span>
-                        </UncontrolledAlert>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
+          <Col />
+          <Col>
+            <Pagination size="">
+              <PaginationItem>
+                <PaginationLink
+                  first
+                  onClick={() => {setPageNo(1)}}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                   onClick={() => {
+                    if(pageNo === 1) return;
+                    setCurrentPage(pageNo-1);}}
+                  previous
+                />
+              </PaginationItem>
+              {renderPaginationItems()}
+              <PaginationItem>
+                <PaginationLink
+                  next
+                  onClick={() => {
+                    if(pageNo === totalReportPages) return;
+                    setPageNo(pageNo+1)}}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  onClick={() => {setPageNo(totalReportPages)}}
+                  last
+                />
+              </PaginationItem>
+            </Pagination>
           </Col>
-        </Row>
-        <Row>
-          <Col md="12">
-            <Card>
-              <CardBody>
-                <div className="places-buttons">
-                  <Row>
-                    <Col className="ml-auto mr-auto text-center" md="6">
-                      <CardTitle tag="h4">Notifications Places</CardTitle>
-                      <p className="category">Click to view notifications</p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="ml-auto mr-auto" lg="8">
-                      <Row>
-                        <Col md="4">
-                          <Button
-                            block
-                            color="primary"
-                            onClick={() => notify("tl")}
-                          >
-                            Top Left
-                          </Button>
-                        </Col>
-                        <Col md="4">
-                          <Button
-                            block
-                            color="primary"
-                            onClick={() => notify("tc")}
-                          >
-                            Top Center
-                          </Button>
-                        </Col>
-                        <Col md="4">
-                          <Button
-                            block
-                            color="primary"
-                            onClick={() => notify("tr")}
-                          >
-                            Top Right
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="ml-auto mr-auto" lg="8">
-                      <Row>
-                        <Col md="4">
-                          <Button
-                            block
-                            color="primary"
-                            onClick={() => notify("bl")}
-                          >
-                            Bottom Left
-                          </Button>
-                        </Col>
-                        <Col md="4">
-                          <Button
-                            block
-                            color="primary"
-                            onClick={() => notify("bc")}
-                          >
-                            Bottom Center
-                          </Button>
-                        </Col>
-                        <Col md="4">
-                          <Button
-                            block
-                            color="primary"
-                            onClick={() => notify("br")}
-                          >
-                            Bottom Right
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
+          <Col />
         </Row>
       </div>
     </>

@@ -14,13 +14,15 @@ public interface ProfileService {
 
     AdminProfileDto findProfileByMemberIdForAdmin(int id);
 
-	List<ProfileAll> findProfileAll(String userName);
+    List<ProfileAll> findProfileAll(String userName);
 
-	int updateProfile(int profileId, State state, String introduction, PrincipalDetails member, List<MultipartFile> upFiles) throws IllegalStateException, IOException;
+    int updateProfile(int profileId, State state, String introduction, int loginMemberId, List<MultipartFile> upFiles) throws IOException;
 
-	int defaultUpdateProfile(PrincipalDetails member, String userName);
+    int defaultUpdateProfile(PrincipalDetails member, String userName);
 
-	int insertProfile(State state, String introduction, PrincipalDetails member, List<MultipartFile> upFiles) throws IllegalStateException, IOException;
+    int insertProfile(State state, String introduction, PrincipalDetails member, List<MultipartFile> upFiles) throws IllegalStateException, IOException;
 
-	int defaultCreateProfile(PrincipalDetails member, String userName);
+    int defaultCreateProfile(PrincipalDetails member, String userName);
 }
+
+

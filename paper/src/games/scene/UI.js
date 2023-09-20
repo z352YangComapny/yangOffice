@@ -3,8 +3,8 @@ import Phaser from "phaser";
 class UI extends Phaser.Scene {
     constructor() {
         super({ key: 'UIScene', active: true });
-        this.userPofile = window.userProfile;
-        delete window.userProfile;
+        this.userPofile = null;
+        
         this.network = null;
         this.dialogueBubbleText=[];
     }
@@ -82,7 +82,7 @@ class UI extends Phaser.Scene {
     }
 
     handleOtherPlayerLog({msgType,text}){
-        if(text.split(' ')[0] !== this.userPofile.username)
+        if(text.split(' ')[0] !== sessionStorage.getItem('nickname'))
         this.addToChatLog(text)
     }
     showNotificationErr(message, duration){
@@ -113,7 +113,7 @@ class UI extends Phaser.Scene {
         if(event.key == 'Enter'){
         // 외부 HTML 입력 요소의 값 가져와서 채팅 로그에 추가
         const inputValue = this.externalInputElement.value;
-        const textValue = this.userPofile.username+" : "+inputValue;
+        const textValue = sessionStorage.getItem('nickname')+" : "+inputValue;
 
         this.addToChatLog(textValue);
         this.dialogueBubbleText.push(textValue);
@@ -141,7 +141,7 @@ class UI extends Phaser.Scene {
         this.input.keyboard.on('keydown', (event) => {
             if (this.inputBox.visible) {
                 if(this.inputBoxText.text.length===0){
-                    this.inputBoxText.text+=this.userPofile.username+" : ";
+                    this.inputBoxText.text+=sessionStorage.getItem('nickname')+" : ";
                 }
                 if (event.key === 'Backspace') {
                     this.inputBoxText.text = this.inputBoxText.text.slice(0, -1);

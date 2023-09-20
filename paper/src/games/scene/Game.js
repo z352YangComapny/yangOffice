@@ -11,11 +11,7 @@ export default class Game extends Scene {
     constructor() {
         super({ key: 'Game' });
         this.collidableObject = [];
-        let profile = {username:"default"};
-        if(window.userProfile){
-            profile = window.userProfile;
-        }
-        this.userProfile = profile;
+        this.userProfile = null;
         this.map = null;
         this.network = null;
         this.cursors = null;
@@ -27,7 +23,7 @@ export default class Game extends Scene {
         this.otherPlayers = null;
         this.otherPlayerMap = new Map();
         this.playerTexture = 'adam'
-        this.network = new Network(this.userProfile.username);
+        this.network = new Network(sessionStorage.getItem('nickname'));
         this.dialogueBubble = null;
     }
 
@@ -93,7 +89,7 @@ export default class Game extends Scene {
         // , this.network.mySessionId
         this.myPlayer = new MyPlayer(this, 800, 500, 'adam', this.cursors, this.network);
 
-        this.myPlayer.setPlayerName(this.userProfile.username);
+        this.myPlayer.setPlayerName(sessionStorage.getItem('nickname'));
         console.log(this.myPlayer)
         this.controller = new PlayerController(this, 0, 0, 16, 16, this.cursors, this.myPlayer);
 

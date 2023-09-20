@@ -16,21 +16,90 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+const labels = [];
+const currentDate = new Date();
+// 현재일자부터 10일 전까지의 레이블 생성
+for (let i = 9; i >= 0; i--) {
+  const date = new Date(currentDate);
+  date.setDate(currentDate.getDate() - i); // 현재일자에서 i일 전의 날짜 계산
+  const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+  const day = date.getDate();
+  const formattedDate = `${month}/${day}`; // 월과 일을 문자열로 합침
+  labels.push(formattedDate);
+}
+let photofeedValues = [];
+let storyValues = [];
+let guestbookValues = [];
+
+let memberCountValues = [];
+let deletedMemberCountValues = [];
+
+let memberCountByProvider = [];
+
 const dashboard24HoursPerformanceChart = {
+
+
   data: (canvas) => {
+    fetch(`http://localhost:8080/api/v1/photoFeed/dailyPhotoFeed`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        photofeedValues = [];
+        data.map((value, index)=>{
+          photofeedValues.push(value.photofeedCount)
+        })
+        console.log(photofeedValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+
+      fetch(`http://localhost:8080/api/v1/story/dailyStory`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        storyValues = [];
+        data.map((value, index)=>{
+          storyValues.push(value.storyCount)
+        })
+        console.log(storyValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      fetch(`http://localhost:8080/api/v1/guestbook/dailyGuestbook`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        guestbookValues = [];
+        data.map((value, index)=>{
+          guestbookValues.push(value.guestbookCount)
+        })
+        console.log(guestbookValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     return {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
+      labels: labels,
       datasets: [
         {
           borderColor: "#6bd098",
@@ -40,7 +109,7 @@ const dashboard24HoursPerformanceChart = {
           borderWidth: 3,
           tension: 0.4,
           fill: true,
-          data: [300, 310, 316, 322, 330, 326, 333, 345, 338, 354],
+          data: photofeedValues,
         },
         {
           borderColor: "#f17e5d",
@@ -50,7 +119,7 @@ const dashboard24HoursPerformanceChart = {
           borderWidth: 3,
           tension: 0.4,
           fill: true,
-          data: [320, 340, 365, 360, 370, 385, 390, 384, 408, 420],
+          data: storyValues,
         },
         {
           borderColor: "#fcc468",
@@ -60,7 +129,7 @@ const dashboard24HoursPerformanceChart = {
           borderWidth: 3,
           tension: 0.4,
           fill: true,
-          data: [370, 394, 415, 409, 425, 445, 460, 450, 478, 484],
+          data: guestbookValues,
         },
       ],
     };
@@ -99,17 +168,38 @@ const dashboard24HoursPerformanceChart = {
 
 const dashboardEmailStatisticsChart = {
   data: (canvas) => {
+
+    fetch(`http://localhost:8080/member/OAuthMemberCount`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        memberCountByProvider = [];
+        data.map((value, index)=>{
+          memberCountByProvider.push(value.memberCount)
+        })
+        console.log(memberCountByProvider);
+    
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     return {
-      //
-      labels: [1, 2, 3, 4, 5, 6, 7 ],
+      
+      labels: [1, 2, 3, 4, 5],
       datasets: [
         {
           label: "Emails",
           pointRadius: 0,
           pointHoverRadius: 0,
-          backgroundColor: ["#e3e3e3", "#4acccd", "#fcc468", "#ef8157", "#6d88bf", "#c98bc9", "#60b19e"],
+          backgroundColor: ["#60b19e", "#ef8157", "#fcc468", "#4acccd", "#c98bc9"],
           borderWidth: 0,
-          data: [342, 480, 530, 80, 388, 210 ,661],
+          data: memberCountByProvider,
         },
       ],
     };
@@ -151,6 +241,46 @@ const dashboardEmailStatisticsChart = {
 
 const dashboardNASDAQChart = {
   data: (canvas) => {
+
+
+    fetch(`http://localhost:8080/member/memberCount`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        memberCountValues = [];
+        data.map((value, index)=>{
+          memberCountValues.push(value.memberCount)
+        })
+        console.log(memberCountValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      fetch(`http://localhost:8080/member/deletedMemberCount`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // ReadableStream을 텍스트로 읽기
+        return response.json();
+      })
+      .then((data) => {
+        deletedMemberCountValues = [];
+        data.map((value, index)=>{
+          deletedMemberCountValues.push(value.memberCount)
+        })
+        console.log(deletedMemberCountValues)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     return {
       labels: [
         "Jan",
@@ -168,7 +298,7 @@ const dashboardNASDAQChart = {
       ],
       datasets: [
         {
-          data: [0, 19, 15, 20, 30, 40, 40, 50, 25, 30, 50, 70],
+          data: memberCountValues,
           fill: false,
           borderColor: "#fbc658",
           backgroundColor: "transparent",
@@ -179,7 +309,7 @@ const dashboardNASDAQChart = {
           tension: 0.4,
         },
         {
-          data: [0, 5, 10, 12, 20, 27, 30, 34, 42, 45, 55, 63],
+          data: deletedMemberCountValues,
           fill: false,
           borderColor: "#51CACF",
           backgroundColor: "transparent",
@@ -203,4 +333,8 @@ module.exports = {
   dashboard24HoursPerformanceChart,
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
+  photofeedValues,
+  storyValues,
+  guestbookValues
+
 };

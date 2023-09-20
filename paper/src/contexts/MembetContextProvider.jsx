@@ -30,6 +30,18 @@ const MembetContextProvider = (props) => {
     return await axios.post(SpringBaseURL + '/login', loginFrm, axiosConfig);
   }
 
+  const checkIdDuplicate = async(username) => {
+    return await axios.get(SpringBaseURL + '/checkIdDuplicate?username=' + username);
+  }
+
+  const checkNicknameDuplicate = async(nickname) => {
+    return await axios.get(SpringBaseURL + '/checkNicknameDuplicate?nickname=' + nickname);
+  }
+
+  const checkPhoneDuplicate = async(phone) => {
+    return await axios.get(SpringBaseURL + '/checkPhoneDuplicate?phone=' + phone);
+  }
+
   const value = {
     states: {
       isLogin,
@@ -40,7 +52,10 @@ const MembetContextProvider = (props) => {
       setIsLogin,
       LogOut,
       signin,
-      getUserProfile
+      getUserProfile,
+      checkIdDuplicate,
+      checkNicknameDuplicate,
+      checkPhoneDuplicate
     },
   }
 

@@ -10,12 +10,17 @@ import com.yangworld.app.config.auth.PrincipalDetails;
 import com.yangworld.app.domain.attachment.entity.AttachmentPhotoFeed;
 import com.yangworld.app.domain.attachment.entity.AttachmentProfile;
 import com.yangworld.app.domain.attachment.repository.AttachmentRepository;
+import com.yangworld.app.domain.comments.entity.CommentFeed;
 import com.yangworld.app.domain.comments.entity.Comments;
 import com.yangworld.app.domain.comments.repository.CommentsRepository;
 import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.repository.MemberRepository;
+
+import com.yangworld.app.domain.photoFeed.dto.FeedDto;
+import com.yangworld.app.domain.photoFeed.dto.PhotoFeedDailyDto;
+
 import com.yangworld.app.domain.photoFeed.dto.*;
-import com.yangworld.app.domain.photoFeed.entity.CommentFeed;
+
 import com.yangworld.app.domain.photoFeed.entity.PhotoFeed;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -94,6 +99,17 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 			feedDtos.add(feedDto);
 		}
 		return feedDtos;
+	}
+
+
+	@Override
+	public PhotoFeed findPhotoFeedById(int feedId) {
+		return photoFeedRepository.findPhotoFeedById(feedId);
+	}
+
+	@Override
+	public List<PhotoFeedDailyDto> findPhotoFeedDaily() {
+		return photoFeedRepository.findPhotoFeedDaily();
 	}
 
 
@@ -288,6 +304,5 @@ public class PhotoFeedServiceImpl implements PhotoFeedService {
 		}
 		return likeCheck;
 	}
-
 
 }

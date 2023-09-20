@@ -20,4 +20,5 @@ public interface DmService {
 	List<Dm> findDmDetails(int dmRoomId);
 
     List<DmRoomTextDto> findDmRoomByParticipantId(int id);
+
 }

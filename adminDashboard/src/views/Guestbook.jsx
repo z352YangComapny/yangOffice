@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
 import { Button, Card, CardHeader, CardTitle, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap'
 import { GuestbookContext } from 'variables/GuestContextProvider';
 
 const Guestbook = () => {
+  const navigate = useNavigate();
   const {
     states : {
       guestbookList, 
-      guestbookTotalNo
+      guestbookTotalNo,
+      guestbookId
     },
     actions: {
       setGuestbookList,
@@ -14,7 +17,9 @@ const Guestbook = () => {
       updateGuestbook,
       deletedGuestbook,
       setGuestbookTotalNo,
-      getGuestbookTotalNo
+      getGuestbookTotalNo,
+      setGuestbookId,
+      insertReportGuestbook
     }
   } = useContext(GuestbookContext)
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,6 +46,21 @@ const Guestbook = () => {
     })
   },[currentPage])
 
+  const handleReportGuestbook = (id) => {
+    console.log(id);
+    insertReportGuestbook(id)
+    .then((resp)=>{
+      console.log(resp)
+      alert('방명록 신고 완료')
+      navigate('/admin/tables')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
+
+
   const renderGuestBookList = () => {
     const guestBookItems = guestbookList.map((guestbook, index) => (
       <tr key={index}>
@@ -50,7 +70,7 @@ const Guestbook = () => {
         <td>{guestbook.content}</td>
         <td>{guestbook.regDate}</td>
         <td>
-          <Button onClick={() => console.log(`${guestbook.id}`)}>신고</Button>
+          <Button onClick={() => handleReportGuestbook(guestbook.id)}>신고</Button>
       </td>
       </tr>
     ));

@@ -4,9 +4,11 @@ import axios from 'axios';
 export const GuestbookContext = createContext()
 
 const GuestbookContextProvider = (props) => {
+  const SpringBaseUrl = "http://localhost:8080";
     const [guestbookList , setGuestbookList ] = useState([]);
     const [guestbookTotalNo, setGuestbookTotalNo] = useState(0);
-
+    const [guestbookId, setGuestbookId] = useState(0);
+ 
 
     const getGuestbookList = async (pageNo) => {
       return await axios.get(`/api/v1/guestbook/${pageNo}`)
@@ -20,11 +22,24 @@ const GuestbookContextProvider = (props) => {
     const getGuestbookTotalNo = async () => {
       return await axios.get(`/api/v1/guestbookTotalNo`)
     }
+    const insertReportGuestbook = async (guestbookId) => {
+      const axiosConfig = {
+        headers:{
+          "Authorization":localStorage.getItem('Authorization')
+        }
+      }
+      console.log(axiosConfig);
+      return await axios.post(SpringBaseUrl +`/api/v1/reportGuestBook?guestbookId=`+ guestbookId,{},axiosConfig);
+    }
+    const getDailyGuestBook = async ()=>{
+      return await axios.get(SpringBaseUrl + `/api/v1/guestbook/dailyGuestbook`);
+    }
 
     const value = {
       states : {
         guestbookList, 
-        guestbookTotalNo
+        guestbookTotalNo,
+        guestbookId
       },
       actions: {
         setGuestbookList,
@@ -32,7 +47,11 @@ const GuestbookContextProvider = (props) => {
         updateGuestbook,
         deletedGuestbook,
         setGuestbookTotalNo,
-        getGuestbookTotalNo
+        getGuestbookTotalNo,
+        setGuestbookId,
+        insertReportGuestbook,
+        getDailyGuestBook
+        
       }
     };
     

@@ -19,9 +19,11 @@ public class PrincipalDetailsService implements UserDetailsService {
         log.info("init loadUserByUsername username={}",username);
         PrincipalDetails principalDetails = memberRepository.loadUserByUsername(username);
         log.info("member = {}", principalDetails);
-        if(principalDetails != null){
-            return principalDetails;
-        }
-        return null;
+//        if(principalDetails != null){
+//            return principalDetails;
+//        }
+        if(principalDetails == null)
+            throw new UsernameNotFoundException(username);
+        return principalDetails;
     }
 }

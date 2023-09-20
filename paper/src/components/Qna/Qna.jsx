@@ -74,13 +74,13 @@ const Qna = () => {
                                     #
                                 </th>
                                 <th>
-                                    구매 상품
+                                    문의 제목
                                 </th>
                                 <th>
-                                    금액
+                                    답변 여부
                                 </th>
                                 <th>
-                                    구매 시각
+                                    질문 일
                                 </th>
                             </tr>
                         </thead>
@@ -90,27 +90,13 @@ const Qna = () => {
                           1
                         </th>
                         <td>
-                          Mark
+                          제목임
                         </td>
                         <td>
-                          Otto
+                          Y
                         </td>
                         <td>
-                          @mdo
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          1
-                        </th>
-                        <td>
-                          Mark
-                        </td>
-                        <td>
-                          Otto
-                        </td>
-                        <td>
-                          @mdo
+                          23/09/04
                         </td>
                       </tr>
                       <tr>
@@ -118,27 +104,13 @@ const Qna = () => {
                           1
                         </th>
                         <td>
-                          Mark
+                          제목임
                         </td>
                         <td>
-                          Otto
+                          Y
                         </td>
                         <td>
-                          @mdo
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          1
-                        </th>
-                        <td>
-                          Mark
-                        </td>
-                        <td>
-                          Otto
-                        </td>
-                        <td>
-                          @mdo
+                          23/09/04
                         </td>
                       </tr>
                       <tr>
@@ -146,13 +118,41 @@ const Qna = () => {
                           1
                         </th>
                         <td>
-                          Mark
+                          제목임
                         </td>
                         <td>
-                          Otto
+                          Y
                         </td>
                         <td>
-                          @mdo
+                          23/09/04
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          1
+                        </th>
+                        <td>
+                          제목임
+                        </td>
+                        <td>
+                          Y
+                        </td>
+                        <td>
+                          23/09/04
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          1
+                        </th>
+                        <td>
+                          제목임
+                        </td>
+                        <td>
+                          Y
+                        </td>
+                        <td>
+                          23/09/04
                         </td>
                       </tr>
                         </tbody>

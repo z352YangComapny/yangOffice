@@ -23,7 +23,7 @@ const Kakao = () => {
 
   const handleLogin = () => {
     // 3000포트에서 해야 할 작업
-    // Credentail code 받아서 > 8080서버로 넘겨주기.
+    // Credential code 받아서 > 8080서버로 넘겨주기.
 
     // 0. RedirectURL = http://localhost:3000으로 하기.
 
@@ -51,26 +51,26 @@ const Kakao = () => {
       credentailcode = item;
     })
     if(sessionStorage.getItem('provider')=='kakao') {
-      sessionStorage.removeItem('provider')
+      sessionStorage.removeItem('provider');
       axios.post(SpringBaseUrl + `/oauth`,{provider:'kakao', kakaoCode:credentailcode})
       .then((resp)=> {
         console.log(resp);
         if(resp.data[0]){
-          console.log(jwtDecode(resp.data[0]))  
-          sessionStorage.setItem('token',"Bearer "+resp.data[0])
-          sessionStorage.setItem('nickname',jwtDecode(resp.data[0]).nickname)
-          sessionStorage.setItem('username',jwtDecode(resp.data[0]).username)
-          setMessage({ color: "success", value: `${jwtDecode(resp.data[0]).nickname}님 회원정보를 마저 입력해주세요.🙌`})
-          setIsLogin(true)
-          navigate('/user/'+jwtDecode(resp.data[0]).username)
+          console.log(jwtDecode(resp.data[0]));
+          sessionStorage.setItem('token',"Bearer "+resp.data[0]);
+          sessionStorage.setItem('nickname',jwtDecode(resp.data[0]).nickname);
+          sessionStorage.setItem('username',jwtDecode(resp.data[0]).username);
+          setMessage({ color: "success", value: `${jwtDecode(resp.data[0]).nickname}님 회원정보를 마저 입력해주세요.🙌`});
+          setIsLogin(true);
+          navigate('/user/'+jwtDecode(resp.data[0]).username);
         }else {
-          console.log(jwtDecode(resp.data[1]))  
-          sessionStorage.setItem('token',"Bearer "+resp.data[1])
-          sessionStorage.setItem('nickname',jwtDecode(resp.data[1]).nickname)
-          sessionStorage.setItem('username',jwtDecode(resp.data[1]).username)
-          setMessage({ color: "success", value: `${jwtDecode(resp.data[1]).nickname}님 환영합니다.🖤` })
-          setIsLogin(true)
-          navigate('/feed/'+jwtDecode(resp.data[1]).username)
+          console.log(jwtDecode(resp.data[1]));
+          sessionStorage.setItem('token',"Bearer "+resp.data[1]);
+          sessionStorage.setItem('nickname',jwtDecode(resp.data[1]).nickname);
+          sessionStorage.setItem('username',jwtDecode(resp.data[1]).username);
+          setMessage({ color: "success", value: `${jwtDecode(resp.data[1]).nickname}님 환영합니다.🖤` });
+          setIsLogin(true);
+          navigate('/feed/'+jwtDecode(resp.data[1]).username);
         }
       })
       .catch((err)=>{
@@ -90,4 +90,4 @@ const Kakao = () => {
   )
 }
 
-export default Kakao
+export default Kakao;

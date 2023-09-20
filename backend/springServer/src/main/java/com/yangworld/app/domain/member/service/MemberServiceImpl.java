@@ -52,18 +52,26 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int insertFollowee(FollowDto followDto) {
+    public int insertFollowee(PrincipalDetails principal, String hostname) {
+        Member host = memberRepository.findByUsername(hostname);
+
+        FollowDto followDto = FollowDto.builder()
+                .follower(principal.getId())
+                .followee(host.getId())
+                .build();
+
         return memberRepository.insertFollowee(followDto);
     }
 
     @Override
-    public int deleteFollowee(FollowDto unfollow) {
-        return memberRepository.deleteFollowee(unfollow);
-    }
+    public int deleteFollowee(PrincipalDetails principal, String hostname) {
+        Member host = memberRepository.findByUsername(hostname);
+        FollowDto unfollow = FollowDto.builder()
+                .follower(principal.getId())
+                .followee(host.getId())
+                .build();
 
-    @Override
-    public String findMemberByEmail(FindIdDto findIdDto) {
-        return memberRepository.findMemberByEmail(findIdDto);
+        return memberRepository.deleteFollowee(unfollow);
     }
 
     @Override
@@ -93,8 +101,32 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public List<MonthlyMemberCountDto> findMonthlyMemberCount() {
+        return memberRepository.findMonthlyMemberCount();
+    }
+
+    @Override
+    public List<MonthlyMemberCountDto> findMonthlyDeletedMemberCount() {
+        return memberRepository.findMonthlyDeletedMemberCount();
+    }
+
+    @Override
+    public List<OAuthMemberDto> findOAuthMemberCount() {
+        return memberRepository.findOAuthMemberCount();
+    }
     public List<SearchMemberDto> searchMember(String keyword) {
         List<SearchMemberDto> memberDtos = memberRepository.findMemberByKeyword(keyword);
         return memberDtos;
+
+    }
+
+    @Override
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
+    }
+
+    @Override
+    public Member findByPhone(String phone) {
+        return memberRepository.findByPhone(phone);
     }
 }

@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(rollbackFor = Exception.class)
 public class ProfileServiceImpl implements ProfileService {
 
+
 	@Autowired
 	ProfileRepository profileRepository;
 	@Autowired
@@ -110,8 +111,8 @@ public class ProfileServiceImpl implements ProfileService {
 
 
 	@Override
-	public int updateProfile(int profileId, State state, String introduction, PrincipalDetails member,
-			List<MultipartFile> upFiles) throws IllegalStateException, IOException {
+	public int updateProfile(int profileId, State state, String introduction, int loginMemberId,
+			List<MultipartFile> upFiles) throws IOException {
 
 		int result = 0;
 
@@ -133,9 +134,9 @@ public class ProfileServiceImpl implements ProfileService {
 			}
 
 		}
-		log.info("member.getId() ={}",member.getId());
+		log.info("member.getId() ={}",loginMemberId);
 		ProfileDetails profile = ProfileDetails.builder()
-				.memberId(member.getId())
+				.memberId(loginMemberId)
 				.state(state)
 				.introduction(introduction)
 				.attachments(attachments)
@@ -278,6 +279,16 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		return result;
 	}
+        //        private int id;
+        //        private int memberId;
+        //        private State state;
+        //        private String introduction;
+        //        private String renamedFilename;
+        //        private int follower;
+        //        private int followee;
+
+
+    }
 
 
 
@@ -291,4 +302,12 @@ public class ProfileServiceImpl implements ProfileService {
 
 
 
-}
+
+
+
+
+
+
+
+
+
