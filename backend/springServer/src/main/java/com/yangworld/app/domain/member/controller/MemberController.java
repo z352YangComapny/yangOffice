@@ -8,7 +8,6 @@ import com.yangworld.app.domain.member.entity.Member;
 import com.yangworld.app.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,19 +16,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Response;
-
-
-import javax.validation.constraints.NotBlank;
 
 import java.util.List;
-import java.util.Map;
+
 
 @Validated
-@Controller
+@RestController
 @RequestMapping("/member")
 @Slf4j
 public class MemberController {
@@ -63,7 +57,7 @@ public class MemberController {
         // 로그인한 회원의 정보 업데이트
         memberService.updateMember(updateDto, principal.getUsername());
 
-        // 업데이트 한 회원의 새 정보를 authentication에 새롭게 담아주기
+        // 업데이트 한 회원의 새 정보를 authentication 에 새롭게 담아주기
         PrincipalDetails principalDetails = memberService.loadUserByUsername(principal.getUsername());
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
                                         principalDetails,
