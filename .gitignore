@@ -66,6 +66,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
+JwtConfig.properties
 
 # Build output
 /build/

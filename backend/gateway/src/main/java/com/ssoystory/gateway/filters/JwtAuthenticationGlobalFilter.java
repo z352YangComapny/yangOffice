@@ -4,7 +4,6 @@ import com.ssoystory.gateway.jwt.JwtUtils;
 import com.ssoystory.gateway.jwt.TokenClaims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.el.parser.Token;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
