@@ -1,6 +1,7 @@
 package com.ssoystory.gateway.filters;
 
 import com.ssoystory.gateway.jwt.JwtUtils;
+import com.ssoystory.gateway.jwt.RefreshAccessTokenDTO;
 import com.ssoystory.gateway.jwt.TokenClaims;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -40,30 +41,48 @@ public class JwtAuthorizationGatewayFilter extends AbstractGatewayFilterFactory<
                 return onError(response, "missing authorization header", HttpStatus.BAD_REQUEST);
             }
 
-            String token = extractToken(request);
-            if (!jwtUtils.isAccessTokenValid(token)) {
-                return onError(response, "invalid authorization header", HttpStatus.BAD_REQUEST);
+            String accessToken = extractToken(request);
+            RefreshAccessTokenDTO refreshAccessTokenDTO = jwtUtils.isAccessTokenValid(accessToken);
+
+            switch (refreshAccessTokenDTO.getStatus()){
+                case 0:
+                    log.info("Access Token is Valid");
+                    break;
+                case 1:
+                    log.info("Access Token is Expired, New Token is created");
+                    refreshAccessToken(request,refreshAccessTokenDTO.getNewAccessTokenOrElseErrorMessage());
+                    break;
+                case 2:
+                    log.info(refreshAccessTokenDTO.getNewAccessTokenOrElseErrorMessage());
+                    return onError(response, "invalid authorization header", HttpStatus.BAD_REQUEST);
+                default:
+                    log.info(refreshAccessTokenDTO.getNewAccessTokenOrElseErrorMessage());
+                    return onError(response, "Error. Please contact the administrator", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            TokenClaims tokenClaims = jwtUtils.acc_decode(token);
+            TokenClaims tokenClaims = jwtUtils.acc_decode(accessToken);
             if (!hasRole(tokenClaims, config.authorities)) {
                 return onError(response, "invalid authorities", HttpStatus.FORBIDDEN);
             }
 
-            addAuthorizationHeaders(request, tokenClaims);
             return chain.filter(exchange);
         };
     }
+
+    private void refreshAccessToken(ServerHttpRequest request,String newAccessTokenOrElseErrorMessage) {
+        request.mutate().header(HttpHeaders.AUTHORIZATION,newAccessTokenOrElseErrorMessage).build();
+    }
+
     private boolean containsAuthorization(ServerHttpRequest request) {
         return request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION);
     }
 
     private String extractToken(ServerHttpRequest request) {
-        return request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).get(0);
+            return request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).get(0);
     }
 
-    private boolean hasRole(TokenClaims tokenClaims, String role) {
-        return role.equals(tokenClaims.getAuthorities());
+    private boolean hasRole(TokenClaims tokenClaims, String authorities) {
+        return authorities.equals(tokenClaims.getAuthorities());
     }
 
     private void addAuthorizationHeaders(ServerHttpRequest request, TokenClaims tokenClaims) {

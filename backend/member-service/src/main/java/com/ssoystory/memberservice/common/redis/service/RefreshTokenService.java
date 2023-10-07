@@ -1,8 +1,6 @@
-package com.ssoystory.gateway.redis.service;
+package com.ssoystory.memberservice.common.redis.service;
 
-import com.ssoystory.gateway.redis.entity.RefreshToken;
-
-import lombok.RequiredArgsConstructor;
+import com.ssoystory.memberservice.common.redis.entity.RefreshToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
