@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationGlobalFilter implements GlobalFilter, Ordered {
-    private static final String VERIFICATION_TARGET_PATH = "/jwt";
+    private static final String VERIFICATION_TARGET_PATH = "/api/jwt";
     private final JwtUtils jwtUtils;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -33,11 +33,11 @@ public class JwtAuthenticationGlobalFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         if (!containsAuthorization(request)) {
-            return onError(response, "Authorization header is missing in request");
+            return onError(response, "Authorization header is missing in request",HttpStatus.UNAUTHORIZED);
         }
         String token = extractToken(request);
-        if (!jwtUtils.isValid(token)) {
-            return onError(response, "Authorization header is not valid");
+        if (!jwtUtils.isAccessTokenValid(token)) {
+            return onError(response, "Authorization header is not valid",HttpStatus.FORBIDDEN);
         }
 
         addAuthorizationHeaders(request, token);
@@ -51,8 +51,8 @@ public class JwtAuthenticationGlobalFilter implements GlobalFilter, Ordered {
     private boolean containsAuthorization(ServerHttpRequest request) {
         return request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION);
     }
-    private Mono<Void> onError(ServerHttpResponse response, String message) {
-        response.setStatusCode(HttpStatus.BAD_REQUEST);
+    private Mono<Void> onError(ServerHttpResponse response, String message, HttpStatus status) {
+        response.setStatusCode(status);
         DataBuffer buffer = response.bufferFactory().wrap(message.getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
     }

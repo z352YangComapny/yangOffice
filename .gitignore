@@ -112,3 +112,4 @@ go.work
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+backend/gateway/src/main/resources/JwtConfig.properties

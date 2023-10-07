@@ -41,7 +41,7 @@ public class JwtAuthenticationGatewayFilter extends AbstractGatewayFilterFactory
             }
 
             String token = extractToken(request);
-            if (!jwtUtils.isValid(token)) {
+            if (!jwtUtils.isAccessTokenValid(token)) {
                 return onError(response, "invalid authorization header", HttpStatus.BAD_REQUEST);
             }
 
