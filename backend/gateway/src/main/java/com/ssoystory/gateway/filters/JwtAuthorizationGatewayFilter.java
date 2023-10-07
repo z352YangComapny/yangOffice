@@ -23,7 +23,7 @@ import java.util.List;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationGatewayFilter extends AbstractGatewayFilterFactory<JwtAuthenticationGatewayFilter.Config> {
+public class JwtAuthorizationGatewayFilter extends AbstractGatewayFilterFactory<JwtAuthorizationGatewayFilter.Config> {
     private final JwtUtils jwtUtils;
 
     @Override
