@@ -40,4 +40,5 @@ public class JwtProvider {
                 .withIssuedAt(now)
                 .sign(Algorithm.HMAC512(SECRET));
     }
+
 }

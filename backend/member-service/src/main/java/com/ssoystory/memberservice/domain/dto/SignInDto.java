@@ -1,4 +1,4 @@
-package com.ssoystory.memberservice.domain.member.dto;
+package com.ssoystory.memberservice.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

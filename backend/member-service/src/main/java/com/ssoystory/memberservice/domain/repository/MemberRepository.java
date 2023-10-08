@@ -1,6 +1,6 @@
-package com.ssoystory.memberservice.domain.member.repository;
+package com.ssoystory.memberservice.domain.repository;
 
-import com.ssoystory.memberservice.domain.member.entity.Member;
+import com.ssoystory.memberservice.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
