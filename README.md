@@ -3,6 +3,9 @@
 - PPT TO INTRODUCE @ https://www.miricanvas.com/v/12cduwe
 - OVERVIEW CLIP 0.0.1 @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
+- 아키택쳐 변경중 Monololithic A -> MSA
+- Spring Cloud, Spring Kafka , Zoo keeper(or Kraft)
+
 ## 📖목차
 - 개요
 - 개발환경
