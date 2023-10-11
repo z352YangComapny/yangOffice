@@ -1,6 +1,5 @@
 package com.ssoystory.memberservice.domain.dto;
 
-import com.ssoystory.memberservice.domain.entity.Authority;
 import com.ssoystory.memberservice.domain.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @PropertySource("classpath:JwtConfig.properties")
+@Transactional
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
@@ -110,28 +112,29 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void updateMember(MemberUpdateDto memberUpdateDto, String jwtToken) throws RuntimeException {
+    public void updateMember(MemberUpdateDto memberUpdateDto, String jwtToken) throws RuntimeException/* 호출 받은 곳에 날림 == 호출한 너가 처리해라 */ {
         try {
             jwtVerifier.verify(jwtToken);
         }catch (RuntimeException e){
             log.info("Error = {}" ,e);
+            return ;
         }
-        DecodedJWT decodedJWT = JWT.decode(jwtToken);
-        Optional<Member> member = findById(Long.parseLong(decodedJWT.getSubject()));
-        if (member.isEmpty()){
-            throw new UnAuthorizedError("Target ID = {"+memberUpdateDto.getId()+"} , RequesterID = {"+decodedJWT.getSubject()+"}");
-        } else {
-            Member existingMember = member.get();
-                    existingMember.setId(memberUpdateDto.getId());
-                    existingMember.setUsername(memberUpdateDto.getUsername());
-                    existingMember.setName(memberUpdateDto.getName());
-                    existingMember.setPassword(passwordEncoder.encode(memberUpdateDto.getPassword()));
-                    existingMember.setNickname(memberUpdateDto.getNickname());
-                    existingMember.setBirthday(memberUpdateDto.getBirthday());
-                    existingMember.setGender(memberUpdateDto.getGender());
-                    existingMember.setPhone(memberUpdateDto.getPhone());
-                    existingMember.setEmail(memberUpdateDto.getEmail());
-            memberRepository.save(existingMember);
+        DecodedJWT decodedJWT = JWT.decode(jwtToken); // 이 안에 요청자의 ID (Long) 자기가 인증이 성공했을때만 보유.
+        Optional<Member> member = memberRepository.findById(Long.parseLong(decodedJWT.getSubject())); // 요청자의 정보를 꺼내오겠다. == 요청자는 자기것만 수정가능. (인가처리)
+        if (member.isEmpty()){ // 요청자의 정보가 없으면.
+            throw new UnAuthorizedError("Target ID = {"+memberUpdateDto.getId()+"} , RequesterID = {"+decodedJWT.getSubject()+"}"); // Error Throws
+        } else { // 정보 1) 요청자의 정보가 있다.(In DataBase) <= 덮어쓰기. 정보2) 요청할 때 입력값들도 있어.(Input Values)
+            Member existingMember = member.get(); // 상자 안에 있는 값을 가져오는 것. 상자 안에 사과가 있음 .get >> 사과를 가져옴.
+            existingMember.setId(memberUpdateDto.getId()); // ID == null 이되면서 JPA 가 NULL 이됨.
+            existingMember.setUsername(memberUpdateDto.getUsername());
+            existingMember.setName(memberUpdateDto.getName());
+            existingMember.setPassword(passwordEncoder.encode(memberUpdateDto.getPassword()));
+            existingMember.setNickname(memberUpdateDto.getNickname());
+            existingMember.setBirthday(memberUpdateDto.getBirthday());
+            existingMember.setGender(memberUpdateDto.getGender());
+            existingMember.setPhone(memberUpdateDto.getPhone());
+            existingMember.setEmail(memberUpdateDto.getEmail());
+            memberRepository.save(existingMember); // Jpa save 때리면됨.
         }
     }
 
@@ -139,5 +142,4 @@ public class MemberServiceImpl implements MemberService{
     public List<Member> findAll() {
         return memberRepository.findAll();
     }
-
 }

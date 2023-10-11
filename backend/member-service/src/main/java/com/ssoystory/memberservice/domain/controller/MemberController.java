@@ -64,7 +64,11 @@ public class MemberController {
         if (jwtToken==null){
             return ResponseEntity.badRequest().body("Can not find a AccessToken");
         }
-        memberService.updateMember(memberUpdateDto, jwtToken);
+        try {
+            memberService.updateMember(memberUpdateDto, jwtToken);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().build();
     }
 
