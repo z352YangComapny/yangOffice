@@ -1,5 +1,6 @@
 package com.ssoystory.memberservice.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 

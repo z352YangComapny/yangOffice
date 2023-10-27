@@ -56,9 +56,9 @@ public class Member {
     private String email;
 
     @Column(nullable = false)
-    @JsonIgnoreProperties("member")
     @Enumerated(value = EnumType.STRING)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("member")
     private List<Authority> authorities;
 
     @Column(nullable = false)
