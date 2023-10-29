@@ -32,13 +32,14 @@ public class S3Service {
         files.forEach(file->{
             String originalFileName = file.getOriginalFilename();
             String newFileName = NameBuilder.build(originalFileName);
-            String fileUrl= "https://" + bucket + "/"+folderPath+"/"+newFileName;
+            String fileUrl;
             ObjectMetadata metadata= new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
 
             try {
                 amazonS3Client.putObject(bucket,folderPath+"/"+newFileName,file.getInputStream(),metadata);
+                fileUrl = "https://" + bucket + "/" + folderPath + "/" + newFileName;
             } catch (IOException e) {
                 throw new S3UploadException("업로드 실패");
             }
