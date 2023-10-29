@@ -1,9 +1,8 @@
 package com.ssoystory.feedservice.domain.feed.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ssoystory.feedservice.domain.comments.Entity.Comments;
+import com.ssoystory.feedservice.domain.comments.entity.Comments;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

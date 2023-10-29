@@ -114,3 +114,5 @@ go.work
 .idea/**/shelf
 backend/gateway/src/main/resources/JwtConfig.properties
 backend/s3-service/src/main/resources/s3.properties
+backend/feed-service/src/main/resources/application-s3.properties
+backend/feed-service/src/main/resources/application-s3.properties

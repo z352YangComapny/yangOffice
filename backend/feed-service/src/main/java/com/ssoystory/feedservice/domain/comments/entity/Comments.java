@@ -1,12 +1,20 @@
-package com.ssoystory.feedservice.domain.comments.Entity;
+package com.ssoystory.feedservice.domain.comments.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class Comments {
     @Id
