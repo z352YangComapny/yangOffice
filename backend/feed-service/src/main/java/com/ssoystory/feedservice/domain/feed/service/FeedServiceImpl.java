@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,9 +29,16 @@ public class FeedServiceImpl implements FeedService{
         List<Photo> photos = s3Service.uploadFile(upFiles, authName);
         PhotoFeed photoFeed = PhotoFeed.builder()
                 .Contents(content)
-                .AuthorId(AuthorId)
-                .Photos(photos)
+                .authorId(AuthorId)
+                .Photos(new ArrayList<Photo>())
                 .build();
+        photos.forEach((photo) ->{
+            Photo _photo = Photo.builder()
+                    .URL(photo.getURL())
+                    .photoFeed(photoFeed)
+                    .build();
+            photoFeed.getPhotos().add(_photo);
+        });
         feedRepository.save(photoFeed);
     }
 

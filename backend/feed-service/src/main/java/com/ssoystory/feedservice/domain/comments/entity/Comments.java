@@ -25,7 +25,7 @@ public class Comments {
     private String Content;
 
     @ManyToOne
-    @JoinColumn(name = "PhotoFeed_id")
+    @JoinColumn(name = "photofeed_id")
     private PhotoFeed photoFeed;
 
     @CreationTimestamp

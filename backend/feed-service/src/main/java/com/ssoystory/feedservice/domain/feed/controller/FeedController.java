@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/feed")
 public class FeedController {
     @Autowired
-    FeedService feedService;
+    private FeedService feedService;
     @GetMapping("/list")
     ResponseEntity<List<PhotoFeed>> FeedList (Long AuthorId, int pageNo){
         List<PhotoFeed> photoFeeds = feedService.findPhotoFeedsByAuthorAndPageNO(AuthorId);

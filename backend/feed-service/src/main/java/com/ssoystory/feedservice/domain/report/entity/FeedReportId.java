@@ -1,18 +1,15 @@
 package com.ssoystory.feedservice.domain.report.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Embeddable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class FeedReport {
-    @EmbeddedId
-    private FeedReportId id;
-
+public class FeedReportId {
+    private Long reporterId;
+    private Long reportedFeedId;
 }

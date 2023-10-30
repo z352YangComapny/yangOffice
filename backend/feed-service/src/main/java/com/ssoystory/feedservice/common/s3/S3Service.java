@@ -22,7 +22,7 @@ public class S3Service {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-    private final String path = "/ssoystory";
+    private final String path = "ssoystory";
 
     @Transactional
     public List<Photo> uploadFile(List<MultipartFile> files, String authName) {
@@ -34,12 +34,12 @@ public class S3Service {
             String newFileName = NameBuilder.build(originalFileName);
             String fileUrl;
             ObjectMetadata metadata= new ObjectMetadata();
-            metadata.setContentType(file.getContentType());
+            metadata.setContentType("image/jpeg");
             metadata.setContentLength(file.getSize());
 
             try {
                 amazonS3Client.putObject(bucket,folderPath+"/"+newFileName,file.getInputStream(),metadata);
-                fileUrl = "https://" + bucket + "/" + folderPath + "/" + newFileName;
+                fileUrl = "https://gryu-dev.s3.ap-northeast-2.amazonaws.com/ssoystory/"+authName+"/"+newFileName;
             } catch (IOException e) {
                 throw new S3UploadException("업로드 실패");
             }

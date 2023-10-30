@@ -22,8 +22,8 @@ public class PhotoFeed {
     private Long Id;
 
     @Column(nullable = false)
-    @OneToMany(mappedBy = "PhotoFeed", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("PhotoFeed")
+    @OneToMany(mappedBy = "photoFeed", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("photoFeed")
     private List<Photo> Photos;
 
     private String Contents;
@@ -35,9 +35,9 @@ public class PhotoFeed {
     private int Likes;
 
     @Column(nullable = false)
-    private Long AuthorId;
+    private Long authorId;
 
-    @OneToMany(mappedBy = "PhotoFeed", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("PhotoFeed")
+    @OneToMany(mappedBy = "photoFeed", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("photoFeed")
     private List<Comments> comments;
 }
