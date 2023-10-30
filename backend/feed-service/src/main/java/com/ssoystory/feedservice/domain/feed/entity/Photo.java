@@ -17,6 +17,7 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "PhotoFeed_id")
     private PhotoFeed photoFeed;
+
     @Column
     private String URL;
 }

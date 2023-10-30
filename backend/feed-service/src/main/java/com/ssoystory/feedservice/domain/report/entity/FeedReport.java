@@ -1,9 +1,6 @@
 package com.ssoystory.feedservice.domain.report.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +16,11 @@ public class FeedReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @Id
+    @Column(nullable = false)
+    private Long reporterId;
+
+    @Id
+    @Column(nullable = false)
+    private Long reportedFeedId;
 }
