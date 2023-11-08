@@ -1,6 +1,6 @@
 # SSOY STORY BY YangCompany
 - main branch : 0.0.1 (Now)
-- PPT TO INTRODUCE @ https://www.miricanvas.com/v/12cduwe
+- PPT TO INTRODUCE @ [https://www.miricanvas.com/v/12cduwe](https://file.notion.so/f/f/c1a88a3a-fb79-4143-94c9-15067ad940dd/bfad319a-dd44-4a18-9318-1a6a3e7de0de/%ED%8C%8C%EC%9D%B4%EB%84%90_%EC%8F%98%EC%9D%B4%EC%8A%A4%ED%86%A0%EB%A6%AC_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf?id=0cb837cb-13f9-4a14-a775-495455e7d76a&table=block&spaceId=c1a88a3a-fb79-4143-94c9-15067ad940dd&expirationTimestamp=1699516800000&signature=iVdd5JPyyTmv3vX_-dP48UVoD1Pww-dM1lRpneRvy2M&downloadName=%ED%8C%8C%EC%9D%B4%EB%84%90_%EC%8F%98%EC%9D%B4%EC%8A%A4%ED%86%A0%EB%A6%AC_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
 - OVERVIEW CLIP 0.0.1 @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
 - 아키택쳐 변경중 Monololithic A -> MSA
