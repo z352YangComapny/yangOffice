@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FeedListDto {
-    private Long Id;
-    private String URL;
+public class IdPageDto {
+    private Long authorId;
+    private int pageNo;
 }

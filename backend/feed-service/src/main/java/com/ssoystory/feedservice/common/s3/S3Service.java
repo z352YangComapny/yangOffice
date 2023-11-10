@@ -25,7 +25,7 @@ public class S3Service {
     private final String path = "ssoystory";
 
     @Transactional
-    public List<Photo> uploadFile(List<MultipartFile> files, String authName) {
+    public List<Photo> uploadFile(List<MultipartFile> files, String authName) throws S3UploadException {
         List<Photo> photos = new ArrayList<>();
         String folderPath = path + "/" + authName;
 
