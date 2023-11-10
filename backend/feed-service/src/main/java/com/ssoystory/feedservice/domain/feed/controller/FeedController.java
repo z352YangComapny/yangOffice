@@ -25,7 +25,7 @@ public class FeedController {
     private KafkaProducerService kafkaProducerService;
     @GetMapping("/list/{username}")
     ResponseEntity<List<PhotoFeed>> FeedList (@PathVariable String username, int pageNo) throws ExecutionException, InterruptedException {
-        List<PhotoFeed> photoFeeds = feedService.findPhotoFeedsByAuthorAndPageNO(username, pageNo);
+        List<PhotoFeed> photoFeeds = feedService.findPhotoFeedsByAuthorAndPageNO(username);
         return ResponseEntity.ok(photoFeeds);
     }
 

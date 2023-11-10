@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public interface FeedService {
-    List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username, int pageNo) throws ExecutionException, InterruptedException;
+    List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username) throws ExecutionException, InterruptedException;
 
     void save(String content, List<MultipartFile> upFiles , String authName, Long AuthorId);
 

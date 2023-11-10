@@ -16,8 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+
 
 @Service
 public class FeedServiceImpl implements FeedService{
@@ -33,8 +32,9 @@ public class FeedServiceImpl implements FeedService{
     Gson gson = new Gson();
 
     @Override
-    public List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username, int pageNo) throws ExecutionException, InterruptedException {
-        kafkaProducerService.sendUsernameAndPageNo(username,pageNo);
+    public List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username) throws ConvertUsernameToIDException {
+
+        kafkaProducerService.sendUsernameAndPageNo(username,1);
         IdPageDto idPageDto;
         try {
             String _idPageDto=kafkaConsumerService.receiveUserId();
@@ -42,7 +42,7 @@ public class FeedServiceImpl implements FeedService{
         } catch (InterruptedException e){
             throw new ConvertUsernameToIDException(e.getMessage());
         }
-        List<PhotoFeed> photoFeeds = feedRepository.findPhotoFeedByAuthorIdOrderByRegDateDesc(idPageDto.getAuthorId(), idPageDto.getPageNo());
+        List<PhotoFeed> photoFeeds = feedRepository.findPhotoFeedByAuthorIdOrderByRegDateDesc(idPageDto.getAuthorId());
         return photoFeeds;
     }
 
