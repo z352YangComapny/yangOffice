@@ -26,7 +26,7 @@ public class KafkaCommunicationTest {
         receiveQueue = new LinkedBlockingQueue<>();
     }
 
-    @KafkaListener(topics = "test", groupId = "ssoystory")
+    @KafkaListener(topics = "feed-list-username-to-id-test", groupId = "ssoystory")
     public void receiveMessage (String message){
         receiveQueue.add(message);
     }
@@ -37,17 +37,16 @@ public class KafkaCommunicationTest {
     @Test
     void testKafkaCommunication() throws InterruptedException {
         // Given
-        String topic = "test";
-        String message = "Hello, Kafka!";
+        String topic = "feed-list-username-to-id-test";
+        String message = String.format("{\"username\": \"%s\", \"pageNo\": %d}", "Tester01", 1);;
 
         // When
         kafkaTemplate.send(topic, message);
-        Thread.sleep(1000); // Wait for Kafka to process the message
+        Thread.sleep(1500);
 
         // Then
-        // Add assertions or checks to verify the expected behavior
         String receivedMessage = receiveMessage();
+        System.out.println(receivedMessage);
         assertThat(receivedMessage).isEqualTo(message);
-
     }
 }

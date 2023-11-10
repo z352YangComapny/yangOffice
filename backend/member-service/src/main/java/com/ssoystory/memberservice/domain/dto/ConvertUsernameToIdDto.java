@@ -1,4 +1,4 @@
-package com.ssoystory.feedservice.domain.feed.dto;
+package com.ssoystory.memberservice.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IdPageDto {
-    private Long userId;
+public class ConvertUsernameToIdDto {
+    private String username;
     private int pageNo;
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 public class KafkaConsumerService {
     private final BlockingQueue<String> userIdQueue = new LinkedBlockingQueue<>();
-    @KafkaListener(topics = "feed-list-username-to-id", groupId = "ssoystory")
+    @KafkaListener(topics = "feed-converted-username-to-id", groupId = "ssoystory")
     public void receiveUserId(String message) {
         log.info("Received message from Kafka: {}", message);
         userIdQueue.add(message);

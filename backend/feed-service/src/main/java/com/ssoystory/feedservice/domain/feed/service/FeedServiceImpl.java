@@ -10,6 +10,7 @@ import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import com.ssoystory.feedservice.domain.feed.repository.FeedRepository;
 import com.ssoystory.feedservice.exception.feed.ConvertUsernameToIDException;
 import com.ssoystory.feedservice.exception.s3.S3UploadException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class FeedServiceImpl implements FeedService{
     @Autowired
     private S3Service s3Service;
@@ -42,7 +44,7 @@ public class FeedServiceImpl implements FeedService{
         } catch (InterruptedException e){
             throw new ConvertUsernameToIDException(e.getMessage());
         }
-        List<PhotoFeed> photoFeeds = feedRepository.findPhotoFeedByAuthorIdOrderByRegDateDesc(idPageDto.getAuthorId());
+        List<PhotoFeed> photoFeeds = feedRepository.findPhotoFeedByAuthorIdOrderByRegDateDesc(idPageDto.getUserId());
         return photoFeeds;
     }
 

@@ -1,4 +1,4 @@
-package com.ssoystory.feedservice.common.kafka;
+package com.ssoystory.memberservice.common.kafka;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ public class KafkaProducerService {
     @Autowired
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendUsernameAndPageNo(String username, int pageNo) {
-        String message = String.format("{\"username\": \"%s\", \"pageNo\": %d}", username, pageNo);
-        kafkaTemplate.send("feed-convert-username-to-id", message);
+    public void sendToFeedConvertUsernameToId(Long userId, int pageNo) {
+        String message = String.format("{\"userId\": %d, \"pageNo\": %d}", userId, pageNo);
+        kafkaTemplate.send("feed-converted-username-to-id-test", message);
     }
 }
