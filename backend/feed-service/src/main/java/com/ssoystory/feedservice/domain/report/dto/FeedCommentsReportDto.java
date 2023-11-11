@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeedReportDto {
-    private long feedId;
+public class FeedCommentsReportDto {
+    private long feedCommnetsId;
 }

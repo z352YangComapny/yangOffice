@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeedReportId implements Serializable {
+public class FeedCommentsReportId implements Serializable {
     private Long reporterId;
-    private Long reportedFeedId;
+    private Long reportedFeedCommentsId;
 }

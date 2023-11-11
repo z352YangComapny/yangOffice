@@ -1,23 +1,26 @@
 package com.ssoystory.feedservice.domain.feed.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @ManyToOne
-    @JoinColumn(name = "photofeed_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photoFeed_id")
+    @JsonIgnore
+    @BatchSize(size = 2)
     private PhotoFeed photoFeed;
 
     @Column

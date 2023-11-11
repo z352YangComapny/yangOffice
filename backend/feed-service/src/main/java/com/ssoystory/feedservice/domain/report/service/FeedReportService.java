@@ -1,5 +1,8 @@
 package com.ssoystory.feedservice.domain.report.service;
 
 public interface FeedReportService {
-    void save(long authorId, long feedId);
+
+    void reportFeed(long id, long feedId);
+
+    void reportFeedComments(long id, long feedCommentsId);
 }

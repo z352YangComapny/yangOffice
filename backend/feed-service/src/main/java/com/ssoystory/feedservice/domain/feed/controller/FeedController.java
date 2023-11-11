@@ -7,6 +7,8 @@ import com.ssoystory.feedservice.exception.ValidationException;
 import com.ssoystory.feedservice.exception.s3.S3UploadException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,8 @@ public class FeedController {
     @Autowired
     private KafkaProducerService kafkaProducerService;
     @GetMapping("/list/{username}")
-    ResponseEntity<List<PhotoFeed>> FeedList (@PathVariable String username, int pageNo) throws ExecutionException, InterruptedException {
-        List<PhotoFeed> photoFeeds = feedService.findPhotoFeedsByAuthorAndPageNO(username);
+    ResponseEntity<List<PhotoFeed>> FeedList (@PathVariable String username, @PageableDefault(value= 9, page = 0) Pageable pageable) throws ExecutionException, InterruptedException {
+        List<PhotoFeed> photoFeeds = feedService.findPhotoFeedsByAuthorAndPageNO(username, pageable);
         return ResponseEntity.ok(photoFeeds);
     }
 

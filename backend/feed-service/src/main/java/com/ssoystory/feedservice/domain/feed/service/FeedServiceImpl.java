@@ -11,16 +11,22 @@ import com.ssoystory.feedservice.domain.feed.repository.FeedRepository;
 import com.ssoystory.feedservice.exception.feed.ConvertUsernameToIDException;
 import com.ssoystory.feedservice.exception.s3.S3UploadException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FeedServiceImpl implements FeedService{
     @Autowired
     private S3Service s3Service;
@@ -34,18 +40,19 @@ public class FeedServiceImpl implements FeedService{
     Gson gson = new Gson();
 
     @Override
-    public List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username) throws ConvertUsernameToIDException {
+    public List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username, Pageable pageable) throws ConvertUsernameToIDException {
 
         kafkaProducerService.sendUsernameAndPageNo(username,1);
         IdPageDto idPageDto;
         try {
             String _idPageDto=kafkaConsumerService.receiveUserId();
             idPageDto = gson.fromJson(_idPageDto, IdPageDto.class);
+            log.info("Kafka receive Message = {}",idPageDto);
         } catch (InterruptedException e){
             throw new ConvertUsernameToIDException(e.getMessage());
         }
-        List<PhotoFeed> photoFeeds = feedRepository.findPhotoFeedByAuthorIdOrderByRegDateDesc(idPageDto.getUserId());
-        return photoFeeds;
+        Page<PhotoFeed> photoFeeds = feedRepository.findPhotoFeedByAuthorIdOrderByRegDateDesc(idPageDto.getUserId(), pageable);
+        return photoFeeds.getContent();
     }
 
     @Override
@@ -55,7 +62,7 @@ public class FeedServiceImpl implements FeedService{
             PhotoFeed photoFeed = PhotoFeed.builder()
                     .Contents(content)
                     .authorId(AuthorId)
-                    .Photos(new ArrayList<Photo>())
+                    .Photos(new HashSet<Photo>())
                     .build();
             photos.forEach((photo) -> {
                 Photo _photo = Photo.builder()

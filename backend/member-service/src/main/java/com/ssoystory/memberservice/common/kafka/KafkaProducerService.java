@@ -13,6 +13,6 @@ public class KafkaProducerService {
 
     public void sendToFeedConvertUsernameToId(Long userId, int pageNo) {
         String message = String.format("{\"userId\": %d, \"pageNo\": %d}", userId, pageNo);
-        kafkaTemplate.send("feed-converted-username-to-id-test", message);
+        kafkaTemplate.send("feed-converted-username-to-id", message);
     }
 }

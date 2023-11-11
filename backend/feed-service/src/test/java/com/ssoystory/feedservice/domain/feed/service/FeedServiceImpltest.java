@@ -1,13 +1,9 @@
 package com.ssoystory.feedservice.domain.feed.service;
 
 import com.google.gson.Gson;
-import com.ssoystory.feedservice.common.kafka.KafkaConsumerService;
-import com.ssoystory.feedservice.common.kafka.KafkaProducerService;
 import com.ssoystory.feedservice.domain.feed.dto.IdPageDto;
-import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import com.ssoystory.feedservice.domain.feed.repository.FeedRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
@@ -17,18 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+
 
 @SpringBootTest
 public class FeedServiceImpltest {
-    @InjectMocks
-    private FeedServiceImpl feedService;
     @Mock
     private FeedRepository feedRepository;
     @Autowired

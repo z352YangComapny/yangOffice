@@ -1,12 +1,12 @@
 package com.ssoystory.feedservice.domain.comments.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = "photoFeed")
 public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +25,10 @@ public class Comments {
     private Long AuthorId;
     private String Content;
 
-    @ManyToOne
-    @JoinColumn(name = "photofeed_id")
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "photoFeed_id")
+    @JsonIgnore
+    @BatchSize(size = 2)
     private PhotoFeed photoFeed;
 
     @CreationTimestamp
