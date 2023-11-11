@@ -57,7 +57,7 @@ public class Member {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL , )
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL )
     @JsonIgnoreProperties("member")
     private List<Authority> authorities;
 
