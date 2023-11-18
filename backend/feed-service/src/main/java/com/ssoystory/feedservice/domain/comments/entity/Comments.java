@@ -26,7 +26,7 @@ public class Comments {
     private String Content;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name = "photoFeed_id")
+    @JoinColumn(name = "photoFeed_id", insertable = false, updatable = false)
     @JsonIgnore
     @BatchSize(size = 2)
     private PhotoFeed photoFeed;
@@ -34,4 +34,11 @@ public class Comments {
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp regDate;
+
+    @Column(name = "photofeed_id")
+    private Long photoFeedId;
+
+    public Comments(Long photoFeedId) {
+        this.photoFeedId = photoFeedId;
+    }
 }

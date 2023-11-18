@@ -12,5 +12,7 @@ public interface FeedService {
 
     void save(String content, List<MultipartFile> upFiles , String authName, Long AuthorId);
 
-    void update(String content, List<MultipartFile> upFiles, String auth, Long authId);
+    void update(long id, String content, Long authId);
+
+    void delete(long id, Long authId);
 }

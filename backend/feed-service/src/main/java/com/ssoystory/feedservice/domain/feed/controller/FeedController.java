@@ -1,9 +1,13 @@
 package com.ssoystory.feedservice.domain.feed.controller;
 
 import com.ssoystory.feedservice.common.kafka.KafkaProducerService;
+import com.ssoystory.feedservice.domain.feed.dto.FeedDeleteDto;
+import com.ssoystory.feedservice.domain.feed.dto.FeedUpdateDto;
 import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import com.ssoystory.feedservice.domain.feed.service.FeedService;
 import com.ssoystory.feedservice.exception.ValidationException;
+import com.ssoystory.feedservice.exception.feed.CannotFindException;
+import com.ssoystory.feedservice.exception.feed.ForbiddenException;
 import com.ssoystory.feedservice.exception.s3.S3UploadException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,16 +59,11 @@ public class FeedController {
 
     @PutMapping
     ResponseEntity<?> updatedFeed(
-            @RequestPart String content,
-            @RequestPart(value = "upFile", required = false) List<MultipartFile> upFiles,
-            @RequestHeader("x-authorization-username") String auth,
+            @RequestBody FeedUpdateDto feedUpdateDto,
             @RequestHeader("x-authorization-id") Long authId
     ){
         try {
-            if (content == null || content.isEmpty() || auth == null || auth.isEmpty() || authId == null) {
-                throw new ValidationException("Invalid request parameters");
-            }
-            feedService.update(content, upFiles, auth, authId);
+            feedService.update(feedUpdateDto.getId(), feedUpdateDto.getContent(), authId);
             return ResponseEntity.ok().build();
         } catch (ValidationException e){
             log.warn(e.getMessage());
@@ -73,5 +72,21 @@ public class FeedController {
             log.warn(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @DeleteMapping
+    ResponseEntity<?> updateFeed (
+            @RequestHeader("x-authorization-id") Long authId,
+            @RequestBody FeedDeleteDto feedDeleteDto
+            ){
+        try {
+            feedService.delete(feedDeleteDto.getId(),authId);
+            return ResponseEntity.ok().build();
+        } catch (ForbiddenException e) {
+            return ResponseEntity.status(403).build();
+        } catch (CannotFindException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

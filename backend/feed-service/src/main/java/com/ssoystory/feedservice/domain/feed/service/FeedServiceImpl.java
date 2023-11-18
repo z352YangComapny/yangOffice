@@ -8,7 +8,9 @@ import com.ssoystory.feedservice.domain.feed.dto.IdPageDto;
 import com.ssoystory.feedservice.domain.feed.entity.Photo;
 import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import com.ssoystory.feedservice.domain.feed.repository.FeedRepository;
+import com.ssoystory.feedservice.exception.feed.CannotFindException;
 import com.ssoystory.feedservice.exception.feed.ConvertUsernameToIDException;
+import com.ssoystory.feedservice.exception.feed.ForbiddenException;
 import com.ssoystory.feedservice.exception.s3.S3UploadException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -78,9 +81,23 @@ public class FeedServiceImpl implements FeedService{
     }
 
     @Override
-    public void update(String content, List<MultipartFile> upFiles, String auth, Long authId) {
-
+    public void update(long id, String content, Long authId) {
+        Optional<PhotoFeed> photoFeed = feedRepository.findById(id);
+        PhotoFeed feed = photoFeed.get();
+        feed.setContents(content);
+        feedRepository.save(feed);
     }
 
+    @Override
+    public void delete(long id, Long authId) throws ForbiddenException {
+        Optional<PhotoFeed> photoFeed = feedRepository.findById(id);
+        if (photoFeed.get().getId()==authId){
+            feedRepository.deleteById(id);
+        } else if(photoFeed.isEmpty()) {
+            throw new CannotFindException("해당 피드 조회 불가");
+        } else {
+            throw new ForbiddenException("권한 없음");
+        }
+    }
 
 }

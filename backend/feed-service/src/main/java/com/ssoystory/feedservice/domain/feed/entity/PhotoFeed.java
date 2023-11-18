@@ -18,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 @Entity
 public class PhotoFeed {
@@ -43,7 +44,6 @@ public class PhotoFeed {
     private Long authorId;
 
     @OneToMany(mappedBy = "photoFeed", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     @BatchSize(size = 50)
     private Set<Comments> comments;
 }
