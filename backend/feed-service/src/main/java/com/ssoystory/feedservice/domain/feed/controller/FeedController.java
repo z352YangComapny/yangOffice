@@ -75,7 +75,7 @@ public class FeedController {
     }
 
     @DeleteMapping
-    ResponseEntity<?> updateFeed (
+    ResponseEntity<?> deleteFeed (
             @RequestHeader("x-authorization-id") Long authId,
             @RequestBody FeedDeleteDto feedDeleteDto
             ){

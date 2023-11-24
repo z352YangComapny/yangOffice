@@ -1,13 +1,10 @@
-package com.ssoystory.memberservice.domain.controller;
+package com.ssoystory.memberservice.domain.member.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.impl.JWTParser;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ssoystory.memberservice.domain.dto.MemberUpdateDto;
-import com.ssoystory.memberservice.domain.dto.SignInDto;
-import com.ssoystory.memberservice.domain.dto.SignUpDto;
-import com.ssoystory.memberservice.domain.entity.Member;
-import com.ssoystory.memberservice.domain.service.MemberService;
+import com.ssoystory.memberservice.domain.member.dto.MemberUpdateDto;
+import com.ssoystory.memberservice.domain.member.dto.SignInDto;
+import com.ssoystory.memberservice.domain.member.dto.SignUpDto;
+import com.ssoystory.memberservice.domain.member.entity.Member;
+import com.ssoystory.memberservice.domain.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

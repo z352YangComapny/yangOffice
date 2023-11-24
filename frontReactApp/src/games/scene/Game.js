@@ -31,7 +31,7 @@ export default class Game extends Scene {
     preload() {
         this.registry.set('network', this.network)
         
-        this.load.tilemapTiledJSON('map', `http://localhost:8080/resources/upload/attachment/fianlreal.json` );
+        this.load.tilemapTiledJSON('map', `https://gryu-dev.s3.ap-northeast-2.amazonaws.com/fianlreal.json` );
         this.load.spritesheet('basement', 'assets/tilesets/Basement.png', {
             frameWidth: 32,
             frameHeight: 32,

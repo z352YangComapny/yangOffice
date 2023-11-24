@@ -1,4 +1,4 @@
-package com.ssoystory.memberservice.domain.entity;
+package com.ssoystory.memberservice.domain.member.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

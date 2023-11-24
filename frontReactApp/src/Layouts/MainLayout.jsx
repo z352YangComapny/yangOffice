@@ -1,4 +1,3 @@
-import DemoFooter from 'components/Footers/DemoFooter';
 import IndexNavbar from 'components/Navbars/IndexNavbar';
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom';

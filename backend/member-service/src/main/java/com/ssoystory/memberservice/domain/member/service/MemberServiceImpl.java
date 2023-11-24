@@ -1,4 +1,4 @@
-package com.ssoystory.memberservice.domain.service;
+package com.ssoystory.memberservice.domain.member.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -8,13 +8,13 @@ import com.ssoystory.memberservice.common.jwt.JwtProvider;
 import com.ssoystory.memberservice.common.jwt.TokenClaims;
 import com.ssoystory.memberservice.common.redis.entity.RefreshToken;
 import com.ssoystory.memberservice.common.redis.service.RedisService;
-import com.ssoystory.memberservice.domain.dto.MemberUpdateDto;
-import com.ssoystory.memberservice.domain.dto.SignInDto;
-import com.ssoystory.memberservice.domain.dto.SignUpDto;
-import com.ssoystory.memberservice.domain.entity.Authority;
-import com.ssoystory.memberservice.domain.entity.Member;
-import com.ssoystory.memberservice.domain.entity.Provider;
-import com.ssoystory.memberservice.domain.repository.MemberRepository;
+import com.ssoystory.memberservice.domain.member.dto.MemberUpdateDto;
+import com.ssoystory.memberservice.domain.member.dto.SignInDto;
+import com.ssoystory.memberservice.domain.member.dto.SignUpDto;
+import com.ssoystory.memberservice.domain.member.entity.Authority;
+import com.ssoystory.memberservice.domain.member.entity.Member;
+import com.ssoystory.memberservice.domain.member.entity.Provider;
+import com.ssoystory.memberservice.domain.member.repository.MemberRepository;
 import com.ssoystory.memberservice.exception.UnAuthorizedError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

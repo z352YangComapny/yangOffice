@@ -1,4 +1,4 @@
-package com.ssoystory.memberservice.domain.dto;
+package com.ssoystory.memberservice.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SignInDto {
+public class ConvertUsernameToIdDto {
     private String username;
-    private String password;
+    private int pageNo;
 }

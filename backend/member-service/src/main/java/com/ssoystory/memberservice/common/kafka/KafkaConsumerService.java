@@ -1,9 +1,9 @@
 package com.ssoystory.memberservice.common.kafka;
 
 import com.google.gson.Gson;
-import com.ssoystory.memberservice.domain.dto.ConvertUsernameToIdDto;
-import com.ssoystory.memberservice.domain.entity.Member;
-import com.ssoystory.memberservice.domain.repository.MemberRepository;
+import com.ssoystory.memberservice.domain.member.dto.ConvertUsernameToIdDto;
+import com.ssoystory.memberservice.domain.member.entity.Member;
+import com.ssoystory.memberservice.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

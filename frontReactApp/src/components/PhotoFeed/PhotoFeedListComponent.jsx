@@ -1,7 +1,5 @@
 import { PhotoFeedContext } from 'contexts/PhotoFeedContextProvider';
-import { max } from 'moment';
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';
 import { Button, Input } from 'reactstrap';
 

@@ -1,15 +1,15 @@
-package com.ssoystory.memberservice.domain.dto;
+package com.ssoystory.memberservice.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class ConvertedUsernameToIdDto {
-    private Long userId;
-    private int pageNo;
+@Builder
+public class SignInDto {
+    private String username;
+    private String password;
 }
