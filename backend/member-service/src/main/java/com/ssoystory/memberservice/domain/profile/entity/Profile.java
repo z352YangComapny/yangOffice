@@ -1,6 +1,5 @@
 package com.ssoystory.memberservice.domain.profile.entity;
 
-import com.ssoystory.memberservice.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,12 +10,11 @@ import lombok.*;
 @Getter
 @Builder
 public class Profile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
 
-    @Embedded
-    private ProfileId embeddedProfileId;
+    @EmbeddedId
+
+    private ProfileId id;
+
     private String profilePhotoURL;
     private String content;
     private int state;

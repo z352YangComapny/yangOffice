@@ -1,5 +1,6 @@
 package com.ssoystory.memberservice.domain.profile.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Embeddable
 public class ProfileId implements Serializable {
-    private Long ProfileId;
-    private Long MemberId;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long profileId;
+
+    private Long memberId;
 }
