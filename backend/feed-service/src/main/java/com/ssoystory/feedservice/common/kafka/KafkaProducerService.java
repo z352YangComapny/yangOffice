@@ -12,7 +12,7 @@ public class KafkaProducerService {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendUsernameAndPageNo(String username, int pageNo) {
-        String message = String.format("{\"username\": \"%s\", \"pageNo\": %d}", username, pageNo);
+        String message = String.format("{\"username\": \"%s\"", username);
         kafkaTemplate.send("feed-convert-username-to-id", message);
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.ssoystory.feedservice.common.kafka.KafkaConsumerService;
 import com.ssoystory.feedservice.common.kafka.KafkaProducerService;
 import com.ssoystory.feedservice.common.s3.S3Service;
-import com.ssoystory.feedservice.domain.feed.dto.IdPageDto;
+import com.ssoystory.feedservice.domain.feed.dto.IdDto;
 import com.ssoystory.feedservice.domain.feed.entity.Photo;
 import com.ssoystory.feedservice.domain.feed.entity.PhotoFeed;
 import com.ssoystory.feedservice.domain.feed.repository.FeedRepository;
@@ -46,10 +46,10 @@ public class FeedServiceImpl implements FeedService{
     public List<PhotoFeed> findPhotoFeedsByAuthorAndPageNO(String username, Pageable pageable) throws ConvertUsernameToIDException {
 
         kafkaProducerService.sendUsernameAndPageNo(username,1);
-        IdPageDto idPageDto;
+        IdDto idPageDto;
         try {
             String _idPageDto=kafkaConsumerService.receiveUserId();
-            idPageDto = gson.fromJson(_idPageDto, IdPageDto.class);
+            idPageDto = gson.fromJson(_idPageDto, IdDto.class);
             log.info("Kafka receive Message = {}",idPageDto);
         } catch (InterruptedException e){
             throw new ConvertUsernameToIDException(e.getMessage());

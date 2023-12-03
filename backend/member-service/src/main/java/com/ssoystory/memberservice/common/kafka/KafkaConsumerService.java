@@ -28,7 +28,9 @@ public class KafkaConsumerService {
         Gson gson = new Gson();
         ConvertUsernameToIdDto convertUsernameToIdDto = gson.fromJson(message, ConvertUsernameToIdDto.class);
         Optional<Member> member = memberRepository.findMemberByUsername(convertUsernameToIdDto.getUsername());
-        kafkaProducerService.sendToFeedConvertUsernameToId(member.get().getId(),convertUsernameToIdDto.getPageNo());
+        kafkaProducerService.sendToFeedConvertUsernameToId(member.get().getId());
     }
+
+
 
 }

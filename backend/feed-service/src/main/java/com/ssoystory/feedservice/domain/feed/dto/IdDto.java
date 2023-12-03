@@ -1,4 +1,4 @@
-package com.ssoystory.memberservice.domain.member.dto;
+package com.ssoystory.feedservice.domain.feed.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ConvertUsernameToIdDto {
-    private String username;
+public class IdDto {
+    private Long userId;
 }

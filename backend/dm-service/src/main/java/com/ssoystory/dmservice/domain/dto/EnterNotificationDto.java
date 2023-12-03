@@ -1,15 +1,14 @@
-package com.ssoystory.feedservice.domain.feed.dto;
+package com.ssoystory.dmservice.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IdPageDto {
-    private Long userId;
-    private int pageNo;
+@Data
+public class EnterNotificationDto extends MessageDto{
+    private Long id;
 }
