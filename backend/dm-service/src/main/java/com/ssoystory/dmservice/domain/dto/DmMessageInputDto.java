@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
-public class DmMessageDto extends MessageDto{
-    private Long receiverId;
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DmMessageInputDto extends MessageDto{
+    private String nickname;
     private Long senderId;
     private String content;
+    private Long senderNickname;
 }

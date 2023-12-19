@@ -1,7 +1,11 @@
 package com.ssoystory.dmservice.config;
 
+import com.ssoystory.dmservice.common.kafka.KafkaConsumerService;
+import com.ssoystory.dmservice.common.redis.service.RedisService;
 import com.ssoystory.dmservice.domain.chat.DmWebSocketHandler;
+import com.ssoystory.dmservice.domain.service.DmService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -16,6 +20,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @EnableWebSocket
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
+    @Autowired
+    private final DmService dmService;
+    @Autowired
+    private final KafkaConsumerService kafkaConsumerService;
+    @Autowired
+    private final RedisService redisService;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -25,6 +35,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler dmSignalingSocketHandler() {
-        return new DmWebSocketHandler();
+        return new DmWebSocketHandler(dmService , kafkaConsumerService, redisService);
     }
 }

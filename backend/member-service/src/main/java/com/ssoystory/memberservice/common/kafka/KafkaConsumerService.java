@@ -1,6 +1,7 @@
 package com.ssoystory.memberservice.common.kafka;
 
 import com.google.gson.Gson;
+import com.ssoystory.memberservice.domain.member.dto.ConvertNicknameToIdDto;
 import com.ssoystory.memberservice.domain.member.dto.ConvertUsernameToIdDto;
 import com.ssoystory.memberservice.domain.member.entity.Member;
 import com.ssoystory.memberservice.domain.member.repository.MemberRepository;
@@ -23,7 +24,7 @@ public class KafkaConsumerService {
 
 //    @KafkaListener(topics = "feed-convert-username-to-id", groupId = "ssoystory")
     @KafkaListener(topics = "feed-convert-username-to-id", groupId = "ssoystory")
-    public void receiveUserId(String message) {
+    public void receiveUserIdFromFeed(String message) {
         log.info("Received message from Kafka: {}", message);
         Gson gson = new Gson();
         ConvertUsernameToIdDto convertUsernameToIdDto = gson.fromJson(message, ConvertUsernameToIdDto.class);
@@ -31,6 +32,13 @@ public class KafkaConsumerService {
         kafkaProducerService.sendToFeedConvertUsernameToId(member.get().getId());
     }
 
-
+    @KafkaListener(topics = "dm-convert-username-to-id", groupId = "ssoystory")
+    public void receiveUserIdFromDM(String message) {
+        log.info("Received message from Kafka: {}", message);
+        Gson gson = new Gson();
+        ConvertNicknameToIdDto convertNicknameToIdDto = gson.fromJson(message, ConvertNicknameToIdDto.class);
+        Optional<Member> member = memberRepository.findMemberByNickname(convertNicknameToIdDto.getNickname());
+        kafkaProducerService.sendToDmConvertNicknameToId(member.get().getId());
+    }
 
 }

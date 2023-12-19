@@ -15,4 +15,9 @@ public class KafkaProducerService {
         String message = String.format("{\"userId\": %d ", userId);
         kafkaTemplate.send("feed-converted-username-to-id", message);
     }
+
+    public void sendToDmConvertNicknameToId(Long userId) {
+        String message = String.format("{\"userId\": %d ", userId);
+        kafkaTemplate.send("dm-converted-username-to-id", message);
+    }
 }
