@@ -1,6 +1,7 @@
 package com.ssoystory.dmservice.config;
 
 import com.ssoystory.dmservice.common.kafka.KafkaConsumerService;
+import com.ssoystory.dmservice.common.kafka.KafkaProducerService;
 import com.ssoystory.dmservice.common.redis.service.RedisService;
 import com.ssoystory.dmservice.domain.chat.DmWebSocketHandler;
 import com.ssoystory.dmservice.domain.service.DmService;
@@ -25,6 +26,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired
     private final KafkaConsumerService kafkaConsumerService;
     @Autowired
+    private final KafkaProducerService kafkaProducerService;
+    @Autowired
     private final RedisService redisService;
 
     @Override
@@ -35,6 +38,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler dmSignalingSocketHandler() {
-        return new DmWebSocketHandler(dmService , kafkaConsumerService, redisService);
+        return new DmWebSocketHandler(dmService , kafkaConsumerService, kafkaProducerService,redisService);
     }
 }

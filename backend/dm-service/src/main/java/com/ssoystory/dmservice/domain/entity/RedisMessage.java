@@ -1,22 +1,22 @@
 package com.ssoystory.dmservice.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.sql.Timestamp;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class Message {
+@RedisHash(value="Message")
+public class RedisMessage {
     @Id
     private Long id;
     private Long senderId;

@@ -1,17 +1,14 @@
 package com.ssoystory.dmservice.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 public class DmMessageInputDto extends MessageDto{
     private String nickname;
     private Long senderId;
     private String content;
-    private Long senderNickname;
+    private String senderNickname;
+
 }
