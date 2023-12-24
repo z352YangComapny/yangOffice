@@ -1,7 +1,7 @@
 package com.ssoystory.dmservice.config;
 
-import com.ssoystory.dmservice.common.kafka.KafkaConsumerService;
-import com.ssoystory.dmservice.common.kafka.KafkaProducerService;
+import com.ssoystory.dmservice.common.kafka.service.KafkaConsumerService;
+import com.ssoystory.dmservice.common.kafka.service.KafkaProducerService;
 import com.ssoystory.dmservice.common.redis.service.RedisService;
 import com.ssoystory.dmservice.domain.chat.DmWebSocketHandler;
 import com.ssoystory.dmservice.domain.service.DmService;
@@ -9,13 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.*;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @EnableWebSocket
@@ -38,6 +33,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler dmSignalingSocketHandler() {
-        return new DmWebSocketHandler(dmService , kafkaConsumerService, kafkaProducerService,redisService);
+        return new DmWebSocketHandler();
     }
 }

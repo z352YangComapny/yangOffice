@@ -1,4 +1,4 @@
-package com.ssoystory.dmservice.common.kafka;
+package com.ssoystory.dmservice.common.kafka.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

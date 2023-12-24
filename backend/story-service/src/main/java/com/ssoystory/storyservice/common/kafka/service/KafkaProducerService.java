@@ -1,4 +1,4 @@
-package com.ssoystory.dmservice.common.kafka;
+package com.ssoystory.storyservice.common.kafka.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ public class KafkaProducerService {
     @Autowired
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendNickname(String nickname) {
-        String message = String.format("{\"nickname\": \"%s\"}", nickname);
-        kafkaTemplate.send("dm-convert-username-to-id", message);
+    public void sendUsername(String username) {
+        String message = String.format("{\"nickname\": \"%s\"}", username);
+        kafkaTemplate.send("story-convert-username-to-id", message);
     }
 }

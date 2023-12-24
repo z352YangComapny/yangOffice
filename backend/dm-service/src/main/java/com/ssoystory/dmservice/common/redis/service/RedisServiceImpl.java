@@ -1,9 +1,10 @@
 package com.ssoystory.dmservice.common.redis.service;
 
 import com.ssoystory.dmservice.domain.dto.DmMessageOutputDto;
-import com.ssoystory.dmservice.domain.entity.RedisMessage;
+import com.ssoystory.dmservice.common.redis.entity.RedisMessage;
 import com.ssoystory.dmservice.domain.service.DmService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,11 @@ import java.time.ZoneId;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class RedisServiceImpl implements RedisService{
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final DmService dmService;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private DmService dmService;
     private final String KEY_PREFIX = "message_";
 
     @Override

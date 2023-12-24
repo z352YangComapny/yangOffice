@@ -1,8 +1,9 @@
 package com.ssoystory.dmservice.domain.chat;
 
 import com.google.gson.Gson;
-import com.ssoystory.dmservice.common.kafka.KafkaConsumerService;
-import com.ssoystory.dmservice.common.kafka.KafkaProducerService;
+import com.ssoystory.dmservice.common.kafka.dto.IdDto;
+import com.ssoystory.dmservice.common.kafka.service.KafkaConsumerService;
+import com.ssoystory.dmservice.common.kafka.service.KafkaProducerService;
 import com.ssoystory.dmservice.common.redis.service.RedisService;
 import com.ssoystory.dmservice.domain.dto.*;
 import com.ssoystory.dmservice.domain.service.DmService;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -21,15 +23,18 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class DmWebSocketHandler extends TextWebSocketHandler {
     private final Map<Long, SessionAndQueue> sessionMap = new ConcurrentHashMap<>();
     private final Map<WebSocketSession, Long> reverseLookupMap = new ConcurrentHashMap<>();
-    private final DmService dmService;
-    private final KafkaConsumerService kafkaConsumerService;
-    private final KafkaProducerService kafkaProducerService;
-    private final RedisService redisService;
+    @Autowired
+    private DmService dmService;
+    @Autowired
+    private KafkaConsumerService kafkaConsumerService;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+    @Autowired
+    private RedisService redisService;
 
 
     Gson gson = new Gson();

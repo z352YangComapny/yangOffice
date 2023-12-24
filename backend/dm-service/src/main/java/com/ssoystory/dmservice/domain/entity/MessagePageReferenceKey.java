@@ -14,6 +14,6 @@ import java.io.Serializable;
 @Builder
 @Embeddable
 public class MessagePageReferenceKey implements Serializable {
-    private Long senderId;
-    private Long receiverId;
+    private Long participationId1;
+    private Long participationId2;
 }
