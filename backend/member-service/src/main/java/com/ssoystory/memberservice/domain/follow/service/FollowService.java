@@ -1,13 +1,13 @@
 package com.ssoystory.memberservice.domain.follow.service;
 
-import com.ssoystory.memberservice.domain.follow.dto.FollowOutputDto;
+import com.ssoystory.memberservice.domain.profile.entity.Profile;
 
 import java.util.List;
 
 public interface FollowService {
-    List<FollowOutputDto> getFollowerList(Long userId);
+    List<Profile> getFollowerList(Long userId);
 
-    List<FollowOutputDto> getFolloweeList(Long userId);
+    List<Profile> getFolloweeList(Long userId);
 
     void save(Long userId, Long followeeId);
 

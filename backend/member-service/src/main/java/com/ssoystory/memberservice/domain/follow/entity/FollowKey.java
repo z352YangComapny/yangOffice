@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FollowKey {
+public class FollowKey implements Serializable {
     private Long followerId;
     private Long followeeId;
 }

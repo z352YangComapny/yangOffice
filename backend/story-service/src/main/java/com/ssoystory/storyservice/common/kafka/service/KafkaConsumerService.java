@@ -11,12 +11,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 public class KafkaConsumerService {
     private final BlockingQueue<String> userIdQueue = new LinkedBlockingQueue<>();
-    @KafkaListener(topics = "story-converted-username-to-id", groupId = "ssoystory")
-    public void receiveUserId(String message) {
+    @KafkaListener(topics = "story-getFolloweeList-output", groupId = "ssoystory")
+    public void receiveFollowList(String message) {
         log.info("Received message from Kafka: {}", message);
         userIdQueue.add(message);
     }
-    public String receiveUserId() throws InterruptedException {
+    public String receiveFolloweeList() throws InterruptedException {
         return userIdQueue.take();
     }
 }

@@ -58,21 +58,21 @@ public class DmServiceImpl implements DmService{
 
     @Override
     @Transactional
-    public void migrateMessages(List<Object> messageList) {
+    public void migrateMessages(List<RedisMessage> messageList) {
         List<Message> messages = new ArrayList<>();
         Long senderId=null;
         Long receiverId=null;
-        for (Object redisMessage: messageList) {
-            RedisMessage _redisMessage = ((RedisMessage)redisMessage);
+        log.info("{}",messageList);
+        for (RedisMessage redisMessage: messageList) {
             if(senderId == null || receiverId == null){
-                senderId = _redisMessage.getSenderId();
-                receiverId = _redisMessage.getReceiverId();
+                senderId = redisMessage.getSenderId();
+                receiverId = redisMessage.getReceiverId();
             }
             Message message = Message.builder()
-                    .regDate(_redisMessage.getRegDate())
-                    .receiverId(_redisMessage.getReceiverId())
-                    .content(_redisMessage.getContent())
-                    .senderId(_redisMessage.getSenderId())
+                    .regDate(redisMessage.getRegDate())
+                    .receiverId(redisMessage.getReceiverId())
+                    .content(redisMessage.getContent())
+                    .senderId(redisMessage.getSenderId())
                     .build();
             messages.add(message);
         }

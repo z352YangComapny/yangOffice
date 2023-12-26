@@ -1,5 +1,6 @@
 package com.ssoystory.dmservice.config;
 
+import com.ssoystory.dmservice.common.redis.entity.RedisMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,14 +33,14 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+    public RedisTemplate<String, RedisMessage> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, RedisMessage> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
-        template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
+        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(RedisMessage.class));
+        template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RedisMessage.class));
         return template;
     }
 

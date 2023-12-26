@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class RedisServiceImpl implements RedisService{
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, RedisMessage> redisTemplate;
     @Autowired
     private DmService dmService;
     private final String KEY_PREFIX = "message_";
@@ -41,7 +41,7 @@ public class RedisServiceImpl implements RedisService{
     @Override
     public void migrateMessages(Long id) {
         Long size = redisTemplate.opsForList().size(KEY_PREFIX+id);
-        List<Object> messageList = redisTemplate.opsForList().range(KEY_PREFIX+id,0,size-1);
+        List<RedisMessage> messageList = redisTemplate.opsForList().range(KEY_PREFIX+id,0,size-1);
         if (size > 0) {
             redisTemplate.delete(KEY_PREFIX+id);
         }

@@ -38,7 +38,12 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
 
 
     Gson gson = new Gson();
-    
+
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        super.afterConnectionEstablished(session);
+    }
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         MessageDto messageDto = gson.fromJson(message.getPayload(), MessageDto.class);
@@ -58,7 +63,7 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    private void getPreviousMessage(WebSocketSession session, TextMessage message) {
+    private void getPreviousMessage(WebSocketSession session, TextMessage message) throws IOException {
         DmRoomInfoDto dmRoomInfoDto = gson.fromJson(message.getPayload(), DmRoomInfoDto.class);
         kafkaProducerService.sendNickname(dmRoomInfoDto.getReceiverNickname());
         IdDto idDto=null;
@@ -73,7 +78,8 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         } catch (InterruptedException interruptedException){
             log.error("{}",interruptedException.getMessage());
         }
-        dmService.getPreviousMessage(dmRoomInfoDto.getSenderId(), Objects.requireNonNull(idDto).getUserId(),dmRoomInfoDto.getPageNo());
+        MessagesDto messagesDtos = dmService.getPreviousMessage(dmRoomInfoDto.getSenderId(), Objects.requireNonNull(idDto).getUserId(),dmRoomInfoDto.getPageNo());
+        session.sendMessage(new TextMessage(messagesDtos.toString()));
     }
 
     private void handleDM(WebSocketSession session, TextMessage message) throws IOException {
@@ -91,13 +97,17 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         Long receiverId = Long.valueOf(-1);
         DmMessageOutputDto dmMessageOutputDto = new DmMessageOutputDto();
         while(!sessionMap.get(id).getMessageInputDtoQueue().isEmpty()) {
+            log.info("{}", sessionMap.get(id).getMessageInputDtoQueue().size());
             TextMessage _message = sessionMap.get(id).getMessageInputDtoQueue().poll();
+            log.info("{}", sessionMap.get(id).getMessageInputDtoQueue().size());
             DmMessageInputDto messageDto = gson.fromJson(_message.getPayload(), DmMessageInputDto.class);
             try {
                 String _idDto = kafkaConsumerService.receiveUserId();
                 idDto = gson.fromJson(_idDto, IdDto.class);
                 receiverId = idDto.getUserId();
                 log.info("Kafka receive Message = {}", idDto);
+                log.info("Kafka receive Message = {}", idDto.getUserId());
+                log.info("Kafka receive Message = {}", messageDto);
 
                 dmMessageOutputDto.setContent(messageDto.getContent());
                 dmMessageOutputDto.setSenderId(messageDto.getSenderId());
@@ -106,20 +116,21 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
                 log.info("{}", e);
             }
 
-            WebSocketSession receiverSession = sessionMap.get(receiverId).getWebSocketSession();
-            sessionMap.get(receiverId).getMessageInputDtoQueue().offer(_message);
+            SessionAndQueue sessionAndQueue = sessionMap.get(receiverId);
 
-            if (receiverId != -1 && receiverSession.isOpen()) {
+            if (receiverId != -1 && sessionAndQueue!=null ) {
                 try {
+                    WebSocketSession receiverSession = sessionAndQueue.getWebSocketSession();
                     receiverSession.sendMessage(_message);
                     redisService.save(dmMessageOutputDto);
                 } catch (Exception e) {
                     log.error("message handling error = {}", e.getMessage());
                 }
-            } else if (receiverId != -1 && !receiverSession.isOpen()) {
+            } else if (receiverId != -1) {
                 dmService.save(dmMessageOutputDto);
             }
         }
+        log.info("end");
     }
 
     private void handleEntry(WebSocketSession session, TextMessage message) {
@@ -128,9 +139,9 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         reverseLookupMap.put(session,enterNotificationDto.getId());
     }
 
+
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        session.sendMessage(new TextMessage("Session Closed!"));
         Long id = reverseLookupMap.get(session);
 
         if (!sessionMap.get(id).getMessageInputDtoQueue().isEmpty()) {

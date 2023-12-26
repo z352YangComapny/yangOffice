@@ -1,8 +1,8 @@
 package com.ssoystory.memberservice.domain.follow.controller;
 
 import com.ssoystory.memberservice.domain.follow.dto.FollowDto;
-import com.ssoystory.memberservice.domain.follow.dto.FollowOutputDto;
 import com.ssoystory.memberservice.domain.follow.service.FollowService;
+import com.ssoystory.memberservice.domain.profile.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,14 +30,14 @@ public class FollowController {
         return ResponseEntity.ok().build();
     }
     @GetMapping("/er")
-    ResponseEntity<List<FollowOutputDto>> getFollowerList(Long userId){
-        List<FollowOutputDto> list = followService.getFollowerList(userId);
+    ResponseEntity<List<Profile>> getFollowerList(Long userId){
+        List<Profile> list = followService.getFollowerList(userId);
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/ee")
-    ResponseEntity<List<FollowOutputDto>> getFolloweeList(Long userId){
-        List<FollowOutputDto> list = followService.getFolloweeList(userId);
+    ResponseEntity<List<Profile>> getFolloweeList(Long userId){
+        List<Profile> list = followService.getFolloweeList(userId);
         return ResponseEntity.ok().body(list);
     }
 }

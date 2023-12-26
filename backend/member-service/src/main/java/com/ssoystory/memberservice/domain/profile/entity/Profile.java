@@ -12,7 +12,6 @@ import lombok.*;
 public class Profile {
 
     @EmbeddedId
-
     private ProfileId id;
 
     private String profilePhotoURL;

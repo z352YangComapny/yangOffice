@@ -11,8 +11,8 @@ public class KafkaProducerService {
     @Autowired
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendUsername(String username) {
-        String message = String.format("{\"nickname\": \"%s\"}", username);
-        kafkaTemplate.send("story-convert-username-to-id", message);
+    public void getFolloweeList(Long id) {
+        String message = String.format("{\"id\": \"%d\"}", id);
+        kafkaTemplate.send("story-getFolloweeList-input", message);
     }
 }
