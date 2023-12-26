@@ -62,6 +62,7 @@ function IndexNavbar() {
       setMessage,
     },
   } = useContext(NotificationContext)
+  
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const [isDown, setIsDown] = useState(false);
@@ -75,9 +76,7 @@ function IndexNavbar() {
   /** socket */
 
   const { states, actions } = useContext(WebSocketContext);
-
   const { subject, sendGoal, wsJSON } = states;
-
   const { setSubject, setSendGoal, setWsJSON, webSocketConnect } = actions;
   // if(userProfile){
 
@@ -122,7 +121,6 @@ function IndexNavbar() {
     display: 'flex',
     flexDirection: 'column',
     // alignItems : 'center'
-
   }
 
   const dmBody = {

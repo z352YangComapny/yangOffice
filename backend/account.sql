@@ -30,8 +30,19 @@ use ssoystory_feed;
 select * from ssoystory_feed;
 
 --dm-service
+create user 'yang'@'%' identified by 'yang';
+GRANT ALL PRIVILEGES ON *.* TO 'yang'@'%';
+create database ssoystory_dm;
+use ssoystory_dm;
+select * from ssoystory_dm;
+
+--story-service
+create user 'yang'@'%' identified by 'yang';
+GRANT ALL PRIVILEGES ON *.* TO 'yang'@'%';
+create database ssoystory_story;
+use ssoystory_story;
+select * from ssoystory_story;
 
 --Game (MongoDB)
 
---payment-service
 
