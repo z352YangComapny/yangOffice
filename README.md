@@ -78,13 +78,8 @@ username98865 - DBA,Dev(Be,Fe)
 - Amazon S3
 
 ## 💿아키텍쳐
-- Project
- ![파이널_쏘이스토리_최종발표-001](https://github.com/z352YangComapny/yangOffice/assets/125647772/12a96cda-7185-41dc-bbb0-efc94e357e06)
-- Spring Server
- ![파이널_쏘이스토리_최종발표-002](https://github.com/z352YangComapny/yangOffice/assets/125647772/c7e41629-149c-4211-92c0-d7546fa0a3fc)
-- GIN Server
-  ![파이널_쏘이스토리_최종발표-003](https://github.com/z352YangComapny/yangOffice/assets/125647772/4defba48-07f0-404b-bb50-e9c738510989)
-
+- Project  
+<img src="https://gryu-dev.s3.ap-northeast-2.amazonaws.com/%EC%96%91%EC%98%A4%ED%94%BC%EC%8A%A4%EC%95%84%ED%82%A4%ED%83%9D%EC%B3%90.png" center>
 ## 🔑E-R 다이어그램
 - https://www.erdcloud.com/d/29Wk3hSMH9Nn4KmyF
 ![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/4e71cdfe-0c0c-4340-9703-4d182fb1d712)
