@@ -37,5 +37,5 @@ export const signUp = createAsyncThunk("memberSlice/signup", async ({
 
 export const getUserProfile = createAsyncThunk("memberSlice/getUserProfile", async ()=>{
     const resp = await axios.post(`${SERVER_BASE_URL}/api/profile`)
-    return { data }
+    return resp.data
 });

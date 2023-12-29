@@ -52,7 +52,6 @@ function SignIn() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(signIn(signInFrm));
     const regex = /^[a-zA-Z0-9]{4,}$/;
     if(!regex.test(signInFrm.username) || !regex.test(setSignInFrm.password)){
       setMessage({ color: "warning", value: `아이디와 비밀번호 4글자 이상 입력해주세요.`})
