@@ -1,13 +1,18 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { getGuestbookListInfo } from "./guestbookThunk";
+import { createSlice } from "@reduxjs/toolkit";
+
 
 const guestbookSlice = createSlice({
     name:"guestbookSlice",
-    initialState: {},
+    initialState: {
+        isLoading:false,
+        guestbookListInfo:{},
+    },
     reducers:{},
     extraReducers:(builder)=>{
-        builder.addCase(.pending,()=>{});
-        builder.addCase(.fulfilled,()=>{});
-        builder.addCase(.rejected,()=>{});
+        builder.addCase(getGuestbookListInfo.pending,()=>{});
+        builder.addCase(getGuestbookListInfo.fulfilled,()=>{});
+        builder.addCase(getGuestbookListInfo.rejected,()=>{});
     }
 });
 

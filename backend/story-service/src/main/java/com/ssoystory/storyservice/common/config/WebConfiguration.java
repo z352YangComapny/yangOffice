@@ -1,4 +1,4 @@
-package com.ssoystory.memberservice.config;
+package com.ssoystory.storyservice.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

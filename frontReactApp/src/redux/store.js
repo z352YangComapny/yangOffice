@@ -1,13 +1,14 @@
-const { configureStore, combineReducers } = require("@reduxjs/toolkit");
-const MemberSlice = require("./member/memberSlice").default;
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+
+const memberSlice = require("./member/memberSlice").default;
 const guestbookSlice = require("./guestbook/guestbookSlice").default;
 const notificationSlice = require("./notification/notificationSlice").default;
 const photoFeedSlice = require("./photofeed/photofeedSlice").default
 
 
 const rootReducer = combineReducers({
-  memberReducer: postSlice.reducer,
-  guestbookReducer: authSlice.reducer,
+  memberReducer: memberSlice.reducer,
+  guestbookReducer: guestbookSlice.reducer,
   notificationReducer: notificationSlice.reducer,
   photoFeedReducer: photoFeedSlice.reducer
 });

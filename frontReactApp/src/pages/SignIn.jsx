@@ -6,11 +6,12 @@ import Sportify from "components/Oauth/Sportify";
 import { MemberContext } from "contexts/MembetContextProvider";
 import { NotificationContext } from "contexts/NotificationContextProvider";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 
 // reactstrap components
 import { Button, Card, Form, Input, Container, Row, Col, FormGroup, Label, Modal } from "reactstrap";
+import { signIn } from "../redux/member/memberThunk";
 
 // core components
 
@@ -30,6 +31,7 @@ function SignIn() {
   const [largeModal, setLargeModal] = useState(false);
   const [smallModal, setSmallModal] = useState(false);
   const [hasError, setHasError] = useState("아이디를 입력해주세요.")
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ function SignIn() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    dispatch(signIn(signInFrm));
     const regex = /^[a-zA-Z0-9]{4,}$/;
     if(!regex.test(signInFrm.username) || !regex.test(setSignInFrm.password)){
       setMessage({ color: "warning", value: `아이디와 비밀번호 4글자 이상 입력해주세요.`})
@@ -58,6 +60,7 @@ function SignIn() {
     }
 
     signin(signInFrm).then((resp) => {
+      console.log(resp);
       sessionStorage.setItem("token", resp.headers.authorization);
       getUserProfile(signInFrm.username)
       .then((resp)=>{

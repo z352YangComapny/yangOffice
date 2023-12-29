@@ -1,13 +1,13 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { createSlice } from "@reduxjs/toolkit";
 
 const photoFeedSlice = createSlice({
     name:"photoFeedSlice",
     initialState: {},
     reducers:{},
     extraReducers:(builder)=>{
-        builder.addCase(.pending,()=>{});
-        builder.addCase(.fulfilled,()=>{});
-        builder.addCase(.rejected,()=>{});
+        // builder.addCase(.pending,()=>{});
+        // builder.addCase(.fulfilled,()=>{});
+        // builder.addCase(.rejected,()=>{});
     }
 });
 

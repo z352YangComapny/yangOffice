@@ -1,13 +1,22 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { signIn } from './memberThunk';
+import { createSlice } from "@reduxjs/toolkit";
 
 const memberSlice = createSlice({
     name:"memberSlice",
-    initialState: {},
+    initialState:{
+        isLaoding:false,
+        status:null,
+        isLogin:false,
+        userProfile:null,
+    },
     reducers:{},
     extraReducers:(builder)=>{
-        builder.addCase(.pending,()=>{});
-        builder.addCase(.fulfilled,()=>{});
-        builder.addCase(.rejected,()=>{});
+        builder.addCase(signIn.pending,(state)=>{state.isLoading=true});
+        builder.addCase(signIn.fulfilled,(state,action)=>{
+            state.isLaoding=false;
+            console.log(state,action)
+        });
+        builder.addCase(signIn.rejected,(state)=>{state.isLaoding=false;});
     }
 });
 

@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
-import com.ssoystory.gateway.redis.RedisConfig;
 import com.ssoystory.gateway.redis.entity.RefreshToken;
 import com.ssoystory.gateway.redis.service.RedisService;
 import lombok.extern.slf4j.Slf4j;

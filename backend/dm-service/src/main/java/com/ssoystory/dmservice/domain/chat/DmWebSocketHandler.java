@@ -86,6 +86,8 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         DmMessageInputDto messageDto = gson.fromJson(message.getPayload(), DmMessageInputDto.class);
         kafkaProducerService.sendNickname(messageDto.getNickname());
         sessionMap.get(messageDto.getSenderId()).getMessageInputDtoQueue().offer(message);
+        log.info("{}", sessionMap.get(messageDto.getSenderId()).getMessageInputDtoQueue().size());
+
         if(sessionMap.get(messageDto.getSenderId()).getMessageInputDtoQueue().size()>10){
             sessionMap.get(messageDto.getSenderId()).getWebSocketSession().sendMessage(new TextMessage("Sever is Busy, Try Later"));
         }
@@ -97,7 +99,6 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         Long receiverId = Long.valueOf(-1);
         DmMessageOutputDto dmMessageOutputDto = new DmMessageOutputDto();
         while(!sessionMap.get(id).getMessageInputDtoQueue().isEmpty()) {
-            log.info("{}", sessionMap.get(id).getMessageInputDtoQueue().size());
             TextMessage _message = sessionMap.get(id).getMessageInputDtoQueue().poll();
             log.info("{}", sessionMap.get(id).getMessageInputDtoQueue().size());
             DmMessageInputDto messageDto = gson.fromJson(_message.getPayload(), DmMessageInputDto.class);

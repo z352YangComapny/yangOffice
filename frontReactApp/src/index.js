@@ -13,11 +13,14 @@ import NotificationContextProvider from 'contexts/NotificationContextProvider';
 import PhotoFeedContextProvider from 'contexts/PhotoFeedContextProvider';
 import GuestBookContextProvider from 'contexts/GuestBookContextProvider';
 import WebSocketContextProvider from 'contexts/WebSocketContextProvider';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     <BrowserRouter>
+    <Provider store={store}>
       <WebSocketContextProvider>
         <NotificationContextProvider>
           <MembetContextProvider>
@@ -32,6 +35,7 @@ root.render(
           </MembetContextProvider>
         </NotificationContextProvider>
       </WebSocketContextProvider>
+      </Provider>
     </BrowserRouter>
   // </React.StrictMode>
 );
