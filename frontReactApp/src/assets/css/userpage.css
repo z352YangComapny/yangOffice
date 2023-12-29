@@ -1,0 +1,90 @@
+/* 스타일을 적용할 최상위 부모 클래스 */
+.user-body {
+    width: 100vw;
+    display: flex;
+    height: 899.6px;
+    justify-content: center;
+  }
+
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  /* user-content 영역에 적용할 클래스 */
+  .user-content {
+    width: 1313px !important;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto; /* 가로 스크롤 표시 */
+  }
+  
+  /* user-blank 영역에 적용할 클래스 */
+  .user-blank {
+    height: 10%;
+  }
+  
+  .user-left{
+    /* background-color: rgba(0, 0, 255, 0.1); */
+    min-height: 100%;
+    height: 100%;
+  }
+  .user-right{
+    /* background-color: rgba(255, 0, 0, 0.1); */
+    min-height: 100%;
+  }
+
+  .profile-card-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .pointshop-body{
+    width: 50%;
+    height: 100%;
+  }
+  .pointshop-body-left{
+    display: flex;
+    
+  }
+  .current-point {
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    border: solid 2px rgba(81, 203, 206, 1);
+    width: 80%;
+    height: 95%;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    padding: 10px;
+  }
+  
+  .current-point:hover {
+    transform: translateY(-5px); /* 또는 다른 값으로 조정할 수 있음 */
+    box-shadow: 2px 2px 4px rgba(81, 203, 206, 0.8);
+    box-shadow: 4px 4px 8px rgba(81, 203, 206, 0.4);
+  }
+
+  .grade{
+    font-size: 24px;
+    margin: 1px;
+    margin-bottom: 20px;
+  }
+  .total-cash{
+    margin: 1px;
+    margin-top: 20px;
+  }
+  .rest-cash{
+    margin: 1px;
+  }
+  .rest-month-cash{
+    margin: 1px;
+  }
+
+ 
+

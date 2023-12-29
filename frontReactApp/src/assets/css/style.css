@@ -1,0 +1,91 @@
+.sreach-container {
+    display: flex;
+}
+
+.memberSearchBar {
+    margin-top: 15px;
+    margin-right: 10px;
+    height: 10px;
+    width: 13vw;
+}
+
+.yangMain {
+    min-height: 70vh;
+}
+
+.signInFrm {
+    border: 2px solid white;
+    display: flex;
+    /* font-family: 'Orbit', sans-serif; */
+    font-family: 'Dongle', sans-serif;
+    border-radius: 12px;
+}
+
+.signInFrmDetail {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255, 0.15);
+
+    color: black;
+    width: 45vw;
+}
+
+.signInLeft {
+    padding: 10px;
+    border: solid 2px rgba(255, 103, 32);
+}
+
+
+
+.TermsOfUse {
+    max-height: 300px;
+    /* 적절한 높이 설정 */
+    overflow-y: scroll;
+    border: 1px solid #cccccc;
+}
+
+.signInLeft * {
+    color: black;
+}
+
+
+.sigUpBody {
+    display: flex;
+    
+}
+
+.search-result-container{
+    display: block;
+    overflow: hidden;
+    width: 15%;
+    height: auto;
+    max-height: 300px;
+    position: fixed;
+    top:7%;
+    right: 22%;
+    background-color: white;
+    
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px  black;
+}
+
+.search-profile-pic{
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.search-result-item{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    
+}
+
+.search-result-item:hover{
+    background-color: rgba(0,0,0,0.1);
+}

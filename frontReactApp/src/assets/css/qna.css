@@ -1,0 +1,35 @@
+.qna-body{
+    width: 90%;
+    height: 30.35vh;
+    border: solid 2px rgba(0,0,0, 0.3);
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.faq-content{
+    margin-left: 20px;
+}
+
+.question{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.answer{
+    margin-left: 35px;
+    font-size: 12px;
+}
+
+.tmp{
+    font-weight: 600;
+}
+
+.qna-pagination{
+    margin-bottom: 10px;
+    display: flex;
+    
+}
