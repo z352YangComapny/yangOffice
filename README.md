@@ -79,7 +79,7 @@ username98865 - DBA,Dev(Be,Fe)
 
 ## 💿아키텍쳐
 - Project  
-<center><img src="https://gryu-dev.s3.ap-northeast-2.amazonaws.com/%EC%96%91%EC%98%A4%ED%94%BC%EC%8A%A4%EC%95%84%ED%82%A4%ED%83%9D%EC%B3%90.png"></center>
+<center><img src="https://gryu-dev.s3.ap-northeast-2.amazonaws.com/%EC%96%91%EC%98%A4%ED%94%BC%EC%8A%A4%EC%95%84%ED%82%A4%ED%83%9D%EC%B3%90.png"></center>  
 ## 🔑E-R 다이어그램
 - https://www.erdcloud.com/d/29Wk3hSMH9Nn4KmyF
 ![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/4e71cdfe-0c0c-4340-9703-4d182fb1d712)
