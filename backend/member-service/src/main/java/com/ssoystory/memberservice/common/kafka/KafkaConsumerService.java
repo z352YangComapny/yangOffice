@@ -53,4 +53,13 @@ public class KafkaConsumerService {
         kafkaProducerService.sendToStoryFolloweeList(list);
     }
 
+    @KafkaListener(topics = "guestbook-convert-username-to-id", groupId = "ssoystory")
+    public void receiveUserIdFromGuestbook(String message) {
+        log.info("Received message from Kafka: {}", message);
+        Gson gson = new Gson();
+        ConvertNicknameToIdDto convertNicknameToIdDto = gson.fromJson(message, ConvertNicknameToIdDto.class);
+        Optional<Member> member = memberRepository.findMemberByNickname(convertNicknameToIdDto.getNickname());
+        kafkaProducerService.sendToDmConvertNicknameToId(member.get().getId());
+    }
+
 }

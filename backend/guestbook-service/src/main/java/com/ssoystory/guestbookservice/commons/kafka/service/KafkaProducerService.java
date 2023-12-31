@@ -11,8 +11,8 @@ public class KafkaProducerService {
     @Autowired
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendNickname(String nickname) {
-        String message = String.format("{\"nickname\": \"%s\"}", nickname);
+    public void sendUsername(String username) {
+        String message = String.format("{\"username\": \"%s\"}", username);
         kafkaTemplate.send("guestbook-convert-username-to-id", message);
     }
 }

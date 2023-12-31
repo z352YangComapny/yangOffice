@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GuestbookDto {
-    private String content;
-    private String ownerName;
+public class DeleteGuestbookDto {
+    private Long id;
 }
