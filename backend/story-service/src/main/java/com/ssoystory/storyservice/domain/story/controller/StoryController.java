@@ -19,8 +19,13 @@ public class StoryController {
 
     @GetMapping
     ResponseEntity<List<Story>> getStoryList(@RequestHeader("x-authorization-id") long id){
-        List<Story> list = storyService.getStoryList(id);
-        return ResponseEntity.ok().body(list);
+        try {
+            List<Story> list = storyService.getStoryList(id);
+            return ResponseEntity.ok().body(list);
+        } catch (InterruptedException e){
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 
     @PostMapping

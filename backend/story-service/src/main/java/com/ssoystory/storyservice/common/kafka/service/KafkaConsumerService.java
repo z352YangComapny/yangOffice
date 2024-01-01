@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 public class KafkaConsumerService {
     private final BlockingQueue<String> userIdQueue = new LinkedBlockingQueue<>();
+
     @KafkaListener(topics = "story-getFolloweeList-output", groupId = "ssoystory")
     public void receiveFollowList(String message) {
         log.info("Received message from Kafka: {}", message);
