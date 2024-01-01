@@ -8,7 +8,7 @@ import java.util.List;
 public interface StoryService {
 
 
-    List<Story> getStoryList(Long id);
+    List<Story> getStoryList(Long id) throws InterruptedException;
 
     void save(long id, CreateStoryDto createStoryDto);
 

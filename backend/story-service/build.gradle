@@ -37,8 +37,16 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	implementation 'io.github.resilience4j:resilience4j-all'
+	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-all
+	implementation 'io.github.resilience4j:resilience4j-all:2.0.2'
+	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-spring-boot3
+	implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.0.2'
+	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-annotations
+	implementation 'io.github.resilience4j:resilience4j-annotations:2.0.2'
+
+
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
