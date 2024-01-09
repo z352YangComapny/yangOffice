@@ -72,6 +72,7 @@ function SignIn() {
       })
     })
       .catch((err) => {
+        console.log(err);
         switch (err.response.data.status) {
           case 500:
             setMessage({ color: "danger", value: `내부 서부 에러, 관리자에게 문의해주세요.` })

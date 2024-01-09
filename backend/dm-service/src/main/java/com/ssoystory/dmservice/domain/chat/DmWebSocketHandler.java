@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -21,6 +22,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Slf4j
 @Component
@@ -94,7 +96,8 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
         handleDmQueue(messageDto.getSenderId());
     }
 
-    private void handleDmQueue(Long id) {
+    @Async
+    protected void handleDmQueue(Long id) {
         IdDto idDto;
         Long receiverId = Long.valueOf(-1);
         DmMessageOutputDto dmMessageOutputDto = new DmMessageOutputDto();
@@ -136,7 +139,7 @@ public class DmWebSocketHandler extends TextWebSocketHandler {
 
     private void handleEntry(WebSocketSession session, TextMessage message) {
         EnterNotificationDto enterNotificationDto = gson.fromJson(message.getPayload(), EnterNotificationDto.class);
-        sessionMap.put(enterNotificationDto.getId(), new SessionAndQueue(session,new LinkedList<>()));
+        sessionMap.put(enterNotificationDto.getId(), new SessionAndQueue(session,new ConcurrentLinkedQueue<>()));
         reverseLookupMap.put(session,enterNotificationDto.getId());
     }
 
