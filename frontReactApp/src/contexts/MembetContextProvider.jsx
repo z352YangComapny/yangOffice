@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { createContext, useState } from 'react'
 
 export const MemberContext = createContext();
-const SpringBaseURL = "http://localhost:8000"
+const SpringBaseURL = "http://localhost:8080"
 
 const MembetContextProvider = (props) => {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem('token') ? true : false);
@@ -27,7 +27,7 @@ const MembetContextProvider = (props) => {
         "Content-Type": "application/json",
       }
     };
-    return await axios.post(SpringBaseURL + '/api/member/signin', loginFrm, axiosConfig);
+    return await axios.post(SpringBaseURL + '/login', loginFrm, axiosConfig);
   }
 
   const checkIdDuplicate = async(username) => {
