@@ -3,9 +3,6 @@
 - PPT TO INTRODUCE @ [https://www.miricanvas.com/v/12cduwe](https://file.notion.so/f/f/c1a88a3a-fb79-4143-94c9-15067ad940dd/bfad319a-dd44-4a18-9318-1a6a3e7de0de/%ED%8C%8C%EC%9D%B4%EB%84%90_%EC%8F%98%EC%9D%B4%EC%8A%A4%ED%86%A0%EB%A6%AC_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf?id=0cb837cb-13f9-4a14-a775-495455e7d76a&table=block&spaceId=c1a88a3a-fb79-4143-94c9-15067ad940dd&expirationTimestamp=1699516800000&signature=iVdd5JPyyTmv3vX_-dP48UVoD1Pww-dM1lRpneRvy2M&downloadName=%ED%8C%8C%EC%9D%B4%EB%84%90_%EC%8F%98%EC%9D%B4%EC%8A%A4%ED%86%A0%EB%A6%AC_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
 - OVERVIEW CLIP 0.0.1 @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
-- 아키택쳐 변경중 Monololithic A -> MSA
-- Spring Cloud, Spring Kafka , Zoo keeper(or Kraft)
-
 ## 📖목차
 - 개요
 - 개발환경
@@ -26,8 +23,9 @@ web3.0 SNS 을 만들기 위한 토대로써, web2 기반입니다.
 
 ## 👨‍👦‍👦개발 기간 및 개발 인원
 
-08.18 ~ 09.05 JSP&REACT&SB 0.0.1 버전 완료    
-08.25 ~  FE : REACT,PHASER / BE : Spring Boot , GIN 1.0.1 버전 개발중
+23.08.18 ~ 23.09.05 JSP&REACT&SB 0.0.1 버전 완료    
+23.08.25 ~ 23.09.05 FE : REACT,PHASER / BE : Spring Boot , GIN 1.0.1 
+23.10.10 ~ 24.01.09 1.1.1 MSA 아키택쳐 변경완료
 
 soyoung0420 - PM,DBA,Dev(Be,Fe)   
 GRyu1 - PL,AA,DBA,Dev(Be,Fe)   
@@ -50,7 +48,7 @@ username98865 - DBA,Dev(Be,Fe)
 ## 💾사용기술
 
 ### Front End
-- JS React.js 18
+- JS React.js
 - BootStrap5
 - JSP
 - HTML
@@ -58,11 +56,12 @@ username98865 - DBA,Dev(Be,Fe)
 - JS
 
 ### Back End
-- JAVA 11, Spring Boot 2.7.14
+- JAVA 17, Spring Boot 3.1.4
 - Spring Security
-- MyBatis
+- Jpa
 - Lombok
-- STOMP
+- WebSocket
+- JWT, Kafka, Spring Cloud...
   
 - GO 1.24
 - GIN
@@ -72,7 +71,7 @@ username98865 - DBA,Dev(Be,Fe)
 - Gradle
 
 ### Data Base
-- Oracle 21C
+- MySQL
 - Mongo DB
 - Redis
 - Amazon S3
