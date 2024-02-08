@@ -78,32 +78,24 @@ username98865 - DBA,Dev(Be,Fe)
 - Amazon S3
 
 ## 💿아키텍쳐
-- Project
- ![파이널_쏘이스토리_최종발표-001](https://github.com/z352YangComapny/yangOffice/assets/125647772/12a96cda-7185-41dc-bbb0-efc94e357e06)
-- Spring Server
- ![파이널_쏘이스토리_최종발표-002](https://github.com/z352YangComapny/yangOffice/assets/125647772/c7e41629-149c-4211-92c0-d7546fa0a3fc)
-- GIN Server
-  ![파이널_쏘이스토리_최종발표-003](https://github.com/z352YangComapny/yangOffice/assets/125647772/4defba48-07f0-404b-bb50-e9c738510989)
+ - ![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/8986eeaf-36ce-465d-9aa6-1adcac982189)
 
 ## 🔑E-R 다이어그램
 - https://www.erdcloud.com/d/29Wk3hSMH9Nn4KmyF
-![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/4e71cdfe-0c0c-4340-9703-4d182fb1d712)
+![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/fc1d03e0-17fe-4753-b32e-438588c72f29)
+
 ## 💎Api 명세서
 - 준비중
 ## 🌏OVERVIEW
 |INDEX|
 |:---:|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/e43f07b1-1259-470d-aa21-07b3e96c4b07)|
-|SIGN IN|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/834683a9-64f1-47f6-8125-4239b3b40071)|
-|SIGN UP|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/fda8826e-af27-40ec-b419-d1190644ca96)|   
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/6d5f1677-706e-4947-9c1c-7491f3566f53)|
 |FEED|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/0049c987-655e-428e-9705-41e8d145fb09)|   
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/66469348-5aa4-4fc1-9d52-cfe9929adf40)|   
 |USER|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/c9c9d4ce-6832-4848-9567-d0631c209805)|
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/6558ec8b-a427-42fa-9dcb-fd61a23fdc3d)|
 |WORLD|
-|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/b979390c-021a-415d-86e8-a0d1079cae5b)|
+|![image](https://github.com/z352YangComapny/yangOffice/assets/125647772/33f7514e-608f-4065-975f-6d83244ff1c3)|
 
 ## 👓프로젝트 목적
 'Dev-Grow' 성장함에 따라 얻은 지식 및 기술스택을 적용해보고, 소통 할 수 있는 공간을 만들어갑니다.
