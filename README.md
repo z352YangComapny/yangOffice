@@ -1,5 +1,5 @@
 # SSOY STORY BY YangCompany
-- main branch : 0.0.1 (Now)
+- main branch : 1.1.1 (Now)
 - PPT TO INTRODUCE @ https://www.miricanvas.com/v/12cduwe
 - OVERVIEW CLIP 0.0.1 @ https://youtu.be/62z0jJcMNn4?si=xdt1M4hXqY3ZOdN1
 
