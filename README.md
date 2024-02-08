@@ -26,9 +26,7 @@ web3.0 SNS 을 만들기 위한 토대로써, web2 기반입니다.
 
 ## 👨‍👦‍👦개발 기간 및 개발 인원
 
-08.18 ~ 09.05 JSP&REACT&SB 0.0.1 버전 완료    
-08.25 ~  FE : REACT,PHASER / BE : Spring Boot , GIN 1.0.1 버전 개발중
-
+08.18 ~ 09.05 JSP&REACT&SB 0.0.1 버전 7인 개발 완료    
 soyoung0420 - PM,DBA,Dev(Be,Fe)   
 GRyu1 - PL,AA,DBA,Dev(Be,Fe)   
 ejum01 - DBA,Dev(Be,Fe)      
@@ -36,6 +34,10 @@ eunc823 - DBA,Dev(Be,Fe)
 hongseungyoung - DBA,Dev(Be,Fe)      
 joohyee - DBA,Dev(Be,Fe)      
 username98865 - DBA,Dev(Be,Fe)      
+
+08.25 ~ 1.04 1인 개발완료
+
+
 
 ## 💻개발 환경
 - windows10
@@ -58,11 +60,11 @@ username98865 - DBA,Dev(Be,Fe)
 - JS
 
 ### Back End
-- JAVA 11, Spring Boot 2.7.14
-- Spring Security
-- MyBatis
-- Lombok
-- STOMP
+- JAVA 17, Spring Boot 3.1.4
+- Spring Cloud
+- JPA
+- MySQL
+- S3
   
 - GO 1.24
 - GIN
@@ -72,7 +74,7 @@ username98865 - DBA,Dev(Be,Fe)
 - Gradle
 
 ### Data Base
-- Oracle 21C
+- MySQL
 - Mongo DB
 - Redis
 - Amazon S3
